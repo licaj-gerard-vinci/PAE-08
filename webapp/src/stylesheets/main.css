@@ -93,3 +93,13 @@ main {
 .remember-me input[type="checkbox"] {
   margin-right: 5px;
 }
+
+.navbar-nav.login-nav {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+#login {
+  margin-left: auto; 
+}

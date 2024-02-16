@@ -26,7 +26,10 @@ const Navbar = () => {
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li>Login</li>
+
+            <li class="nav-item">
+            <a class="nav-link" id="login" href="#" data-uri="/login">Login</a>
+          </li>
                                       
             </ul>
           </div>
