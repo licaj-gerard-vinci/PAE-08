@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Provides a utility class for loading and accessing configuration properties from a specified
+ * file. This class uses a {@code Properties} object to load and store configuration settings.
+ */
 public class Config {
 
   private static Properties props;

@@ -25,22 +25,21 @@ public class AuthRessource {
   @Inject
   private UserDataService myUserDataService;
 
-  @POST
+
   /**
-   * Logs in a user by verifying their credentials. The method expects a JSON object
-   * containing the necessary authentication details and returns a JSON object with
-   * the authentication result.
+   * Logs in a user by verifying their credentials. The method expects a JSON object containing the
+   * necessary authentication details and returns a JSON object with the authentication result.
    *
    * @param json A {@code JsonNode} containing the user's login credentials.
    * @return An {@code ObjectNode} representing the authentication result.
    */
+  @POST
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
 
     //TODO faire le login
-    String test;
 
     return null;
   }
