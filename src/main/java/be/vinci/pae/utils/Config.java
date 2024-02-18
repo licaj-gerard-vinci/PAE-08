@@ -34,14 +34,17 @@ public class Config {
     }
   }
 
+  // Get property from a key.
   public static String getProperty(String key) {
     return props.getProperty(key);
   }
 
+  // Get int property from a key.
   public static Integer getIntProperty(String key) {
     return Integer.parseInt(props.getProperty(key));
   }
 
+  // Return property from a key.
   public static boolean getBoolProperty(String key) {
     return Boolean.parseBoolean(props.getProperty(key));
   }
