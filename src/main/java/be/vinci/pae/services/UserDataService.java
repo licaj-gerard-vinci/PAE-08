@@ -101,6 +101,7 @@ public class UserDataService {
     if (getOne(login) != null) { // User already exists
       return null;
     }
+
     User newUser = new User();
     newUser.setLogin(login);
     newUser.setPassword(newUser.hashPassword(password));
