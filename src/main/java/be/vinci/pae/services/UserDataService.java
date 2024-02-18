@@ -96,6 +96,8 @@ public class UserDataService {
    * @param password the password for the new user.
    * @return an ObjectNode containing the new user's token, ID, and login if successful; null
    * otherwise.
+   * <p>
+   * Line continuation have incorrect indentation level, expected level should be 4.
    */
   public ObjectNode register(String login, String password) {
     if (getOne(login) != null) { // User already exists
