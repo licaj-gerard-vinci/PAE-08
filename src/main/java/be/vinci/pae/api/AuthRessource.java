@@ -25,6 +25,7 @@ public class AuthRessource {
   public ObjectNode login(JsonNode json) {
 
     //TODO faire le login
+    String test;
 
     return null;
   }
