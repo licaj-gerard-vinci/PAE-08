@@ -11,6 +11,13 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
+ * authentication operations, such as logging in users. It makes use of dependency injection to
+ * obtain a reference to the {@code UserDataService} for accessing user-related data. The class is
+ * marked as {@code Singleton} to ensure a single instance is used during the application's
+ * lifecycle.
+ */
 @Singleton
 @Path("auth")
 public class AuthRessource {
@@ -19,6 +26,14 @@ public class AuthRessource {
   private UserDataService myUserDataService;
 
   @POST
+  /**
+   * Logs in a user by verifying their credentials. The method expects a JSON object
+   * containing the necessary authentication details and returns a JSON object with
+   * the authentication result.
+   *
+   * @param json A {@code JsonNode} containing the user's login credentials.
+   * @return An {@code ObjectNode} representing the authentication result.
+   */
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

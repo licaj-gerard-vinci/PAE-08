@@ -2,6 +2,9 @@ package be.vinci.pae.domain;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * Creating User object
+ */
 public class User {
 
   private int id;

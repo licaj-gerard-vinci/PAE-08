@@ -12,6 +12,13 @@ public class Config {
 
   private static Properties props;
 
+  /**
+   * Loads configuration properties from the specified file. Initializes the {@code props} object
+   * with properties loaded from the file. If an error occurs during file reading, it throws a
+   * {@code WebApplicationException} with the appropriate error message.
+   *
+   * @param file the path to the configuration file to be loaded.
+   */
   public static void load(String file) {
     props = new Properties();
     try (InputStream input = new FileInputStream(file)) {

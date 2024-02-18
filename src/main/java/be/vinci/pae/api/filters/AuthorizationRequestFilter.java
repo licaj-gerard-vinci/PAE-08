@@ -16,6 +16,12 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 
+
+/**
+ * Implements a request filter to authenticate users via JWT. Validates the token in the
+ * Authorization header, allowing access for valid tokens and blocking access or throwing errors for
+ * invalid or missing tokens.
+ */
 @Singleton
 @Provider
 @Authorize
@@ -51,3 +57,4 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   }
 
 }
+

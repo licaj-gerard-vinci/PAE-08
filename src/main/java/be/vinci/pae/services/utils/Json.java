@@ -13,10 +13,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Provides serialization and deserialization functionalities for objects of type {@code T} to and
+ * from JSON. This class reads from and writes to a JSON database file, managing collections within
+ * the file.
+ *
+ * @param <T> the type of objects to be serialized/deserialized.
+ */
 public class Json<T> {
 
   private static final String DB_FILE_PATH = Config.getProperty("DatabaseFilePath");
-  private final static ObjectMapper jsonMapper = new ObjectMapper();
+  private static final ObjectMapper jsonMapper = new ObjectMapper();
   private static Path pathToDb = Paths.get(DB_FILE_PATH);
   private Class<T> type;
 
@@ -26,7 +34,14 @@ public class Json<T> {
     this.type = type;
   }
 
-
+  /**
+   * Serializes a list of items of type {@code T} into a named collection within the JSON database
+   * file. If the database file does not exist, it is created along with the new collection. If the
+   * collection already exists, it is overwritten with the provided items list.
+   *
+   * @param items          the list of items to be serialized and saved in the collection.
+   * @param collectionName the name of the collection within the JSON database file.
+   */
   public void serialize(List<T> items, String collectionName) {
     try {
       // if no DB file, write a new collection to a new db file
@@ -44,7 +59,7 @@ public class Json<T> {
       if (allCollections.has(collectionName)) {
         ((ObjectNode) allCollections).remove(collectionName); //e.g. it leaves { users:[...]}
       }
-      // Prepare a JSON array from the list of POJOs for the collection to be updated, e.g. [{"film1",...}, ...]
+
       ArrayNode updatedCollection = jsonMapper.valueToTree(items);
       // Add the JSON array in allCollections, e.g. : { users:[...], items:[...]}
       ((ObjectNode) allCollections).putArray(collectionName).addAll(updatedCollection);
@@ -55,6 +70,14 @@ public class Json<T> {
     }
   }
 
+  /**
+   * Deserializes items from a named collection within the JSON database file into a list of objects
+   * of type {@code T}. If the collection or file does not exist, an empty list is returned.
+   *
+   * @param collectionName the name of the collection to deserialize from.
+   * @return a list of objects of type {@code T}, or an empty list if the collection or file doesn't
+   * exist.
+   */
   public List<T> parse(String collectionName) {
     try {
       // get allCollections
@@ -62,8 +85,7 @@ public class Json<T> {
       // accessing value of the specified field of an object node,
       // e.g. the JSON array within "items" field of { users:[...], items:[...]}
       JsonNode collection = node.get(collectionName);
-      if (collection == null) // Send an empty list if there is not the requested collection
-      {
+      if (collection == null) {
         return (List<T>) new ArrayList<T>();
       }
       // convert the JsonNode to a List of POJOs & return it
