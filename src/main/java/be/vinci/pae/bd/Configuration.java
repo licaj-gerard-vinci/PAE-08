@@ -5,14 +5,22 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.mindrot.jbcrypt.BCrypt;
 
-
+/**
+ * Configuration class for establishing connection to the PostgreSQL database and managing user
+ * authentication.
+ */
 public class Configuration {
 
-  private final static java.util.Scanner scanner = new java.util.Scanner(System.in);
+  private static final java.util.Scanner scanner = new java.util.Scanner(System.in);
   private Connection conn = null;
   private PreparedStatement preparedStatementConnexion;
 
+  /**
+   * Constructs a Configuration object and initializes a database connection. If connection cannot
+   * be established, the application will terminate.
+   */
   public Configuration() {
     /*  UTILISER CETTE CONFIGURATION SEULEMENT SI PC ECOLE
     try {
@@ -59,6 +67,12 @@ public class Configuration {
     }
 
   }
+
+  /**
+   * Authenticates a user against the stored credentials in the database.
+   *
+   * @return true if authentication is successful, false otherwise.
+   */
 
   public boolean connexion() {
     System.out.println("***************************************");

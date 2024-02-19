@@ -70,7 +70,6 @@ public class Json<T> {
    *
    * @param collectionName the name of the collection to deserialize from.
    * @return a list of objects of type {@code T}, or an empty list if the collection or file doesn't
-   * exist.
    */
   public List<T> parse(String collectionName) {
     try {

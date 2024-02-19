@@ -81,7 +81,7 @@ public class User {
    * Hash a password.
    *
    * @param password
-   * @return
+   * @return password hashed
    */
 
   public String hashPassword(String password) {
