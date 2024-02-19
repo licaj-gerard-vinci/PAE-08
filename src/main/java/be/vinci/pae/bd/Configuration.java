@@ -82,19 +82,24 @@ public class Configuration {
     String email = scanner.nextLine();
     System.out.print("Mot de passe : ");
     String mdp = scanner.nextLine();
-    String stockerDansLaDB;
     try {
       preparedStatementConnexion.setString(1, email);
       ResultSet rs = preparedStatementConnexion.executeQuery();
-      rs.next();
-      stockerDansLaDB = rs.getString("mot_de_passe");
-      if (BCrypt.checkpw(mdp, stockerDansLaDB)) {
-        return true;
+
+      // Check if the ResultSet has a row (i.e., user found)
+      if (rs.next()) {
+        String stockerDansLaDB = rs.getString("mot_de_passe");
+        // Check the password
+        if (BCrypt.checkpw(mdp, stockerDansLaDB)) {
+          System.out.println("Connexion réussie !");
+          return true;
+        } else {
+          System.out.println("Mot de passe incorrect");
+        }
       } else {
-        System.out.println("Mot de passe incorrect");
+        System.out.println("Aucun utilisateur trouvé avec cet email");
       }
       return false;
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
