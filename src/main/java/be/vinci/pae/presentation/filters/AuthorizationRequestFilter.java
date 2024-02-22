@@ -1,7 +1,7 @@
-package be.vinci.pae.api.filters;
+package be.vinci.pae.presentation.filters;
 
-import be.vinci.pae.domain.User;
-import be.vinci.pae.services.UserDataService;
+import be.vinci.pae.business.User;
+import be.vinci.pae.donnees.UserDataService;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

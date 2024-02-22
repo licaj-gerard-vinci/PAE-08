@@ -1,4 +1,4 @@
-package be.vinci.pae.domain;
+package be.vinci.pae.business;
 
 import org.mindrot.jbcrypt.BCrypt;
 
