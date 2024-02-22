@@ -1,20 +1,25 @@
 package be.vinci.pae.business;
 
+import be.vinci.pae.donnees.UserDataServiceImpl;
+import jakarta.inject.Inject;
+
 public class UserUCCImpl implements UserUCC {
 
   private UserDTO userDTO; // Supposition qu'un objet UserDS est utilisé pour l'accès aux données
 
+  @Inject
+  private UserDataServiceImpl userDataService;
+
   @Override
   public UserDTO login(String email, String password) throws IllegalArgumentException {
-    if (email.equals("^[A-Za-z0-9+_.-]+@vinci.be")) {
+    if (!email.endsWith("@student.vinci.be") || !email.endsWith("@vinci.be")) {
+      return null;
     }
-    ;
-    // Ici, on pourrait ajouter la logique pour connecter un utilisateur
-    // Par exemple, vérifier les informations d'identification, gérer les sessions, etc.
-    // Retourner l'objet UserDTO si la connexion est réussie
-    {
-      return null; // Retourner l'utilisateur connecté ou null si les informations d'identification sont incorrectes
+    User user = userDataService.getOne(email);
+    if (user.checkPassword(password)) {
+      return user;
     }
+    return null;
   }
 
 }
