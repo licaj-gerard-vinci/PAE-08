@@ -16,11 +16,11 @@ public class UserImpl implements User {
 
   private String prenom;
 
-  private String num_tel;
+  private String numTel;
 
-  private Date date_inscription;
+  private Date dateInscription;
 
-  private Date annee_academique;
+  private Date anneeAcademique;
 
   private String role;
 
@@ -130,18 +130,18 @@ public class UserImpl implements User {
    * @return the user's phone number.
    */
   @Override
-  public String getNum_tel() {
-    return num_tel;
+  public String getNumTel() {
+    return numTel;
   }
 
   /**
    * Sets the user's phone number.
    *
-   * @param num_tel the new phone number for the user.
+   * @param numTel the new phone number for the user.
    */
   @Override
-  public void setNum_tel(String num_tel) {
-    this.num_tel = num_tel;
+  public void setNumTel(String numTel) {
+    this.numTel = numTel;
   }
 
   /**
@@ -150,18 +150,18 @@ public class UserImpl implements User {
    * @return the user's registration date.
    */
   @Override
-  public Date getDate_inscription() {
-    return date_inscription;
+  public Date getDateInscription() {
+    return dateInscription;
   }
 
   /**
    * Sets the user's registration date.
    *
-   * @param date_inscription the new registration date for the user.
+   * @param dateInscription the new registration date for the user.
    */
   @Override
-  public void setDate_inscription(Date date_inscription) {
-    this.date_inscription = date_inscription;
+  public void setDateInscription(Date dateInscription) {
+    this.dateInscription = dateInscription;
   }
 
   /**
@@ -170,18 +170,18 @@ public class UserImpl implements User {
    * @return the user's academic year.
    */
   @Override
-  public Date getAnnee_academique() {
-    return annee_academique;
+  public Date getAnneeAcademique() {
+    return anneeAcademique;
   }
 
   /**
    * Sets the user's academic year.
    *
-   * @param annee_academique the new academic year for the user.
+   * @param anneeAcademique the new academic year for the user.
    */
   @Override
-  public void setAnnee_academique(Date annee_academique) {
-    this.annee_academique = annee_academique;
+  public void setAnneeAcademique(Date anneeAcademique) {
+    this.anneeAcademique = anneeAcademique;
   }
 
   /**

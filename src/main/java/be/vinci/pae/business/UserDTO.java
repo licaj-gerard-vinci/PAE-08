@@ -12,17 +12,17 @@ public interface UserDTO {
 
   void setPrenom(String prenom);
 
-  String getNum_tel();
+  String getNumTel();
 
-  void setNum_tel(String num_tel);
+  void setNumTel(String numTel);
 
-  Date getDate_inscription();
+  Date getDateInscription();
 
-  void setDate_inscription(Date date_inscription);
+  void setDateInscription(Date dateInscription);
 
-  Date getAnnee_academique();
+  Date getAnneeAcademique();
 
-  void setAnnee_academique(Date annee_academique);
+  void setAnneeAcademique(Date anneeAcademique);
 
   String getRole();
 
