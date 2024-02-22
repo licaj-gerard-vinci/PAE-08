@@ -1,8 +1,8 @@
 package be.vinci.pae.business;
 
 /**
- * The {@code User} interface represents a user within the application.
- * It extends the {@code UserDTO} interface, providing additional methods related to user functionality.
+ * The {@code User} interface represents a user within the application. It extends the
+ * {@code UserDTO} interface, providing additional methods related to user functionality.
  */
 public interface User extends UserDTO {
 
@@ -17,19 +17,13 @@ public interface User extends UserDTO {
   /**
    * Hashes the provided password using a secure hashing algorithm.
    *
-<<<<<<< HEAD
-   * @param password
-   * @return password hashed
-=======
-   * @param password the password to hash.
    * @return the hashed password.
->>>>>>> e7ee212b60257579f5ef36869cac32cf763ccd42
    */
   String hashPassword(String password);
 
   /**
-   * Creates a string representation of the user, typically including essential details like
-   * user ID, login, and password (hashed).
+   * Creates a string representation of the user, typically including essential details like user
+   * ID, login, and password (hashed).
    *
    * @return the string representation of the user.
    */

@@ -14,7 +14,6 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class Configuration {
 
-  private static final java.util.Scanner scanner = new java.util.Scanner(System.in);
   private Connection conn = null;
   private PreparedStatement preparedStatementConnexion;
 
@@ -56,7 +55,7 @@ public class Configuration {
       conn = DriverManager.getConnection(url, "postgres",
           "Brilantculi188");
 
-      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe qu'on git p
+      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe
       preparedStatementConnexion = conn.prepareStatement(
           "SELECT id_utilisateur, mot_de_passe FROM bdpae.utilisateur WHERE email = ?");
     } catch (ClassNotFoundException e) {
