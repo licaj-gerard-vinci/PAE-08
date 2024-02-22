@@ -38,20 +38,12 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
-    if (token == null) {
-      requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-          .entity("A token is needed to access this resource").build());
-    } else {
-      DecodedJWT decodedToken = null;
-      try {
-        decodedToken = this.jwtVerifier.verify(token);
-      } catch (Exception e) {
-        throw new WebApplicationException(Response.status(Status.UNAUTHORIZED)
-            .entity("Malformed token : " + e.getMessage()).type("text/plain").build());
+      if (token == null) {
+        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+            .entity("A token is needed to access this resource").build());
       }
-
     }
   }
 
-}
+
 
