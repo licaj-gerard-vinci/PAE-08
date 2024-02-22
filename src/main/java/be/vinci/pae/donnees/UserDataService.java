@@ -18,7 +18,7 @@ import java.util.List;
 public class UserDataService {
 
   private static final String COLLECTION_NAME = "users";
-  private static Json<User> jsonDB = new Json<>(UserImpl.class);
+  private static Json<User> jsonDB = new Json<>(User.class);
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -48,7 +48,7 @@ public class UserDataService {
    * @return the user with the specified login or null if not found.
    */
   public User getOne(String login) {
-    return getAll().stream().filter(user -> user.getLogin().equals(login)).findAny().orElse(null);
+    return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
   }
 
   /**
@@ -106,7 +106,7 @@ public class UserDataService {
     }
 
     User newUser = new UserImpl();
-    newUser.setLogin(login);
+    newUser.setEmail(login);
     newUser.setPassword(newUser.hashPassword(password));
     User registeredUser = createOne(newUser);
     return generateTokenForUser(registeredUser);
@@ -126,6 +126,6 @@ public class UserDataService {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("login", user.getLogin());
+        .put("login", user.getEmail());
   }
 }
