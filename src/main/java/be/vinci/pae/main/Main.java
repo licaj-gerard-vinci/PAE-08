@@ -12,21 +12,23 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class Main {
 
+
+  // Base URI the Grizzly HTTP server will listen on
+  public static final String BASE_URI = "http://localhost:8080/";
+
   static {
     Config.load("dev.properties");
   }
 
-  // Base URI the Grizzly HTTP server will listen on
-  public static final String BASE_URI = Config.getProperty("BaseUri");
-
   /**
    * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+   *
    * @return Grizzly HTTP server.
    */
   public static HttpServer startServer() {
     // create a resource config that scans for JAX-RS resources and providers
     // in vinci.be package
-    final ResourceConfig rc = new ResourceConfig().packages("be.vinci.donnees");
+    final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.api");
 
     // create and start a new instance of grizzly http server
     // exposing the Jersey application at BASE_URI
@@ -34,10 +36,13 @@ public class Main {
   }
 
   /**
-   * Main method.
-   * @param args
-   * @throws IOException
+   * Starts the HTTP server and initializes the application. Displays the URL where the WADL is
+   * available. Waits for user input to stop the server and exit the application.
+   *
+   * @param args Command line arguments (not used).
+   * @throws IOException If an I/O error occurs during server start or stop.
    */
+
   public static void main(String[] args) throws IOException {
     final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with WADL available at "
@@ -45,6 +50,8 @@ public class Main {
     System.in.read();
     server.stop();
   }
+
+
 }
 
 

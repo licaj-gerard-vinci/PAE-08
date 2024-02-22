@@ -9,7 +9,9 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -38,10 +40,23 @@ public class AuthRessource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
+    // Get and check credentials
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
+      throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
+          .entity("email or password required").type("text/plain").build());
+    }
+    String email = json.get("email").asText();
+    String password = json.get("password").asText();
 
-    //TODO faire le login
+    // Try to log in
+    ObjectNode publicUser = myUserDataService.login(email, password);
+    if (publicUser == null) {
+      throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
+          .entity("email or password incorrect").type(MediaType.TEXT_PLAIN)
+          .build());
+    }
+    return publicUser;
 
-    return null;
   }
 
 

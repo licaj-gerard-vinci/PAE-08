@@ -20,9 +20,9 @@ public class UserImpl implements User {
 
   private Date dateInscription;
 
-  private Date anneeAcademique;
+  private String anneeAcademique;
 
-  private String role;
+  private char role;
 
   /**
    * Gets the user's login.
@@ -170,7 +170,7 @@ public class UserImpl implements User {
    * @return the user's academic year.
    */
   @Override
-  public Date getAnneeAcademique() {
+  public String getAnneeAcademique() {
     return anneeAcademique;
   }
 
@@ -180,7 +180,7 @@ public class UserImpl implements User {
    * @param anneeAcademique the new academic year for the user.
    */
   @Override
-  public void setAnneeAcademique(Date anneeAcademique) {
+  public void setAnneeAcademique(String anneeAcademique) {
     this.anneeAcademique = anneeAcademique;
   }
 
@@ -190,7 +190,7 @@ public class UserImpl implements User {
    * @return the user's role.
    */
   @Override
-  public String getRole() {
+  public char getRole() {
     return role;
   }
 
@@ -200,7 +200,7 @@ public class UserImpl implements User {
    * @param role the new role for the user.
    */
   @Override
-  public void setRole(String role) {
+  public void setRole(char role) {
     this.role = role;
   }
 

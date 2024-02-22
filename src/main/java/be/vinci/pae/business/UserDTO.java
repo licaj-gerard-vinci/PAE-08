@@ -3,9 +3,9 @@ package be.vinci.pae.business;
 import java.util.Date;
 
 /**
- * The {@code UserDTO} interface represents a Data Transfer Object (DTO) for a user within the application.
- * It defines methods to access and modify various attributes of a user, such as name, phone number,
- * registration dates, academic year, role, email, ID, and password.
+ * The {@code UserDTO} interface represents a Data Transfer Object (DTO) for a user within the
+ * application. It defines methods to access and modify various attributes of a user, such as name,
+ * phone number, registration dates, academic year, role, email, ID, and password.
  */
 public interface UserDTO {
 
@@ -70,28 +70,28 @@ public interface UserDTO {
    *
    * @return the academic year of the user.
    */
-  Date getAnneeAcademique();
+  String getAnneeAcademique();
 
   /**
    * Sets the academic year of the user.
    *
    * @param anneeAcademique the new academic year for the user.
    */
-  void setAnneeAcademique(Date anneeAcademique);
+  void setAnneeAcademique(String anneeAcademique);
 
   /**
    * Gets the role of the user.
    *
    * @return the role of the user.
    */
-  String getRole();
+  char getRole();
 
   /**
    * Sets the role of the user.
    *
    * @param role the new role for the user.
    */
-  void setRole(String role);
+  void setRole(char role);
 
   /**
    * Gets the email of the user.
