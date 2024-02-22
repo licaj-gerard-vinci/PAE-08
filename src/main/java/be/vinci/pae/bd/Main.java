@@ -4,6 +4,6 @@ public class Main {
 
   public static void main(String[] args) {
     Configuration application = new Configuration();
-    application.connexion("mdp", "pd");
+    application.connexion("resul.ramadani@student.vinci.be", "Azertyuiop");
   }
 }

@@ -51,13 +51,13 @@ public class Configuration {
       Class.forName("org.postgresql.Driver");
 
       // Connexion à la base de données
-      String url = "jdbc:postgresql://localhost:5432/postgres";
-      conn = DriverManager.getConnection(url, "postgres",
-          "Brilantculi188");
+      String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbnadir_ahdid?user=nadir_ahdid";
+      conn = DriverManager.getConnection(url, "nadir_ahdid",
+          "nadir123");
 
       //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe
       preparedStatementConnexion = conn.prepareStatement(
-          "SELECT id_utilisateur, mot_de_passe FROM bdpae.utilisateur WHERE email = ?");
+          "SELECT * FROM utilisateur WHERE email = ?");
     } catch (ClassNotFoundException e) {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);
