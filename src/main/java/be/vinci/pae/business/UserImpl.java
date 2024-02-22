@@ -233,6 +233,7 @@ public class UserImpl implements User {
    */
   @Override
   public String toString() {
+
     return "{id:" + id + ", login:" + email + ", password:" + password + "}";
   }
 

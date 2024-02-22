@@ -3,6 +3,7 @@ package be.vinci.pae.business;
 import java.util.Date;
 
 public interface UserDTO {
+
   String getNom();
 
   void setNom(String nom);
@@ -26,6 +27,7 @@ public interface UserDTO {
   String getRole();
 
   void setRole(String role);
+
   String getEmail();
 
   void setEmail(String email);
