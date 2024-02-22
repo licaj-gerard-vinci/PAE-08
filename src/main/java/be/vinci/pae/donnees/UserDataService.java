@@ -1,130 +1,77 @@
 package be.vinci.pae.donnees;
 
 import be.vinci.pae.business.User;
-import be.vinci.pae.business.UserImpl;
-import be.vinci.pae.donnees.utils.Json;
-import be.vinci.pae.utils.Config;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import be.vinci.pae.business.UserDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
 
 /**
- * Provides services related to user data management, including retrieval, creation, login, and
- * registration of users. Utilizes a JSON-based storage mechanism and JWT for authentication
- * tokens.
+ * Interface for user data service operations, including retrieval, creation, and authentication of
+ * users.
  */
-public class UserDataService {
-
-  private static final String COLLECTION_NAME = "users";
-  private static Json<User> jsonDB = new Json<>(User.class);
-  private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  private final ObjectMapper jsonMapper = new ObjectMapper();
+public interface UserDataService {
 
   /**
-   * Retrieves all users from the JSON database.
+   * Retrieves a list of all users.
    *
-   * @return a list of all users.
+   * @return A list of {@link User} instances.
    */
-  public List<User> getAll() {
-    return jsonDB.parse(COLLECTION_NAME);
-  }
+  List<User> getAll();
 
   /**
-   * Retrieves a single user by their ID.
+   * Retrieves a single user by their unique identifier.
    *
-   * @param id the user's ID.
-   * @return the user with the specified ID or null if not found.
+   * @param id The unique identifier of the user.
+   * @return The {@link User} instance, or {@code null} if not found.
    */
-  public User getOne(int id) {
-    return getAll().stream().filter(user -> user.getId() == id).findAny().orElse(null);
-  }
+  User getOne(int id);
 
   /**
    * Retrieves a single user by their login.
    *
-   * @param login the user's login.
-   * @return the user with the specified login or null if not found.
+   * @param login The login of the user.
+   * @return The {@link User} instance, or {@code null} if not found.
    */
-  public User getOne(String login) {
-    return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
-  }
+  User getOne(String login);
 
   /**
-   * Creates and stores a new user in the JSON database.
+   * Creates a new user in the system.
    *
-   * @param user the user to create.
-   * @return the created user with an assigned ID.
+   * @param user The {@link User} instance to be created.
+   * @return The created {@link User} instance.
    */
-  public User createOne(User user) {
-    List<User> users = getAll();
-    user.setId(nextItemId());
-    users.add(user);
-    jsonDB.serialize(users, COLLECTION_NAME);
-    return user;
-  }
+  User createOne(User user);
 
   /**
-   * Generates the next available user ID.
+   * Generates the next unique item ID for a user.
    *
-   * @return the next available ID.
+   * @return The next unique ID as an integer.
    */
-  public int nextItemId() {
-    List<User> users = getAll();
-    return users.isEmpty() ? 1 : users.get(users.size() - 1).getId() + 1;
-  }
+  int nextItemId();
 
   /**
-   * Attempts to log in a user with the provided login and password.
+   * Authenticates a user with the given email and password.
    *
-   * @param login    the user's login.
-   * @param password the user's password.
-   * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
+   * @param email    The email of the user.
+   * @param password The password of the user.
+   * @return An {@link ObjectNode} containing authentication details.
    */
-  public ObjectNode login(String login, String password) {
-    User user = getOne(login);
-    if (user != null && user.checkPassword(password)) {
-      return generateTokenForUser(user);
-    }
-    return null;
-  }
+  ObjectNode login(String email, String password);
 
   /**
-   * Registers a new user with the provided login and password.
+   * Registers a new user with the given login and password.
    *
-   * @param login    the desired login for the new user.
-   * @param password the password for the new user.
-   * @return an ObjectNode containing the new user's token, ID, and login if successful; null
-   * otherwise.
-   * Line continuation have incorrect indentation level, expected level should be 4.
+   * @param login    The login of the new user.
+   * @param password The password of the new user.
+   * @return An {@link ObjectNode} containing registration details.
    */
-  public ObjectNode register(String login, String password) {
-    if (getOne(login) != null) { // User already exists
-      return null;
-    }
-
-    User newUser = new UserImpl();
-    newUser.setEmail(login);
-    newUser.setPassword(newUser.hashPassword(password));
-    User registeredUser = createOne(newUser);
-    return generateTokenForUser(registeredUser);
-  }
+  ObjectNode register(String login, String password);
 
   /**
-   * Generates a JWT token for the given user.
+   * Generates an authentication token for a given user.
    *
-   * @param user the user for whom to generate the token.
-   * @return an ObjectNode containing the token, user ID, and login.
+   * @param user The {@link UserDTO} instance for which to generate a token.
+   * @return An {@link ObjectNode} containing the generated token.
    */
-  private ObjectNode generateTokenForUser(User user) {
-    String token = JWT.create()
-        .withIssuer("auth0")
-        .withClaim("user", user.getId())
-        .sign(jwtAlgorithm);
-    return jsonMapper.createObjectNode()
-        .put("token", token)
-        .put("id", user.getId())
-        .put("login", user.getEmail());
-  }
+  ObjectNode generateTokenForUser(UserDTO user);
 }

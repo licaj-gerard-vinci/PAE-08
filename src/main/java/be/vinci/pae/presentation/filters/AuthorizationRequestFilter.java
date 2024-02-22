@@ -2,6 +2,7 @@ package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.User;
 import be.vinci.pae.donnees.UserDataService;
+import be.vinci.pae.donnees.UserDataServiceImpl;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -30,7 +31,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final JWTVerifier jwtVerifier = JWT.require(this.jwtAlgorithm).withIssuer("auth0")
       .build();
-  private UserDataService myUserDataService = new UserDataService();
+  private UserDataService myUserDataService = new UserDataServiceImpl();
 
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
