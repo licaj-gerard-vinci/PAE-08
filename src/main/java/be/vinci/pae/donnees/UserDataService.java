@@ -1,6 +1,7 @@
 package be.vinci.pae.donnees;
 
 import be.vinci.pae.business.User;
+import be.vinci.pae.business.UserImpl;
 import be.vinci.pae.donnees.utils.Json;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
@@ -47,7 +48,7 @@ public class UserDataService {
    * @return the user with the specified login or null if not found.
    */
   public User getOne(String login) {
-    return getAll().stream().filter(user -> user.getLogin().equals(login)).findAny().orElse(null);
+    return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
   }
 
   /**
@@ -96,7 +97,6 @@ public class UserDataService {
    * @param password the password for the new user.
    * @return an ObjectNode containing the new user's token, ID, and login if successful; null
    * otherwise.
-   * <p>
    * Line continuation have incorrect indentation level, expected level should be 4.
    */
   public ObjectNode register(String login, String password) {
@@ -104,8 +104,8 @@ public class UserDataService {
       return null;
     }
 
-    User newUser = new User();
-    newUser.setLogin(login);
+    User newUser = new UserImpl();
+    newUser.setEmail(login);
     newUser.setPassword(newUser.hashPassword(password));
     User registeredUser = createOne(newUser);
     return generateTokenForUser(registeredUser);
@@ -125,6 +125,6 @@ public class UserDataService {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("login", user.getLogin());
+        .put("login", user.getEmail());
   }
 }
