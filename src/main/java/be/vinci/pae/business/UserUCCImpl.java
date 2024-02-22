@@ -5,8 +5,6 @@ import jakarta.inject.Inject;
 
 public class UserUCCImpl implements UserUCC {
 
-  private UserDTO userDTO; // Supposition qu'un objet UserDS est utilisé pour l'accès aux données
-
   @Inject
   private UserDataServiceImpl userDataService;
 
