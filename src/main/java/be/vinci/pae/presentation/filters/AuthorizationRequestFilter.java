@@ -6,15 +6,12 @@ import be.vinci.pae.donnees.UserDataService;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-
 import com.auth0.jwt.interfaces.JWTVerifier;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
-
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 

@@ -1,10 +1,8 @@
 package be.vinci.pae.donnees;
 
 import be.vinci.pae.bd.Configuration;
-
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserImpl;
-
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

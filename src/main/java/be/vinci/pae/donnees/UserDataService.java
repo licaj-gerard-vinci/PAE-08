@@ -1,16 +1,14 @@
 package be.vinci.pae.donnees;
 
-import be.vinci.pae.business.User;
 import be.vinci.pae.business.UserDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.util.List;
+
 
 /**
  * Interface for user data service operations, including retrieval, creation, and authentication of
  * users.
  */
 public interface UserDataService {
-
 
 
   /**
@@ -21,7 +19,6 @@ public interface UserDataService {
    * @return An {@link ObjectNode} containing authentication details.
    */
   ObjectNode login(String email);
-
 
 
   /**
