@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Provides services related to user data management, including retrieval, creation, login, and
