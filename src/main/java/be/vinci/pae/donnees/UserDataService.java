@@ -1,8 +1,8 @@
-package be.vinci.pae.services;
+package be.vinci.pae.donnees;
 
 import be.vinci.pae.bd.Configuration;
-import be.vinci.pae.domain.User;
-import be.vinci.pae.services.utils.Json;
+import be.vinci.pae.business.User;
+import be.vinci.pae.donnees.utils.Json;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
