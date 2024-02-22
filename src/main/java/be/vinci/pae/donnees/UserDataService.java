@@ -24,7 +24,7 @@ public interface UserDataService {
    * @param id The unique identifier of the user.
    * @return The {@link User} instance, or {@code null} if not found.
    */
-  User getOne(int id);
+  UserDTO getOne(int id);
 
   /**
    * Retrieves a single user by their login.

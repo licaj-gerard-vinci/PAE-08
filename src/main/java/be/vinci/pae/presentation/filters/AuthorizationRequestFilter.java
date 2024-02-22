@@ -1,6 +1,6 @@
 package be.vinci.pae.presentation.filters;
 
-import be.vinci.pae.business.User;
+import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.donnees.UserDataService;
 import be.vinci.pae.donnees.UserDataServiceImpl;
 import be.vinci.pae.utils.Config;
@@ -47,7 +47,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         throw new WebApplicationException(Response.status(Status.UNAUTHORIZED)
             .entity("Malformed token : " + e.getMessage()).type("text/plain").build());
       }
-      User authenticatedUser = myUserDataService.getOne(decodedToken.getClaim("user").asInt());
+      UserDTO authenticatedUser = myUserDataService.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());
