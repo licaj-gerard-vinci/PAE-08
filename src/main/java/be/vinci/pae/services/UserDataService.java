@@ -1,5 +1,7 @@
 package be.vinci.pae.services;
 
+import be.vinci.pae.bd.BCrypt;
+import be.vinci.pae.bd.Configuration;
 import be.vinci.pae.domain.User;
 import be.vinci.pae.services.utils.Json;
 import be.vinci.pae.utils.Config;
@@ -7,6 +9,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -82,11 +88,32 @@ public class UserDataService {
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
   public ObjectNode login(String login, String password) {
-    User user = getOne(login);
-    if (user != null && user.checkPassword(password)) {
-      return generateTokenForUser(user);
+    Configuration configuration = new Configuration();
+    try (Connection connection = configuration.getConnection();
+        PreparedStatement stmt = connection.prepareStatement(
+            "SELECT * FROM utilisateur WHERE email = ?")) {
+
+      stmt.setString(1, login);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          // Vous devez vérifier le mot de passe. Assurez-vous que vous utilisez la bonne colonne pour le mot de passe.
+          String dbPassword = rs.getString("mot_de_passe");
+          if (BCrypt.checkpw(password, dbPassword)) {
+            // Créez un nouvel utilisateur et utilisez rs.getInt("id") ou la colonne appropriée pour votre ID d'utilisateur.
+            User user = new User();
+            user.setId(rs.getInt(
+                "id_utilisateur")); // Assurez-vous que cela correspond à la colonne de votre base de données.
+            user.setLogin(login);
+            // ... générez le token pour l'utilisateur ...
+            return generateTokenForUser(user);
+          }
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+      // Gérer l'exception correctement
     }
-    return null;
+    return null; // Ou lancez une exception
   }
 
   /**

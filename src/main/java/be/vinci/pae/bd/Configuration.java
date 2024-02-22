@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  * Configuration class for establishing connection to the PostgreSQL database and managing user
@@ -53,10 +53,11 @@ public class Configuration {
       // Connexion à la base de données
       String url = "jdbc:postgresql://localhost:5432/postgres";
       conn = DriverManager.getConnection(url, "postgres",
-          "");
+          "Brilantculi188");
 
+      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe qu'on ecrit
       preparedStatementConnexion = conn.prepareStatement(
-          "SELECT id_utilisateur, mot_de_passe FROM utilisateur WHERE email = ?");
+          "SELECT id_utilisateur, mot_de_passe FROM bdpae.utilisateur WHERE email = ?");
     } catch (ClassNotFoundException e) {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);
@@ -74,22 +75,16 @@ public class Configuration {
    * @return true if authentication is successful, false otherwise.
    */
 
-  public boolean connexion() {
-    System.out.println("***************************************");
-    System.out.println("* Connexion *");
-    System.out.println("***************************************");
-    System.out.print("email : ");
-    String email = scanner.nextLine();
-    System.out.print("Mot de passe : ");
-    String mdp = scanner.nextLine();
+  public boolean connexion(String email, String mdp) {
+
     try {
       preparedStatementConnexion.setString(1, email);
       ResultSet rs = preparedStatementConnexion.executeQuery();
 
       // Check if the ResultSet has a row (i.e., user found)
       if (rs.next()) {
+        //
         String stockerDansLaDB = rs.getString("mot_de_passe");
-        // Check the password
         if (BCrypt.checkpw(mdp, stockerDansLaDB)) {
           System.out.println("Connexion réussie !");
           return true;
@@ -104,5 +99,10 @@ public class Configuration {
       throw new RuntimeException(e);
     }
   }
+
+  public Connection getConnection() {
+    return conn;
+  }
+
 
 }
