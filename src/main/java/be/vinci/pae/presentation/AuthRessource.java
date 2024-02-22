@@ -41,15 +41,14 @@ public class AuthRessource {
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
     // Get and check credentials
-    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
+    if (!json.hasNonNull("email")) {
       throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-          .entity("email or password required").type("text/plain").build());
+          .entity("email required").type("text/plain").build());
     }
     String email = json.get("email").asText();
-    String password = json.get("password").asText();
 
     // Try to log in
-    ObjectNode publicUser = myUserDataService.login(email, password);
+    ObjectNode publicUser = myUserDataService.login(email);
     if (publicUser == null) {
       throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
           .entity("email or password incorrect").type(MediaType.TEXT_PLAIN)

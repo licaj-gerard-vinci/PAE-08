@@ -50,17 +50,15 @@ public class UserDataServiceImpl implements UserDataService {
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
   @Override
-  public ObjectNode login(String email, String password) {
+  public ObjectNode login(String email) {
     Configuration configuration = new Configuration();
     try (Connection connection = configuration.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
-            "SELECT id_utilisateur, mot_de_passe, nom, prenom, numero_tel, date_inscription, anne_academique, role_utilisateur FROM utilisateur WHERE email = ?")) {
+            "SELECT id_utilisateur,nom, prenom, numero_tel, date_inscription, role_utilisateur FROM utilisateur WHERE email = ?")) {
 
       stmt.setString(1, email);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
-          String dbPassword = rs.getString("mot_de_passe");
-          if (BCrypt.checkpw(password, dbPassword)) {
             UserDTO user = new UserImpl();
 
             // Remplir l'objet user avec toutes les données nécessaires de la base de données.
@@ -70,13 +68,13 @@ public class UserDataServiceImpl implements UserDataService {
             user.setPrenom(rs.getString("prenom"));
             user.setNumTel(rs.getString("numero_tel"));
             user.setDateInscription(rs.getDate("date_inscription"));
-            user.setAnneeAcademique(rs.getString("anne_academique"));
             user.setRole(rs.getString("role_utilisateur").charAt(0));
+            System.out.println(user);
 
             // Générez le token JWT pour l'utilisateur ici
             return generateTokenForUser(user);
           }
-        }
+
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -86,6 +84,13 @@ public class UserDataServiceImpl implements UserDataService {
   }
 
 
+  /**
+   * Authenticates a user with the given email and password.
+   *
+   * @param email    The email of the user.
+   * @param password The password of the user.
+   * @return An {@link ObjectNode} containing authentication details.
+   */
 
   /**
    * Generates a JWT token for the given user.

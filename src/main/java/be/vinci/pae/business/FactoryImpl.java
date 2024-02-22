@@ -4,7 +4,7 @@ package be.vinci.pae.business;
  * Implementation of the {@code UserFactory} interface, providing methods to create instances
  * of {@code UserDTO}.
  */
-public class UserFactoryImpl implements UserFactory {
+public class FactoryImpl implements Factory {
 
   /**
    * Creates and returns a new instance of {@code UserDTO} representing a public user.

@@ -20,7 +20,7 @@ public interface UserDataService {
    * @param password The password of the user.
    * @return An {@link ObjectNode} containing authentication details.
    */
-  ObjectNode login(String email, String password);
+  ObjectNode login(String email);
 
 
 
