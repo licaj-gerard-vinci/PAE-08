@@ -1,6 +1,5 @@
 package be.vinci.pae.services;
 
-import be.vinci.pae.bd.BCrypt;
 import be.vinci.pae.bd.Configuration;
 import be.vinci.pae.domain.User;
 import be.vinci.pae.services.utils.Json;
