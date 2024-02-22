@@ -70,9 +70,11 @@ public class Configuration {
   }
 
   /**
-   * Authenticates a user against the stored credentials in the database.
+   * Authenticates a user based on email and password.
    *
-   * @return true if authentication is successful, false otherwise.
+   * @param email User's email.
+   * @param mdp   User's password.
+   * @return true if authenticated, false otherwise.
    */
 
   public boolean connexion(String email, String mdp) {
@@ -100,6 +102,11 @@ public class Configuration {
     }
   }
 
+  /**
+   * Returns the current database connection.
+   *
+   * @return The active database connection.
+   */
   public Connection getConnection() {
     return conn;
   }
