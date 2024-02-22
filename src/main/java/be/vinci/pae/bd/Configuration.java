@@ -56,7 +56,7 @@ public class Configuration {
       conn = DriverManager.getConnection(url, "postgres",
           "Brilantculi188");
 
-      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe qu'on ecrit
+      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe qu'on git p
       preparedStatementConnexion = conn.prepareStatement(
           "SELECT id_utilisateur, mot_de_passe FROM bdpae.utilisateur WHERE email = ?");
     } catch (ClassNotFoundException e) {

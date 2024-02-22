@@ -87,33 +87,38 @@ public class UserDataService {
    * @param password the user's password.
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
-  public ObjectNode login(String login, String password) {
+  public ObjectNode login(String email, String password) {
     Configuration configuration = new Configuration();
     try (Connection connection = configuration.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
-            "SELECT * FROM utilisateur WHERE email = ?")) {
+            "SELECT id_utilisateur, mot_de_passe, nom, prenom, numero_tel, date_inscription, anne_academique, role_utilisateur FROM bdpae.utilisateur WHERE email = ?")) {
 
-      stmt.setString(1, login);
+      stmt.setString(1, email);
       try (ResultSet rs = stmt.executeQuery()) {
         if (rs.next()) {
-          // Vous devez vérifier le mot de passe. Assurez-vous que vous utilisez la bonne colonne pour le mot de passe.
           String dbPassword = rs.getString("mot_de_passe");
           if (BCrypt.checkpw(password, dbPassword)) {
-            // Créez un nouvel utilisateur et utilisez rs.getInt("id") ou la colonne appropriée pour votre ID d'utilisateur.
             User user = new User();
-            user.setId(rs.getInt(
-                "id_utilisateur")); // Assurez-vous que cela correspond à la colonne de votre base de données.
-            user.setLogin(login);
-            // ... générez le token pour l'utilisateur ...
+            // Remplir l'objet user avec toutes les données nécessaires de la base de données.
+            user.setId(rs.getInt("id_utilisateur"));
+            user.setLogin(email); // Supposant que login est l'email.
+            user.setNom(rs.getString("nom"));
+            user.setPrenom(rs.getString("prenom"));
+            user.setNumeroTel(rs.getString("numero_tel"));
+            user.setDateInscription(rs.getDate("date_inscription"));
+            user.setAnneAcademique(rs.getString("anne_academique"));
+            user.setRoleUtilisateur(rs.getString("role_utilisateur").charAt(0));
+
+            // Générez le token JWT pour l'utilisateur ici
             return generateTokenForUser(user);
           }
         }
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      // Gérer l'exception correctement
+      // Gérer l'exception correctement, par exemple en renvoyant une réponse d'erreur.
     }
-    return null; // Ou lancez une exception
+    return null; // Ou lancez une exception pour indiquer une authentification échouée
   }
 
   /**
