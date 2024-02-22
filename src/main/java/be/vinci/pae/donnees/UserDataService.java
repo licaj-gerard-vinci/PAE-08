@@ -2,6 +2,8 @@ package be.vinci.pae.donnees;
 
 import be.vinci.pae.bd.Configuration;
 import be.vinci.pae.business.User;
+import be.vinci.pae.business.UserDTO;
+import be.vinci.pae.business.UserImpl;
 import be.vinci.pae.donnees.utils.Json;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
@@ -53,7 +55,7 @@ public class UserDataService {
    * @return the user with the specified login or null if not found.
    */
   public User getOne(String login) {
-    return getAll().stream().filter(user -> user.getLogin().equals(login)).findAny().orElse(null);
+    return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
   }
 
   /**
@@ -98,16 +100,17 @@ public class UserDataService {
         if (rs.next()) {
           String dbPassword = rs.getString("mot_de_passe");
           if (BCrypt.checkpw(password, dbPassword)) {
-            User user = new User();
+            UserDTO user = new UserImpl();
+
             // Remplir l'objet user avec toutes les données nécessaires de la base de données.
             user.setId(rs.getInt("id_utilisateur"));
-            user.setLogin(email); // Supposant que login est l'email.
+            user.setEmail(email); // Supposant que login est l'email.
             user.setNom(rs.getString("nom"));
             user.setPrenom(rs.getString("prenom"));
-            user.setNumeroTel(rs.getString("numero_tel"));
+            user.setNumTel(rs.getString("numero_tel"));
             user.setDateInscription(rs.getDate("date_inscription"));
-            user.setAnneAcademique(rs.getString("anne_academique"));
-            user.setRoleUtilisateur(rs.getString("role_utilisateur").charAt(0));
+            user.setAnneeAcademique(rs.getString("anne_academique"));
+            user.setRole(rs.getString("role_utilisateur").charAt(0));
 
             // Générez le token JWT pour l'utilisateur ici
             return generateTokenForUser(user);
@@ -125,17 +128,20 @@ public class UserDataService {
    * Registers a new user with the provided login and password.
    *
    * @param login    the desired login for the new user.
-   * @param password the password for the new user.
+   * @param password the password for the new user. <<<<<<< HEAD
    * @return an ObjectNode containing the new user's token, ID, and login if successful; null Line
-   * continuation have incorrect indentation level, expected level should be 4.
+   * continuation have incorrect indentation level, expected level should be 4. =======
+   * @return an ObjectNode containing the new user's token, ID, and login if successful; null
+   * otherwise. Line continuation have incorrect indentation level, expected level should be 4.
+   * >>>>>>> e7ee212b60257579f5ef36869cac32cf763ccd42
    */
   public ObjectNode register(String login, String password) {
     if (getOne(login) != null) { // User already exists
       return null;
     }
 
-    User newUser = new User();
-    newUser.setLogin(login);
+    User newUser = new UserImpl();
+    newUser.setEmail(login);
     newUser.setPassword(newUser.hashPassword(password));
     User registeredUser = createOne(newUser);
     return generateTokenForUser(registeredUser);
@@ -147,7 +153,7 @@ public class UserDataService {
    * @param user the user for whom to generate the token.
    * @return an ObjectNode containing the token, user ID, and login.
    */
-  private ObjectNode generateTokenForUser(User user) {
+  private ObjectNode generateTokenForUser(UserDTO user) {
     String token = JWT.create()
         .withIssuer("auth0")
         .withClaim("user", user.getId())
@@ -155,6 +161,6 @@ public class UserDataService {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("login", user.getLogin());
+        .put("login", user.getEmail());
   }
 }

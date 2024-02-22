@@ -69,7 +69,11 @@ public class Json<T> {
    * of type {@code T}. If the collection or file does not exist, an empty list is returned.
    *
    * @param collectionName the name of the collection to deserialize from.
+<<<<<<< HEAD
    * @return a list of objects of type {@code T}, or an empty list if the collection or file doesn't
+=======
+   * @return a list of objects of type, or an empty list if the collection or file doesn't exist.
+>>>>>>> e7ee212b60257579f5ef36869cac32cf763ccd42
    */
   public List<T> parse(String collectionName) {
     try {
