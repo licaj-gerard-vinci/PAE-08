@@ -1,10 +1,10 @@
 package be.vinci.pae.donnees;
 
 import be.vinci.pae.bd.Configuration;
-import be.vinci.pae.business.User;
+
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserImpl;
-import be.vinci.pae.donnees.utils.Json;
+
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,8 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  * Provides services related to user data management, including retrieval, creation, login, and
@@ -24,7 +23,6 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserDataServiceImpl implements UserDataService {
 
-  private static final String COLLECTION_NAME = "users";
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
