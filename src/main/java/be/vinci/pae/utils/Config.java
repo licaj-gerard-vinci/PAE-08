@@ -34,17 +34,34 @@ public class Config {
     }
   }
 
-  // Get property from a key.
+  /**
+   * Retrieves the value of a property as a string.
+   *
+   * @param key The key of the property to retrieve.
+   * @return The value of the property as a string, or {@code null} if the property is not found.
+   */
   public static String getProperty(String key) {
     return props.getProperty(key);
   }
 
-  // Get int property from a key.
+  /**
+   * Retrieves the value of a property as an integer.
+   *
+   * @param key The key of the property to retrieve.
+   * @return The integer value of the property.
+   * @throws NumberFormatException If the property value cannot be parsed as an integer.
+   */
   public static Integer getIntProperty(String key) {
     return Integer.parseInt(props.getProperty(key));
   }
 
-  // Return property from a key.
+  /**
+   * Retrieves the value of a property as a boolean.
+   *
+   * @param key The key of the property to retrieve.
+   * @return The boolean value of the property, false if the property is not found or not a valid
+   * boolean.
+   */
   public static boolean getBoolProperty(String key) {
     return Boolean.parseBoolean(props.getProperty(key));
   }
