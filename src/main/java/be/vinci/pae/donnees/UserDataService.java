@@ -85,7 +85,6 @@ public class UserDataService {
   /**
    * Attempts to log in a user with the provided login and password.
    *
-   * @param login    the user's login.
    * @param password the user's password.
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
@@ -127,13 +126,9 @@ public class UserDataService {
   /**
    * Registers a new user with the provided login and password.
    *
-   * @param login    the desired login for the new user.
-   * @param password the password for the new user. <<<<<<< HEAD
+   * @param password the password for the new user.
    * @return an ObjectNode containing the new user's token, ID, and login if successful; null Line
-   * continuation have incorrect indentation level, expected level should be 4. =======
-   * @return an ObjectNode containing the new user's token, ID, and login if successful; null
-   * otherwise. Line continuation have incorrect indentation level, expected level should be 4.
-   * >>>>>>> e7ee212b60257579f5ef36869cac32cf763ccd42
+   * continuation have incorrect indentation level, expected level should be 4.
    */
   public ObjectNode register(String login, String password) {
     if (getOne(login) != null) { // User already exists

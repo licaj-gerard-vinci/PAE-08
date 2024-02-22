@@ -36,11 +36,13 @@ public class Main {
   }
 
   /**
-   * Main method QUI MAIN.
+   * Starts the HTTP server and initializes the application. Displays the URL where the WADL is
+   * available. Waits for user input to stop the server and exit the application.
    *
-   * @param args
-   * @throws IOException
+   * @param args Command line arguments (not used).
+   * @throws IOException If an I/O error occurs during server start or stop.
    */
+
   public static void main(String[] args) throws IOException {
     final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with WADL available at "
