@@ -1,6 +1,7 @@
 package be.vinci.pae.donnees;
 
 import be.vinci.pae.business.User;
+import be.vinci.pae.business.UserImpl;
 import be.vinci.pae.donnees.utils.Json;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
@@ -17,7 +18,7 @@ import java.util.List;
 public class UserDataService {
 
   private static final String COLLECTION_NAME = "users";
-  private static Json<User> jsonDB = new Json<>(User.class);
+  private static Json<User> jsonDB = new Json<>(UserImpl.class);
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -104,7 +105,7 @@ public class UserDataService {
       return null;
     }
 
-    User newUser = new User();
+    User newUser = new UserImpl();
     newUser.setLogin(login);
     newUser.setPassword(newUser.hashPassword(password));
     User registeredUser = createOne(newUser);
