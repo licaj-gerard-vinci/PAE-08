@@ -21,6 +21,7 @@ import java.sql.SQLException;
  */
 public class UserDataServiceImpl implements UserDataService {
 
+
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -28,7 +29,7 @@ public class UserDataServiceImpl implements UserDataService {
   /**
    * Attempts to log in a user with the provided login and password.
    *
-   * @param password the user's password.
+   * @param email the user's email/login.
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
   @Override

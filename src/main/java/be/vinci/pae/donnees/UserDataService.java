@@ -14,8 +14,7 @@ public interface UserDataService {
   /**
    * Authenticates a user with the given email and password.
    *
-   * @param email    The email of the user.
-   * @param password The password of the user.
+   * @param email The email of the user.
    * @return An {@link ObjectNode} containing authentication details.
    */
   ObjectNode login(String email);
