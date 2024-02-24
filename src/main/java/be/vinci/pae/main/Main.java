@@ -28,7 +28,7 @@ public class Main {
   public static HttpServer startServer() {
     // create a resource config that scans for JAX-RS resources and providers
     // in vinci.be package
-    final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.api");
+    final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.presentation");
 
     // create and start a new instance of grizzly http server
     // exposing the Jersey application at BASE_URI
