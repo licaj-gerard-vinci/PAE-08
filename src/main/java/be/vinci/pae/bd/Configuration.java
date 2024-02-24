@@ -1,15 +1,10 @@
 package be.vinci.pae.bd;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import org.mindrot.jbcrypt.BCrypt;
 
 
@@ -19,8 +14,6 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class Configuration {
 
-  Properties prop = new Properties();
-  InputStream input = null;
   private Connection conn = null;
   private PreparedStatement preparedStatementConnexion;
 
@@ -54,25 +47,17 @@ public class Configuration {
      */
 
     try {
-      input = new FileInputStream("../../../dev.properties");
 
-      prop.load(input);
-
-      // Load the PostgreSQL JDBC driver
       Class.forName("org.postgresql.Driver");
 
-      // Connection parameters
+      // Connexion à la base de données
+      String url = "jdbc:postgresql://localhost:5432/postgres";
+      conn = DriverManager.getConnection(url, "postgres",
+          "");
 
-      String url = prop.getProperty("dbUrl");
-      String user = prop.getProperty("dbUser");
-      String password = prop.getProperty("dbPassword");
-
-      // Establish the connection
-      conn = DriverManager.getConnection(url, user, password);
-
-      // Prepare the SQL statement for later use in authentication
+      //on recupere le mots de passe en plus pour pouvoir le comparer avec le mots de passe
       preparedStatementConnexion = conn.prepareStatement(
-          "SELECT * FROM bdpae.utilisateur WHERE email = ?");
+          "SELECT id_utilisateur, mot_de_passe FROM bdpae.utilisateur WHERE email = ?");
     } catch (ClassNotFoundException e) {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);
@@ -80,10 +65,6 @@ public class Configuration {
       System.out.println("Impossible de joindre le serveur !");
       e.printStackTrace();
       System.exit(1);
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     }
 
   }
