@@ -2,7 +2,12 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.utils.Config;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -25,6 +30,9 @@ import jakarta.ws.rs.core.Response;
 @Singleton
 @Path("auth")
 public class AuthRessource {
+
+  private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
+  private final ObjectMapper jsonMapper = new ObjectMapper();
 
   @Inject
   private UserUCC myUserUcc;
@@ -66,6 +74,7 @@ public class AuthRessource {
           .entity("email or password incorrect").type(MediaType.TEXT_PLAIN)
           .build());
     }
+    generateTokenForUser(publicUser);
     return publicUser;
 
   }
@@ -77,6 +86,23 @@ public class AuthRessource {
       throw new IllegalArgumentException();
     }
     return authnticated;
+  }
+
+  /**
+   * Generates a JWT token for the given user.
+   *
+   * @param user the user for whom to generate the token.
+   * @return an ObjectNode containing the token, user ID, and login.
+   */
+  public ObjectNode generateTokenForUser(UserDTO user) {
+    String token = JWT.create()
+        .withIssuer("auth0")
+        .withClaim("user", user.getId())
+        .sign(jwtAlgorithm);
+    return jsonMapper.createObjectNode()
+        .put("token", token)
+        .put("id", user.getId())
+        .put("login", user.getEmail());
   }
 
 
