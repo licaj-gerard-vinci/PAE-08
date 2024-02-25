@@ -11,5 +11,6 @@ public class ApplicationBinder extends AbstractBinder {
   @Override
   protected void configure() {
     bind(UserDAOImpl.class).to(UserDAOImpl.class).in(Singleton.class);
+    
   }
 }
