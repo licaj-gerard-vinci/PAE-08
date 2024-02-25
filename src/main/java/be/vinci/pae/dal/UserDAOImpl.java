@@ -33,7 +33,6 @@ public class UserDAOImpl implements UserDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          statement.close();
           return rsToUser(rs);
         }
 
@@ -52,12 +51,11 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneByEmail(String email) {
-    String query = "SELECT * FROM pae.utilisateur WHERE email = ?";
+    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, date_inscription, role_utilisateur FROM pae.utilisateur WHERE email = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          statement.close();
           return rsToUser(rs);
         }
       }
@@ -67,11 +65,10 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
+
   /**
    * Retrieves a single user by their login and password.
    *
-   * @param email    the user's login.
-   * @param password the user's password.
    * @return the user with the specified login and password or null if not found.
    */
   public UserDTO rsToUser(ResultSet rs) throws SQLException {

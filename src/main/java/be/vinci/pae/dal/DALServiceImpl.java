@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Provides a data access layer service for creating prepared statements.
+ */
 public class DALServiceImpl implements DALService {
 
   private Connection conn;
@@ -28,10 +31,12 @@ public class DALServiceImpl implements DALService {
 
   }
 
-  /*
-   * Create a PS
-   * paramters : String Query
-   * */
+  /**
+   * Create a PS.
+   *
+   * @param query the query to be executed.
+   * @return the prepared statement.
+   */
   @Override
   public PreparedStatement preparedStatement(String query) {
     try {

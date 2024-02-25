@@ -33,7 +33,6 @@ public class AuthRessource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-
   @Inject
   private UserUCC myUserUcc;
 
@@ -73,7 +72,12 @@ public class AuthRessource {
 
   }
 
-
+  /**
+   * Retrieves the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the authenticated user.
+   */
   public UserDTO getUser(@Context ContainerRequestContext requestContext) {
     UserDTO authnticated = (UserDTO) requestContext.getProperty("user");
     if (authnticated == null) {
