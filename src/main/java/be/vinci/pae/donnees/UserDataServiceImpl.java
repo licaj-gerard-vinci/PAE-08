@@ -25,7 +25,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class UserDataServiceImpl implements UserDataService {
 
   private static final String COLLECTION_NAME = "users";
-  private static Json<User> jsonDB = new Json<>(User.class);
+  private static Json<UserDTO> jsonDB = new Json<>(UserDTO.class);
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -35,7 +35,7 @@ public class UserDataServiceImpl implements UserDataService {
    * @return a list of all users.
    */
   @Override
-  public List<User> getAll() {
+  public List<UserDTO> getAll() {
     return jsonDB.parse(COLLECTION_NAME);
   }
 
@@ -46,7 +46,7 @@ public class UserDataServiceImpl implements UserDataService {
    * @return the user with the specified ID or null if not found.
    */
   @Override
-  public User getOne(int id) {
+  public UserDTO getOne(int id) {
     return getAll().stream().filter(user -> user.getId() == id).findAny().orElse(null);
   }
 
@@ -57,7 +57,7 @@ public class UserDataServiceImpl implements UserDataService {
    * @return the user with the specified login or null if not found.
    */
   @Override
-  public User getOne(String login) {
+  public UserDTO getOne(String login) {
     return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
   }
 
@@ -68,8 +68,8 @@ public class UserDataServiceImpl implements UserDataService {
    * @return the created user with an assigned ID.
    */
   @Override
-  public User createOne(User user) {
-    List<User> users = getAll();
+  public UserDTO createOne(UserDTO user) {
+    List<UserDTO> users = getAll();
     user.setId(nextItemId());
     users.add(user);
     jsonDB.serialize(users, COLLECTION_NAME);
@@ -83,7 +83,7 @@ public class UserDataServiceImpl implements UserDataService {
    */
   @Override
   public int nextItemId() {
-    List<User> users = getAll();
+    List<UserDTO> users = getAll();
     return users.isEmpty() ? 1 : users.get(users.size() - 1).getId() + 1;
   }
 
@@ -145,7 +145,7 @@ public class UserDataServiceImpl implements UserDataService {
     User newUser = new UserImpl();
     newUser.setEmail(login);
     newUser.setPassword(newUser.hashPassword(password));
-    User registeredUser = createOne(newUser);
+    UserDTO registeredUser = createOne(newUser);
     return generateTokenForUser(registeredUser);
   }
 

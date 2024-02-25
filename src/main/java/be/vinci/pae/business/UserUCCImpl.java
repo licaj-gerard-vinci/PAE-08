@@ -10,7 +10,7 @@ public class UserUCCImpl implements UserUCC {
 
   @Override
   public UserDTO login(String email, String password) throws IllegalArgumentException {
-    User user = userDataService.getOne(email);
+    User user = (User) userDataService.getOne(email);
     if (user.checkPassword(password)) {
       return user;
     }
