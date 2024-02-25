@@ -56,9 +56,8 @@ public class UserDAOImpl implements UserDAO {
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
-        System.out.println("test1");
         if (rs.next()) {
-          System.out.println("test2");
+          statement.close();
           return rsToUser(rs);
         }
       }
@@ -68,6 +67,13 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
+  /**
+   * Retrieves a single user by their login and password.
+   *
+   * @param email    the user's login.
+   * @param password the user's password.
+   * @return the user with the specified login and password or null if not found.
+   */
   public UserDTO rsToUser(ResultSet rs) throws SQLException {
     UserDTO user = factory.getPublicUser();
     user.setId(rs.getInt("id_utilisateur"));
