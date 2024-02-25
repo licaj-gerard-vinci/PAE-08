@@ -17,6 +17,7 @@ public interface User extends UserDTO {
   /**
    * Hashes the provided password using a secure hashing algorithm.
    *
+   * @param password the password to hash.
    * @return the hashed password.
    */
   String hashPassword(String password);
@@ -30,4 +31,5 @@ public interface User extends UserDTO {
   @Override
   String toString();
 }
+
 

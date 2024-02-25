@@ -1,7 +1,12 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.donnees.UserDataService;
+import be.vinci.pae.business.UserDTO;
+import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.utils.Config;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -10,8 +15,10 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -24,8 +31,10 @@ import jakarta.ws.rs.core.Response;
 @Path("auth")
 public class AuthRessource {
 
+  private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
-  private UserDataService myUserDataService;
+  private UserUCC myUserUcc;
 
 
   /**
@@ -39,36 +48,59 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode login(JsonNode json) {
-
+  public UserDTO login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-          .entity("email or password required").type("text/plain").build());
+      throw new WebApplicationException("email or password required", Status.NOT_FOUND);
     }
-
     String email = json.get("email").asText();
     String password = json.get("password").asText();
     // Get and check credentials
-
     if (email.isEmpty() || password.isEmpty()) {
-      throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
-          .entity("email or password required").type("text/plain").build());
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
-    if (!email.endsWith("@student.vinci.be") || !email.endsWith("@vinci.be")) {
-      throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-          .entity("email incorrect").type(MediaType.TEXT_PLAIN)
-          .build());
+    if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.UNAUTHORIZED);
     }
 
     // Try to log in
-    ObjectNode publicUser = myUserDataService.login(email, password);
+    UserDTO publicUser = myUserUcc.login(email, password);
     if (publicUser == null) {
-      throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
-          .entity("email or password incorrect").type(MediaType.TEXT_PLAIN)
-          .build());
+      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
+    generateTokenForUser(publicUser);
     return publicUser;
 
+  }
+
+  /**
+   * Retrieves the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the authenticated user.
+   */
+  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
+    UserDTO authnticated = (UserDTO) requestContext.getProperty("user");
+    if (authnticated == null) {
+      throw new IllegalArgumentException();
+    }
+    return authnticated;
+  }
+
+  /**
+   * Generates a JWT token for the given user.
+   *
+   * @param user the user for whom to generate the token.
+   * @return an ObjectNode containing the token, user ID, and login.
+   */
+  public ObjectNode generateTokenForUser(UserDTO user) {
+    String token = JWT.create()
+        .withIssuer("auth0")
+        .withClaim("user", user.getId())
+        .sign(jwtAlgorithm);
+    return jsonMapper.createObjectNode()
+        .put("token", token)
+        .put("id", user.getId())
+        .put("email", user.getEmail());
   }
 
 

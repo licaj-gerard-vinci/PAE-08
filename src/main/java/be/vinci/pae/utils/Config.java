@@ -60,7 +60,6 @@ public class Config {
    *
    * @param key The key of the property to retrieve.
    * @return The boolean value of the property, false if the property is not found or not a valid
-   * boolean.
    */
   public static boolean getBoolProperty(String key) {
     return Boolean.parseBoolean(props.getProperty(key));
