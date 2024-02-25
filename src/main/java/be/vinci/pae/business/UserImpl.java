@@ -10,19 +10,12 @@ public class UserImpl implements User {
 
   private int id;
   private String email;
-  private String password;
-
   private String nom;
-
   private String prenom;
-
   private String numTel;
-
   private Date dateInscription;
-
-  private String anneeAcademique;
-
   private char role;
+  private String password;
 
   /**
    * Gets the user's login.
@@ -162,26 +155,6 @@ public class UserImpl implements User {
   @Override
   public void setDateInscription(Date dateInscription) {
     this.dateInscription = dateInscription;
-  }
-
-  /**
-   * Gets the user's academic year.
-   *
-   * @return the user's academic year.
-   */
-  @Override
-  public String getAnneeAcademique() {
-    return anneeAcademique;
-  }
-
-  /**
-   * Sets the user's academic year.
-   *
-   * @param anneeAcademique the new academic year for the user.
-   */
-  @Override
-  public void setAnneeAcademique(String anneeAcademique) {
-    this.anneeAcademique = anneeAcademique;
   }
 
   /**

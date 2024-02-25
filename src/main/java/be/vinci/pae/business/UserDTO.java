@@ -65,19 +65,6 @@ public interface UserDTO {
    */
   void setDateInscription(Date dateInscription);
 
-  /**
-   * Gets the academic year of the user.
-   *
-   * @return the academic year of the user.
-   */
-  String getAnneeAcademique();
-
-  /**
-   * Sets the academic year of the user.
-   *
-   * @param anneeAcademique the new academic year for the user.
-   */
-  void setAnneeAcademique(String anneeAcademique);
 
   /**
    * Gets the role of the user.
