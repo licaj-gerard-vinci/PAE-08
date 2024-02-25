@@ -19,9 +19,9 @@ public class DALServiceImpl implements DALService {
       Class.forName("org.postgresql.Driver");
 
       // Connexion à la base de données
-      String url = "jdbc:postgresql://localhost:5432/postgres";
-      conn = DriverManager.getConnection(url, "postgres",
-          "Brilantculi188");
+      String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbnadir_ahdid?user=nadir_ahdid";
+      conn = DriverManager.getConnection(url, "nadir_ahdid",
+          "nadir123");
     } catch (ClassNotFoundException e) {
       System.out.println("Driver PostgreSQL manquant !");
       System.exit(1);

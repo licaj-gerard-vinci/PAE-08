@@ -1,5 +1,3 @@
-@baseUrl = http://localhost:8080
-
 ### Login with default user credentials
 POST {{baseUrl}}/auth/login
 Content-Type: application/json

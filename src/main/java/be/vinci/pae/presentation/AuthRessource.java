@@ -41,17 +41,14 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO login(JsonNode json, @Context ContainerRequestContext requestContext) {
-
+  public UserDTO login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
           .entity("email or password required").type("text/plain").build());
     }
-
     String email = json.get("email").asText();
     String password = json.get("password").asText();
     // Get and check credentials
-
     if (email.isEmpty() || password.isEmpty()) {
       throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
           .entity("email or password required").type("text/plain").build());
