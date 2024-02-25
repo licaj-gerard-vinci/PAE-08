@@ -69,7 +69,9 @@ public class UserDAOImpl implements UserDAO {
   /**
    * Retrieves a single user by their login and password.
    *
+   * @param rs the user's query.
    * @return the user with the specified login and password or null if not found.
+   * @throws SQLException if an error occurs while processing the query.
    */
   public UserDTO rsToUser(ResultSet rs) throws SQLException {
     UserDTO user = factory.getPublicUser();
