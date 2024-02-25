@@ -1,20 +1,16 @@
-package be.vinci.pae.donnees;
+package be.vinci.pae.dal;
 
 import be.vinci.pae.bd.Configuration;
-import be.vinci.pae.business.User;
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserImpl;
-import be.vinci.pae.donnees.utils.Json;
 import be.vinci.pae.utils.Config;
-import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -22,22 +18,12 @@ import org.mindrot.jbcrypt.BCrypt;
  * registration of users. Utilizes a JSON-based storage mechanism and JWT for authentication
  * tokens.
  */
-public class UserDataServiceImpl implements UserDataService {
+public class UserDAOImpl implements UserDAO {
 
-  private static final String COLLECTION_NAME = "users";
-  private static Json<UserDTO> jsonDB = new Json<>(UserDTO.class);
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-
-  /**
-   * Retrieves all users from the JSON database.
-   *
-   * @return a list of all users.
-   */
-  @Override
-  public List<UserDTO> getAll() {
-    return jsonDB.parse(COLLECTION_NAME);
-  }
+  @Inject
+  private DALServiceImpl ps;
 
   /**
    * Retrieves a single user by their ID.
@@ -47,44 +33,18 @@ public class UserDataServiceImpl implements UserDataService {
    */
   @Override
   public UserDTO getOne(int id) {
-    return getAll().stream().filter(user -> user.getId() == id).findAny().orElse(null);
+    return null;
   }
 
   /**
    * Retrieves a single user by their login.
    *
-   * @param login the user's login.
+   * @param email the user's login.
    * @return the user with the specified login or null if not found.
    */
   @Override
-  public UserDTO getOne(String login) {
-    return getAll().stream().filter(user -> user.getEmail().equals(login)).findAny().orElse(null);
-  }
-
-  /**
-   * Creates and stores a new user in the JSON database.
-   *
-   * @param user the user to create.
-   * @return the created user with an assigned ID.
-   */
-  @Override
-  public UserDTO createOne(UserDTO user) {
-    List<UserDTO> users = getAll();
-    user.setId(nextItemId());
-    users.add(user);
-    jsonDB.serialize(users, COLLECTION_NAME);
-    return user;
-  }
-
-  /**
-   * Generates the next available user ID.
-   *
-   * @return the next available ID.
-   */
-  @Override
-  public int nextItemId() {
-    List<UserDTO> users = getAll();
-    return users.isEmpty() ? 1 : users.get(users.size() - 1).getId() + 1;
+  public UserDTO getOneByEmail(String email) {
+    return null;
   }
 
   /**
@@ -94,7 +54,7 @@ public class UserDataServiceImpl implements UserDataService {
    * @return an ObjectNode containing the user's token, ID, and login if successful; null otherwise.
    */
   @Override
-  public ObjectNode login(String email, String password) {
+  public UserDTO login(String email, String password) {
     Configuration configuration = new Configuration();
     try (Connection connection = configuration.getConnection();
         PreparedStatement stmt = connection.prepareStatement(
@@ -118,7 +78,7 @@ public class UserDataServiceImpl implements UserDataService {
             user.setRole(rs.getString("role_utilisateur").charAt(0));
 
             // Générez le token JWT pour l'utilisateur ici
-            return generateTokenForUser(user);
+            return user;
           }
         }
       }
@@ -127,43 +87,5 @@ public class UserDataServiceImpl implements UserDataService {
       // Gérer l'exception correctement, par exemple en renvoyant une réponse d'erreur.
     }
     return null; // Ou lancez une exception pour indiquer une authentification échouée
-  }
-
-  /**
-   * Registers a new user with the provided login and password.
-   *
-   * @param password the password for the new user.
-   * @return an ObjectNode containing the new user's token, ID, and login if successful; null Line
-   * continuation have incorrect indentation level, expected level should be 4.
-   */
-  @Override
-  public ObjectNode register(String login, String password) {
-    if (getOne(login) != null) { // User already exists
-      return null;
-    }
-
-    User newUser = new UserImpl();
-    newUser.setEmail(login);
-    newUser.setPassword(newUser.hashPassword(password));
-    UserDTO registeredUser = createOne(newUser);
-    return generateTokenForUser(registeredUser);
-  }
-
-  /**
-   * Generates a JWT token for the given user.
-   *
-   * @param user the user for whom to generate the token.
-   * @return an ObjectNode containing the token, user ID, and login.
-   */
-  @Override
-  public ObjectNode generateTokenForUser(UserDTO user) {
-    String token = JWT.create()
-        .withIssuer("auth0")
-        .withClaim("user", user.getId())
-        .sign(jwtAlgorithm);
-    return jsonMapper.createObjectNode()
-        .put("token", token)
-        .put("id", user.getId())
-        .put("login", user.getEmail());
   }
 }

@@ -1,8 +1,8 @@
 package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.UserDTO;
-import be.vinci.pae.donnees.UserDataService;
-import be.vinci.pae.donnees.UserDataServiceImpl;
+import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.dal.UserDAOImpl;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -32,7 +32,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   private final JWTVerifier jwtVerifier = JWT.require(this.jwtAlgorithm).withIssuer("auth0")
       .build();
   //a modifier avec UserUCCLImpl
-  private UserDataService myUserDataService = new UserDataServiceImpl();
+  private UserDAO myUserDAO = new UserDAOImpl();
 
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -48,7 +48,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         throw new WebApplicationException(Response.status(Status.UNAUTHORIZED)
             .entity("Malformed token : " + e.getMessage()).type("text/plain").build());
       }
-      UserDTO authenticatedUser = myUserDataService.getOne(decodedToken.getClaim("user").asInt());
+      UserDTO authenticatedUser = myUserDAO.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());

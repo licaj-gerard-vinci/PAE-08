@@ -1,8 +1,8 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.donnees.UserDataService;
+import be.vinci.pae.business.UserDTO;
+import be.vinci.pae.business.UserUCC;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -25,7 +25,7 @@ import jakarta.ws.rs.core.Response;
 public class AuthRessource {
 
   @Inject
-  private UserDataService myUserDataService;
+  private UserUCC myUserUcc;
 
 
   /**
@@ -39,7 +39,7 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode login(JsonNode json) {
+  public UserDTO login(JsonNode json) {
 
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
@@ -61,7 +61,7 @@ public class AuthRessource {
     }
 
     // Try to log in
-    ObjectNode publicUser = myUserDataService.login(email, password);
+    UserDTO publicUser = myUserUcc.login(email, password);
     if (publicUser == null) {
       throw new WebApplicationException(Response.status(Response.Status.UNAUTHORIZED)
           .entity("email or password incorrect").type(MediaType.TEXT_PLAIN)
