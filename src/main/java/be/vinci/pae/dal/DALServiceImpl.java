@@ -1,10 +1,14 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.utils.Config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Provides a data access layer service for creating prepared statements.
+ */
 public class DALServiceImpl implements DALService {
 
   private Connection conn;
@@ -15,16 +19,10 @@ public class DALServiceImpl implements DALService {
    */
   public DALServiceImpl() {
     try {
-
-      Class.forName("org.postgresql.Driver");
-
       // Connexion à la base de données
-      String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbnadir_ahdid?user=nadir_ahdid";
+      String url = Config.getProperty("DatabaseFilePath");
       conn = DriverManager.getConnection(url, "nadir_ahdid",
           "nadir123");
-    } catch (ClassNotFoundException e) {
-      System.out.println("Driver PostgreSQL manquant !");
-      System.exit(1);
     } catch (SQLException e) {
       System.out.println("Impossible de joindre le serveur !");
       e.printStackTrace();
@@ -33,10 +31,12 @@ public class DALServiceImpl implements DALService {
 
   }
 
-  /*
-   * Create a PS
-   * paramters : String Query
-   * */
+  /**
+   * Create a PS.
+   *
+   * @param query the query to be executed.
+   * @return the prepared statement.
+   */
   @Override
   public PreparedStatement preparedStatement(String query) {
     try {

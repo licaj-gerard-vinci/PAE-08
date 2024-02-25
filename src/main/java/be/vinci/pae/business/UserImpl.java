@@ -14,7 +14,7 @@ public class UserImpl implements User {
   private String prenom;
   private String numTel;
   private Date dateInscription;
-  private char role;
+  private String role;
   private String password;
 
   /**
@@ -163,7 +163,7 @@ public class UserImpl implements User {
    * @return the user's role.
    */
   @Override
-  public char getRole() {
+  public String getRole() {
     return role;
   }
 
@@ -173,7 +173,7 @@ public class UserImpl implements User {
    * @param role the new role for the user.
    */
   @Override
-  public void setRole(char role) {
+  public void setRole(String role) {
     this.role = role;
   }
 
@@ -185,6 +185,7 @@ public class UserImpl implements User {
    */
   @Override
   public boolean checkPassword(String password) {
+    System.out.println(password + "ffefefff" + this.password);
     return BCrypt.checkpw(password, this.password);
   }
 

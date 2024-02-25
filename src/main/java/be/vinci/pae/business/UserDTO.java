@@ -71,14 +71,14 @@ public interface UserDTO {
    *
    * @return the role of the user.
    */
-  char getRole();
+  String getRole();
 
   /**
    * Sets the role of the user.
    *
    * @param role the new role for the user.
    */
-  void setRole(char role);
+  void setRole(String role);
 
   /**
    * Gets the email of the user.
