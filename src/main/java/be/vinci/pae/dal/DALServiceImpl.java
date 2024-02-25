@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DALServiceImpl implements DALService {
@@ -32,9 +33,17 @@ public class DALServiceImpl implements DALService {
 
   }
 
+  /*
+   * Create a PS
+   * paramters : String Query
+   * */
   @Override
-  public Connection getConnection() {
-    return conn;
+  public PreparedStatement preparedStatement(String query) {
+    try {
+      return conn.prepareStatement(query);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 

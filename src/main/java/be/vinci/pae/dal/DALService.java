@@ -1,8 +1,8 @@
 package be.vinci.pae.dal;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public interface DALService {
 
-  Connection getConnection();
+  PreparedStatement preparedStatement(String query);
 }

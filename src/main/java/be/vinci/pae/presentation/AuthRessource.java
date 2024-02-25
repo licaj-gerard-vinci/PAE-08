@@ -10,6 +10,8 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -39,7 +41,7 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO login(JsonNode json) {
+  public UserDTO login(JsonNode json, @Context ContainerRequestContext requestContext) {
 
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST)
@@ -69,6 +71,15 @@ public class AuthRessource {
     }
     return publicUser;
 
+  }
+
+
+  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
+    UserDTO authnticated = (UserDTO) requestContext.getProperty("user");
+    if (authnticated == null) {
+      throw new IllegalArgumentException();
+    }
+    return authnticated;
   }
 
 

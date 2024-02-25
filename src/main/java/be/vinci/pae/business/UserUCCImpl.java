@@ -17,4 +17,13 @@ public class UserUCCImpl implements UserUCC {
     return null;
   }
 
+  @Override
+  public UserDTO getOne(int id) {
+    User user = (User) userDAO.getOneById(id);
+    if (user == null) {
+      return null;
+    }
+    return user;
+  }
+
 }

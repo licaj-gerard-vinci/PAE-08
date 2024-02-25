@@ -4,4 +4,6 @@ public interface UserUCC {
 
   UserDTO login(String email, String password);
 
+  UserDTO getOne(int id);
+
 }

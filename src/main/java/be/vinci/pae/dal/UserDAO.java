@@ -15,7 +15,7 @@ public interface UserDAO {
    * @param id The unique identifier of the user.
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
-  UserDTO getOne(int id);
+  UserDTO getOneById(int id);
 
   /**
    * Retrieves a single user by their login.

@@ -1,6 +1,6 @@
 package be.vinci.pae.business;
 
-public interface UserFactory {
+public interface Factory {
 
   UserDTO getPublicUser();
 }

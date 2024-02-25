@@ -1,8 +1,7 @@
 package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.UserDTO;
-import be.vinci.pae.dal.UserDAO;
-import be.vinci.pae.dal.UserDAOImpl;
+import be.vinci.pae.business.UserUCC;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,6 +11,7 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
@@ -32,10 +32,10 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   private final JWTVerifier jwtVerifier = JWT.require(this.jwtAlgorithm).withIssuer("auth0")
       .build();
   //a modifier avec UserUCCLImpl
-  private UserDAO myUserDAO = new UserDAOImpl();
+  private UserUCC myUserDAO;
 
   @Override
-  public void filter(ContainerRequestContext requestContext) throws IOException {
+  public void filter(@Context ContainerRequestContext requestContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
       requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
