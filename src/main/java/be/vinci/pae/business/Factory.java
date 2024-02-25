@@ -1,5 +1,8 @@
 package be.vinci.pae.business;
 
+/**
+ * A factory for creating User objects.
+ */
 public interface Factory {
 
   /**
