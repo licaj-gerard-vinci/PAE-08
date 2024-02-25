@@ -18,7 +18,6 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 /**
@@ -52,21 +51,22 @@ public class AuthRessource {
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("email or password required", Status.NOT_FOUND);
     }
     String email = json.get("email").asText();
     String password = json.get("password").asText();
     // Get and check credentials
     if (email.isEmpty() || password.isEmpty()) {
-      throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
-    if (!email.endsWith("@student.vinci.be") || !email.endsWith("@vinci.be")) {
-      throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+    if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.UNAUTHORIZED);
     }
+
     // Try to log in
     UserDTO publicUser = myUserUcc.login(email, password);
     if (publicUser == null) {
-      throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
     generateTokenForUser(publicUser);
     return publicUser;
@@ -96,7 +96,7 @@ public class AuthRessource {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("login", user.getEmail());
+        .put("email", user.getEmail());
   }
 
 
