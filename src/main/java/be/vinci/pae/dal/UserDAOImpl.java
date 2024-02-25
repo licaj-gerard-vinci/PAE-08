@@ -28,7 +28,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneById(int id) {
-    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, date_inscription, role_utilisateur FROM pae.utilisateur WHERE id_utilisateur = ?";
+    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, "
+        + "date_inscription, role_utilisateur FROM pae.utilisateur WHERE id_utilisateur = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -51,7 +52,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneByEmail(String email) {
-    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, date_inscription, role_utilisateur FROM pae.utilisateur WHERE email = ?";
+    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, "
+        + "date_inscription, role_utilisateur FROM pae.utilisateur WHERE email = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
