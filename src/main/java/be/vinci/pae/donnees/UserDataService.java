@@ -1,6 +1,5 @@
 package be.vinci.pae.donnees;
 
-import be.vinci.pae.business.User;
 import be.vinci.pae.business.UserDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.List;
@@ -14,15 +13,15 @@ public interface UserDataService {
   /**
    * Retrieves a list of all users.
    *
-   * @return A list of {@link User} instances.
+   * @return A list of {@link UserDTO} instances.
    */
-  List<User> getAll();
+  List<UserDTO> getAll();
 
   /**
    * Retrieves a single user by their unique identifier.
    *
    * @param id The unique identifier of the user.
-   * @return The {@link User} instance, or {@code null} if not found.
+   * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
   UserDTO getOne(int id);
 
@@ -30,17 +29,17 @@ public interface UserDataService {
    * Retrieves a single user by their login.
    *
    * @param login The login of the user.
-   * @return The {@link User} instance, or {@code null} if not found.
+   * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
-  User getOne(String login);
+  UserDTO getOne(String login);
 
   /**
    * Creates a new user in the system.
    *
-   * @param user The {@link User} instance to be created.
-   * @return The created {@link User} instance.
+   * @param user The {@link UserDTO} instance to be created.
+   * @return The created {@link UserDTO} instance.
    */
-  User createOne(User user);
+  UserDTO createOne(UserDTO user);
 
   /**
    * Generates the next unique item ID for a user.
