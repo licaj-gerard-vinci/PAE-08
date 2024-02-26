@@ -1,16 +1,23 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import be.vinci.pae.dal.UserDAO;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
 class UserUCCTest {
 
   private UserUCC userUCC;
   private Factory factory;
+  private UserDAO userDAO;
 
 
   @BeforeEach
@@ -18,6 +25,7 @@ class UserUCCTest {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
     userUCC = locator.getService(UserUCC.class);
     factory = locator.getService(Factory.class);
+    userDAO = locator.getService(UserDAO.class);
   }
 
   @Test
@@ -27,6 +35,14 @@ class UserUCCTest {
     String password = "test";
     User user = (User) factory.getPublicUser();
     user.setPassword(user.hashPassword(password));
+    Mockito.when(userDAO.getOneByEmail(email)).thenReturn(user);
+    assertAll("Test login",
+        () -> assertEquals(user, userUCC.login(email, password)),
+        () -> assertNull(userUCC.login(email, "wrongPassword")),
+        () -> assertNull(userUCC.login("wrongEmail", password))
+      
+    );
+
   }
 
   @Test
