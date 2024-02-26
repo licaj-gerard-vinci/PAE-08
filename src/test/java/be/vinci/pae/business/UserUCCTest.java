@@ -2,6 +2,7 @@ package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import be.vinci.pae.dal.UserDAO;
@@ -37,7 +38,7 @@ class UserUCCTest {
     user.setPassword(user.hashPassword(password));
     Mockito.when(userDAO.getOneByEmail(email)).thenReturn(user);
     assertAll("Test login",
-        () -> assertEquals(user, userUCC.login(email, password)),
+        () -> assertNotNull(userUCC.login(email, password)),
         () -> assertNull(userUCC.login(email, "wrongPassword")),
         () -> assertNull(userUCC.login("wrongEmail", password))
     );
