@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:8080
+
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@vinci.be",
+  "password": "Azertyuiop"
+}
