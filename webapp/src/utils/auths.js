@@ -39,15 +39,20 @@ const getAuthenticatedUser = () => {
   function setRememberMe(remembered) {
     const rememberedSerialized = JSON.stringify(remembered);
     localStorage.setItem(REMEMBER_ME, rememberedSerialized);
-  }
+  };
 
-const clearAuthenticatedUser = () => {    
+  const clearAuthenticatedUser = () => {
     localStorage.clear();
     sessionStorage.clear();
     currentUser = undefined;
   };
 
-  const isAuthenticated = () => currentUser !== undefined;
+  const isAuthenticated = () => {
+    if (currentUser === undefined) {
+      getAuthenticatedUser();
+    }
+    return currentUser !== undefined;
+  };
 
 
   export {
