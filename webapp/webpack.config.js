@@ -6,14 +6,14 @@ module.exports = {
   mode: 'none',
   entry: './src/index.js',
   output: {
-    path: `${__dirname}/dist`,
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/',
   },
   devtool: 'eval-source-map',
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.resolve(__dirname, 'dist'),
     },
     client: {
       overlay: {
@@ -21,14 +21,14 @@ module.exports = {
         warnings: false,
       },
     },
-    port: 8080,
+    port: 3000,
     host: 'localhost',
     allowedHosts: 'all',
     open: true,
     hot: true,
     historyApiFallback: true,
     proxy: {
-      '/': {
+      '/api': {
         target: 'http://localhost:3000',
         pathRewrite: { '^/api': '' },
       },
