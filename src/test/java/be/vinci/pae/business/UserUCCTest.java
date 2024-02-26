@@ -41,10 +41,15 @@ class UserUCCTest {
         () -> assertNull(userUCC.login(email, "wrongPassword")),
         () -> assertNull(userUCC.login("wrongEmail", password))
     );
-
   }
 
   @Test
   void getOne() {
+    User user = (User) factory.getPublicUser();
+    Mockito.when(userDAO.getOneById(1)).thenReturn(user);
+    assertAll("Test getOne",
+        () -> assertNull(userUCC.getOne(2)),
+        () -> assertEquals(user, userUCC.getOne(1))
+    );
   }
 }
