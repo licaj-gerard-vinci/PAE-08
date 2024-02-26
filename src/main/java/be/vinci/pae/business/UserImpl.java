@@ -1,7 +1,6 @@
 package be.vinci.pae.business;
 
 import java.util.Date;
-
 import be.vinci.pae.views.Views;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,6 +33,7 @@ public class UserImpl implements User {
 
   /**
    * Gets the user's login.
+   *
    * @return the user's login.
    */
   @Override
@@ -214,11 +214,12 @@ public class UserImpl implements User {
   }
 
   /**
-  * return string of attributs
+  * return string of attributs.
   */
   @Override
   public String toString() {
-    return "UserImpl{" +
+    return "UserImpl{"
+            +
             "id=" + id +
             ", email='" + email + '\'' +
             ", nom='" + nom + '\'' +

@@ -1,7 +1,6 @@
 package be.vinci.pae.business;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.Date;
 
 /**

@@ -1,7 +1,6 @@
 package be.vinci.pae.business;
 
 import be.vinci.pae.dal.UserDAO;
-import be.vinci.pae.dal.UserDAOImpl;
 import be.vinci.pae.dal.utils.Json;
 import jakarta.inject.Inject;
 
