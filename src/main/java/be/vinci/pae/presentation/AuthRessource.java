@@ -48,7 +48,7 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO login(JsonNode json) {
+  public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException("email or password required", Status.NOT_FOUND);
     }
@@ -67,8 +67,7 @@ public class AuthRessource {
     if (publicUser == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
-    generateTokenForUser(publicUser);
-    return publicUser;
+    return generateTokenForUser(publicUser);
 
   }
 
