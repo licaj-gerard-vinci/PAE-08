@@ -4,8 +4,9 @@ import be.vinci.pae.views.Views;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.mindrot.jbcrypt.BCrypt;
 import java.util.Date;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 /**
  * Creating User object.
@@ -220,8 +221,8 @@ public class UserImpl implements User {
   public String toString() {
     return "UserImpl{"
             +
-            "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='" + prenom + '\'' +
-            ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription + ", role='" + role + '\'' +
-            ", password='" + password + '\'' + '}';
+            "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
+            + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
+            + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }
