@@ -40,7 +40,6 @@ class UserUCCTest {
         () -> assertEquals(user, userUCC.login(email, password)),
         () -> assertNull(userUCC.login(email, "wrongPassword")),
         () -> assertNull(userUCC.login("wrongEmail", password))
-      
     );
 
   }
