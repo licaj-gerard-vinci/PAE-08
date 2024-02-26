@@ -14,9 +14,8 @@ import java.util.List;
  * @param <T> the type of the object being serialized or deserialized
  */
 public class Json<T> {
-
     private final static ObjectMapper jsonMapper = new ObjectMapper();
-    private Class<T> type;
+    private final Class<T> type;
 
     /**
      * Constructs a new Json object with the specified type.
