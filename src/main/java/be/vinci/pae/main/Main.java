@@ -38,7 +38,6 @@ public class Main {
         .register(ApplicationBinder.class)
         .register(WebExceptionMapper.class)
         .register(CORSFilter.class);
-    ;
 
     // create and start a new instance of grizzly http server
     // exposing the Jersey application at BASE_URI
