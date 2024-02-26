@@ -44,8 +44,8 @@ public class Json<T> {
       return jsonMapper.readerWithView(Views.Public.class).forType(type)
               .readValue(publicItemListAsString);
     } catch (JsonProcessingException e) {
-        e.printStackTrace();
-        return null;
+      e.printStackTrace();
+      return null;
     }
   }
 
@@ -66,8 +66,8 @@ public class Json<T> {
       return jsonMapper.readerWithView(Views.Public.class).forType(type)
               .readValue(publicItemAsString);
     } catch (JsonProcessingException e) {
-        e.printStackTrace();
-        return null;
+      e.printStackTrace();
+      return null;
     }
   }
 }
