@@ -1,64 +1,82 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { clearPage, renderPageTitle } from '../../utils/render';
+import { getRememberMe, setRememberMe } from '../../utils/auths';
+
+
+// eslint-disable-next-line import/named
+import loginUser from '../../model/users';
+import Navigate from '../Router/Navigate';
+
+
 const Login = () => {
-    const main = document.querySelector('main');
-    main.innerHTML = `
-      <div class="login-container">
+  clearPage();
+  renderPageTitle('Login');
+  renderLoginForm();
+  checkUser();
+};
 
-        <h2>Se connecter</h2>
+function checkUser(){
+  const form = document.querySelector('#loginForm');
+  const email = document.querySelector('#email');
+  const password = document.querySelector('#password');
+  
 
-        <form id="loginForm">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="email" required>
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-          <br>
+    try {
+      await loginUser(email.value, password.value)
+      Navigate('/');
+      window.location.reload();
+    } catch (error) {
 
-          <label for="password">Mot de passe</label>
-          <input type="password" id="password" name="password" placeholder="mot de passe" required>
+      console.error(error);
+      
+     
+    }
+  })
+}
+    
+    
+function renderLoginForm() {
+  const main = document.querySelector('main');
+  main.innerHTML = `
+    <div class="login-container">
+      <h2>Se connecter</h2>
 
-          <br>
+      <form id="loginForm">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="email" required>
 
-          <div class="checkbox-container">
-          <input type="checkbox" id="rememberMe" name="remember">
-          <label for="rememberMe">Se souvenir de moi</label>
+        <br>
+
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" placeholder="mot de passe" required>
+
+        <br>
+
+        <div class="mb-3 form-check mb-0"> 
+          <input type="checkbox" class="form-check-input" id="rememberme">
+          <label class="form-check-label" for="rememberme">Remember me</label>
         </div>
 
-          <br>
+        <button type="submit" class="btn btn-primary mt-0">Se connecter</button> 
 
-          <button type="submit">Se connecter</button>
-        </form>
-        <p>Pas de compte ? <a href="#" id="registerLink">Enregistrez-vous !</a></p>
-      </div>
-    `;
-    
-    
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      
-      
-      console.log('Email:', email);
-      console.log('Password:', password);
-      
-    });
-    
-    
-    const registerLink = document.getElementById('registerLink');
-    registerLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      // envoyé vers la page d'inscription
-     
-      
-    });
+      </form>
+      <p>Pas de compte ? <a href="#" id="registerLink">Enregistrez-vous !</a></p>
+    </div>
+  `;
 
-    const rememberMeCheckbox = document.getElementById('rememberMe');
-  // eslint-disable-next-line no-unused-vars
-  rememberMeCheckbox.addEventListener('change', (e) => {
-   
-    // Lorsque le type click sur 'se souvenir de moi' implementer la methode
-  });
+  const rememberme = document.querySelector('#rememberme');
+  const remembered = getRememberMe();
+  rememberme.checked = remembered;
+  rememberme.addEventListener('click', onCheckboxClicked);
+}
 
-  };
-  
+  function onCheckboxClicked(e) {
+    setRememberMe(e.target.checked);
+  }
+
+
   export default Login;
-  
+

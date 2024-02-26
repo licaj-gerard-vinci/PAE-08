@@ -31,7 +31,7 @@ class UserUCCTest {
   @Test
   @DisplayName("Test login of UserUCCImpl class")
   void testLogin() {
-    String email = "test@student.vinci.be";
+    String email = "test@vinci.be";
     String password = "test";
     User user = (User) factory.getPublicUser();
     user.setPassword(user.hashPassword(password));
@@ -40,9 +40,7 @@ class UserUCCTest {
         () -> assertEquals(user, userUCC.login(email, password)),
         () -> assertNull(userUCC.login(email, "wrongPassword")),
         () -> assertNull(userUCC.login("wrongEmail", password))
-
     );
-
   }
 
   @Test
