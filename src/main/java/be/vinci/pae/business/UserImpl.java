@@ -13,6 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserImpl implements User {
+
   @JsonView(Views.Public.class)
   private int id;
   @JsonView(Views.Public.class)
@@ -215,14 +216,12 @@ public class UserImpl implements User {
   }
 
   /**
-  * return string of attributs.
-  */
+   * return string of attributs.
+   */
   @Override
   public String toString() {
-    return "UserImpl{"
-            +
-            "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
-            + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
-            + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
+    return "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
+        + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
+        + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }
