@@ -2,9 +2,6 @@ import { setAuthenticatedUser } from '../utils/auths';
 
 import Navigate from '../Components/Router/Navigate';
 
-import Navbar from '../Components/Navbar/Navbar';
-
-
 async function loginUser(email, password) {
 
     const options = {
@@ -24,12 +21,11 @@ async function loginUser(email, password) {
     if (!response.ok) throw new Error('Invalid username or password');
     
     const authenticatedUser = await response.json();
-  
+
+    
+   
     setAuthenticatedUser(authenticatedUser);
     console.log("user :", authenticatedUser);
-  
-    Navbar();
-  
     Navigate('/');
   }
 
