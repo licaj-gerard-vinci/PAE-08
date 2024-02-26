@@ -48,12 +48,13 @@ public class AuthRessource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO login(JsonNode json) {
+  public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException("email or password required", Status.NOT_FOUND);
     }
     String email = json.get("email").asText();
     String password = json.get("password").asText();
+
     // Get and check credentials
     if (email.isEmpty() || password.isEmpty()) {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
@@ -67,10 +68,23 @@ public class AuthRessource {
     if (publicUser == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
-    generateTokenForUser(publicUser);
-    return publicUser;
 
+    // Générer le token pour l'utilisateur
+    ObjectNode tokenData = generateTokenForUser(publicUser);
+
+    // Construire la réponse avec les données de l'utilisateur et le token
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode responseNode = mapper.createObjectNode();
+    responseNode.setAll((ObjectNode) mapper.valueToTree(
+        publicUser)); // Ajoute les données de l'utilisateur à la réponse
+    responseNode.set("token", tokenData.get("token")); // Ajoute le token à la réponse
+
+    // Exclure le mot de passe pour des raisons de sécurité
+    responseNode.remove("password");
+
+    return responseNode;
   }
+
 
   /**
    * Retrieves the authenticated user from the request context.
