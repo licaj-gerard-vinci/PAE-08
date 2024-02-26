@@ -28,17 +28,9 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     proxy: {
-      '/': {
-        target: 'http://localhost:8080', // Assurez-vous que votre backend fonctionne sur ce port
-        secure: false,
-        changeOrigin: true,
-        // eslint-disable-next-line consistent-return
-        bypass(req) {
-          // Ignorer le proxy pour les requêtes de navigation HTML pour permettre à webpack-dev-server de servir index.html
-          if (req.headers.accept.indexOf('html') !== -1) {
-            return '/index.html';
-          }
-        },
+      '/api': {
+        target: 'http://localhost:3000',
+        pathRewrite: { '^/api': '' },
       },
     },
   },
