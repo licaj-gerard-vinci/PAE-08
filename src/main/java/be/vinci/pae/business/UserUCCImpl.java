@@ -1,6 +1,8 @@
 package be.vinci.pae.business;
 
 import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.dal.UserDAOImpl;
+import be.vinci.pae.dal.utils.Json;
 import jakarta.inject.Inject;
 
 /**
@@ -13,6 +15,8 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private UserDAO userDAO;
 
+  private final Json json = new Json<>(UserDTO.class);
+
   /**
    * Registers a new user.
    *
@@ -22,7 +26,7 @@ public class UserUCCImpl implements UserUCC {
   public UserDTO login(String email, String password) throws IllegalArgumentException {
     User user = (User) userDAO.getOneByEmail(email);
     if (user != null && user.checkPassword(password)) {
-      return user;
+      return (UserDTO) json.filterPublicJsonView(user);
     }
     return null;
   }

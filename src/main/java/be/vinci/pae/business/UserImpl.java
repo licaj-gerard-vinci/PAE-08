@@ -1,25 +1,39 @@
 package be.vinci.pae.business;
 
 import java.util.Date;
+
+import be.vinci.pae.views.Views;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Creating User object.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserImpl implements User {
-
+  @JsonView(Views.Public.class)
   private int id;
+  @JsonView(Views.Public.class)
   private String email;
+  @JsonView(Views.Public.class)
   private String nom;
+  @JsonView(Views.Public.class)
   private String prenom;
+  @JsonView(Views.Public.class)
   private String numTel;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
+  @JsonView(Views.Public.class)
   private Date dateInscription;
+  @JsonView(Views.Public.class)
   private String role;
+  @JsonView(Views.Internal.class)
   private String password;
+
 
   /**
    * Gets the user's login.
-   *
    * @return the user's login.
    */
   @Override
@@ -185,7 +199,6 @@ public class UserImpl implements User {
    */
   @Override
   public boolean checkPassword(String password) {
-    System.out.println(password + "ffefefff" + this.password);
     return BCrypt.checkpw(password, this.password);
   }
 
@@ -201,14 +214,19 @@ public class UserImpl implements User {
   }
 
   /**
-   * Creates a string representation of the user with ID, login, and password.
-   *
-   * @return the string representation of the user.
-   */
+  * return string of attributs
+  */
   @Override
   public String toString() {
-
-    return "{id:" + id + ", login:" + email + ", password:" + password + "}";
+    return "UserImpl{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", nom='" + nom + '\'' +
+            ", prenom='" + prenom + '\'' +
+            ", numTel='" + numTel + '\'' +
+            ", dateInscription=" + dateInscription +
+            ", role='" + role + '\'' +
+            ", password='" + password + '\'' +
+            '}';
   }
-
 }

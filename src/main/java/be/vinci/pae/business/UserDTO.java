@@ -1,5 +1,7 @@
 package be.vinci.pae.business;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.Date;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Date;
  * application. It defines methods to access and modify various attributes of a user, such as name,
  * phone number, registration dates, academic year, role, email, ID, and password.
  */
+@JsonDeserialize(as = UserImpl.class)
 public interface UserDTO {
 
   /**
