@@ -12,6 +12,7 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
@@ -37,13 +38,13 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   public void filter(@Context ContainerRequestContext requestContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
-      throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+      throw new TokenDecodingException("A token is needed to access this resource");
     } else {
       DecodedJWT decodedToken = null;
       try {
         decodedToken = this.jwtVerifier.verify(token);
       } catch (Exception e) {
-        throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+        throw new TokenDecodingException(e);
       }
       UserDTO authenticatedUser = myUserDAO.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {

@@ -2,6 +2,7 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.presentation.filters.UserAuthenticationException;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -81,7 +82,7 @@ public class AuthRessource {
   public UserDTO getUser(@Context ContainerRequestContext requestContext) {
     UserDTO authnticated = (UserDTO) requestContext.getProperty("user");
     if (authnticated == null) {
-      throw new IllegalArgumentException();
+      throw new UserAuthenticationException("Utilisateur non authentifié");
     }
     return authnticated;
   }

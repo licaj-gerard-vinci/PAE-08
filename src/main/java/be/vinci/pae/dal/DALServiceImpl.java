@@ -45,8 +45,6 @@ public class DALServiceImpl implements DALService {
       throw new RuntimeException(e);
     }
   }
-
-
 }
 
 
