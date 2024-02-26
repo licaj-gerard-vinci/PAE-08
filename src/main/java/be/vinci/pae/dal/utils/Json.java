@@ -34,7 +34,7 @@ public class Json<T> {
   public <T> List<T> filterPublicJsonViewAsList(List<T> list) {
     try {
       JavaType type = jsonMapper.getTypeFactory()
-        .constructCollectionType(List.class, this.type);
+              .constructCollectionType(List.class, this.type);
       // serialize using JSON Views : public view (all fields not required in the
       // views are not serialized)
       String publicItemListAsString = jsonMapper.writerWithView(Views.Public.class)
@@ -43,10 +43,10 @@ public class Json<T> {
       // are set to their default values in the POJOs)
       return jsonMapper.readerWithView(Views.Public.class).forType(type)
               .readValue(publicItemListAsString);
-      } catch (JsonProcessingException e) {
-          e.printStackTrace();
-          return null;
-      }
+    } catch (JsonProcessingException e) {
+        e.printStackTrace();
+        return null;
+    }
   }
 
   /**
@@ -56,18 +56,18 @@ public class Json<T> {
    * @return the filtered object with fields as per the public view
    */
   public <T> T filterPublicJsonView(T item) {
-      try {
-        // serialize using JSON Views : public view (all fields not required in the
-        // views are not serialized)
-        String publicItemAsString = jsonMapper.writerWithView(Views.Public.class)
-                .writeValueAsString(item);
-        // deserialize using JSON Views : Public View (all fields that are not serialized
-        // are set to their default values in the POJO)
-        return jsonMapper.readerWithView(Views.Public.class).forType(type)
-                .readValue(publicItemAsString);
-      } catch (JsonProcessingException e) {
-          e.printStackTrace();
-          return null;
-      }
+    try {
+      // serialize using JSON Views : public view (all fields not required in the
+      // views are not serialized)
+      String publicItemAsString = jsonMapper.writerWithView(Views.Public.class)
+              .writeValueAsString(item);
+      // deserialize using JSON Views : Public View (all fields that are not serialized
+      // are set to their default values in the POJO)
+      return jsonMapper.readerWithView(Views.Public.class).forType(type)
+              .readValue(publicItemAsString);
+    } catch (JsonProcessingException e) {
+        e.printStackTrace();
+        return null;
+    }
   }
 }
