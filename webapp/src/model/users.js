@@ -26,6 +26,7 @@ async function loginUser(email, password) {
     const authenticatedUser = await response.json();
   
     setAuthenticatedUser(authenticatedUser);
+    console.log("user :", authenticatedUser);
   
     Navbar();
   
