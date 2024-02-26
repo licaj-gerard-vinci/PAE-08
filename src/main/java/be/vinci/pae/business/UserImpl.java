@@ -185,7 +185,6 @@ public class UserImpl implements User {
    */
   @Override
   public boolean checkPassword(String password) {
-    System.out.println(password + "ffefefff" + this.password);
     return BCrypt.checkpw(password, this.password);
   }
 
@@ -207,7 +206,6 @@ public class UserImpl implements User {
    */
   @Override
   public String toString() {
-
     return "{id:" + id + ", login:" + email + ", password:" + password + "}";
   }
 
