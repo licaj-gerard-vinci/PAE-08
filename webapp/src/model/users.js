@@ -17,6 +17,7 @@ async function loginUser(email, password) {
         'Content-Type': 'application/json',
       },
     };
+    
   
     const response = await fetch(`http://localhost:8080/auth/login`, options);
   
