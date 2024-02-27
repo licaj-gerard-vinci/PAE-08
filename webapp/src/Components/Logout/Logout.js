@@ -7,6 +7,7 @@ const Logout = () => {
   clearAuthenticatedUser();
   Navbar();
   Navigate('/login');
+  window.location.reload();
 };
 
 export default Logout;

@@ -43,7 +43,7 @@ function onFrontendLoad() {
     if(result === undefined){
       Navigate('/');
     }else{
-      Navigate('/');
+      Navigate('/login');
     }
 
     componentToRender();

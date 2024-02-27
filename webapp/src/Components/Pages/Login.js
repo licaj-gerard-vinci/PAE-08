@@ -24,8 +24,8 @@ function checkUser(){
 
     try {
       await loginUser(email.value, password.value)
-      Navigate('/');
       window.location.reload();
+      Navigate('/');
     } catch (error) {
 
       console.error(error);
