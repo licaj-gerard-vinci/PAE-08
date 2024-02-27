@@ -54,6 +54,15 @@ const getAuthenticatedUser = () => {
     return currentUser !== undefined;
   };
 
+  const getToken = () => {
+    const remembered = getRememberMe();
+    const serializedUSer = remembered
+    ? localStorage.getItem(STORE_NAME)
+    : sessionStorage.getItem(STORE_NAME);
+    if(!serializedUSer) return undefined;
+    return JSON.parse(serializedUSer).token;
+  }
+
 
   export {
     getAuthenticatedUser,
@@ -62,4 +71,5 @@ const getAuthenticatedUser = () => {
     clearAuthenticatedUser,
     getRememberMe,
     setRememberMe,
+    getToken
   };
