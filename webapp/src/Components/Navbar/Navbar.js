@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { Navbar as BootstrapNavbar } from 'bootstrap';
-import { isAuthenticated } from '../../utils/auths';
+import {isAuthenticated} from '../../utils/auths';
 
 /**
  * Render the Navbar which is styled by using Bootstrap
@@ -67,6 +67,7 @@ const Navbar = () => {
           <li class="nav-item">
             <a class="nav-link" href="" data-uri="/logout">Se deconnecter</a>
           </li> 
+         
                                     
           </ul>
         </div>

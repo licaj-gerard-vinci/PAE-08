@@ -40,11 +40,12 @@ function onFrontendLoad() {
 
     const result = await refreshUser();
 
-    if(result === undefined){
-      Navigate('/');
-    }else{
+    if(result === undefined || result === null){
       Navigate('/login');
+      return;
     }
+    Navigate('/');
+
 
     componentToRender();
   });

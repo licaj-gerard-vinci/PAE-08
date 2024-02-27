@@ -21,7 +21,9 @@ function checkUser(){
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    if(!email.value || !password.value) {
+      return;
+    }
     try {
       await loginUser(email.value, password.value)
       window.location.reload();

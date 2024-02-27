@@ -48,10 +48,7 @@ import Navigate from '../Components/Router/Navigate';
 
       if (!response.ok) {
         clearAuthenticatedUser();
-        Navigate('/login');
       }
-
-
       authenticatedUser = await response.json();
     }
 
