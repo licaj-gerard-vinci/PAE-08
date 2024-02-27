@@ -1,4 +1,6 @@
 import routes from './routes';
+import {refreshUser} from '../../model/users';
+import Navigate from './Navigate';
 
 const Router = () => {
   onFrontendLoad();
@@ -31,10 +33,18 @@ function onHistoryChange() {
 }
 
 function onFrontendLoad() {
-  window.addEventListener('load', () => {
+  window.addEventListener('load', async () => {
     const uri = window.location.pathname;
     const componentToRender = routes[uri];
     if (!componentToRender) throw Error(`The ${uri} ressource does not exist.`);
+
+    const result = await refreshUser();
+
+    if(result === undefined){
+      Navigate('/');
+    }else{
+      Navigate('/');
+    }
 
     componentToRender();
   });

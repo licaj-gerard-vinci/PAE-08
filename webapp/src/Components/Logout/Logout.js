@@ -6,20 +6,9 @@ import Navigate from '../Router/Navigate';
 const Logout = () => {
   clearAuthenticatedUser();
   Navbar();
-  Navigate('/');
+  Navigate('/login');
 };
 
 export default Logout;
 
-/*
-**************************************************************************************
-*    Title: <
-Logout
-  >
-*    Author: <Baroni>
-*    Date: <15/12/2023>
-*    Code version: <code version>
-*    Availability: <https://github.com/e-vinci/js-exercises/tree/main>
 
-***************************************************************************************
-*/

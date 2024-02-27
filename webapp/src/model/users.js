@@ -1,8 +1,8 @@
-import { setAuthenticatedUser } from '../utils/auths';
+import { setAuthenticatedUser, getToken } from '../utils/auths';
 
 import Navigate from '../Components/Router/Navigate';
 
-async function loginUser(email, password) {
+  async function loginUser(email, password) {
 
     const options = {
       method: 'POST',
@@ -29,4 +29,24 @@ async function loginUser(email, password) {
     Navigate('/');
   }
 
-  export default loginUser;
+  async function refreshUser(){
+    let authenticatedUser = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/user`, options);
+
+      if (!response.ok) throw new Error('Invalid token');
+
+      authenticatedUser = await response.json();
+    }
+
+    return authenticatedUser;
+  }
+  export {loginUser, refreshUser};

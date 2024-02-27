@@ -2,6 +2,8 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.dal.utils.Json;
+import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -33,6 +36,7 @@ public class AuthRessource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
+  private final Json json = new Json<>(UserDTO.class);
   @Inject
   private UserUCC myUserUcc;
 
@@ -69,20 +73,7 @@ public class AuthRessource {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
 
-    // Générer le token pour l'utilisateur
-    ObjectNode tokenData = generateTokenForUser(publicUser);
-
-    // Construire la réponse avec les données de l'utilisateur et le token
-    ObjectMapper mapper = new ObjectMapper();
-    ObjectNode responseNode = mapper.createObjectNode();
-    responseNode.setAll((ObjectNode) mapper.valueToTree(
-        publicUser)); // Ajoute les données de l'utilisateur à la réponse
-    responseNode.set("token", tokenData.get("token")); // Ajoute le token à la réponse
-
-    // Exclure le mot de passe pour des raisons de sécurité
-    responseNode.remove("password");
-
-    return responseNode;
+    return generateTokenForUser(publicUser);
   }
 
 
@@ -92,12 +83,16 @@ public class AuthRessource {
    * @param requestContext the request context.
    * @return the authenticated user.
    */
+  @GET
+  @Path("user")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
   public UserDTO getUser(@Context ContainerRequestContext requestContext) {
-    UserDTO authnticated = (UserDTO) requestContext.getProperty("user");
-    if (authnticated == null) {
-      throw new IllegalArgumentException();
+    UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
+    if (authenticated == null) {
+      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
-    return authnticated;
+    return (UserDTO) json.filterPublicJsonView(authenticated);
   }
 
   /**
@@ -114,6 +109,8 @@ public class AuthRessource {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
+        .put("name", user.getNom())
+        .put("firstName", user.getPrenom())
         .put("email", user.getEmail());
   }
 

@@ -2,9 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import { getRememberMe, setRememberMe } from '../../utils/auths';
 
-
-// eslint-disable-next-line import/named
-import loginUser from '../../model/users';
+import {loginUser} from '../../model/users';
 import Navigate from '../Router/Navigate';
 
 
