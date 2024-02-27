@@ -1,4 +1,8 @@
-import { setAuthenticatedUser, getToken } from '../utils/auths';
+import {
+  setAuthenticatedUser,
+  getToken,
+  clearAuthenticatedUser
+} from '../utils/auths';
 
 import Navigate from '../Components/Router/Navigate';
 
@@ -42,7 +46,11 @@ import Navigate from '../Components/Router/Navigate';
       };
       const response = await fetch(`http://localhost:8080/auth/user`, options);
 
-      if (!response.ok) throw new Error('Invalid token');
+      if (!response.ok) {
+        clearAuthenticatedUser();
+        Navigate('/login');
+      }
+
 
       authenticatedUser = await response.json();
     }
