@@ -2,9 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import { getRememberMe, setRememberMe } from '../../utils/auths';
 
-
-// eslint-disable-next-line import/named
-import loginUser from '../../model/users';
+import {loginUser} from '../../model/users';
 import Navigate from '../Router/Navigate';
 
 
@@ -23,11 +21,13 @@ function checkUser(){
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    if(!email.value || !password.value) {
+      return;
+    }
     try {
       await loginUser(email.value, password.value)
-      Navigate('/');
       window.location.reload();
+      Navigate('/');
     } catch (error) {
 
       console.error(error);
