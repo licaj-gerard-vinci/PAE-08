@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import { getRememberMe, setRememberMe } from '../../utils/auths';
@@ -44,37 +45,52 @@ function checkUser(){
 function renderLoginForm() {
   const main = document.querySelector('main');
   main.innerHTML = `
-    <div class="login-container">
-      <h2>Se connecter</h2>
+    <div class="container mt-5"> 
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow mt-5"> 
+            <div class="card-body">
 
-      <form id="loginForm">
-        <label for="email">Email<span style="color: red;">*</span></label>
-        <input type="email" id="email" name="email" placeholder="email" required style="width: 100%;">
+              <h2 class="card-title text-center">Se connecter</h2>
 
-        <br>
+              <form id="loginForm" class="my-4">
 
-        <div style="display: flex; flex-direction: column; align-items: start;">
-          <label for="password">Mot de passe<span style="color: red;">*</span></label>
-          <div style="display: flex; align-items: center; width: 100%;">
-            <input type="password" id="password" name="password" placeholder="mot de passe" required style="flex-grow: 1;">
-            <img id="togglePassword" src="${eyeOpen}" alt="toggle password visibility" style="height: 2em; margin-left: 10px;">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="email" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="password" class="form-label">Mot de passe<span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="mot de passe" required>
+                    <button id="togglePassword" class="btn btn-outline-secondary" type="button">
+                      <img src="${eyeOpen}" alt="toggle password visibility">
+                    </button>
+
+                  </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="rememberme">
+                  <label class="form-check-label" for="rememberme">Remember me</label>
+                </div>
+
+                <p class="text-danger">* champs obligatoire</p>
+
+                <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+
+              </form>
+
+              <p class="text-center">Pas de compte ? <a href="#" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
+              
+            </div>
           </div>
         </div>
-
-        <br>
-
-        <div class="mb-3 form-check mb-0"> 
-          <input type="checkbox" class="form-check-input" id="rememberme">
-          <label class="form-check-label" for="rememberme">Remember me</label>
-        </div>
-        <p><span style="color: red;">*</span> champs obligatoire</p>
-
-        <button type="submit" class="btn btn-primary mt-0">Se connecter</button> 
-
-      </form>
-      <p>Pas de compte ? <a href="#" id="registerLink">Enregistrez-vous !</a></p>
+      </div>
     </div>
   `;
+  
 
   document.getElementById('togglePassword').addEventListener('click', () => {
     const passwordInput = document.getElementById('password');
