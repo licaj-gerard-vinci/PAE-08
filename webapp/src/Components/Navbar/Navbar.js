@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { Navbar as BootstrapNavbar } from 'bootstrap';
 import {isAuthenticated, getAuthenticatedUser} from '../../utils/auths';
-import logo from '../../img/download 2.png';
+import logo from '../../img/HELOGO.png';
 
 /**
  * Render the Navbar which is styled by using Bootstrap
@@ -17,32 +17,27 @@ const Navbar = () => {
 
   function renderNavbar() {
 
-  const unauthenticatedUser = `
-      <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
-        <div class="container-fluid">
-          <div class="row w-100">
-            <div class="col-lg-4 d-flex align-items-center">
-              <a class="navbar-brand" href="#" style="color: #fff;">VinciTech Solutions</a>
-            </div>
-            <div class="col-lg-4 text-center d-flex align-items-center">
-              <img src="${logo}" alt="Logo">
-            </div>
-            <div class="col-lg-4 d-flex align-items-center">
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                  <li class="nav-item">
-                    <a class="nav-link" id="login" href="#" data-uri="/login" style="color: #fff;">Se connecter</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#" data-uri="/register" style="color: #fff;">Inscription</a>
-                  </li> 
-                </ul>
-              </div>
-            </div>
-          </div>
+    const unauthenticatedUser = `
+    <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/" style="color: #fff; display: flex; align-items: center;">
+          <img src="${logo}" alt="Logo" style="margin-right: 10px;">
+          VinciTech Solutions
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" id="login" href="#" data-uri="/login" style="color: #fff;">Se connecter</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/register" style="color: #fff;">Inscription</a>
+            </li>
+          </ul>
         </div>
-      </nav>
-    `;
+      </div>
+    </nav>
+  `;
+
 
 
 
@@ -51,31 +46,21 @@ const Navbar = () => {
     const userName = user?.name || '';
 
     const authenticatedUser = `
-      <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
-      <div class="container-fluid">
-        <div class="row w-100">
-          <div class="col-lg-4 d-flex align-items-center">
-            <a class="navbar-brand" href="#" style="color: #fff;">VinciTech Solutions</a>
-          </div>
-          <div class="col-lg-4 text-center d-flex align-items-center">
-            <img src="${logo}" alt="Logo">
-          </div>
-          <div class="col-lg-4 d-flex align-items-center">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item ms-auto">
-                  <a class="nav-link" href="#" data-uri="/logout" style="color: #fff;">Se deconnecter</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" style="color: #fff;">${userFirstName} ${userName}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+  <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" href="#" style="color: #fff;">
+        <img src="${logo}" alt="Logo" style="margin-right: 10px;">
+        VinciTech Solutions
+      </a>
+      <div class="d-flex align-items-center ms-auto">
+        <a class="nav-link" href="#" data-uri="/logout" style="color: #fff; margin-right: 15px;">Se déconnecter</a>
+        <span class="navbar-text" style="color: #fff;">${userFirstName} ${userName}</span>
       </div>
-    </nav>
-    `;
+    </div>
+  </nav>
+`;
+
+
 
     const navbar = document.querySelector('#navbarWrapper');
 
