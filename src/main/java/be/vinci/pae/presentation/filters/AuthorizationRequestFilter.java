@@ -13,9 +13,11 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Date;
 
 
 /**
@@ -43,8 +45,16 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       DecodedJWT decodedToken = null;
       try {
         decodedToken = this.jwtVerifier.verify(token);
+        if (decodedToken.getExpiresAt().before(new Date())) {
+          requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+              .header("Location",
+                  "/login") // Bien que cela soit indiqué, le navigateur client ne redirigera pas automatiquement pour une requête AJAX/API
+              .entity("Token expired")
+              .build());
+          return;
+        }
       } catch (Exception e) {
-        throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+        throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
