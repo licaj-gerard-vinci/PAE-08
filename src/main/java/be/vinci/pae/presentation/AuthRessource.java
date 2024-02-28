@@ -105,6 +105,7 @@ public class AuthRessource {
     String token = JWT.create()
         .withIssuer("auth0")
         .withClaim("user", user.getId())
+        .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 300000000))
         .sign(jwtAlgorithm);
     return jsonMapper.createObjectNode()
         .put("token", token)
