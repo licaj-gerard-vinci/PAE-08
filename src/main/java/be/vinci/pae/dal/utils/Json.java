@@ -29,6 +29,7 @@ public class Json<T> {
   /**
    * Filters a list of objects based on the public JSON view.
    *
+   * @param list the list of objects to filter
    * @return a filtered list of objects with fields as per the public view
    */
   public <T> List<T> filterPublicJsonViewAsList(List<T> list) {
@@ -52,6 +53,7 @@ public class Json<T> {
   /**
    * Filters an object based on the public JSON view.
    *
+   * @param item the object to filter
    * @return the filtered object with fields as per the public view
    */
   public <T> T filterPublicJsonView(T item) {

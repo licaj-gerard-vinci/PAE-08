@@ -48,7 +48,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         if (decodedToken.getExpiresAt().before(new Date())) {
           requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
               .header("Location",
-                  "/login") // Bien que cela soit indiqué, le navigateur client ne redirigera pas automatiquement pour une requête AJAX/API
+                  "/login")
               .entity("Token expired")
               .build());
           return;
