@@ -29,7 +29,6 @@ import Navigate from '../Components/Router/Navigate';
     
    
     setAuthenticatedUser(authenticatedUser);
-    console.log("user :", authenticatedUser);
     Navigate('/');
   }
 

@@ -14,9 +14,11 @@ tmp/
 *.swp
 *~.nib
 local.properties
+dev.properties
 .settings/
 .loadpath
 .recommenders
+
 
 # External tool builders
 .externalToolBuilders/

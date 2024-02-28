@@ -80,7 +80,6 @@ public class UserDAOImpl implements UserDAO {
     user.setId(rs.getInt("id_utilisateur"));
     user.setEmail(rs.getString("email"));
     user.setPassword(rs.getString("mot_de_passe"));
-    System.out.println(rs.getString("nom"));
     user.setNom(rs.getString("nom"));
     user.setPrenom(rs.getString("prenom"));
     user.setNumTel(rs.getString("numero_tel"));
