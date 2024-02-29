@@ -92,14 +92,17 @@ function renderLoginForm() {
   `;
   
 
-  document.getElementById('togglePassword').addEventListener('click', () => {
+  setTimeout(() => {
+    const togglePasswordButton = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
-    const togglePasswordImage = document.getElementById('togglePassword');
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
     
-    togglePasswordImage.src = type === 'text' ? eyeOpen : eyeClose;
-  });
+    togglePasswordButton.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePasswordButton.innerHTML = type === 'password' ? `<img src="${eyeOpen}" alt="toggle password visibility">` : `<img src="${eyeClose}" alt="toggle password visibility">`;
+    });
+  }, 0);
+
 
   const rememberme = document.querySelector('#rememberme');
   const remembered = getRememberMe();
