@@ -17,29 +17,47 @@ const Login = () => {
   checkUser();
 };
 
-function checkUser(){
+function checkUser() {
   const form = document.querySelector('#loginForm');
   const email = document.querySelector('#email');
   const password = document.querySelector('#password');
-  
+  const errorMessage = document.createElement('p');
+  errorMessage.classList.add('text-danger', 'mt-2');
+  errorMessage.id = 'error-message';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if(!email.value || !password.value) {
-      return;
-    }
-    try {
-      await loginUser(email.value, password.value)
-      window.location.reload();
-      Navigate('/');
-    } catch (error) {
 
-      console.error(error);
-      
-     
+    // Supprimez l'ancien message d'erreur s'il existe
+    const previousError = document.querySelector('#error-message');
+    if (previousError) previousError.remove();
+
+    if (!email.value || !password.value) {
+      // ... (gestion des champs vides)
+    } else {
+      try {
+        await loginUser(email.value, password.value);
+        window.location.reload();
+        Navigate('/');
+      } catch (error) {
+        console.error(error);
+        errorMessage.id = 'error-message';
+        errorMessage.textContent = 'Erreur : Nom d\'utilisateur ou mot de passe invalide.';
+        errorMessage.style.fontWeight = 'bold';
+        errorMessage.style.backgroundColor = 'black'; 
+        errorMessage.style.color = 'black'; 
+        errorMessage.style.padding = '10px';
+        errorMessage.style.marginTop = '10px';
+        errorMessage.style.borderRadius = '4px';
+
+        // Insérez le message d'erreur dans le DOM
+        const rememberMeElement = document.querySelector('.form-check');
+        rememberMeElement.insertAdjacentElement('afterend', errorMessage);
+      }
     }
-  })
+  });
 }
+
     
     
 function renderLoginForm() {
