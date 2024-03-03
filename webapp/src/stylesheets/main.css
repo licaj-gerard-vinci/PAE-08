@@ -1,0 +1,4 @@
+.nav-link:hover, .nav-text:hover {
+    padding: 0.5rem 1rem; /* Augmente le padding pour un effet plus visible */
+    box-shadow: 0 0 10px rgba(255,255,255,0.7); /* Ajoute une ombre blanche pour un effet "glow" */
+  }

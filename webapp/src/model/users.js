@@ -15,7 +15,7 @@ import Navigate from '../Components/Router/Navigate';
         password,
       }),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
       },
     };
     
