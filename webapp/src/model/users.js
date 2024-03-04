@@ -53,4 +53,32 @@ import Navigate from '../Components/Router/Navigate';
 
     return authenticatedUser;
   }
-  export {loginUser, refreshUser};
+
+  async function getStagePresent(){
+    let stagePresent = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/`, options);
+
+      if (!response.ok) {
+        const nonPresent = "Aucun stage n'est en cours"
+        
+        return nonPresent;
+      }
+      stagePresent = await response.json();
+    }
+
+    return stagePresent;
+  }
+
+
+
+
+  export {loginUser, refreshUser, getStagePresent};
