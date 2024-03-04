@@ -79,7 +79,6 @@ const Navbar = () => {
 
         <div class="d-flex align-items-center ms-auto text-white">
           <a class="nav-link" href="#" data-uri="/logout" style="margin-right: 15px;">Se déconnecter</a>
-          <a class="nav-link" href="#" data-uri="/logout" style="color: #fff; margin-right: 15px;">Se déconnecteraaaaaaaaaaa</a>
           <a class="nav-link" href="#" data-uri="/profile"> ${userFirstName} ${userName} </a>
         </div>
 
