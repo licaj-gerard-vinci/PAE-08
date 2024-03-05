@@ -65,7 +65,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/`, options);
+      const response = await fetch(`http://localhost:8080/auth/contacts`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"

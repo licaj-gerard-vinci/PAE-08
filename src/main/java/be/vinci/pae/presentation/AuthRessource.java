@@ -95,6 +95,7 @@ public class AuthRessource {
     return (UserDTO) json.filterPublicJsonView(authenticated);
   }
 
+
   /**
    * Generates a JWT token for the given user.
    *

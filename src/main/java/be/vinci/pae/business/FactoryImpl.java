@@ -17,5 +17,11 @@ public class FactoryImpl implements Factory {
   public UserDTO getPublicUser() {
     return new UserImpl();
   }
+
+  @Override
+  public ContactDTO getContactDTO() {
+    return new ContactImpl();
+  }
+
 }
 
