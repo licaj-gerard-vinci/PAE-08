@@ -13,7 +13,7 @@ public interface AnneeDTO {
 
   /**
    * Gets the ID of the year.
-   * 
+   *
    * @return the ID of the year.
    */
   @JsonView(Views.Public.class)
@@ -21,7 +21,7 @@ public interface AnneeDTO {
 
   /**
    * Sets the ID of the year.
-   * 
+   *
    * @param id the new ID for the year.
    */
   @JsonView(Views.Public.class)
@@ -30,7 +30,7 @@ public interface AnneeDTO {
   /**
    * Gets the year.
    *
-   * @return the year.  
+   * @return the year.
    */
   String getAnnee();
 
