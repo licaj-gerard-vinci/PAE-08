@@ -38,7 +38,7 @@ public interface EntrepriseDTO {
 
   String getMotivation_blacklist();
 
-  void setMotivation_blacklist(String motivation_blacklist);
+  void setMotivation_blacklist(String motivationBlacklist);
 
-  
+
 }

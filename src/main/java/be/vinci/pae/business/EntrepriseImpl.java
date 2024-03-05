@@ -4,6 +4,9 @@ import be.vinci.pae.views.Views;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 
+/**
+ * Represents the EntrepriseImpl class.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class EntrepriseImpl implements EntrepriseDTO {
 
@@ -29,7 +32,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
   private boolean blackListed;
 
   @JsonView(Views.Public.class)
-  private String motivation_blacklist;
+  private String motivation;
 
 
   /**
@@ -178,22 +181,22 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the motivation_blacklist of the entreprise.
    */
   public String getMotivation_blacklist() {
-    return motivation_blacklist;
+    return motivation;
   }
 
 
   /**
    * Sets the motivation_blacklist of the entreprise.
    *
-   * @param motivation_blacklist the new motivation_blacklist for the entreprise.
+   * @param motivation the new motivation_blacklist for the entreprise.
    */
 
   public void setMotivation_blacklist(String motivation) {
-    this.motivation_blacklist = motivation;
+    this.motivation = motivation;
   }
 
   /**
-   * toString method
+   * toString method.
    *
    * @return String
    */
