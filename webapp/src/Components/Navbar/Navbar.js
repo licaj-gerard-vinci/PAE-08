@@ -90,16 +90,16 @@ const Navbar = () => {
     
 
 
-    const navbar = document.querySelector('#navbarWrapper');
-
+const navbarWrapper = document.querySelector('#navbarWrapper');
 
     if (isAuthenticated()) {
-      navbar.innerHTML = authenticatedUser;
-    }else {
-      navbar.innerHTML = unauthenticatedUser;
+        navbarWrapper.innerHTML = authenticatedUser;
+    } else {
+        navbarWrapper.innerHTML = unauthenticatedUser;
     }
 
-  }
+
+}
 
 
 export default Navbar;
