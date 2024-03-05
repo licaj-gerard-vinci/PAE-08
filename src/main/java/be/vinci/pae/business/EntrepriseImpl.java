@@ -206,7 +206,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
         + adresse
         + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
         + ", motivation_blacklist="
-        + motivation_blacklist + "]";
+        + motivation + "]";
   }
 
 
