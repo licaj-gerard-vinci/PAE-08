@@ -11,14 +11,29 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(as = AnneeImpl.class)
 public interface AnneeDTO {
 
+/**
+ * Gets the ID of the year.
+ */
   @JsonView(Views.Public.class)
   int getId();
 
+/**
+ * Sets the ID of the year.
+ */
   @JsonView(Views.Public.class)
   void setId(int id);
 
+/**
+ * Gets the year.
+ *  
+ * @return the year.  
+ */
   String getAnnee();
-
+/**
+ * Sets the year.
+ * 
+ * @param annee
+ */
   void setAnnee(String annee);
 
 }
