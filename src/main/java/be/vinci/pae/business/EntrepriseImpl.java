@@ -46,7 +46,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the ID of the entreprise.
    *
    * @param id the new ID for the entreprise.
-   * @return void
    */
 
   public void setId(int id) {
@@ -67,7 +66,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the name of the entreprise.
    *
    * @param nom the new name for the entreprise.
-   * @return void
    */
 
   public void setNom(String nom) {
@@ -88,7 +86,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the apellation of the entreprise.
    *
    * @param apellation the new apellation for the entreprise.
-   * @return void
    */
 
   public void setApellation(String apellation) {
@@ -109,7 +106,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the adresse of the entreprise.
    *
    * @param adresse the new adresse for the entreprise.
-   * @return void
    */
 
   public void setAdresse(String adresse) {
@@ -130,7 +126,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the numTel of the entreprise.
    *
    * @param numTel the new numTel for the entreprise.
-   * @return void
    */
 
   public void setNumTel(String numTel) {
@@ -151,7 +146,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the email of the entreprise.
    *
    * @param email the new email for the entreprise.
-   * @return void
    */
 
   public void setEmail(String email) {
@@ -172,7 +166,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the blackListed of the entreprise.
    *
    * @param blackListed the new blackListed for the entreprise.
-   * @return void
    */
 
   public void setBlackListed(boolean blackListed) {
@@ -193,11 +186,10 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * Sets the motivation_blacklist of the entreprise.
    *
    * @param motivation_blacklist the new motivation_blacklist for the entreprise.
-   * @return void
    */
 
-  public void setMotivation_blacklist(String motivation_blacklist) {
-    this.motivation_blacklist = motivation_blacklist;
+  public void setMotivation_blacklist(String motivation) {
+    this.motivation_blacklist = motivation;
   }
 
   /**

@@ -2,6 +2,9 @@ package be.vinci.pae.business;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Represents the EntrepriseDTO interface.
+ */
 @JsonDeserialize(as = EntrepriseImpl.class)
 public interface EntrepriseDTO {
 

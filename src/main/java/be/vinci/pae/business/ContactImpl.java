@@ -3,6 +3,9 @@ package be.vinci.pae.business;
 import be.vinci.pae.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 
+/**
+ * Represents the ContactImpl class.
+ */
 public class ContactImpl implements ContactDTO {
 
   @JsonView(Views.Public.class)

@@ -2,7 +2,13 @@ package be.vinci.pae.business;
 
 import be.vinci.pae.views.Views;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Represents the AnneeDTO interface.
+ */
+
+@JsonDeserialize(as = AnneeImpl.class)
 public interface AnneeDTO {
 
   @JsonView(Views.Public.class)
