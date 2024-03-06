@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Represents the AnneeImpl class.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AnneeImpl implements AnneeDTO {
+public class YearImpl implements YearDTO {
 
   private int id;
   private String annee;

@@ -97,14 +97,14 @@ public interface ContactDTO {
    *
    * @return the meeting date.
    */
-  AnneeDTO getAnnee();
+  YearDTO getAnnee();
 
   /**
    * Sets the meeting date.
    *
    * @param annee the new meeting date.
    */
-  void setAnnee(AnneeDTO annee);
+  void setAnnee(YearDTO annee);
 
 
 }

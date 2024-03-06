@@ -26,8 +26,7 @@ public class ContactImpl implements ContactDTO {
   private String raisonRefus;
 
   @JsonView(Views.Public.class)
-  private AnneeDTO annee;
-
+  private YearDTO annee;
 
 
   /**
@@ -150,14 +149,14 @@ public class ContactImpl implements ContactDTO {
     this.raisonRefus = raisonRefus;
   }
 
- 
+
   /**
    * Gets the associated year.
    *
    * @return the associated year.
    */
   @Override
-  public AnneeDTO getAnnee() {
+  public YearDTO getAnnee() {
     return annee;
   }
 
@@ -167,7 +166,7 @@ public class ContactImpl implements ContactDTO {
    * @param annee the new associated year.
    */
   @Override
-  public void setAnnee(AnneeDTO annee) {
+  public void setAnnee(YearDTO annee) {
     this.annee = annee;
   }
 
