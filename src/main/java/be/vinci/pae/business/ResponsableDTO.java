@@ -8,91 +8,91 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(as = ResponsableImpl.class)
 public interface ResponsableDTO {
 
-    /**
-     * Gets the responsable ID.
-     *
-     * @return the responsable ID.
-     */
-    int getId();
+  /**
+   * Gets the responsable ID.
+   *
+   * @return the responsable ID.
+   */
+  int getId();
 
-    /**
-     * Sets the responsable ID.
-     *
-     * @param id the new responsable ID.
-     */
-    void setId(int id);
+  /**
+   * Sets the responsable ID.
+   *
+   * @param id the new responsable ID.
+   */
+  void setId(int id);
 
-    /**
-     * Gets the responsable name.
-     *
-     * @return the responsable name.
-     */
-    String getNom();
+  /**
+   * Gets the responsable name.
+   *
+   * @return the responsable name.
+   */
+  String getNom();
 
-    /**
-     * Sets the responsable name.
-     *
-     * @param nom the new responsable name.
-     */
+  /**
+   * Sets the responsable name.
+   *
+   * @param nom the new responsable name.
+   */
 
-    void setNom(String nom);
+  void setNom(String nom);
 
-    /**
-     * Gets the responsable first name.
-     *
-     * @return the responsable first name.
-     */
-    String getPrenom();
+  /**
+   * Gets the responsable first name.
+   *
+   * @return the responsable first name.
+   */
+  String getPrenom();
 
-    /**
-     * Sets the responsable first name.
-     *
-     * @param prenom the new responsable first name.
-     */
-    void setPrenom(String prenom);
+  /**
+   * Sets the responsable first name.
+   *
+   * @param prenom the new responsable first name.
+   */
+  void setPrenom(String prenom);
 
-    /**
-     * Gets the responsable email.
-     *
-     * @return the responsable email.
-     */
-    String getNumTel();
+  /**
+   * Gets the responsable email.
+   *
+   * @return the responsable email.
+   */
+  String getNumTel();
 
-    /**
-     * Sets the responsable email.
-     *
-     * @param numTel the new responsable email.
-     */
-    void setNumTel(String numTel);
+  /**
+   * Sets the responsable email.
+   *
+   * @param numTel the new responsable email.
+   */
+  void setNumTel(String numTel);
 
-    /**
-     * Gets the responsable email.
-     *
-     * @return the responsable email.
-     */
-    String getEmail();
+  /**
+   * Gets the responsable email.
+   *
+   * @return the responsable email.
+   */
+  String getEmail();
 
-    /**
-     * Sets the responsable email.
-     *
-     * @param email the new responsable email.
-     */
-    void setEmail(String email);
+  /**
+   * Sets the responsable email.
+   *
+   * @param email the new responsable email.
+   */
+  void setEmail(String email);
 
 
-    /**
-     * Gets the entreprise.
-     *
-     * @return the entreprise.
-     */
-    EntrepriseDTO getEntreprise();
+  /**
+   * Gets the entreprise.
+   *
+   * @return the entreprise.
+   */
+  EntrepriseDTO getEntreprise();
 
-    /**
-     * Sets the entreprise.
-     *
-     * @param entreprise the new entreprise.
-     */
-    void setEntreprise(EntrepriseDTO entreprise);
+  /**
+   * Sets the entreprise.
+   *
+   * @param entreprise the new entreprise.
+   */
+  void setEntreprise(EntrepriseDTO entreprise);
 
 
 }
