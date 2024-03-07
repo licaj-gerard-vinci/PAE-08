@@ -17,5 +17,5 @@ public interface Factory {
    *
    * @return a new instance of ContactDTO.
    */
-  ContactDTO getContactDTO();
+  StageDTO getStageDTO();
 }

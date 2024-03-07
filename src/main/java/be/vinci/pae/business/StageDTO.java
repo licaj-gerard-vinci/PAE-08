@@ -28,56 +28,56 @@ public interface StageDTO {
    *
    * @return the stage Responsable.
    */
-  ResponsableDTO getResponsable();
+  int getResponsable();
 
   /**
    * Sets the stage Responsable.
    *
    * @param responsable the new stage Responsable.
    */
-  void setResponsable(ResponsableDTO responsable);
+  void setResponsable(int responsable);
 
   /**
    * Gets the stage Etudiant.
    *
    * @return the stage Etudiant.
    */
-  UserDTO getEtudiant();
+  int getEtudiant();
 
   /**
    * Sets the stage Etudiant.
    *
    * @param etudiant the new stage Etudiant.
    */
-  void setEtudiant(UserDTO etudiant);
+  void setEtudiant(int etudiant);
 
   /**
    * Gets the stage Contact.
    *
    * @return the stage Contact.
    */
-  ContactDTO getContact();
+  int getContact();
 
   /**
    * Sets the stage Contact.
    *
    * @param contact the new stage Contact.
    */
-  void setContact(ContactDTO contact);
+  void setContact(int contact);
 
   /**
    * Gets the stage Entreprise.
    *
    * @return the stage Entreprise.
    */
-  EntrepriseDTO getEntreprise();
+  int getEntreprise();
 
   /**
    * Sets the stage Entreprise.
    *
    * @param entreprise the new stage Entreprise.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setEntreprise(int entreprise);
 
   /**
    * Gets the stage Sujet.

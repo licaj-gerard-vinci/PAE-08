@@ -19,8 +19,8 @@ public class FactoryImpl implements Factory {
   }
 
   @Override
-  public ContactDTO getContactDTO() {
-    return new ContactImpl();
+  public StageDTO getStageDTO() {
+    return new StageImpl();
   }
 
 }

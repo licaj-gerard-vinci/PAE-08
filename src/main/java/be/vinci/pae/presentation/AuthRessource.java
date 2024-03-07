@@ -1,5 +1,7 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.StageDTO;
+import be.vinci.pae.business.StageUCC;
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
 import be.vinci.pae.dal.utils.Json;
@@ -39,6 +41,8 @@ public class AuthRessource {
   private final Json json = new Json<>(UserDTO.class);
   @Inject
   private UserUCC myUserUcc;
+  @Inject
+  private StageUCC myStageUcc;
 
 
   /**
@@ -93,6 +97,22 @@ public class AuthRessource {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
     return (UserDTO) json.filterPublicJsonView(authenticated);
+  }
+
+  @GET
+  @Path("stage")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public StageDTO getUserStage(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+    StageDTO userStage = myStageUcc.GetStageUser(authenticatedUser.getId());
+    if (userStage == null) {
+      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
+    }
+    return userStage;
   }
 
 

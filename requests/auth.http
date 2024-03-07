@@ -3,8 +3,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@vinci.be",
-  "password": "Azertyuiop"
+  "email": "resul.ramadani@student.vinci.be",
+  "password": "a"
 }
 
 > {%
@@ -14,5 +14,9 @@ client.global.set("token", response.body.token);
 
 ### Get
 GET {{baseUrl}}/auth/user
+Authorization: {{token}}
+
+###get stage
+GET {{baseUrl}}/auth/stage
 Authorization: {{token}}
 

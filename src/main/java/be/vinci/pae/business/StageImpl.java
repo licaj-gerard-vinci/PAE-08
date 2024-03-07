@@ -24,7 +24,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Responsable.
    */
   @JsonView(Views.Public.class)
-  private ResponsableDTO responsable;
+  private int responsable;
 
   /**
    * Gets the stage Etudiant.
@@ -32,7 +32,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Etudiant.
    */
   @JsonView(Views.Public.class)
-  private UserDTO etudiant;
+  private int etudiant;
 
   /**
    * Gets the stage Contact.
@@ -40,7 +40,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Contact.
    */
   @JsonView(Views.Public.class)
-  private ContactDTO contact;
+  private int contact;
 
   /**
    * Gets the stage Entreprise.
@@ -48,7 +48,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Entreprise.
    */
   @JsonView(Views.Public.class)
-  private EntrepriseDTO entreprise;
+  private int entreprise;
 
   /**
    * Gets the stage Sujet.
@@ -89,7 +89,7 @@ public class StageImpl implements StageDTO {
    *
    * @return the stage Responsable.
    */
-  public ResponsableDTO getResponsable() {
+  public int getResponsable() {
     return responsable;
   }
 
@@ -99,7 +99,7 @@ public class StageImpl implements StageDTO {
    * @param responsable the new stage Responsable.
    */
 
-  public void setResponsable(ResponsableDTO responsable) {
+  public void setResponsable(int responsable) {
     this.responsable = responsable;
   }
 
@@ -109,7 +109,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Etudiant.
    */
 
-  public UserDTO getEtudiant() {
+  public int getEtudiant() {
     return etudiant;
   }
 
@@ -119,7 +119,7 @@ public class StageImpl implements StageDTO {
    * @param etudiant the new stage Etudiant.
    */
 
-  public void setEtudiant(UserDTO etudiant) {
+  public void setEtudiant(int etudiant) {
     this.etudiant = etudiant;
   }
 
@@ -129,7 +129,7 @@ public class StageImpl implements StageDTO {
    * @return the stage Contact.
    */
 
-  public ContactDTO getContact() {
+  public int getContact() {
     return contact;
   }
 
@@ -139,7 +139,7 @@ public class StageImpl implements StageDTO {
    * @param contact the new stage Contact.
    */
 
-  public void setContact(ContactDTO contact) {
+  public void setContact(int contact) {
     this.contact = contact;
   }
 
@@ -149,7 +149,7 @@ public class StageImpl implements StageDTO {
    *
    * @return the stage Entreprise.
    */
-  public EntrepriseDTO getEntreprise() {
+  public int getEntreprise() {
     return entreprise;
   }
 
@@ -159,7 +159,7 @@ public class StageImpl implements StageDTO {
    * @param entreprise the new stage Entreprise.
    */
 
-  public void setEntreprise(EntrepriseDTO entreprise) {
+  public void setEntreprise(int entreprise) {
     this.entreprise = entreprise;
   }
 
