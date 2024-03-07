@@ -36,7 +36,7 @@ function renderProfile(user) {
     <p><strong>Nom :</strong> ${user.name}</p>
     <p><strong>Prénom :</strong> ${user.firstName}</p>
     <p><strong>Nr de téléphone :</strong> ${user.numTel}</p>
-    <p><strong>Rôle :</strong> ${renderRole(user)}</p>
+    ${user.role && user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.role)}</p>` : ''}
     <div style="text-align: center; margin-top: 30px;">
       <button class="btn btn-primary">Modifier informations</button>
       <button class="btn btn-secondary">Se déconnecter</button>

@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.DetailedStageDTO;
 import be.vinci.pae.business.StageDTO;
+import be.vinci.pae.business.StageDetailedDTO;
 import be.vinci.pae.business.StageUCC;
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
@@ -120,7 +120,7 @@ public class AuthRessource {
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
     }
-    DetailedStageDTO userStageDetail = myStageUcc.getDetailedStageForUser(
+    StageDetailedDTO userStageDetail = myStageUcc.getDetailedStageForUser(
         authenticatedUser.getId());
     if (userStageDetail == null) {
       throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);

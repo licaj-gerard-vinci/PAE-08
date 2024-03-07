@@ -1,8 +1,8 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.DetailedStageDTO;
 import be.vinci.pae.business.Factory;
 import be.vinci.pae.business.StageDTO;
+import be.vinci.pae.business.StageDetailedDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +51,7 @@ public class StageDAOImpl implements StageDAO {
    * @return the detail of stage
    */
 
-  public DetailedStageDTO getDetailOfStage(int id) {
+  public StageDetailedDTO getDetailOfStage(int id) {
     String query = """
           SELECT
             s.id_stage,
@@ -73,7 +73,7 @@ public class StageDAOImpl implements StageDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          DetailedStageDTO stage = factory.getDetailedStageDTO();
+          StageDetailedDTO stage = factory.getDetailedStageDTO();
           stage.setId(rs.getInt("id_stage"));
           stage.setSujet(rs.getString("sujet"));
           stage.setdateSignature(rs.getString("date_signature"));

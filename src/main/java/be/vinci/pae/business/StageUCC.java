@@ -21,5 +21,5 @@ public interface StageUCC {
    * @return the detailed stage for user
    */
 
-  DetailedStageDTO getDetailedStageForUser(int idUser);
+  StageDetailedDTO getDetailedStageForUser(int idUser);
 }

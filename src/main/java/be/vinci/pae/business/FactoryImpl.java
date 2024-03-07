@@ -17,6 +17,7 @@ public class FactoryImpl implements Factory {
   public UserDTO getPublicUser() {
     return new UserImpl();
   }
+  
 
   @Override
   public StageDTO getStageDTO() {
@@ -24,8 +25,8 @@ public class FactoryImpl implements Factory {
   }
 
   @Override
-  public DetailedStageDTO getDetailedStageDTO() {
-    return new DetailedStageDTO();
+  public StageDetailedDTO getDetailedStageDTO() {
+    return new StageImpl();
   }
 }
 

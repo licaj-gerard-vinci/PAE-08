@@ -25,5 +25,5 @@ public interface Factory {
    * @return a new instance of DetailedStageDTO.
    */
 
-  DetailedStageDTO getDetailedStageDTO();
+  StageDetailedDTO getDetailedStageDTO();
 }
