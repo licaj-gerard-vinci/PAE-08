@@ -73,15 +73,7 @@ public class StageDAOImpl implements StageDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          StageDetailedDTO stage = factory.getDetailedStageDTO();
-          stage.setId(rs.getInt("id_stage"));
-          stage.setSujet(rs.getString("sujet"));
-          stage.setdateSignature(rs.getString("date_signature"));
-          stage.setResponsableNom(rs.getString("responsable_nom"));
-          stage.setResponsablePrenom(rs.getString("responsable_prenom"));
-          stage.setEntrepriseNom(rs.getString("entreprise_nom"));
-          stage.setEntrepriseAppellation(rs.getString("entreprise_appellation"));
-          return stage;
+          return rsToDetailedStage(rs);
         }
       }
     } catch (SQLException e) {
@@ -112,4 +104,23 @@ public class StageDAOImpl implements StageDAO {
 
   }
 
+
+  /**
+   * Rs to detailed stage.
+   *
+   * @param rs the rs
+   * @return the stage detailed DTO
+   * @throws SQLException the SQL exception
+   */
+  private StageDetailedDTO rsToDetailedStage(ResultSet rs) throws SQLException {
+    StageDetailedDTO stage = factory.getDetailedStageDTO();
+    stage.setId(rs.getInt("id_stage"));
+    stage.setSujet(rs.getString("sujet"));
+    stage.setdateSignature(rs.getString("date_signature"));
+    stage.setResponsableNom(rs.getString("responsable_nom"));
+    stage.setResponsablePrenom(rs.getString("responsable_prenom"));
+    stage.setEntrepriseNom(rs.getString("entreprise_nom"));
+    stage.setEntrepriseAppellation(rs.getString("entreprise_appellation"));
+    return stage;
+  }
 }

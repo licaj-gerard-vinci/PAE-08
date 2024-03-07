@@ -14,6 +14,7 @@ public interface StageDAO {
    * @param id the id
    * @return the stage of user
    */
+
   StageDTO getStageOfUser(int id);
 
   /**
