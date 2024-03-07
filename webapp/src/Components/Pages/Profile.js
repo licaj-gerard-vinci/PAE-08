@@ -57,9 +57,9 @@ async function displayStage() {
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
       <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.responsable}</p>
-      <p><strong>Entreprise :</strong> ${stage.entreprise}</p>
-      <p><strong>Date signature :</strong> ${stage.date_signature}</p>
+      <p><strong>Responsable :</strong> ${stage.responsableNom} ${stage.responsablePrenom}</p>
+      <p><strong>Entreprise :</strong> ${stage.entrepriseNom}, ${stage.entrepriseAppellation}</p>
+      <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
       <p><strong>Sujet :</strong> ${stage.sujet}</p>
     `;
   } else {

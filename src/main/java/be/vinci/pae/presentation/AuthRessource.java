@@ -1,5 +1,6 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.DetailedStageDTO;
 import be.vinci.pae.business.StageDTO;
 import be.vinci.pae.business.StageUCC;
 import be.vinci.pae.business.UserDTO;
@@ -99,6 +100,13 @@ public class AuthRessource {
     return (UserDTO) json.filterPublicJsonView(authenticated);
   }
 
+  /**
+   * Retrieves the stage of the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the stage of the authenticated user.
+   */
+
   @GET
   @Path("stage")
   @Produces(MediaType.APPLICATION_JSON)
@@ -112,7 +120,14 @@ public class AuthRessource {
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
     }
-    return userStage;
+    DetailedStageDTO userStageDetail = myStageUcc.getDetailedStageForUser(
+        authenticatedUser.getId());
+    if (userStageDetail == null) {
+      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
+    }
+    return userStageDetail;
+
+
   }
 
 

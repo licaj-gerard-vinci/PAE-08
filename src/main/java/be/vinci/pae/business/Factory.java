@@ -18,4 +18,12 @@ public interface Factory {
    * @return a new instance of ContactDTO.
    */
   StageDTO getStageDTO();
+
+  /**
+   * Create a new DetailedStageDTO.
+   *
+   * @return a new instance of DetailedStageDTO.
+   */
+
+  DetailedStageDTO getDetailedStageDTO();
 }

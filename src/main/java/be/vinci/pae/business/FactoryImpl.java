@@ -23,5 +23,9 @@ public class FactoryImpl implements Factory {
     return new StageImpl();
   }
 
+  @Override
+  public DetailedStageDTO getDetailedStageDTO() {
+    return new DetailedStageDTO();
+  }
 }
 
