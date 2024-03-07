@@ -49,9 +49,8 @@ function renderProfile(user) {
 
 async function displayStage() {
   const stageDiv = document.createElement('div');
-  stageDiv.classList.add('stage-container');
-  stageDiv.style = "flex: 1; max-width: 400px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-left: 10px;";
-
+  stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
+  stageDiv.style = "flex: 1; max-width: 400px; margin-left: 10px;";
   const stage = await getStagePresent();
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
@@ -60,14 +59,60 @@ async function displayStage() {
       <p><strong>Responsable :</strong> ${stage.responsableNom} ${stage.responsablePrenom}</p>
       <p><strong>Entreprise :</strong> ${stage.entrepriseNom}, ${stage.entrepriseAppellation}</p>
       <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
-      <p><strong>Sujet :</strong> ${stage.sujet}</p>
+      <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
+      <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
     `;
   } else {
     stageHTML = `<p>${stage}</p>`;
   }
 
   stageDiv.innerHTML = stageHTML;
+  document.body.appendChild(stageDiv);
+
+  
+  const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
+  const sujetText = stageDiv.querySelector('#sujet-text');
+
+
+  if (modifierSujetButton) {
+    modifierSujetButton.addEventListener('click', () => {
+      const isEditing = modifierSujetButton.getAttribute('data-editing');
+      
+
+      if (isEditing) {
+        const sujetInput = stageDiv.querySelector('#sujet-input');
+        const newValue = sujetInput.value.trim();
+        sujetText.textContent = newValue || 'Pas de sujet';
+        stage.sujet = newValue;
+        modifierSujetButton.textContent = 'Modifier sujet';
+        modifierSujetButton.removeAttribute('data-editing');
+        
+        // Save the new value to the server
+      } else {
+        const currentValue = sujetText.textContent;
+        sujetText.innerHTML = `<input id="sujet-input" class="form-control" type="text" value="${currentValue}" />`;
+        const sujetInput = stageDiv.querySelector('#sujet-input');
+        sujetInput.focus();
+        modifierSujetButton.textContent = 'Confirmer le Sujet';
+        modifierSujetButton.setAttribute('data-editing', 'true');
+
+        // Add event listener to the input to save the new value when the user presses enter
+        sujetInput.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter') {
+            modifierSujetButton.click();
+          }
+        });
+      }
+    });
+  }
+
+
+    
+  
+
   return stageDiv;
 }
+
+
 
 export default ProfilePage;
