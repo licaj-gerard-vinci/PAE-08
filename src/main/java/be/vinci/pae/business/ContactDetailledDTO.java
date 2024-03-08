@@ -1,7 +1,9 @@
 package be.vinci.pae.business;
+
 /**
  * Represents the ContactDetailledDTO interface.
  */
+
 public interface ContactDetailledDTO extends ContactDTO {
 
   /**

@@ -1,9 +1,11 @@
 package be.vinci.pae.business;
 
 import java.util.List;
+
 /**
  * Represents the ContactUCC interface.
  */
+
 public interface ContactUCC {
 
 
@@ -13,6 +15,7 @@ public interface ContactUCC {
    * @param idUser the user ID.
    * @return the contacts.
    */
+
   List<ContactDetailledDTO> getContacts(int idUser);
 
 }

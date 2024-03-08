@@ -29,11 +29,16 @@ public class ContactDAOImpl implements ContactDAO {
   @Override
   public List<ContactDetailledDTO> getContacts(int id) {
     String query =
-        "SELECT ent.nom, ent.appellation, con.etat_contact, con.lieux_rencontre, con.raison_refus, con.id_contact "
+        "SELECT ent.nom, ent.appellation, con.etat_contact, con.lieux_rencontre"
             +
-            "FROM pae.utilisateurs AS usr " +
-            "JOIN pae.contacts AS con ON usr.id_utilisateur = con.utilisateur " +
-            "JOIN pae.entreprises AS ent ON con.entreprise = ent.id_entreprise " +
+            ", con.raison_refus, con.id_contact "
+            +
+            "FROM pae.utilisateurs AS usr "
+            +
+            "JOIN pae.contacts AS con ON usr.id_utilisateur = con.utilisateur "
+            +
+            "JOIN pae.entreprises AS ent ON con.entreprise = ent.id_entreprise "
+            +
             "WHERE usr.id_utilisateur = ?";
 
     List<ContactDetailledDTO> contacts = new ArrayList<>();

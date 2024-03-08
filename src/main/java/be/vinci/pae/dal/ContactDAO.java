@@ -2,9 +2,11 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.ContactDetailledDTO;
 import java.util.List;
+
 /**
  * Represents the ContactDAO interface.
  */
+
 public interface ContactDAO {
 
 

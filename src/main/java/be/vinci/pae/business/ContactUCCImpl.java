@@ -3,9 +3,11 @@ package be.vinci.pae.business;
 import be.vinci.pae.dal.ContactDAO;
 import jakarta.inject.Inject;
 import java.util.List;
+
 /**
  * Represents the ContactUCCImpl class.
  */
+
 public class ContactUCCImpl implements ContactUCC {
 
 
