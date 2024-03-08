@@ -1,6 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.StageDTO;
+import be.vinci.pae.business.StageDetailedDTO;
 
 /**
  * The Interface StageDAO.
@@ -24,6 +25,6 @@ public interface StageDAO {
    * @return the detail of stage
    */
 
-  StageDTO getDetailOfStage(int id);
+  StageDetailedDTO getDetailOfStage(int id);
 
 }

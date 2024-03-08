@@ -6,15 +6,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 /**
  * Represents the ContactImpl class.
  */
-public class ContactImpl implements ContactDTO {
+public class ContactImpl implements ContactDetailledDTO {
 
   @JsonView(Views.Public.class)
   private int id;
 
   @JsonView(Views.Public.class)
-  private EntrepriseDTO entreprise;
+  private int entreprise;
   @JsonView(Views.Public.class)
-  private UserDTO utilisateur;
+  private int utilisateur;
 
   @JsonView(Views.Public.class)
   private String etatContact;
@@ -26,7 +26,13 @@ public class ContactImpl implements ContactDTO {
   private String raisonRefus;
 
   @JsonView(Views.Public.class)
-  private YearDTO annee;
+  private int annee;
+
+  @JsonView(Views.Public.class)
+  private String nomEntreprise;
+
+  @JsonView(Views.Public.class)
+  private String appellation;
 
 
   /**
@@ -55,7 +61,7 @@ public class ContactImpl implements ContactDTO {
    * @return the enterprise ID.
    */
   @Override
-  public EntrepriseDTO getEntreprise() {
+  public int getEntreprise() {
     return entreprise;
   }
 
@@ -65,7 +71,7 @@ public class ContactImpl implements ContactDTO {
    * @param entreprise the new enterprise ID.
    */
   @Override
-  public void setEntreprise(EntrepriseDTO entreprise) {
+  public void setEntreprise(int entreprise) {
     this.entreprise = entreprise;
   }
 
@@ -75,7 +81,7 @@ public class ContactImpl implements ContactDTO {
    * @return the user ID.
    */
   @Override
-  public UserDTO getUtilisateur() {
+  public int getUtilisateur() {
     return utilisateur;
   }
 
@@ -85,7 +91,7 @@ public class ContactImpl implements ContactDTO {
    * @param utilisateur the new user ID.
    */
   @Override
-  public void setUtilisateur(UserDTO utilisateur) {
+  public void setUtilisateur(int utilisateur) {
     this.utilisateur = utilisateur;
   }
 
@@ -156,7 +162,7 @@ public class ContactImpl implements ContactDTO {
    * @return the associated year.
    */
   @Override
-  public YearDTO getAnnee() {
+  public int getAnnee() {
     return annee;
   }
 
@@ -166,10 +172,54 @@ public class ContactImpl implements ContactDTO {
    * @param annee the new associated year.
    */
   @Override
-  public void setAnnee(YearDTO annee) {
+  public void setAnnee(int annee) {
     this.annee = annee;
   }
 
+  /**
+   * Gets the name of the associated enterprise.
+   *
+   * @return the name of the associated enterprise.
+   */
+  public String getNomEntreprise() {
+    return nomEntreprise;
+  }
+
+  /**
+   * Sets the name of the associated enterprise.
+   *
+   * @param nomEntreprise the new name of the associated enterprise.
+   */
+  public void setNomEntreprise(String nomEntreprise) {
+    this.nomEntreprise = nomEntreprise;
+  }
+
+  /**
+   * Gets the appellation of the associated enterprise.
+   *
+   * @return the appellation of the associated enterprise.
+   */
+
+  public String getAppellation() {
+    return appellation;
+
+  }
+
+  /**
+   * Sets the appellation of the associated enterprise.
+   *
+   * @param appellation the new appellation of the associated enterprise.
+   */
+  public void setAppellation(String appellation) {
+    this.appellation = appellation;
+  }
+
+
+  /**
+   * Returns a string representation of the object.
+   *
+   * @return a string representation of the object.
+   */
   @Override
   public String toString() {
     return "ContactImpl [id=" + id + ", entreprise=" + entreprise + ", utilisateur=" + utilisateur

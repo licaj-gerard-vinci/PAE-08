@@ -20,3 +20,7 @@ Authorization: {{token}}
 GET {{baseUrl}}/auth/stage
 Authorization: {{token}}
 
+###get contacts
+GET {{baseUrl}}/auth/contact
+Authorization: {{token}}
+

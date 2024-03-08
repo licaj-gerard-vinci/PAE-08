@@ -27,28 +27,28 @@ public interface ContactDTO {
    *
    * @return the enterprise ID.
    */
-  EntrepriseDTO getEntreprise();
+  int getEntreprise();
 
   /**
    * Sets the associated enterprise ID.
    *
    * @param entreprise the new enterprise ID.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setEntreprise(int entreprise);
 
   /**
    * Gets the associated user ID.
    *
    * @return the user ID.
    */
-  UserDTO getUtilisateur();
+  int getUtilisateur();
 
   /**
    * Sets the associated user ID.
    *
    * @param utilisateur the new user ID.
    */
-  void setUtilisateur(UserDTO utilisateur);
+  void setUtilisateur(int utilisateur);
 
   /**
    * Gets the contact state.
@@ -97,14 +97,14 @@ public interface ContactDTO {
    *
    * @return the meeting date.
    */
-  YearDTO getAnnee();
+  int getAnnee();
 
   /**
    * Sets the meeting date.
    *
    * @param annee the new meeting date.
    */
-  void setAnnee(YearDTO annee);
+  void setAnnee(int annee);
 
 
 }

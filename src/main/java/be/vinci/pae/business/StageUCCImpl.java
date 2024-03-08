@@ -31,7 +31,7 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public StageDetailedDTO getDetailedStageForUser(int idUser) {
-    return (StageDetailedDTO) stageDAO.getDetailOfStage(idUser);
+    return stageDAO.getDetailOfStage(idUser);
   }
 
 }

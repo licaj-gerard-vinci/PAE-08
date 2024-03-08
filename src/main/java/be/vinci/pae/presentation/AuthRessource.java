@@ -1,5 +1,7 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.ContactDetailledDTO;
+import be.vinci.pae.business.ContactUCC;
 import be.vinci.pae.business.StageDTO;
 import be.vinci.pae.business.StageDetailedDTO;
 import be.vinci.pae.business.StageUCC;
@@ -25,6 +27,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+import java.util.List;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -44,6 +47,9 @@ public class AuthRessource {
   private UserUCC myUserUcc;
   @Inject
   private StageUCC myStageUcc;
+
+  @Inject
+  private ContactUCC myContactUcc;
 
 
   /**
@@ -128,6 +134,30 @@ public class AuthRessource {
     return userStageDetail;
 
 
+  }
+
+  /**
+   * Retrieves the contacts of the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the contacts of the authenticated user.
+   */
+  @GET
+  @Path("contact")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDetailledDTO> getContatcs(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+
+    List<ContactDetailledDTO> contactDetailledDTOs = myContactUcc.getContacts(
+        authenticatedUser.getId());
+    if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
+      throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
+    }
+    return contactDetailledDTOs; // Retourne la liste des contacts détaillés
   }
 
 
