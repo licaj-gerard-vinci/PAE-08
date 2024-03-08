@@ -17,5 +17,36 @@ public class FactoryImpl implements Factory {
   public UserDTO getPublicUser() {
     return new UserImpl();
   }
+
+
+  /**
+   * Creates and returns a new instance of {@code StageDTO}.
+   *
+   * @return a new {@code StageDTO} instance.
+   */
+  @Override
+  public StageDTO getStageDTO() {
+    return new StageImpl();
+  }
+
+  /**
+   * Creates and returns a new instance of {@code StageDetailedDTO}.
+   *
+   * @return a new {@code StageDetailedDTO} instance.
+   */
+  @Override
+  public StageDetailedDTO getDetailedStageDTO() {
+    return new StageImpl();
+  }
+
+  /**
+   * Creates and returns a new instance of {@code ContactDTO}.
+   *
+   * @return a new {@code ContactDTO} instance.
+   */
+  @Override
+  public ContactDetailledDTO getDetailledContactDTO() {
+    return new ContactImpl();
+  }
 }
 

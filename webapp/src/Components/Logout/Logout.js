@@ -1,12 +1,12 @@
 import { clearAuthenticatedUser } from '../../utils/auths';
+import Navigate from '../Router/Navigate';
 import Navbar from '../Navbar/Navbar';
-// deconnect the user and clear the session
+
+
 const Logout = () => {
-  clearAuthenticatedUser();
-  Navbar();
-  window.location.reload();
+  clearAuthenticatedUser(); 
+  Navbar(); 
+  Navigate('/login'); 
 };
 
 export default Logout;
-
-
