@@ -27,12 +27,8 @@ module.exports = {
     open: true,
     hot: true,
     historyApiFallback: true,
-    proxy: {
-      '/': {
-        target: 'http://localhost:8080',
-        pathRewrite: { '^/api': '' },
-      },
-    },
+    
+    
   },
   module: {
     rules: [

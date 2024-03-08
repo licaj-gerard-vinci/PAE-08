@@ -1,5 +1,10 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.ContactDetailledDTO;
+import be.vinci.pae.business.ContactUCC;
+import be.vinci.pae.business.StageDTO;
+import be.vinci.pae.business.StageDetailedDTO;
+import be.vinci.pae.business.StageUCC;
 import be.vinci.pae.business.UserDTO;
 import be.vinci.pae.business.UserUCC;
 import be.vinci.pae.dal.utils.Json;
@@ -22,6 +27,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+import java.util.List;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -39,6 +45,11 @@ public class AuthRessource {
   private final Json json = new Json<>(UserDTO.class);
   @Inject
   private UserUCC myUserUcc;
+  @Inject
+  private StageUCC myStageUcc;
+
+  @Inject
+  private ContactUCC myContactUcc;
 
 
   /**
@@ -96,6 +107,61 @@ public class AuthRessource {
   }
 
   /**
+   * Retrieves the stage of the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the stage of the authenticated user.
+   */
+
+  @GET
+  @Path("stage")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public StageDTO getUserStage(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+    StageDTO userStage = myStageUcc.GetStageUser(authenticatedUser.getId());
+    if (userStage == null) {
+      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
+    }
+    StageDetailedDTO userStageDetail = myStageUcc.getDetailedStageForUser(
+        authenticatedUser.getId());
+    if (userStageDetail == null) {
+      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
+    }
+    return userStageDetail;
+
+
+  }
+
+  /**
+   * Retrieves the contacts of the authenticated user from the request context.
+   *
+   * @param requestContext the request context.
+   * @return the contacts of the authenticated user.
+   */
+  @GET
+  @Path("contact")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDetailledDTO> getContatcs(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+
+    List<ContactDetailledDTO> contactDetailledDTOs = myContactUcc.getContacts(
+        authenticatedUser.getId());
+    if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
+      throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
+    }
+    return contactDetailledDTOs; // Retourne la liste des contacts détaillés
+  }
+
+
+  /**
    * Generates a JWT token for the given user.
    *
    * @param user the user for whom to generate the token.
@@ -112,7 +178,9 @@ public class AuthRessource {
         .put("id", user.getId())
         .put("name", user.getNom())
         .put("firstName", user.getPrenom())
-        .put("email", user.getEmail());
+        .put("email", user.getEmail())
+        .put("role", user.getRole())
+        .put("numTel", user.getNumTel());
   }
 
 

@@ -15,7 +15,7 @@ import Navigate from '../Components/Router/Navigate';
         password,
       }),
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json', 
       },
     };
     
@@ -53,4 +53,56 @@ import Navigate from '../Components/Router/Navigate';
 
     return authenticatedUser;
   }
-  export {loginUser, refreshUser};
+
+  async function getStagePresent(){
+    let stagePresent = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/stage`, options);
+
+      if (!response.ok) {
+        const nonPresent = "Aucun stage n'est en cours"
+        
+        return nonPresent;
+      }
+      stagePresent = await response.json();
+    }
+
+    return stagePresent;
+  }
+
+  async function getContacts(){
+    let contacts = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/contact`, options);
+
+      if (!response.ok) {
+        const nonPresent = "Aucun contact n'as été passé"
+        
+        return nonPresent;
+      }
+      contacts = await response.json();
+    }
+
+    return contacts;
+  }
+
+
+
+
+  export {loginUser, refreshUser, getStagePresent, getContacts};
