@@ -16,10 +16,22 @@ const Navbar = () => {
 
 
   function renderNavbar() {
+    
 
     const unauthenticatedUser = `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
       <div class="container-fluid">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
         <a class="navbar-brand" href="/" style="color: #fff; display: flex; align-items: center;">
           <img src="${logo}" alt="Logo" style="margin-right: 10px;">
           VinciTech Solutions
@@ -48,33 +60,46 @@ const Navbar = () => {
     const authenticatedUser = `
   <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
     <div class="container-fluid">
-      <a class="navbar-brand d-flex align-items-center" href="#" style="color: #fff;">
-        <img src="${logo}" alt="Logo" style="margin-right: 10px;">
-        VinciTech Solutions
-      </a>
-      <div class="d-flex align-items-center ms-auto">
-        <a class="nav-link" href="#" data-uri="/logout" style="color: #fff; margin-right: 15px;">Se déconnecter</a>
-        <span class="navbar-text" style="color: #fff;">${userFirstName} ${userName}</span>
-      </div>
+
+      <button class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+        <a class="navbar-brand d-flex align-items-center" href="#" data-uri="/" style="color: #fff;">
+        
+          <img src="${logo}" alt="Logo" style="margin-right: 10px;">
+          VinciTech Solutions
+        </a>
+
+        <div class="d-flex align-items-center ms-auto text-white">
+          <a class="nav-link" href="#" data-uri="/logout" style="margin-right: 15px;">Se déconnecter</a>
+          <a class="nav-link" href="#" data-uri="/profile"> ${userFirstName} ${userName} </a>
+        </div>
+
+        
+    
     </div>
   </nav>
 `;
+    
 
 
-
-    const navbar = document.querySelector('#navbarWrapper');
-
-
+const navbarWrapper = document.querySelector('#navbarWrapper');
 
     if (isAuthenticated()) {
-      navbar.innerHTML = authenticatedUser;
+        navbarWrapper.innerHTML = authenticatedUser;
+    } else {
+        navbarWrapper.innerHTML = unauthenticatedUser;
     }
 
-    else  {
-      navbar.innerHTML = unauthenticatedUser;
-    }
 
-  }
+}
 
 
 export default Navbar;
