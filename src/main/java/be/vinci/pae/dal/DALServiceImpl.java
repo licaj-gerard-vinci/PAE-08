@@ -21,8 +21,9 @@ public class DALServiceImpl implements DALService {
     try {
       // Connexion à la base de données
       String url = Config.getProperty("DatabaseFilePath");
-      conn = DriverManager.getConnection(url, "nadir_ahdid",
-          "nadir123");
+      String user = Config.getProperty("User");
+      String password = Config.getProperty("Password");
+      conn = DriverManager.getConnection(url, user, password);
     } catch (SQLException e) {
       System.out.println("Impossible de joindre le serveur !");
       e.printStackTrace();
