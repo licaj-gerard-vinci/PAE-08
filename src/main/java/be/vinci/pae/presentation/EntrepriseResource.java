@@ -27,7 +27,6 @@ public class EntrepriseResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    @Authorize
     public List<EntrepriseDTO> getAllEntreprises() {
         return entrepriseUCC.getEntreprises();
     }

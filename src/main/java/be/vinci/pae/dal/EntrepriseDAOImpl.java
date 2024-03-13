@@ -20,9 +20,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
     @Override
     public List<EntrepriseDTO> getEntreprises(){
-        String query =
-                "SELECT ent.nom, ent.appellation, ent.adress, ent.numero_tel"
-                + "FROM pae.entreprises AS ent";
+        String query = "SELECT ent.nom, ent.appellation, ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
 
         List<EntrepriseDTO> entreprises = new ArrayList<>();
 

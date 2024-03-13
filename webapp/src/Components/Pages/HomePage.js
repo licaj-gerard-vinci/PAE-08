@@ -31,30 +31,26 @@ async function renderHomePage(){
       <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6">
-          <div class="input-group mb-3 mt-3">
-            <input type="text" class="form-control" placeholder="Search" aria-label="" aria-describedby="">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">Rechercher</button>
-            </div>
-          </div>
-          <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
+        ${entreprises.map(entreprise => `
+        <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
             <div>
-              <div class="d-flex justify-content-between">
-                <div class="mr-auto text-left">
-                  <h1 class="mb-auto">Entreprise Nom</h1>
-                  <ul class="small">
-                    <li>Entreprise Appellation</li>
-                    <li>Entreprise Adresse</li>
-                    <li>Entreprise Numéro de Téléphone</li>
-                  </ul>
+                <div class="d-flex justify-content-between">
+                    <div class="mr-auto text-left">
+                        <h1 class="mb-auto">${entreprise.nom}</h1>
+                        <ul class="small">
+                            <li>${entreprise.appellation}</li>
+                            <li>${entreprise.adresse}</li>
+                            <li>${entreprise.numTel}</li>
+                        </ul>
+                    </div>
+                    <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
                 </div>
-                <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
-              </div>
             </div>
             <div class="d-flex justify-content-center">
-              <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
+                <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
             </div>
-          </div>
+        </div>
+    `).join('')}
         </div> 
       </div> 
     </div>
