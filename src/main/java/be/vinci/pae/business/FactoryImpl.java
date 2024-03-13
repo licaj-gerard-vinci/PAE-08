@@ -50,9 +50,9 @@ public class FactoryImpl implements Factory {
   }
 
   /**
-   * Create a new EntrepriseDTO
+   * Create a new EntrepriseDTO.
    *
-   * @return a new instance of EntrepriseDTO
+   * @return a new instance of EntrepriseDTO.
    */
   @Override
   public EntrepriseDTO getEntrepriseDTO() {
