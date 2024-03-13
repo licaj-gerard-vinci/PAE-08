@@ -41,14 +41,14 @@ public interface EntrepriseDTO {
    *
    * @return the apellation of the entreprise.
    */
-  String getApellation();
+  String getAppellation();
 
   /**
    * Sets the apellation of the entreprise.
    *
-   * @param apellation the new apellation for the entreprise.
+   * @param appellation the new apellation for the entreprise.
    */
-  void setApellation(String apellation);
+  void setAppellation(String appellation);
 
   /**
    * Gets the address of the entreprise.

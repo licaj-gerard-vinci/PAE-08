@@ -48,5 +48,10 @@ public class FactoryImpl implements Factory {
   public ContactDetailledDTO getDetailledContactDTO() {
     return new ContactImpl();
   }
+
+  @Override
+  public EntrepriseDTO getEntrepriseDTO() {
+    return new EntrepriseImpl();
+  }
 }
 

@@ -17,7 +17,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
   private String nom;
 
   @JsonView(Views.Public.class)
-  private String apellation;
+  private String appellation;
 
   @JsonView(Views.Public.class)
   private String adresse;
@@ -81,18 +81,18 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the apellation of the entreprise.
    */
 
-  public String getApellation() {
-    return apellation;
+  public String getAppellation() {
+    return appellation;
   }
 
   /**
    * Sets the apellation of the entreprise.
    *
-   * @param apellation the new apellation for the entreprise.
+   * @param appellation the new apellation for the entreprise.
    */
 
-  public void setApellation(String apellation) {
-    this.apellation = apellation;
+  public void setAppellation(String appellation) {
+    this.appellation = appellation;
   }
 
   /**
@@ -202,7 +202,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    */
   @Override
   public String toString() {
-    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", apellation=" + apellation + ", adresse="
+    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation + ", adresse="
         + adresse
         + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
         + ", motivation_blacklist="
