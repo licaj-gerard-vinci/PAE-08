@@ -25,7 +25,7 @@ public interface Entreprise extends EntrepriseDTO {
    *
    * @return the name of the entreprise.
    */
-    String getNom();
+  String getNom();
 
   /**
    * Sets the name of the entreprise.

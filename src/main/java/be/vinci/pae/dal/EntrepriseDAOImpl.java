@@ -3,7 +3,6 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.EntrepriseDTO;
 import be.vinci.pae.business.Factory;
 import jakarta.inject.Inject;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,8 @@ import java.util.List;
 
 /**
  * The Entreprise interface represents a business entity.
- * It extends the EntrepriseDTO interface and provides methods to get and set the properties of an entreprise.
+ * It extends the EntrepriseDTO interface and
+ * provides methods to get and set the properties of an entreprise.
  */
 public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject

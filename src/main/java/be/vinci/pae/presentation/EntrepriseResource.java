@@ -8,7 +8,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-
 import java.util.List;
 
 /**
@@ -23,11 +22,11 @@ public class EntrepriseResource {
   @Inject
   private EntrepriseUCC myEntrepriseUcc;
 
-/**
- * Retrieves all entreprises.
- *
- * @return the list containing all entreprises.
- */
+  /**
+   * Retrieves all entreprises.
+   *
+   * @return the list containing all entreprises.
+   */
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
