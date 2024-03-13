@@ -1,9 +1,27 @@
 package be.vinci.pae.utils;
 
-import be.vinci.pae.business.*;
-import be.vinci.pae.dal.*;
-import jakarta.inject.Singleton;
+import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.business.UserUCCImpl;
+import be.vinci.pae.business.StageUCC;
+import be.vinci.pae.business.StageUCCImpl;
+import be.vinci.pae.business.ContactUCC;
+import be.vinci.pae.business.ContactUCCImpl;
+import be.vinci.pae.business.EntrepriseUCC;
+import be.vinci.pae.business.EntrepriseUCCImpl;
+import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.dal.UserDAOImpl;
+import be.vinci.pae.dal.StageDAO;
+import be.vinci.pae.dal.StageDAOImpl;
+import be.vinci.pae.dal.ContactDAO;
+import be.vinci.pae.dal.ContactDAOImpl;
+import be.vinci.pae.dal.EntrepriseDAO;
+import be.vinci.pae.dal.EntrepriseDAOImpl;
+import be.vinci.pae.business.Factory;
+import be.vinci.pae.business.FactoryImpl;
+import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALServiceImpl;
 import jakarta.ws.rs.ext.Provider;
+import jakarta.inject.Singleton;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 /**

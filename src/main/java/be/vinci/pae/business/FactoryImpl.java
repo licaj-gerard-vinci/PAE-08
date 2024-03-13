@@ -49,6 +49,11 @@ public class FactoryImpl implements Factory {
     return new ContactImpl();
   }
 
+  /**
+   * Create a new EntrepriseDTO
+   *
+   * @return a new instance of EntrepriseDTO
+   */
   @Override
   public EntrepriseDTO getEntrepriseDTO() {
     return new EntrepriseImpl();
