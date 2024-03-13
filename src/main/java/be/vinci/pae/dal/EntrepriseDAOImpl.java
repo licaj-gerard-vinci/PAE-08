@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Entreprise interface represents a business entity.
+ * It extends the EntrepriseDTO interface and provides methods to get and set the properties of an entreprise.
+ */
 public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject
   private DALService dalService;
@@ -23,11 +27,13 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   */
   @Override
   public List<EntrepriseDTO> getEntreprises() {
-    String query = "SELECT ent.nom, ent.appellation," + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
+    String query = "SELECT ent.nom, ent.appellation,"
+            + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
-    try (PreparedStatement statement = dalService.preparedStatement(query); ResultSet rs = statement.executeQuery()) {
+    try (PreparedStatement statement = dalService.preparedStatement(query);
+         ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
         entreprises.add(rsToEntreprises(rs));
       }

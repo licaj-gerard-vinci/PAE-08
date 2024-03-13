@@ -10,6 +10,6 @@ import java.util.List;
  * @return a list of all entreprises.
  */
 public interface EntrepriseDAO {
-    List<EntrepriseDTO> getEntreprises();
+  List<EntrepriseDTO> getEntreprises();
 
 }

@@ -12,25 +12,26 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * The {@code EntrepriseResource} class represents a resource for managing entreprise-related operations.
+ * The {@code EntrepriseResource} class
+ * represents a resource for managing entreprise-related operations.
  * It is annotated with {@code Singleton} and {@code Path("ent")}.
  */
 @Singleton
 @Path("ent")
 public class EntrepriseResource {
 
-    @Inject
-    private EntrepriseUCC myEntrepriseUcc;
+  @Inject
+  private EntrepriseUCC myEntrepriseUcc;
 
-    /**
-     * Retrieves all entreprises.
-     *
-     * @return the list containing all entreprises.
-     */
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<EntrepriseDTO> getAllEntreprises() {
-        return myEntrepriseUcc.getEntreprises();
-    }
+/**
+ * Retrieves all entreprises.
+ *
+ * @return the list containing all entreprises.
+ */
+  @GET
+  @Path("all")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<EntrepriseDTO> getAllEntreprises() {
+    return myEntrepriseUcc.getEntreprises();
+  }
 }

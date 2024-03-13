@@ -11,17 +11,17 @@ import java.util.List;
  */
 public class EntrepriseUCCImpl implements EntrepriseUCC {
 
-    @Inject
-    private EntrepriseDAO entrepriseDAO;
+  @Inject
+  private EntrepriseDAO entrepriseDAO;
 
-    /**
-     * Retrieves all entreprises.
-     *
-     * @return the list containing all entreprises.
-     */
-    @Override
-    public List<EntrepriseDTO> getEntreprises() {
-        return entrepriseDAO.getEntreprises();
-    }
+  /**
+   * Retrieves all entreprises.
+   *
+   * @return the list containing all entreprises.
+   */
+  @Override
+  public List<EntrepriseDTO> getEntreprises() {
+    return entrepriseDAO.getEntreprises();
+  }
 
 }
