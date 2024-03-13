@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.ContactDetailledDTO;
 import be.vinci.pae.business.EntrepriseDTO;
 import be.vinci.pae.business.Factory;
 import jakarta.inject.Inject;

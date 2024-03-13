@@ -1,7 +1,5 @@
 package be.vinci.pae.business;
 
-import be.vinci.pae.dal.EntrepriseDAO;
-
 /**
  * A factory for creating DTO objects.
  */
