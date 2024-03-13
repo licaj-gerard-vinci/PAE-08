@@ -1,20 +1,18 @@
-package be.vinci.pae.dal;
+    package be.vinci.pae.dal;
 
-import be.vinci.pae.business.EntrepriseDTO;
-import be.vinci.pae.business.Factory;
-import jakarta.inject.Inject;
+    import be.vinci.pae.business.EntrepriseDTO;
+    import be.vinci.pae.business.Factory;
+    import jakarta.inject.Inject;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+    import java.util.ArrayList;
+    import java.util.List;
 
-public class EntrepriseDAOImpl implements EntrepriseDAO {
-
+    public class EntrepriseDAOImpl implements EntrepriseDAO {
     @Inject
     private DALService dalService;
-
     @Inject
     private Factory factory;
 
@@ -47,4 +45,4 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         entreprise.setNumTel(rs.getString("numero_tel"));
         return entreprise;
     }
-}
+    }
