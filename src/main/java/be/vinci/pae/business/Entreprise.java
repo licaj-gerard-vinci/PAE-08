@@ -1,5 +1,9 @@
 package be.vinci.pae.business;
 
+/**
+ * The Entreprise interface represents a business entity.
+ * It extends the EntrepriseDTO interface and provides methods to get and set the properties of an entreprise.
+ */
 public interface Entreprise extends EntrepriseDTO {
     /**
      * Gets the ID of the entreprise.

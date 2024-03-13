@@ -3,7 +3,6 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.EntrepriseDTO;
 import be.vinci.pae.business.Factory;
 import jakarta.inject.Inject;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,9 +17,15 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     @Inject
     private Factory factory;
 
+    /**
+     * Retrieves all entreprises from the database.
+     *
+     * @return a list of all entreprises.
+     */
     @Override
-    public List<EntrepriseDTO> getEntreprises(){
-        String query = "SELECT ent.nom, ent.appellation, ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
+    public List<EntrepriseDTO> getEntreprises() {
+        String query = "SELECT ent.nom, ent.appellation,"
+            + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
 
         List<EntrepriseDTO> entreprises = new ArrayList<>();
 
