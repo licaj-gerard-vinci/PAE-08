@@ -219,10 +219,10 @@ public class EntrepriseImpl implements Entreprise {
   @Override
   public String toString() {
     return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation + ", adresse="
-        + adresse
-        + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
-        + ", motivation_blacklist="
-        + motivation + "]";
+            + adresse
+            + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
+            + ", motivation_blacklist="
+            + motivation + "]";
   }
 
 
