@@ -25,12 +25,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     @Override
     public List<EntrepriseDTO> getEntreprises() {
         String query = "SELECT ent.nom, ent.appellation,"
-            + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
+                + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
 
         List<EntrepriseDTO> entreprises = new ArrayList<>();
 
         try (PreparedStatement statement = dalService.preparedStatement(query);
-            ResultSet rs = statement.executeQuery()) {
+             ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 entreprises.add(rsToEntreprises(rs));
             }
@@ -48,6 +48,4 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         entreprise.setNumTel(rs.getString("numero_tel"));
         return entreprise;
     }
-
-
 }

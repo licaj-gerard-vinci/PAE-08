@@ -10,7 +10,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the ID of the entreprise.
      */
-
     int getId();
 
     /**
@@ -18,7 +17,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param id the new ID for the entreprise.
      */
-
     void setId(int id);
 
     /**
@@ -26,7 +24,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the name of the entreprise.
      */
-
     String getNom();
 
     /**
@@ -34,7 +31,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param nom the new name for the entreprise.
      */
-
     void setNom(String nom);
 
     /**
@@ -42,7 +38,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the apellation of the entreprise.
      */
-
     String getAppellation();
 
     /**
@@ -50,7 +45,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param appellation the new apellation for the entreprise.
      */
-
     void setAppellation(String appellation);
 
     /**
@@ -58,7 +52,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the adresse of the entreprise.
      */
-
     String getAdresse();
 
     /**
@@ -66,7 +59,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param adresse the new adresse for the entreprise.
      */
-
     void setAdresse(String adresse);
 
     /**
@@ -74,7 +66,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the numTel of the entreprise.
      */
-
     String getNumTel();
 
     /**
@@ -82,7 +73,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param numTel the new numTel for the entreprise.
      */
-
     void setNumTel(String numTel);
 
     /**
@@ -90,7 +80,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the email of the entreprise.
      */
-
     String getEmail();
 
     /**
@@ -98,7 +87,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param email the new email for the entreprise.
      */
-
     void setEmail(String email);
 
     /**
@@ -106,7 +94,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @return the blackListed of the entreprise.
      */
-
     boolean isBlackListed();
 
     /**
@@ -114,7 +101,6 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param blackListed the new blackListed for the entreprise.
      */
-
     void setBlackListed(boolean blackListed);
 
     /**
@@ -129,6 +115,5 @@ public interface Entreprise extends EntrepriseDTO {
      *
      * @param motivation the new motivation_blacklist for the entreprise.
      */
-
     void setMotivation_blacklist(String motivation);
 }
