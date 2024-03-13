@@ -12,7 +12,7 @@ public interface StageUCC {
    * @return the stage user
    */
 
-  StageDTO GetStageUser(int idUser);
+  StageDTO getStageUser(int idUser);
 
   /**
    * Gets the detailed stage for user.
