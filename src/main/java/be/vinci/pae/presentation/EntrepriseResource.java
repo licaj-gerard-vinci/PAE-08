@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.EntrepriseDTO;
 import be.vinci.pae.business.EntrepriseUCC;
-import be.vinci.pae.presentation.filters.Authorize;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -12,6 +11,10 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
+/**
+ * The {@code EntrepriseResource} class represents a resource for managing entreprise-related operations.
+ * It is annotated with {@code Singleton} and {@code Path("ent")}.
+ */
 @Singleton
 @Path("ent")
 public class EntrepriseResource {
