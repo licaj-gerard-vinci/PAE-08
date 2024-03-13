@@ -4,11 +4,16 @@ import be.vinci.pae.business.EntrepriseDTO;
 import java.util.List;
 
 /**
- * Retrieves all entreprises from the database.
- *
- * @return a list of all entreprises.
+ * Represents an interface for accessing entreprise data from the database.
+ * This interface provides methods to retrieve entreprise information.
  */
 public interface EntrepriseDAO {
+
+  /**
+   * Retrieves a list of all entreprises from the database.
+   *
+   * @return A list containing all entreprises.
+   */
   List<EntrepriseDTO> getEntreprises();
 
 }
