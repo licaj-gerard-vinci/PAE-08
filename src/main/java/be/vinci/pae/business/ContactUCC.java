@@ -18,4 +18,6 @@ public interface ContactUCC {
 
   List<ContactDetailledDTO> getContacts(int idUser);
 
+  List<ContactDTO> getContactsAllInfo(int idUser);
+
 }

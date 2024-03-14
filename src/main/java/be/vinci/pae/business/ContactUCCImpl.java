@@ -25,4 +25,7 @@ public class ContactUCCImpl implements ContactUCC {
   public List<ContactDetailledDTO> getContacts(int idUser) {
     return contactDAO.getContacts(idUser);
   }
+
+
+  public List<ContactDTO> getContactsAllInfo(int idUser){return contactDAO.getContactsAllInfo(idUser);}
 }

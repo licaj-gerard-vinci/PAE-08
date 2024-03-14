@@ -1,12 +1,6 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.ContactDetailledDTO;
-import be.vinci.pae.business.ContactUCC;
-import be.vinci.pae.business.StageDTO;
-import be.vinci.pae.business.StageDetailedDTO;
-import be.vinci.pae.business.StageUCC;
-import be.vinci.pae.business.UserDTO;
-import be.vinci.pae.business.UserUCC;
+import be.vinci.pae.business.*;
 import be.vinci.pae.dal.utils.Json;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.utils.Config;
@@ -158,6 +152,25 @@ public class AuthRessource {
       throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
     }
     return contactDetailledDTOs; // Retourne la liste des contacts détaillés
+  }
+
+
+  @GET
+  @Path("contactAllInfo")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+
+    List<ContactDTO> contactDTOs = myContactUcc.getContacts(
+            authenticatedUser.getId());
+    if (contactDTOs == null || contactDTOs.isEmpty()) {
+      throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
+    }
+    return contactDTOs; // Retourne la liste des contacts détaillés
   }
 
 

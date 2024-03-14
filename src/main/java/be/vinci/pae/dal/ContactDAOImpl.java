@@ -59,7 +59,7 @@ public class ContactDAOImpl implements ContactDAO {
 
 
   public List<ContactDTO> getContactsAllInfo(int id){
-    String query = "SELECT con.id, con.entreprise, con.utilisateur, con.etat_contact " +
+    String query = "SELECT con.id_contact, con.entreprise, con.utilisateur, con.etat_contact " +
             "con.lieux_rencontre, con.raison_refus "
             + "FROM pae.contacts con, pae.utilisateurs usr " +
             "WHERE con.id_utilisateur = ?";
@@ -101,9 +101,11 @@ public class ContactDAOImpl implements ContactDAO {
   private ContactDTO rsToContacts(ResultSet rs) throws SQLException {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(rs.getInt("id_contact"));
-    contact.setEtatContact(rs.getString("etat_contact"));
     contact.setEntreprise(rs.getInt("entreprise"));
     contact.setUtilisateur(rs.getInt("utilisateur"));
+    contact.setEtatContact(rs.getString("etat_contact"));
+    contact.setLieuxRencontre(rs.getString("lieux_rencontre"));
+    contact.setRaisonRefus(rs.getString("raison_refus"));
     return contact;
   }
 }

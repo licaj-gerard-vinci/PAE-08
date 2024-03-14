@@ -143,7 +143,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/contact/allInfo`, options);
+      const response = await fetch(`http://localhost:8080/auth/contactAllInfo`, options);
 
       if (!response.ok) {        
         const nonPresent = `Error fetching contact data`;

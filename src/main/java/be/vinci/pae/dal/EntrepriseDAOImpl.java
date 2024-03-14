@@ -27,7 +27,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   */
   @Override
   public List<EntrepriseDTO> getEntreprises() {
-    String query = "SELECT ent.nom, ent.appellation,"
+    String query = "SELECT ent.id_entreprise, ent.nom, ent.appellation,"
             + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
@@ -45,6 +45,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
   private EntrepriseDTO rsToEntreprises(ResultSet rs) throws SQLException {
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    entreprise.setId(rs.getInt("id_entreprise"));
     entreprise.setNom(rs.getString("nom"));
     entreprise.setAppellation(rs.getString("appellation"));
     entreprise.setAdresse(rs.getString("adress"));

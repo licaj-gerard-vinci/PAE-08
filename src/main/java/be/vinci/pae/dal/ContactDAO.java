@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.ContactDTO;
 import be.vinci.pae.business.ContactDetailledDTO;
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface ContactDAO {
    * @return the contacts.
    */
   List<ContactDetailledDTO> getContacts(int id);
+
+  List<ContactDTO> getContactsAllInfo(int idUser);
 
 }
