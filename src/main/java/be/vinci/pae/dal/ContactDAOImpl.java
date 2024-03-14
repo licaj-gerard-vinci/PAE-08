@@ -29,17 +29,17 @@ public class ContactDAOImpl implements ContactDAO {
   @Override
   public List<ContactDetailledDTO> getContacts(int id) {
     String query =
-        "SELECT ent.nom, ent.appellation, con.etat_contact, con.lieux_rencontre"
+        "SELECT comp.name, comp.designation, con.contact_status, con.meeting_place"
             +
-            ", con.raison_refus, con.id_contact "
+            ", con.refusal_reason, con.contact_id "
             +
-            "FROM pae.utilisateurs AS usr "
+            "FROM pae.users AS usr "
             +
-            "JOIN pae.contacts AS con ON usr.id_utilisateur = con.utilisateur "
+            "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
             +
-            "JOIN pae.entreprises AS ent ON con.entreprise = ent.id_entreprise "
+            "JOIN pae.companies AS comp ON con.entreprise = comp.company_id "
             +
-            "WHERE usr.id_utilisateur = ?";
+            "WHERE usr.user_id = ?";
 
     List<ContactDetailledDTO> contacts = new ArrayList<>();
 
@@ -65,12 +65,12 @@ public class ContactDAOImpl implements ContactDAO {
    */
   private ContactDetailledDTO rsToDetailedContact(ResultSet rs) throws SQLException {
     ContactDetailledDTO contact = factory.getDetailledContactDTO();
-    contact.setId(rs.getInt("id_contact"));
-    contact.setEtatContact(rs.getString("etat_contact"));
-    contact.setLieuxRencontre(rs.getString("lieux_rencontre"));
-    contact.setRaisonRefus(rs.getString("raison_refus"));
-    contact.setNomEntreprise(rs.getString("nom"));
-    contact.setAppellation(rs.getString("appellation"));
+    contact.setId(rs.getInt("contact_id"));
+    contact.setEtatContact(rs.getString("contact_status"));
+    contact.setLieuxRencontre(rs.getString("meeting_place"));
+    contact.setRaisonRefus(rs.getString("refusal_reason"));
+    contact.setNomEntreprise(rs.getString("name"));
+    contact.setAppellation(rs.getString("designation"));
     return contact;
   }
 }

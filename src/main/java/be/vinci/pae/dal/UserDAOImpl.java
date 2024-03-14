@@ -2,7 +2,6 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.Factory;
 import be.vinci.pae.business.UserDTO;
-import be.vinci.pae.utils.Config;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,8 +30,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneById(int id) {
-    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, "
-        + "date_inscription, role_utilisateur FROM pae.utilisateurs WHERE id_utilisateur = ?";
+    String query = "SELECT user_id, email, password, last_name, first_name, phone_number, "
+        + "registration_date, user_role FROM pae.users WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -56,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneByEmail(String email) {
 
-    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, date_inscription, role_utilisateur FROM pae.utilisateurs WHERE email = ?";
+    String query = "SELECT user_id, email, password, last_name, first_name, phone_number, registration_date, user_role FROM pae.users WHERE email = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
@@ -75,17 +74,17 @@ public class UserDAOImpl implements UserDAO {
    * List of all users.
    */
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT id_utilisateur, nom, prenom,role_utilisateur FROM pae.utilisateurs WHERE role_utilisateur = 'E'";
+    String query = "SELECT user_id, last_name, first_name, user_role FROM pae.users WHERE user_role = 'E'";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-            UserDTO user = factory.getPublicUser();
-            user.setId(rs.getInt("id_utilisateur"));
-            user.setNom(rs.getString("nom"));
-            user.setPrenom(rs.getString("prenom"));
-            user.setRole(rs.getString("role_utilisateur"));
-            users.add(user);
+          UserDTO user = factory.getPublicUser();
+          user.setId(rs.getInt("user_id"));
+          user.setNom(rs.getString("last_name"));
+          user.setPrenom(rs.getString("first_name"));
+          user.setRole(rs.getString("user_role"));
+          users.add(user);
         }
       }
     } catch (SQLException e) {
@@ -103,14 +102,14 @@ public class UserDAOImpl implements UserDAO {
    */
   public UserDTO rsToUser(ResultSet rs) throws SQLException {
     UserDTO user = factory.getPublicUser();
-    user.setId(rs.getInt("id_utilisateur"));
+    user.setId(rs.getInt("user_id"));
     user.setEmail(rs.getString("email"));
-    user.setPassword(rs.getString("mot_de_passe"));
-    user.setNom(rs.getString("nom"));
-    user.setPrenom(rs.getString("prenom"));
-    user.setNumTel(rs.getString("numero_tel"));
-    user.setDateInscription(rs.getDate("date_inscription"));
-    user.setRole(rs.getString("role_utilisateur"));
+    user.setPassword(rs.getString("password"));
+    user.setNom(rs.getString("last_name"));
+    user.setPrenom(rs.getString("first_name"));
+    user.setNumTel(rs.getString("phone_number"));
+    user.setDateInscription(rs.getDate("registration_date"));
+    user.setRole(rs.getString("user_role"));
     return user;
   }
 

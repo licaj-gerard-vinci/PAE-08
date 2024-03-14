@@ -1,6 +1,5 @@
 package be.vinci.pae.main;
 
-import be.vinci.pae.presentation.filters.CORSFilter;
 import be.vinci.pae.utils.ApplicationBinder;
 import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.WebExceptionMapper;
@@ -36,8 +35,7 @@ public class Main {
     // in vinci.be package
     final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.presentation")
         .register(ApplicationBinder.class)
-        .register(WebExceptionMapper.class)
-        .register(CORSFilter.class);
+        .register(WebExceptionMapper.class);
 
     // create and start a new instance of grizzly http server
     // exposing the Jersey application at BASE_URI
