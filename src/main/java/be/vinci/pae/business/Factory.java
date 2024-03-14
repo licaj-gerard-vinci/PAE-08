@@ -34,4 +34,11 @@ public interface Factory {
    * @return a new instance of ContactDTO.
    */
   ContactDetailledDTO getDetailledContactDTO();
+
+  /**
+   * Create a new EntrepriseDTO.
+   *
+   * @return a new instance of EntrepriseDTO.
+   */
+  EntrepriseDTO getEntrepriseDTO();
 }

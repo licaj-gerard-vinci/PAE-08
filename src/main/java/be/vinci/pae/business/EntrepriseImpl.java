@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
  * Represents the EntrepriseImpl class.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EntrepriseImpl implements EntrepriseDTO {
+public class EntrepriseImpl implements Entreprise {
 
   @JsonView(Views.Public.class)
   private int id;
@@ -17,7 +17,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
   private String nom;
 
   @JsonView(Views.Public.class)
-  private String apellation;
+  private String appellation;
 
   @JsonView(Views.Public.class)
   private String adresse;
@@ -41,6 +41,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the ID of the entreprise.
    */
 
+  @Override
   public int getId() {
     return id;
   }
@@ -51,6 +52,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param id the new ID for the entreprise.
    */
 
+  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -61,6 +63,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the name of the entreprise.
    */
 
+  @Override
   public String getNom() {
     return nom;
   }
@@ -71,6 +74,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param nom the new name for the entreprise.
    */
 
+  @Override
   public void setNom(String nom) {
     this.nom = nom;
   }
@@ -81,18 +85,20 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the apellation of the entreprise.
    */
 
-  public String getApellation() {
-    return apellation;
+  @Override
+  public String getAppellation() {
+    return appellation;
   }
 
   /**
    * Sets the apellation of the entreprise.
    *
-   * @param apellation the new apellation for the entreprise.
+   * @param appellation the new apellation for the entreprise.
    */
 
-  public void setApellation(String apellation) {
-    this.apellation = apellation;
+  @Override
+  public void setAppellation(String appellation) {
+    this.appellation = appellation;
   }
 
   /**
@@ -101,6 +107,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the adresse of the entreprise.
    */
 
+  @Override
   public String getAdresse() {
     return adresse;
   }
@@ -111,6 +118,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param adresse the new adresse for the entreprise.
    */
 
+  @Override
   public void setAdresse(String adresse) {
     this.adresse = adresse;
   }
@@ -121,6 +129,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the numTel of the entreprise.
    */
 
+  @Override
   public String getNumTel() {
     return numTel;
   }
@@ -131,6 +140,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param numTel the new numTel for the entreprise.
    */
 
+  @Override
   public void setNumTel(String numTel) {
     this.numTel = numTel;
   }
@@ -141,6 +151,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the email of the entreprise.
    */
 
+  @Override
   public String getEmail() {
     return email;
   }
@@ -151,6 +162,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param email the new email for the entreprise.
    */
 
+  @Override
   public void setEmail(String email) {
     this.email = email;
   }
@@ -161,6 +173,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @return the blackListed of the entreprise.
    */
 
+  @Override
   public boolean isBlackListed() {
     return blackListed;
   }
@@ -171,6 +184,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param blackListed the new blackListed for the entreprise.
    */
 
+  @Override
   public void setBlackListed(boolean blackListed) {
     this.blackListed = blackListed;
   }
@@ -180,6 +194,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    *
    * @return the motivation_blacklist of the entreprise.
    */
+  @Override
   public String getMotivation_blacklist() {
     return motivation;
   }
@@ -191,6 +206,7 @@ public class EntrepriseImpl implements EntrepriseDTO {
    * @param motivation the new motivation_blacklist for the entreprise.
    */
 
+  @Override
   public void setMotivation_blacklist(String motivation) {
     this.motivation = motivation;
   }
@@ -202,11 +218,11 @@ public class EntrepriseImpl implements EntrepriseDTO {
    */
   @Override
   public String toString() {
-    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", apellation=" + apellation + ", adresse="
-        + adresse
-        + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
-        + ", motivation_blacklist="
-        + motivation + "]";
+    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation
+            + ", adresse=" + adresse
+            + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
+            + ", motivation_blacklist="
+            + motivation + "]";
   }
 
 

@@ -122,7 +122,7 @@ public class AuthRessource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
     }
-    StageDTO userStage = myStageUcc.GetStageUser(authenticatedUser.getId());
+    StageDTO userStage = myStageUcc.getStageUser(authenticatedUser.getId());
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
     }

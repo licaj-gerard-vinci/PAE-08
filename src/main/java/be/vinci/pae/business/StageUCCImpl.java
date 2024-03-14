@@ -18,7 +18,7 @@ public class StageUCCImpl implements StageUCC {
    * @return the stage user
    */
 
-  public StageDTO GetStageUser(int idUser) {
+  public StageDTO getStageUser(int idUser) {
     return stageDAO.getStageOfUser(idUser);
   }
 

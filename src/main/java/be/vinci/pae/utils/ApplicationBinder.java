@@ -2,6 +2,8 @@ package be.vinci.pae.utils;
 
 import be.vinci.pae.business.ContactUCC;
 import be.vinci.pae.business.ContactUCCImpl;
+import be.vinci.pae.business.EntrepriseUCC;
+import be.vinci.pae.business.EntrepriseUCCImpl;
 import be.vinci.pae.business.Factory;
 import be.vinci.pae.business.FactoryImpl;
 import be.vinci.pae.business.StageUCC;
@@ -12,6 +14,8 @@ import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.ContactDAOImpl;
 import be.vinci.pae.dal.DALService;
 import be.vinci.pae.dal.DALServiceImpl;
+import be.vinci.pae.dal.EntrepriseDAO;
+import be.vinci.pae.dal.EntrepriseDAOImpl;
 import be.vinci.pae.dal.StageDAO;
 import be.vinci.pae.dal.StageDAOImpl;
 import be.vinci.pae.dal.UserDAO;
@@ -41,5 +45,7 @@ public class ApplicationBinder extends AbstractBinder {
     bind(StageDAOImpl.class).to(StageDAO.class).in(Singleton.class);
     bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
     bind(ContactDAOImpl.class).to(ContactDAO.class).to(Singleton.class);
+    bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
+    bind(EntrepriseDAOImpl.class).to(EntrepriseDAO.class).in(Singleton.class);
   }
 }
