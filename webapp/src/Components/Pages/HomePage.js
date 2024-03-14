@@ -23,17 +23,6 @@ async function renderHomePage(){
     const entreprises = await getEntreprises();
     const contacts = await getContactsAllInfo();
 
-    let button;
-    if (contacts) {
-      button = `<div class="d-flex justify-content-center">
-                  <p>contact deja prise<p>
-                </div>`;
-    } else {
-      button = `<div class="d-flex justify-content-center">
-                  <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
-                </div>`;
-    }
-
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
       <p>Aucune entreprise n'est disponible pour le moment.</p>
@@ -43,24 +32,40 @@ async function renderHomePage(){
       <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6">
-        ${entreprises.map(entreprise => `
-        <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
-            <div>
-                <div class="d-flex justify-content-between">
-                    <div class="mr-auto text-left">
-                        <h1 class="mb-auto">${entreprise.nom}</h1>
-                        <ul class="small">
-                            <li>${entreprise.appellation}</li>
-                            <li>${entreprise.adresse}</li>
-                            <li>${entreprise.numTel}</li>
-                        </ul>
+        ${entreprises.map(entreprise => {
+          const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
+          let button;
+          console.log(contactFound);
+          if (contactFound) {
+            button = `
+            <div class="d-flex justify-content-center">
+              <p>contact deja prise<p>
+            </div>`;
+          } else {
+            button = `
+            <div class="d-flex justify-content-center">
+              <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
+            </div>`;
+          }
+          return `
+            <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <div class="mr-auto text-left">
+                            <h1 class="mb-auto">${entreprise.nom}</h1>
+                            <ul class="small">
+                                <li>${entreprise.appellation}</li>
+                                <li>${entreprise.adresse}</li>
+                                <li>${entreprise.numTel}</li>
+                            </ul>
+                        </div>
+                        <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
                     </div>
-                    <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
                 </div>
+                ${button}
             </div>
-            ${button}
-        </div>
-    `).join('')}
+          `;
+        }).join('')}
         </div> 
       </div> 
     </div>
