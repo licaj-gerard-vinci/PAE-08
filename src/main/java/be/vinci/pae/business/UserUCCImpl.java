@@ -3,6 +3,8 @@ package be.vinci.pae.business;
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
 
+import java.util.List;
+
 /**
  * The {@code UserUCCImpl} class provides methods for managing user-related operations, such as
  * registering new users and retrieving user data. It makes use of dependency injection to obtain a
@@ -42,5 +44,14 @@ public class UserUCCImpl implements UserUCC {
     }
     return user;
   }
+
+  /**
+   * Retrives all users.
+   */
+  @Override
+  public List<UserDTO> getAll() {
+    List<UserDTO> users = userDAO.getAllUsers();
+    return users;
+    }
 
 }

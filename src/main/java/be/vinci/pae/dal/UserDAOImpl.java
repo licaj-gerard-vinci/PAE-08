@@ -7,6 +7,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides services related to user data management, including retrieval, creation, login, and
@@ -54,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneByEmail(String email) {
 
-    String query = Config.getProperty("getOneByEmail");
+    String query = "SELECT id_utilisateur, email, mot_de_passe, nom, prenom, numero_tel, date_inscription, role_utilisateur FROM pae.utilisateurs WHERE email = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
@@ -69,6 +71,28 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
+  /**
+   * List of all users.
+   */
+  public List<UserDTO> getAllUsers() {
+    String query = "SELECT id_utilisateur, nom, prenom,role_utilisateur FROM pae.utilisateurs WHERE role_utilisateur = 'E'";
+    List<UserDTO> users = new ArrayList<>();
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+            UserDTO user = factory.getPublicUser();
+            user.setId(rs.getInt("id_utilisateur"));
+            user.setNom(rs.getString("nom"));
+            user.setPrenom(rs.getString("prenom"));
+            user.setRole(rs.getString("role_utilisateur"));
+            users.add(user);
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return users;
+  }
 
   /**
    * Retrieves a single user by their login and password.
