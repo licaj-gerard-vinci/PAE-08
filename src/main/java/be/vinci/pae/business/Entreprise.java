@@ -1,13 +1,11 @@
 package be.vinci.pae.business;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * Represents the EntrepriseDTO interface.
+ * The Entreprise interface represents a business entity.
+ * It extends the EntrepriseDTO interface and provides
+ * methods to get and set the properties of an entreprise.
  */
-@JsonDeserialize(as = EntrepriseImpl.class)
-public interface EntrepriseDTO {
-
+public interface Entreprise extends EntrepriseDTO {
   /**
    * Gets the ID of the entreprise.
    *
@@ -51,30 +49,30 @@ public interface EntrepriseDTO {
   void setAppellation(String appellation);
 
   /**
-   * Gets the address of the entreprise.
+   * Gets the adresse of the entreprise.
    *
-   * @return the address of the entreprise.
+   * @return the adresse of the entreprise.
    */
   String getAdresse();
 
   /**
-   * Sets the address of the entreprise.
+   * Sets the adresse of the entreprise.
    *
-   * @param adresse the new address for the entreprise.
+   * @param adresse the new adresse for the entreprise.
    */
   void setAdresse(String adresse);
 
   /**
-   * Gets the postal code of the entreprise.
+   * Gets the numTel of the entreprise.
    *
-   * @return the postal code of the entreprise.
+   * @return the numTel of the entreprise.
    */
   String getNumTel();
 
   /**
-   * Sets the postal code of the entreprise.
+   * Sets the numTel of the entreprise.
    *
-   * @param numTel the new postal code for the entreprise.
+   * @param numTel the new numTel for the entreprise.
    */
   void setNumTel(String numTel);
 
@@ -93,16 +91,16 @@ public interface EntrepriseDTO {
   void setEmail(String email);
 
   /**
-   * Gets the state of the entreprise.
+   * Gets the blackListed of the entreprise.
    *
-   * @return the state of the entreprise.
+   * @return the blackListed of the entreprise.
    */
   boolean isBlackListed();
 
   /**
-   * Sets the state of the entreprise.
+   * Sets the blackListed of the entreprise.
    *
-   * @param blackListed the new state for the entreprise.
+   * @param blackListed the new blackListed for the entreprise.
    */
   void setBlackListed(boolean blackListed);
 
@@ -116,9 +114,7 @@ public interface EntrepriseDTO {
   /**
    * Sets the motivation_blacklist of the entreprise.
    *
-   * @param motivationBlacklist the new motivation_blacklist for the entreprise.
+   * @param motivation the new motivation_blacklist for the entreprise.
    */
-  void setMotivation_blacklist(String motivationBlacklist);
-
-
+  void setMotivation_blacklist(String motivation);
 }
