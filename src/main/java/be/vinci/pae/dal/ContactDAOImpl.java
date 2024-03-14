@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.ContactDTO;
 import be.vinci.pae.business.ContactDetailledDTO;
 import be.vinci.pae.business.Factory;
 import jakarta.inject.Inject;
@@ -56,6 +57,29 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
+
+  public List<ContactDTO> getContactsAllInfo(int id){
+    String query = "SELECT con.id, con.entreprise, con.utilisateur, con.etat_contact " +
+            "con.lieux_rencontre, con.raison_refus "
+            + "FROM pae.contacts con, pae.utilisateurs usr " +
+            "WHERE con.id_utilisateur = ?";
+
+    List<ContactDTO> contacts = new ArrayList<>();
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setInt(1, id);
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          contacts.add(rsToContacts(rs));
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return contacts;
+  }
+
   /**
    * Rs to detailed contact.
    *
@@ -71,6 +95,15 @@ public class ContactDAOImpl implements ContactDAO {
     contact.setRaisonRefus(rs.getString("raison_refus"));
     contact.setNomEntreprise(rs.getString("nom"));
     contact.setAppellation(rs.getString("appellation"));
+    return contact;
+  }
+
+  private ContactDTO rsToContacts(ResultSet rs) throws SQLException {
+    ContactDTO contact = factory.getContactDTO();
+    contact.setId(rs.getInt("id_contact"));
+    contact.setEtatContact(rs.getString("etat_contact"));
+    contact.setEntreprise(rs.getInt("entreprise"));
+    contact.setUtilisateur(rs.getInt("utilisateur"));
     return contact;
   }
 }

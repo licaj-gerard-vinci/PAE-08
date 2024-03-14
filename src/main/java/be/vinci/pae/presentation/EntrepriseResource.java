@@ -16,7 +16,7 @@ import java.util.List;
  * It is annotated with {@code Singleton} and {@code Path("ent")}.
  */
 @Singleton
-@Path("ent")
+@Path("entreprise")
 public class EntrepriseResource {
 
   @Inject
@@ -28,7 +28,6 @@ public class EntrepriseResource {
    * @return the list containing all entreprises.
    */
   @GET
-  @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
   public List<EntrepriseDTO> getAllEntreprises() {
     return myEntrepriseUcc.getEntreprises();

@@ -132,29 +132,5 @@ import Navigate from '../Components/Router/Navigate';
     return user;
   }
 
-  async function getContactsAllInfo(){
-    let contacts = null;
-    const token = getToken();
-    if(token) {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-      const response = await fetch(`http://localhost:8080/auth/contact/allInfo`, options);
 
-      if (!response.ok) {        
-        const nonPresent = `Error fetching contact data`;
-
-        return nonPresent;
-      }
-      contacts = await response.json();
-    }
-
-    return contacts;
-  }
-
-
-  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getContactsAllInfo};
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData};
