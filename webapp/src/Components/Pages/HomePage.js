@@ -1,6 +1,6 @@
-import { getUserData } from "../../model/users";
-import logo from '../../img/HELOGO.png';
+import { getContactsAllInfo, getUserData } from "../../model/users";
 import getEntreprises from "../../model/entreprises";
+import logo from '../../img/HELOGO.png';
 
 const HomePage = async () => {
   await renderHomePage();
@@ -21,7 +21,19 @@ async function renderHomePage(){
 
   } else if (user.role === "E") {
     const entreprises = await getEntreprises();
-    console.log(entreprises);
+    const contacts = await getContactsAllInfo();
+
+    let button;
+    if (contacts) {
+      button = `<div class="d-flex justify-content-center">
+                  <p>contact deja prise<p>
+                </div>`;
+    } else {
+      button = `<div class="d-flex justify-content-center">
+                  <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
+                </div>`;
+    }
+
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
       <p>Aucune entreprise n'est disponible pour le moment.</p>
@@ -46,9 +58,7 @@ async function renderHomePage(){
                     <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
-            </div>
+            ${button}
         </div>
     `).join('')}
         </div> 

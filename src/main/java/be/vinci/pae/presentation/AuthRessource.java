@@ -159,14 +159,14 @@ public class AuthRessource {
   @Path("contactAllInfo")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
+  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDTOs = myContactUcc.getContacts(
-            authenticatedUser.getId());
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(
+        authenticatedUser.getId());
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
     }

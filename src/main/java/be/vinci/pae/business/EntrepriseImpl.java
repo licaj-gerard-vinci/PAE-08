@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
  * Represents the EntrepriseImpl class.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EntrepriseImpl implements Entreprise {
+public class EntrepriseImpl implements EntrepriseDTO {
 
   @JsonView(Views.Public.class)
   private int id;

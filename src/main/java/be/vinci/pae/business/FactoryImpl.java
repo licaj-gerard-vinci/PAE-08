@@ -59,6 +59,8 @@ public class FactoryImpl implements Factory {
     return new EntrepriseImpl();
   }
 
-  public ContactDTO getContactDTO() { return new ContactImpl(); }
+  public ContactDTO getContactDTO() {
+    return new ContactImpl();
+  }
 }
 

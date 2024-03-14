@@ -143,14 +143,17 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/contactAllInfo`, options);
-
-      if (!response.ok) {        
-        const nonPresent = `Error fetching contact data`;
-
-        return nonPresent;
+      try {
+        const response = await fetch(`http://localhost:8080/auth/contactAllInfo`, options);
+  
+        if (!response.ok) {
+          throw new Error(`Error fetching contacts data: ${response.statusText}`);
+        }
+  
+        contacts = await response.json();
+      } catch (error) {
+        console.error('Error fetching contacts data');
       }
-      contacts = await response.json();
     }
 
     return contacts;

@@ -59,10 +59,10 @@ public class ContactDAOImpl implements ContactDAO {
 
 
   public List<ContactDTO> getContactsAllInfo(int id){
-    String query = "SELECT con.id_contact, con.entreprise, con.utilisateur, con.etat_contact " +
+    String query = "SELECT con.id_contact, con.entreprise, con.utilisateur, con.etat_contact, " +
             "con.lieux_rencontre, con.raison_refus "
-            + "FROM pae.contacts con, pae.utilisateurs usr " +
-            "WHERE con.id_utilisateur = ?";
+            + "FROM pae.contacts con " +
+            "WHERE con.utilisateur = ?";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
