@@ -37,7 +37,7 @@ public class ContactDAOImpl implements ContactDAO {
             +
             "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
             +
-            "JOIN pae.companies AS comp ON con.entreprise = comp.company_id "
+            "JOIN pae.companies AS comp ON con.company_id = comp.company_id "
             +
             "WHERE usr.user_id = ?";
 

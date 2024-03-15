@@ -60,13 +60,13 @@ public class StageDAOImpl implements StageDAO {
             man.last_name ,
             man.first_name ,
             com.name ,
-            com.designation,
+            com.designation
           FROM
             pae.internships int
             INNER JOIN pae.managers man ON int.manager_id = man.manager_id
             INNER JOIN pae.companies com ON int.company_id = com.company_id
           WHERE
-            int.etudiant = ?;
+            int.student_id = ?;
         """;
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
