@@ -1,5 +1,7 @@
 package be.vinci.pae.business;
 
+import java.util.List;
+
 /**
  * The {@code UserUCC} interface provides methods for managing user-related operations, such as
  * registering new users and retrieving user data.
@@ -23,4 +25,8 @@ public interface UserUCC {
    */
   UserDTO getOne(int id);
 
+  /**
+   * Retrives all users.
+   */
+  List<UserDTO> getAll();
 }

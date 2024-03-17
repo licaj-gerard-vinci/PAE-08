@@ -2,6 +2,7 @@ package be.vinci.pae.business;
 
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * The {@code UserUCCImpl} class provides methods for managing user-related operations, such as
@@ -41,6 +42,15 @@ public class UserUCCImpl implements UserUCC {
       return null;
     }
     return user;
+  }
+
+  /**
+   * Retrives all users.
+   */
+  @Override
+  public List<UserDTO> getAll() {
+    List<UserDTO> users = userDAO.getAllUsers();
+    return users;
   }
 
 }
