@@ -2,7 +2,6 @@ package be.vinci.pae.business;
 
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
-
 import java.util.List;
 
 /**
@@ -52,6 +51,6 @@ public class UserUCCImpl implements UserUCC {
   public List<UserDTO> getAll() {
     List<UserDTO> users = userDAO.getAllUsers();
     return users;
-    }
+  }
 
 }
