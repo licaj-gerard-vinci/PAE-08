@@ -10,30 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Entreprise interface represents a business entity.
- * It extends the EntrepriseDTO interface and
+ * The Entreprise interface represents a business entity. It extends the EntrepriseDTO interface and
  * provides methods to get and set the properties of an entreprise.
  */
 public class EntrepriseDAOImpl implements EntrepriseDAO {
+
   @Inject
   private DALService dalService;
   @Inject
   private Factory factory;
 
   /**
-  * Retrieves all entreprises from the database.
-  *
-  * @return a list of all entreprises.
-  */
+   * Retrieves all entreprises from the database.
+   *
+   * @return a list of all entreprises.
+   */
   @Override
   public List<EntrepriseDTO> getEntreprises() {
-    String query = "SELECT ent.nom, ent.appellation,"
-            + " ent.adress, ent.numero_tel FROM pae.entreprises AS ent";
+    String query = "SELECT name, designation,"
+        + " address, phone_number FROM pae.companies";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
     try (PreparedStatement statement = dalService.preparedStatement(query);
-         ResultSet rs = statement.executeQuery()) {
+        ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
         entreprises.add(rsToEntreprises(rs));
       }
@@ -45,10 +45,10 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
   private EntrepriseDTO rsToEntreprises(ResultSet rs) throws SQLException {
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    entreprise.setNom(rs.getString("nom"));
-    entreprise.setAppellation(rs.getString("appellation"));
-    entreprise.setAdresse(rs.getString("adress"));
-    entreprise.setNumTel(rs.getString("numero_tel"));
+    entreprise.setNom(rs.getString("name"));
+    entreprise.setAppellation(rs.getString("designation"));
+    entreprise.setAdresse(rs.getString("address"));
+    entreprise.setNumTel(rs.getString("phone_number"));
     return entreprise;
   }
 }

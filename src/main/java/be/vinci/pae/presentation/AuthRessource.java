@@ -107,6 +107,24 @@ public class AuthRessource {
   }
 
   /**
+   * Retrives all the users from the database.
+   */
+  @GET
+  @Path("users")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
+    UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
+    if (authenticated == null) {
+      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+    }
+    if (authenticated.getRole().equals("E")) {
+      throw new WebApplicationException("not authorized", Status.UNAUTHORIZED);
+    }
+    return myUserUcc.getAll();
+  }
+
+  /**
    * Retrieves the stage of the authenticated user from the request context.
    *
    * @param requestContext the request context.

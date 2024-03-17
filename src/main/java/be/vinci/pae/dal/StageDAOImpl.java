@@ -29,7 +29,7 @@ public class StageDAOImpl implements StageDAO {
    */
 
   public StageDTO getStageOfUser(int id) {
-    String query = "SELECT * FROM pae.stages WHERE etudiant = ?";
+    String query = "SELECT * FROM pae.internships WHERE student_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -54,19 +54,19 @@ public class StageDAOImpl implements StageDAO {
   public StageDetailedDTO getDetailOfStage(int id) {
     String query = """
           SELECT
-            s.id_stage,
-            s.sujet,
-            s.date_signature,
-            r.nom AS responsable_nom,
-            r.prenom AS responsable_prenom,
-            e.nom AS entreprise_nom,
-            e.appellation AS entreprise_appellation
+            int.internship_id,
+            int.topic,
+            int.date_of_signature,
+            man.last_name ,
+            man.first_name ,
+            com.name ,
+            com.designation
           FROM
-            pae.stages s
-            INNER JOIN pae.responsables r ON s.responsable = r.id_responsable
-            INNER JOIN pae.entreprises e ON s.entreprise = e.id_entreprise
+            pae.internships int
+            INNER JOIN pae.managers man ON int.manager_id = man.manager_id
+            INNER JOIN pae.companies com ON int.company_id = com.company_id
           WHERE
-            s.etudiant = ?;
+            int.student_id = ?;
         """;
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
@@ -92,13 +92,13 @@ public class StageDAOImpl implements StageDAO {
 
   public StageDTO rsToStage(ResultSet rs) throws SQLException {
     StageDTO stage = factory.getStageDTO();
-    stage.setId(rs.getInt("id_stage"));
-    stage.setResponsable(rs.getInt("responsable"));
-    stage.setEtudiant(rs.getInt("etudiant"));
-    stage.setContact(rs.getInt("contact"));
-    stage.setEntreprise(rs.getInt("entreprise"));
-    stage.setSujet(rs.getString("sujet"));
-    stage.setdateSignature(rs.getString("date_signature"));
+    stage.setId(rs.getInt("internship_id"));
+    stage.setResponsable(rs.getInt("manager_id"));
+    stage.setEtudiant(rs.getInt("student_id"));
+    stage.setContact(rs.getInt("contact_id"));
+    stage.setEntreprise(rs.getInt("company_id"));
+    stage.setSujet(rs.getString("topic"));
+    stage.setdateSignature(rs.getString("date_of_signature"));
 
     return stage;
 
@@ -114,13 +114,13 @@ public class StageDAOImpl implements StageDAO {
    */
   private StageDetailedDTO rsToDetailedStage(ResultSet rs) throws SQLException {
     StageDetailedDTO stage = factory.getDetailedStageDTO();
-    stage.setId(rs.getInt("id_stage"));
-    stage.setSujet(rs.getString("sujet"));
-    stage.setdateSignature(rs.getString("date_signature"));
-    stage.setResponsableNom(rs.getString("responsable_nom"));
-    stage.setResponsablePrenom(rs.getString("responsable_prenom"));
-    stage.setEntrepriseNom(rs.getString("entreprise_nom"));
-    stage.setEntrepriseAppellation(rs.getString("entreprise_appellation"));
+    stage.setId(rs.getInt("internship_id"));
+    stage.setSujet(rs.getString("topic"));
+    stage.setdateSignature(rs.getString("date_of_signature"));
+    stage.setResponsableNom(rs.getString("last_name"));
+    stage.setResponsablePrenom(rs.getString("first_name"));
+    stage.setEntrepriseNom(rs.getString("name"));
+    stage.setEntrepriseAppellation(rs.getString("designation"));
     return stage;
   }
 }

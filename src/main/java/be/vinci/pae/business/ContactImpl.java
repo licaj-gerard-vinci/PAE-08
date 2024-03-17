@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 /**
  * Represents the ContactImpl class.
  */
+
 public class ContactImpl implements ContactDetailledDTO {
 
   @JsonView(Views.Public.class)

@@ -1,6 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.UserDTO;
+import java.util.List;
 
 /**
  * Interface for user data service operations, including retrieval, creation, and authentication of
@@ -15,6 +16,11 @@ public interface UserDAO {
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
   UserDTO getOneById(int id);
+
+  /**
+   * Retrieves a list of all users.
+   */
+  List<UserDTO> getAllUsers();
 
   /**
    * Retrieves a single user by their login.
