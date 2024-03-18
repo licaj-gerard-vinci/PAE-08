@@ -21,4 +21,5 @@ public interface ContactDAO {
 
   List<ContactDTO> getContactsAllInfo(int idUser);
 
+  void insertContact(ContactDTO contact);
 }

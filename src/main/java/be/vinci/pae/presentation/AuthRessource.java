@@ -170,7 +170,26 @@ public class AuthRessource {
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
     }
-    return contactDTOs; // Retourne la liste des contacts détaillés
+    return contactDTOs;
+  }
+
+
+  @POST
+  @Path("insertContact")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ObjectNode insertContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+
+    myContactUcc.insertContact(contact);
+
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Contact created successfully");
+    return responseNode;
   }
 
 

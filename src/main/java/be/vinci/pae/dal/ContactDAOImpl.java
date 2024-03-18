@@ -80,6 +80,18 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
+  public void insertContact(ContactDTO contact) {
+    String query = "INSERT INTO pae.contacts (entreprise, utilisateur, etat_contact) VALUES (?, ?, ?)";
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setInt(1, contact.getEntreprise());
+      statement.setInt(2, contact.getUtilisateur());
+      statement.setString(3, contact.getEtatContact());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   /**
    * Rs to detailed contact.
    *

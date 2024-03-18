@@ -159,5 +159,35 @@ import Navigate from '../Components/Router/Navigate';
     return contacts;
   }
 
+  async function insertContact(entrepriseId, userId, etat) {
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          entreprise: entrepriseId,
+          utilisateur: userId,
+          etat_contact: etat
+        }),
+      };
+      try {
+        const response = await fetch(`http://localhost:8080/auth/insertContact`, options);
+  
+        if (!response.ok) {
+          throw new Error(`Error inserting contact: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error inserting contact');
+      }
+    }
+  }
 
-  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getContactsAllInfo};
+
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getContactsAllInfo, insertContact };

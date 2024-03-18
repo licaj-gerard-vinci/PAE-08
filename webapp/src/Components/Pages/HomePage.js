@@ -1,4 +1,4 @@
-import { getContactsAllInfo, getUserData } from "../../model/users";
+import { getContactsAllInfo, getUserData, insertContact } from "../../model/users";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 
@@ -44,7 +44,7 @@ async function renderHomePage(){
           } else {
             button = `
             <div class="d-flex justify-content-center">
-              <button type='button' class='btn btn-primary'>Contacter l'entreprise</button>
+              <button type='button' class='btn btn-primary' onclick='${insertContact(entreprise.id, user.id, 'prise')}'>Contacter l'entreprise</button>
             </div>`;
           }
           return `
