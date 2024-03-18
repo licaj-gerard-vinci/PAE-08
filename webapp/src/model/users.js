@@ -164,15 +164,15 @@ import Navigate from '../Components/Router/Navigate';
     if(token) {
       const options = {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
         body: JSON.stringify({
           entreprise: entrepriseId,
           utilisateur: userId,
           etat_contact: etat
         }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
       };
       try {
         const response = await fetch(`http://localhost:8080/auth/insertContact`, options);

@@ -33,18 +33,20 @@ async function renderHomePage(){
       <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6">
         ${entreprises.map(entreprise => {
-          const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
           let button;
-          console.log(contactFound);
-          if (contactFound) {
-            button = `
-            <div class="d-flex justify-content-center">
-              <p>contact deja prise<p>
-            </div>`;
+          if(contacts){
+            const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
+            console.log(contactFound);
+            if (contactFound) {
+              button = `
+              <div class="d-flex justify-content-center">
+                <p>contact deja prise<p>
+              </div>`;
+            }
           } else {
             button = `
             <div class="d-flex justify-content-center">
-              <button type='button' class='btn btn-primary' onclick='${insertContact(entreprise.id, user.id, 'prise')}'>Contacter l'entreprise</button>
+              <button type='button' class='btn btn-primary' id='contactButton${entreprise.id}'>Contacter l'entreprise</button>
             </div>`;
           }
           return `
@@ -76,5 +78,10 @@ async function renderHomePage(){
   }
   
 }
+
+document.getElementById('contactButton${entreprise.id}').addEventListener('click', function(event) {
+  event.preventDefault();
+  insertContact(entreprise.id, user.id, 'prise');
+});
 
 export default HomePage;
