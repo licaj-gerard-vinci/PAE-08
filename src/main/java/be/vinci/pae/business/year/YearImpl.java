@@ -1,7 +1,5 @@
 package be.vinci.pae.business.year;
 
-import be.vinci.pae.business.year.YearDTO;
-
 /**
  * Represents the AnneeImpl class.
  */
