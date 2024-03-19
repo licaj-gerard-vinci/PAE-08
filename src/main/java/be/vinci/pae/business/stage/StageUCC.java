@@ -1,8 +1,5 @@
 package be.vinci.pae.business.stage;
 
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
-
 /**
  * The Interface StageUCC.
  */

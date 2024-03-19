@@ -1,18 +1,17 @@
 package be.vinci.pae.business.entreprise;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-
 import java.util.List;
 
 /**
- * The EntrepriseUCC interface provides methods to interact
- * with the EntrepriseDAO to perform operations on the entreprises.
+ * The EntrepriseUCC interface provides methods to interact with the EntrepriseDAO to perform
+ * operations on the entreprises.
  */
 public interface EntrepriseUCC {
+
   /**
-  * Retrieves all entreprises.
-  *
-  * @return the list containing all entreprises.
-  */
+   * Retrieves all entreprises.
+   *
+   * @return the list containing all entreprises.
+   */
   List<EntrepriseDTO> getEntreprises();
 }

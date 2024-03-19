@@ -3,7 +3,6 @@ package be.vinci.pae.dal.contact;
 import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.DALService;
-import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,7 +1,5 @@
 package be.vinci.pae.business.entreprise;
 
-import be.vinci.pae.business.entreprise.Entreprise;
-
 /**
  * Represents the EntrepriseImpl class.
  */
@@ -208,10 +206,10 @@ public class EntrepriseImpl implements Entreprise {
   @Override
   public String toString() {
     return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation
-            + ", adresse=" + adresse
-            + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
-            + ", motivation_blacklist="
-            + motivation + "]";
+        + ", adresse=" + adresse
+        + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
+        + ", motivation_blacklist="
+        + motivation + "]";
   }
 
 

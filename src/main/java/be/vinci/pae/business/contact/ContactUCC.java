@@ -1,7 +1,5 @@
 package be.vinci.pae.business.contact;
 
-import be.vinci.pae.business.contact.ContactDetailledDTO;
-
 import java.util.List;
 
 /**

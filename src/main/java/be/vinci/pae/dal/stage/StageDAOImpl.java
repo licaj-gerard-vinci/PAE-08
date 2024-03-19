@@ -4,7 +4,6 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.stage.StageDetailedDTO;
 import be.vinci.pae.dal.DALService;
-import be.vinci.pae.dal.stage.StageDAO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

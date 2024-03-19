@@ -1,7 +1,6 @@
 package be.vinci.pae.business.responsable;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
 
 /**
  * Represents the ResponsableImpl class.

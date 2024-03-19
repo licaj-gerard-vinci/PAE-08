@@ -1,7 +1,5 @@
 package be.vinci.pae.business.stage;
 
-import be.vinci.pae.business.stage.StageDetailedDTO;
-
 /**
  * Represents the StageImpl class.
  */
@@ -58,7 +56,7 @@ public class StageImpl implements StageDetailedDTO {
   private String responsableNom;
   private String responsablePrenom;
   private String entrepriseNom;
-        private String entrepriseAppellation;
+  private String entrepriseAppellation;
 
   /**
    * Gets the stage ID.
