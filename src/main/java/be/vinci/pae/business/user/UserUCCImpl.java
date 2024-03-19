@@ -2,7 +2,6 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
-import java.util.List;
 
 /**
  * The {@code UserUCCImpl} class provides methods for managing user-related operations, such as
@@ -16,7 +15,7 @@ public class UserUCCImpl implements UserUCC {
 
 
   /**
-   * Registers a new user.
+   * Login a new user.
    *
    * @return the registered user.
    */
@@ -27,6 +26,27 @@ public class UserUCCImpl implements UserUCC {
       return user;
     }
     return null;
+  }
+
+  /**
+   * Registers a new user.
+   *
+   * @return the registered user.
+   */
+  @Override
+  public UserDTO register(String email, String password, String name, String firstname, String phone, String confirmPassword, String role) {
+    User user = (User) userDAO.getOneByEmail(email);
+    if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
+      return null;
+    }
+    if (user != null || !password.equals(confirmPassword)) {
+      return null;
+    }
+    user = (User) userDAO.register(email, password, name, firstname, phone, role);
+
+    user.setDateInscription(new java.sql.Date(System.currentTimeMillis()));
+
+    return user;
   }
 
   /**
@@ -44,13 +64,6 @@ public class UserUCCImpl implements UserUCC {
     return user;
   }
 
-  /**
-   * Retrives all users.
-   */
-  @Override
-  public List<UserDTO> getAll() {
-    List<UserDTO> users = userDAO.getAllUsers();
-    return users;
-  }
+
 
 }

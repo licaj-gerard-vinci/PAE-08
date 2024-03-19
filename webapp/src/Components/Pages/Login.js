@@ -100,7 +100,7 @@ function renderLoginForm() {
 
               </form>
 
-              <p class="text-center">Pas de compte ? <a href="#" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
+              <p class="text-center">Pas de compte ? <a href="#" data_uri="/register" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
               
             </div>
           </div>

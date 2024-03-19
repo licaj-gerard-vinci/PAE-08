@@ -21,24 +21,24 @@ CREATE TABLE pae.users
     user_id                SERIAL PRIMARY KEY,
     email                  TEXT NOT NULL,
     password               TEXT NOT NULL,
-    last_name              TEXT NOT NULL,
-    first_name             TEXT NOT NULL,
+    lastname              TEXT NOT NULL,
+    firstname             TEXT NOT NULL,
     phone_number           TEXT NOT NULL,
-    registration_date      DATE NOT NULL,
+    registration_date      DATE NOT NULL DEFAULT CURRENT_DATE,
     user_role              CHAR(1) NOT NULL,
     school_year_id       INTEGER REFERENCES pae.school_years(school_year_id)
 );
 
 
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date) VALUES ('Baroni','Raphaël','0481 01 01 01','raphael.baroni@vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','P','21-09-20');
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date) VALUES ('Lehmann','Brigitte','0482 02 02 02','brigitte.lehmann@vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','P','21-09-20');
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date) VALUES ('Leleux','Laurent','0483 03 03 03','laurent.leleux@vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','P','21-09-20');
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date) VALUES ('Lancaster','Annouck','0484 04 04 04','annouck.lancaster@vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','A','21-09-20');
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date,school_year_id) VALUES ('Line','Caroline','0486 00 00 01','Caroline.line@student.vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','E','18-09-20',1);
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date,school_year_id) VALUES ('Ile','Achille','0487 00 00 01','Ach.ile@student.vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','E','18-09-23',1);
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date,school_year_id) VALUES ('Ile','Basile','0488 00 00 01','Basile.Ile@student.vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','E','18-09-23',1);
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date,school_year_id) VALUES ('skile','Achille','0490 00 00 01','Achille.skile@student.vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','E','18-09-23',1);
-INSERT INTO pae.users (last_name,first_name,phone_number,email,password, user_role,registration_date,school_year_id) VALUES ('skile','Carole','0489 00 00 01','Carole.skile@student.vinci.be','$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2','E','18-09-23',1);
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date)VALUES ('Baroni', 'Raphaël', '0481 01 01 01', 'raphael.baroni@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'P', '21-09-20');
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date)VALUES ('Lehmann', 'Brigitte', '0482 02 02 02', 'brigitte.lehmann@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'P', '21-09-20');
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date)VALUES ('Leleux', 'Laurent', '0483 03 03 03', 'laurent.leleux@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'P', '21-09-20');
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date)VALUES ('Lancaster', 'Annouck', '0484 04 04 04', 'annouck.lancaster@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'A', '21-09-20');
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date, school_year_id)VALUES ('Line', 'Caroline', '0486 00 00 01', 'Caroline.line@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-20', 1);
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date, school_year_id)VALUES ('Ile', 'Achille', '0487 00 00 01', 'Ach.ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-23', 1);
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date, school_year_id)VALUES ('Ile', 'Basile', '0488 00 00 01', 'Basile.Ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-23', 1);
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date, school_year_id)VALUES ('skile', 'Achille', '0490 00 00 01', 'Achille.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-23', 1);
+INSERT INTO pae.users (lastname, firstname, phone_number, email, password, user_role, registration_date, school_year_id)VALUES ('skile', 'Carole', '0489 00 00 01', 'Carole.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-23', 1);
 
 
 

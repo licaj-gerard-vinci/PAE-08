@@ -1,10 +1,6 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.contact.ContactDetailledDTO;
-import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
-import be.vinci.pae.business.stage.StageUCC;
+
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
@@ -26,7 +22,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
-import java.util.List;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -41,14 +36,8 @@ public class AuthRessource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-
   @Inject
   private UserUCC myUserUcc;
-  @Inject
-  private StageUCC myStageUcc;
-
-  @Inject
-  private ContactUCC myContactUcc;
 
 
   /**
@@ -105,78 +94,39 @@ public class AuthRessource {
     return authenticated;
   }
 
-  /**
-   * Retrives all the users from the database.
-   */
-  @GET
-  @Path("users")
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
-    UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
-    if (authenticated == null) {
-      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+  public ObjectNode register(JsonNode json) {
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")  || !json.hasNonNull("confirmPassword") || !json.hasNonNull("name")
+            || !json.hasNonNull("firstname") || !json.hasNonNull("phone") || !json.hasNonNull("role")) {
+      throw new WebApplicationException("no info", Status.NOT_FOUND);
     }
-    if (authenticated.getRole().equals("E")) {
-      throw new WebApplicationException("not authorized", Status.UNAUTHORIZED);
+    String email = json.get("email").asText();
+    String password = json.get("password").asText();
+    String name = json.get("name").asText();
+    String firstname = json.get("firstname").asText();
+    String phone = json.get("phone").asText();
+    String confirmPassword = json.get("confirmPassword").asText();
+    String role = json.get("role").asText();
+
+    // Get and check credentials
+    if (email.isEmpty() || password.isEmpty() || name.isEmpty() || firstname.isEmpty() || phone.isEmpty() || confirmPassword.isEmpty() || role.isEmpty()) {
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
-    return myUserUcc.getAll();
+    if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+    }
+
+    // Try to log in
+    UserDTO publicUser = myUserUcc.register(email, password, name, firstname, phone, confirmPassword, role);
+    if (publicUser == null) {
+      throw new WebApplicationException("not found", Status.NOT_FOUND);
+    }
+
+    return generateTokenForUser(publicUser);
   }
-
-  /**
-   * Retrieves the stage of the authenticated user from the request context.
-   *
-   * @param requestContext the request context.
-   * @return the stage of the authenticated user.
-   */
-
-  @GET
-  @Path("stage")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  public StageDTO getUserStage(@Context ContainerRequestContext requestContext) {
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
-    }
-    StageDTO userStage = myStageUcc.getStageUser(authenticatedUser.getId());
-    if (userStage == null) {
-      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
-    }
-    StageDetailedDTO userStageDetail = myStageUcc.getDetailedStageForUser(
-        authenticatedUser.getId());
-    if (userStageDetail == null) {
-      throw new WebApplicationException("Stage not found for user", Status.NOT_FOUND);
-    }
-    return userStageDetail;
-
-
-  }
-
-  /**
-   * Retrieves the contacts of the authenticated user from the request context.
-   *
-   * @param requestContext the request context.
-   * @return the contacts of the authenticated user.
-   */
-  @GET
-  @Path("contact")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  public List<ContactDetailledDTO> getContatcs(@Context ContainerRequestContext requestContext) {
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
-    }
-
-    List<ContactDetailledDTO> contactDetailledDTOs = myContactUcc.getContacts(
-        authenticatedUser.getId());
-    if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
-      throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
-    }
-    return contactDetailledDTOs; // Retourne la liste des contacts détaillés
-  }
-
 
   /**
    * Generates a JWT token for the given user.
@@ -186,18 +136,12 @@ public class AuthRessource {
    */
   public ObjectNode generateTokenForUser(UserDTO user) {
     String token = JWT.create()
-        .withIssuer("auth0")
-        .withClaim("user", user.getId())
-        .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 300000000))
-        .sign(jwtAlgorithm);
+            .withIssuer("auth0")
+            .withClaim("user", user.getId())
+            .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 300000000))
+            .sign(jwtAlgorithm);
     return jsonMapper.createObjectNode()
-        .put("token", token)
-        .put("id", user.getId())
-        .put("name", user.getNom())
-        .put("firstName", user.getPrenom())
-        .put("email", user.getEmail())
-        .put("role", user.getRole())
-        .put("numTel", user.getNumTel());
+            .put("token", token);
   }
 
 

@@ -1,6 +1,8 @@
 package be.vinci.pae.business.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonView;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -10,22 +12,14 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserImpl implements User {
 
-
   private int id;
-
   private String email;
-
   private String nom;
-
   private String prenom;
-
   private String numTel;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
-
   private Date dateInscription;
-
   private String role;
-
   private String password;
 
 
@@ -217,7 +211,7 @@ public class UserImpl implements User {
   @Override
   public String toString() {
     return "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
-        + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
-        + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
+            + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
+            + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }

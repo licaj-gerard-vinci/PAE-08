@@ -7,19 +7,19 @@ const ProfilePage = async () => {
   clearPage();
   renderPageTitle('Profile');
 
-  const main = document.querySelector('main'); 
- 
+  const main = document.querySelector('main');
+  // Modifier ici pour un affichage en colonne plutôt qu'en ligne
   main.innerHTML = '<div class="container" style="display: flex; flex-direction: column; align-items: center;"></div>';
 
   const container = document.querySelector('.container');
-  
+  // Utilisez une div supplémentaire pour grouper les deux premières boîtes horizontalement
   const topContainer = document.createElement('div');
   topContainer.style = "display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;";
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
   topContainer.appendChild(await displayStage());
 
   container.appendChild(topContainer);
-  container.appendChild(await displayContacts()); 
+  container.appendChild(await displayContacts()); // Cette fonction affichera les contacts en dessous
 };
 
 function renderRole(user) {
@@ -58,10 +58,10 @@ function renderProfile(user) {
 async function displayStage() {
   const stageDiv = document.createElement('div');
   stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
- 
+  // Augmentez la valeur de max-width et ajustez les marges si nécessaire
   stageDiv.style = "flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
-const stage = await getStagePresent();
-  
+  const stage = await getStagePresent();
+
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
@@ -79,7 +79,7 @@ const stage = await getStagePresent();
   stageDiv.innerHTML = stageHTML;
   document.body.appendChild(stageDiv);
 
-  
+
   const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
   const sujetText = stageDiv.querySelector('#sujet-text');
 
@@ -87,7 +87,7 @@ const stage = await getStagePresent();
   if (modifierSujetButton) {
     modifierSujetButton.addEventListener('click', () => {
       const isEditing = modifierSujetButton.getAttribute('data-editing');
-      
+
 
       if (isEditing) {
         const sujetInput = stageDiv.querySelector('#sujet-input');
@@ -96,7 +96,7 @@ const stage = await getStagePresent();
         stage.sujet = newValue;
         modifierSujetButton.textContent = 'Modifier sujet';
         modifierSujetButton.removeAttribute('data-editing');
-        
+
         // Save the new value to the server
       } else {
         const currentValue = sujetText.textContent;
@@ -140,7 +140,7 @@ async function displayContacts() {
             </tr>
           </thead>
           <tbody>`;
-    
+
     contacts.forEach(contact => {
       contactsHTML += `
         <tr style="border-bottom: 1px solid #eee;">

@@ -7,17 +7,18 @@ Content-Type: application/json
   "password": "a"
 }
 
-> {%
-  client.global.set("token", response.body.token);
-%}
-
-### Login with default admin credentials
-POST {{baseUrl}}/auth/login
+### Register john
+POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "admin@vinci.be",
-  "password": "a"
+  "email": "test@student.vinci.be",
+  "password": "123",
+  "name": "test",
+  "firstname": "testZZ",
+  "phone": "123456789",
+  "confirmPassword": "123",
+  "role": "E"
 }
 
 > {%
@@ -35,9 +36,5 @@ Authorization: {{token}}
 
 ###get contacts
 GET {{baseUrl}}/auth/contact
-Authorization: {{token}}
-
-###get all users
-GET {{baseUrl}}/auth/users
 Authorization: {{token}}
 

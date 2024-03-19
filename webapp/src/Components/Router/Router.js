@@ -37,7 +37,7 @@ async function onFrontendLoad() {
   window.addEventListener('load', async () => {
     const uri = window.location.pathname;
     const componentToRender = routes[uri];
-    
+
     // Si le composant n'existe pas, redirigez vers une page d'erreur ou de connexion
     if (!componentToRender) {
       console.error(`The resource ${uri} does not exist.`);

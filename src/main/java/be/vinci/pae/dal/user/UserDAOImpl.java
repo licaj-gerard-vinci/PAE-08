@@ -3,12 +3,13 @@ package be.vinci.pae.dal.user;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.utils.Config;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 /**
  * Provides services related to user data management, including retrieval, creation, login, and
@@ -32,7 +33,7 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneById(int id) {
     String query = "SELECT user_id, email, password, lastname, firstname, phone_number, "
-        + "registration_date, user_role FROM pae.users WHERE user_id = ?";
+            + "registration_date, user_role FROM pae.users WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -55,9 +56,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneByEmail(String email) {
-
-    String query = "SELECT user_id, email, password, lastname, firstname, phone_number, "
-        + "registration_date, user_role FROM pae.users WHERE email = ?";
+    String query = "SELECT user_id, email, password, lastname, firstname, phone_number," +
+            " registration_date, user_role FROM pae.users WHERE email = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
@@ -73,28 +73,37 @@ public class UserDAOImpl implements UserDAO {
   }
 
   /**
-   * List of all users.
+   * Registers a new user.
+   *
+   * @param email    the user's email.
+   * @param password the user's password.
+   * @param name the user's name.
+   * @param firstname the user's firstname.
+   * @param phone the user's phone.
+   * @return the registered user.
    */
-  public List<UserDTO> getAllUsers() {
-    String query = "SELECT user_id, lastname, firstname, user_role FROM pae.users "
-        + "WHERE user_role = 'E'";
-    List<UserDTO> users = new ArrayList<>();
+  public UserDTO register(String email, String password, String name, String firstname, String phone, String role) {
+    String query = "INSERT INTO pae.users (email, password, lastname, firstname, phone_number, user_role) VALUES (?, ?, ?, ?, ?, ?) returning user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, email);
+      statement.setString(2, password);
+      statement.setString(3, name);
+      statement.setString(4, firstname);
+      statement.setString(5, phone);
+      statement.setString(6, role);
       try (ResultSet rs = statement.executeQuery()) {
-        while (rs.next()) {
+        if (rs.next()) {
           UserDTO user = factory.getPublicUser();
           user.setId(rs.getInt("user_id"));
-          user.setNom(rs.getString("lastname"));
-          user.setPrenom(rs.getString("firstname"));
-          user.setRole(rs.getString("user_role"));
-          users.add(user);
+          return user;
         }
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return users;
+    return null;
   }
+
 
   /**
    * Retrieves a single user by their login and password.
