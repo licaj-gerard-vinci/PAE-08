@@ -106,7 +106,10 @@ public class AuthRessource {
   }
 
   /**
-   * Retrives all the users from the database.
+   * Retrieves all the users from the database.
+   *
+   * @param requestContext the request context of the HTTP request.
+   * @return a list of UserDTO representing all users.
    */
   @GET
   @Path("users")
