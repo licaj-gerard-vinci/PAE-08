@@ -59,10 +59,10 @@ public class ContactDAOImpl implements ContactDAO {
 
 
   public List<ContactDTO> getContactsAllInfo(int id){
-    String query = "SELECT contact_id, company, student, contact_status, " +
+    String query = "SELECT contact_id, company_id, student_id, contact_status, " +
             "meeting_place, refusal_reason "
             + "FROM pae.contacts " +
-            "WHERE con.student = ?";
+            "WHERE student_id = ?";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class ContactDAOImpl implements ContactDAO {
   }
 
   public void insertContact(ContactDTO contact) {
-    String query = "INSERT INTO pae.contacts (entreprise, utilisateur, etat_contact) VALUES (?, ?, ?)";
+    String query = "INSERT INTO pae.contacts (academic_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise());
       statement.setInt(2, contact.getUtilisateur());
@@ -113,8 +113,8 @@ public class ContactDAOImpl implements ContactDAO {
   private ContactDTO rsToContacts(ResultSet rs) throws SQLException {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
-    contact.setEntreprise(rs.getInt("company"));
-    contact.setUtilisateur(rs.getInt("student"));
+    contact.setEntreprise(rs.getInt("company_id"));
+    contact.setUtilisateur(rs.getInt("student_id"));
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("meeting_place"));
     contact.setRaisonRefus(rs.getString("refusal_reason"));
