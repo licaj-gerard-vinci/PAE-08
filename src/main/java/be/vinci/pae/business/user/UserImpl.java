@@ -227,7 +227,6 @@ public class UserImpl implements User {
    * Sets the user's school year.
    *
    * @param schoolyear the new school year for the user.
-   * @return the user's school year.
    */
   public void setYear(String schoolyear) {
     this.schoolyear = schoolyear;
@@ -245,7 +244,7 @@ public class UserImpl implements User {
   /**
    * Sets the user's internship status.
    *
-   * @return the user's internship status.
+   * @param hasInternship the internship status to set for the user.
    */
   public void setHasInternship(boolean hasInternship) {
     this.hasInternship = hasInternship;
