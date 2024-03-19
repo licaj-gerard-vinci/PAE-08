@@ -1,13 +1,12 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.ContactDetailledDTO;
-import be.vinci.pae.business.ContactUCC;
-import be.vinci.pae.business.StageDTO;
-import be.vinci.pae.business.StageDetailedDTO;
-import be.vinci.pae.business.StageUCC;
-import be.vinci.pae.business.UserDTO;
-import be.vinci.pae.business.UserUCC;
-import be.vinci.pae.dal.utils.Json;
+import be.vinci.pae.business.contact.ContactDetailledDTO;
+import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.stage.StageDetailedDTO;
+import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
@@ -42,7 +41,7 @@ public class AuthRessource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-  private final Json json = new Json<>(UserDTO.class);
+
   @Inject
   private UserUCC myUserUcc;
   @Inject
@@ -103,7 +102,7 @@ public class AuthRessource {
     if (authenticated == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
-    return (UserDTO) json.filterPublicJsonView(authenticated);
+    return authenticated;
   }
 
   /**
