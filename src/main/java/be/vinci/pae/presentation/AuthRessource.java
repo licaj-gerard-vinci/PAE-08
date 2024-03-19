@@ -197,7 +197,9 @@ public class AuthRessource {
         .put("firstName", user.getPrenom())
         .put("email", user.getEmail())
         .put("role", user.getRole())
-        .put("numTel", user.getNumTel());
+        .put("numTel", user.getNumTel())
+        .put("schoolYear", user.getYear())
+        .put("hasInternship", user.getHasInternship());
   }
 
 

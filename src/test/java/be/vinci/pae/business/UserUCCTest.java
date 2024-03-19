@@ -30,6 +30,15 @@ class UserUCCTest {
     userUCC = locator.getService(UserUCC.class);
     factory = locator.getService(Factory.class);
     userDAO = locator.getService(UserDAO.class);
+
+    String email = "test@vinci.be";
+    String password = "test";
+    User user = (User) factory.getPublicUser();
+    user.setPassword(user.hashPassword(password));
+
+    Mockito.when(userDAO.getOneByEmail(email)).thenReturn(user);
+    Mockito.when(userDAO.getOneByEmail(Mockito.anyString())).thenReturn(null);
+    }
   }
 
   @Test
