@@ -134,6 +134,7 @@ public interface UserDTO {
   /**
    * Sets the academic year of the user.
    *
+   * @param year the new academic year for the user.
    * @return the academic year of the user.
    */
   void setYear(String year);
