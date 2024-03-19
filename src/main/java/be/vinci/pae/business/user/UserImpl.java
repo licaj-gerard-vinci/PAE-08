@@ -28,6 +28,9 @@ public class UserImpl implements User {
 
   private String password;
 
+  private String schoolyear;
+
+  private boolean hasInternship;
 
   /**
    * Gets the user's login.
@@ -209,6 +212,42 @@ public class UserImpl implements User {
   @Override
   public String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
+  }
+
+  /**
+   * Gets the user's school year.
+   *
+   * @return the user's school year.
+   */
+  public String getYear() {
+    return schoolyear;
+  }
+
+  /**
+   * Sets the user's school year.
+   *
+   * @param schoolyear the new school year for the user.
+   */
+  public void setYear(String schoolyear) {
+    this.schoolyear = schoolyear;
+  }
+
+  /**
+   * Gets the user's internship status.
+   *
+   * @return the user's internship status.
+   */
+  public boolean getHasInternship() {
+    return hasInternship;
+  }
+
+  /**
+   * Sets the user's internship status.
+   *
+   * @param hasInternship the internship status to set for the user.
+   */
+  public void setHasInternship(boolean hasInternship) {
+    this.hasInternship = hasInternship;
   }
 
   /**

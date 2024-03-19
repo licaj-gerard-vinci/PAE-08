@@ -26,7 +26,9 @@ public interface UserUCC {
   UserDTO getOne(int id);
 
   /**
-   * Retrives all users.
+   * Retrieves all users.
+   *
+   * @return a list of all users.
    */
   List<UserDTO> getAll();
 }

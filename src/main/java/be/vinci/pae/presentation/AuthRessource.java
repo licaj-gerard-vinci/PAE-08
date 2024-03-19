@@ -106,7 +106,10 @@ public class AuthRessource {
   }
 
   /**
-   * Retrives all the users from the database.
+   * Retrieves all the users from the database.
+   *
+   * @param requestContext the request context of the HTTP request.
+   * @return a list of UserDTO representing all users.
    */
   @GET
   @Path("users")
@@ -197,7 +200,9 @@ public class AuthRessource {
         .put("firstName", user.getPrenom())
         .put("email", user.getEmail())
         .put("role", user.getRole())
-        .put("numTel", user.getNumTel());
+        .put("numTel", user.getNumTel())
+        .put("schoolYear", user.getYear())
+        .put("hasInternship", user.getHasInternship());
   }
 
 

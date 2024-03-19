@@ -19,6 +19,8 @@ public interface UserDAO {
 
   /**
    * Retrieves a list of all users.
+   *
+   * @return a list of all UserDTO objects.
    */
   List<UserDTO> getAllUsers();
 
