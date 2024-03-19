@@ -32,7 +32,8 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneById(int id) {
     String query =
-        "SELECT u.user_id, u.email,u.password,u.lastname,u.firstname,u.phone_number,u.registration_date,"
+        "SELECT u.user_id, u.email,u.password,u.lastname,u.firstname,u.phone_number,"
+            + "u.registration_date,"
             + "u.user_role,has_internship,"
             + " sy.year FROM pae.users u, pae.school_years sy WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
