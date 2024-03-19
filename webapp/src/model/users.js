@@ -133,7 +133,7 @@ import Navigate from '../Components/Router/Navigate';
   }
 
   async function getContactsAllInfo(){
-    let contacts = null;
+    let contacts = [];
     const token = getToken();
     if(token) {
       const options = {
@@ -162,12 +162,13 @@ import Navigate from '../Components/Router/Navigate';
   async function insertContact(entrepriseId, userId, etat) {
     const token = getToken();
     if(token) {
+      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
       const options = {
         method: 'POST',
         body: JSON.stringify({
           entreprise: entrepriseId,
           utilisateur: userId,
-          etat_contact: etat
+          etatContact: etat
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +177,7 @@ import Navigate from '../Components/Router/Navigate';
       };
       try {
         const response = await fetch(`http://localhost:8080/auth/insertContact`, options);
-  
+        console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
         }

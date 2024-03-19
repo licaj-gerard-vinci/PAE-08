@@ -21,6 +21,8 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -168,7 +170,7 @@ public class AuthRessource {
     List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(
         authenticatedUser.getId());
     if (contactDTOs == null || contactDTOs.isEmpty()) {
-      throw new WebApplicationException("Contacts not found for user", Status.NOT_FOUND);
+      contactDTOs = new ArrayList<>();
     }
     return contactDTOs;
   }
@@ -184,7 +186,6 @@ public class AuthRessource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
     }
-
     myContactUcc.insertContact(contact);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
