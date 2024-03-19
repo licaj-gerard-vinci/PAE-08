@@ -35,15 +35,29 @@ async function renderHomePage(){
             if(contacts){
               const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
               console.log(contactFound);
-              if (contactFound) {
+              if(!contactFound){
                 button = `
                 <div class="d-flex justify-content-center">
-                  <p>contact deja prise<p>
+                  <button type='button' class='btn btn-primary' id='initiatedButton${entreprise.id}'>Contacter l'entreprise</button>
                 </div>`;
-              } else {
+              } else if (contactFound.etatContact === 'initiated') {
+                button = `
+                <div class="d-flex justify-content-between">
+                  <button type='button' class='btn btn-danger' id='refusedButton${entreprise.id}'>refuser contact</button>
+                  <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
+                  <button type='button' class='btn btn-success' id='takenButton${entreprise.id}'>contact prise</button>
+                </div>`;
+              } else if (contactFound.etatContact === 'taken'){
+                button = `
+                <div class="d-flex justify-content-between">
+                  <button type='button' class='btn btn-danger' id='refusedButton${entreprise.id}'>refuser contact</button>
+                  <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
+                  <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>contact accepté</button>                
+                </div>`;
+              } else if(contactFound.etatContact === 'accepted') {
                 button = `
                 <div class="d-flex justify-content-center">
-                  <button type='button' class='btn btn-primary' id='contactButton${entreprise.id}'>Contacter l'entreprise</button>
+                  <p>Contact accepté</p>
                 </div>`;
               }
             } else {
@@ -58,10 +72,10 @@ async function renderHomePage(){
                       <div class="d-flex justify-content-between">
                           <div class="mr-auto text-left">
                               <h1 class="mb-auto">${entreprise.nom}</h1>
-                              <ul class="small">
-                                  <li>${entreprise.appellation}</li>
-                                  <li>${entreprise.adresse}</li>
-                                  <li>${entreprise.numTel}</li>
+                              <ul class="list-unstyled">
+                                  <li>Appellation: ${entreprise.appellation}</li>
+                                  <li>Adresse: ${entreprise.adresse}</li>
+                                  <li>Téléphone: ${entreprise.numTel}</li>
                               </ul>
                           </div>
                           <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
@@ -77,17 +91,17 @@ async function renderHomePage(){
       `;
 
       entreprises.forEach(entreprise => {
-        const contactButton = document.querySelector(`#contactButton${entreprise.id}`);
-        if (contactButton) {
-          console.log('contactButton: ', contactButton)
-          contactButton.addEventListener('click', async () => {
+        const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
+        if (initiatedButton) {
+          console.log('contactButton: ', initiatedButton)
+          initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
-            contactButton.disabled = true;
+            initiatedButton.disabled = true;
             console.log('before insert informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await insertContact(entreprise.id, user.id, "prise");
+            await insertContact(entreprise.id, user.id, "initiated");
             console.log('after insert')
             await renderHomePage();
-            contactButton.disabled = false;
+            initiatedButton.disabled = false;
           });
         }
       });
