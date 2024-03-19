@@ -132,5 +132,34 @@ import Navigate from '../Components/Router/Navigate';
     return user;
   }
 
+  async function getAllUsers() {
+    let users = null;
+    const token = getToken();
 
-  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData};
+    if (token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+
+      try {
+        const response = await fetch(`http://localhost:8080/auth/users`, options);
+
+        if (!response.ok) {
+          throw new Error(`Error fetching users: ${response.statusText}`);
+        }
+
+        users = await response.json();
+      } catch (error) {
+        console.error('Error fetching users');
+      }
+    }
+
+    return users;
+  }
+
+
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getAllUsers};
