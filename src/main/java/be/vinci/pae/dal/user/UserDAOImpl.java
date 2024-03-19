@@ -76,8 +76,7 @@ public class UserDAOImpl implements UserDAO {
    * List of all users.
    */
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT user_id, lastname, firstname, user_role FROM pae.users "
-        + "WHERE user_role = 'E'";
+    String query = "SELECT u.user_id, u.lastname, u.firstname, u.user_role, u.year FROM pae.users u, pae.school_years sc WHERE sc.school_year_id = u.school_year_id AND user_role = 'E'";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
