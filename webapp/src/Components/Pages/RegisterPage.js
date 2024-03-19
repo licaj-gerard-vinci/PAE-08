@@ -57,7 +57,8 @@ function renderRegisterForm() {
                     <input type="password" class="form-control" id="RegisterConfirmPassword" placeholder="Répétez mot de passe">
                   </div>
 
-                  <button type="submit" class="btn btn-primary">S'inscrire</button>
+                  
+                  <input type="submit" class="btn btn-primary" id="registerSubmit" placeholder="S'inscrire">
 
                 </form>
 
@@ -69,10 +70,10 @@ function renderRegisterForm() {
       </div>
     </div>
   `;
+
 }
 
 function checkUser(){
-    const form = document.querySelector('#RegisterForm');
     const email = document.querySelector('#RegisterEmail');
     const password = document.querySelector('#RegisterPassword');
     const name = document.querySelector('#RegisterName');
@@ -80,26 +81,26 @@ function checkUser(){
     const role = document.querySelector('#RegisterRole');
     const confirmPassword = document.querySelector('#RegisterConfirmPassword');
     const phone = document.querySelector('#RegisterPhone');
+    const registerSubmit = document.querySelector('#registerSubmit');
 
 
 
-    form.addEventListener('submit', async (e) => {
+    registerSubmit.addEventListener('submit', async (e) => {
         e.preventDefault();
         if(!email.value || !password.value || !name.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
             return;
         }
         const user = {
-            name,
-            firstname,
-            email,
-            role,
-            password,
-            confirmPassword,
-            phone
+            name : name.value,
+            firstname : firstname.value,
+            email : email.value,
+            role : role.value,
+            password : password.value,
+            confirmPassword : confirmPassword.value,
+            phone : phone.value
         }
         try {
             await registerUser(user);
-            window.location.reload();
             Navigate('/');
         } catch (error) {
 

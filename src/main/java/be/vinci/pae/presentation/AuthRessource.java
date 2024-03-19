@@ -141,7 +141,9 @@ public class AuthRessource {
             .withExpiresAt(new java.util.Date(System.currentTimeMillis() + 300000000))
             .sign(jwtAlgorithm);
     return jsonMapper.createObjectNode()
-            .put("token", token);
+            .put("token", token)
+            .put("name", user.getNom())
+            .put("firstname", user.getPrenom());
   }
 
 

@@ -12,12 +12,12 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "test@student.vinci.be",
-  "password": "123",
-  "name": "test",
-  "firstname": "testZZ",
+  "email": "resul.ramadani@student.vinci.be",
+  "password": "a",
+  "name": "Resul",
+  "firstname": "Ramadani",
   "phone": "123456789",
-  "confirmPassword": "123",
+  "confirmPassword": "a",
   "role": "E"
 }
 

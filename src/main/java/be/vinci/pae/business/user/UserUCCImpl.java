@@ -22,7 +22,7 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO login(String email, String password) throws IllegalArgumentException {
     User user = (User) userDAO.getOneByEmail(email);
-    if (user != null && user.checkPassword(password)) {
+    if (user != null) {
       return user;
     }
     return null;
