@@ -2,6 +2,7 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class UserUCCImpl implements UserUCC {
 
 
   /**
-   * Registers a new user.
+   * Login a new user.
    *
    * @return the registered user.
    */
@@ -51,6 +52,29 @@ public class UserUCCImpl implements UserUCC {
   public List<UserDTO> getAll() {
     List<UserDTO> users = userDAO.getAllUsers();
     return users;
+  }
+
+  /**
+   * Registers a new user.
+   *
+   * @return the registered user.
+   */
+  @Override
+  public UserDTO register(String email, String password, String name, String firstname,
+      String phone, String confirmPassword, String role) {
+    User user = (User) userDAO.getOneByEmail(email);
+    if (user != null || !password.equals(confirmPassword)) {
+      return null;
+    }
+    if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
+      return null;
+    }
+    Date dateInscription = new java.sql.Date(System.currentTimeMillis());
+    user = (User) userDAO.insertUser(email, password, name, firstname,
+        phone, role, dateInscription);
+    user.setDateInscription(dateInscription);
+
+    return user;
   }
 
 }

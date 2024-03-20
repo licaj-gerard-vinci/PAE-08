@@ -17,7 +17,6 @@ const Navbar = () => {
 
 function renderNavbar() {
 
-
     const unauthenticatedUser = `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
       <div class="container-fluid">
@@ -33,7 +32,7 @@ function renderNavbar() {
       </button>
 
 
-        <a class="navbar-brand" href="/" style="color: #fff; display: flex; align-items: center;">
+        <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center;">
           <img src="${logo}" alt="Logo" style="margin-right: 10px;">
           VinciTech Solutions
         </a>

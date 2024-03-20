@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,7 +99,41 @@ public class UserDAOImpl implements UserDAO {
   }
 
   /**
-   * Converts a ResultSet row into a UserDTO object.
+   * Registers a new user.
+   *
+   * @param email    the user's email.
+   * @param password the user's password.
+   * @param name the user's name.
+   * @param firstname the user's firstname.
+   * @param phone the user's phone.
+   * @return the registered user.
+   */
+  public UserDTO insertUser(String email, String password, String name,
+      String firstname, String phone, String role, Date dateInscription) {
+    String query = "INSERT INTO pae.users (email, password, lastname, firstname,"
+        + " phone_number, user_role, registration_date ,has_internship) "
+        + "VALUES (?, ?, ?, ?, ?, ?, ?, FALSE) returning user_id";
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, email);
+      statement.setString(2, password);
+      statement.setString(3, name);
+      statement.setString(4, firstname);
+      statement.setString(5, phone);
+      statement.setString(6, role);
+      statement.setDate(7, (java.sql.Date) dateInscription);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          return rsToUser(rs);
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
+  }
+
+  /**
+   * Retrieves a single user by their login and password.
    *
    * @param rs the ResultSet containing user data.
    * @return a UserDTO object populated with user data from the ResultSet row.

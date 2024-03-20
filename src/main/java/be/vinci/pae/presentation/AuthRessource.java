@@ -180,6 +180,43 @@ public class AuthRessource {
     return contactDetailledDTOs; // Retourne la liste des contacts détaillés
   }
 
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public ObjectNode register(JsonNode json) {
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")
+        || !json.hasNonNull("confirmPassword") || !json.hasNonNull("lastname")
+        || !json.hasNonNull("firstname") || !json.hasNonNull("phone")
+        || !json.hasNonNull("role")) {
+      throw new WebApplicationException("no info", Status.NOT_FOUND);
+    }
+    String email = json.get("email").asText();
+    String password = json.get("password").asText();
+    String lastname = json.get("lastname").asText();
+    String firstname = json.get("firstname").asText();
+    String phone = json.get("phone").asText();
+    String confirmPassword = json.get("confirmPassword").asText();
+    String role = json.get("role").asText();
+
+    // Get and check credentials
+    if (email.isEmpty() || password.isEmpty() || lastname.isEmpty() || firstname.isEmpty()
+        || phone.isEmpty() || confirmPassword.isEmpty() || role.isEmpty()) {
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
+    }
+    if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+    }
+
+    // Try to log in
+    UserDTO publicUser = myUserUcc.register(email, password, lastname, firstname,
+        phone, confirmPassword, role);
+    if (publicUser == null) {
+      throw new WebApplicationException("not found", Status.NOT_FOUND);
+    }
+
+    return generateTokenForUser(publicUser);
+  }
 
   /**
    * Generates a JWT token for the given user.

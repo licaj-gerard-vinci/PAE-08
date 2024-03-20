@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserUCC {
 
   /**
-   * Registers a new user.
+   * Login a new user.
    *
    * @param email    the user's email.
    * @param password the user's password.
@@ -31,4 +31,19 @@ public interface UserUCC {
    * @return a list of all users.
    */
   List<UserDTO> getAll();
+
+  /**
+   * Registers a new user.
+   *
+   * @param email    the user's email.
+   * @param password the user's password.
+   * @param name the user's name.
+   * @param firstname the user's firstname.
+   * @param phone the user's phone.
+   * @param confirmPassword the user's confirmPassword.
+   * @return the registered user.
+   */
+  UserDTO register(String email, String password, String name, String firstname,
+      String phone, String confirmPassword, String role);
+
 }

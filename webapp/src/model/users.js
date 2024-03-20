@@ -15,19 +15,19 @@ import Navigate from '../Components/Router/Navigate';
         password,
       }),
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
       },
     };
-    
-  
+
+
     const response = await fetch(`http://localhost:8080/auth/login`, options);
-  
+
     if (!response.ok) throw new Error('Invalid username or password');
-    
+
     const authenticatedUser = await response.json();
 
-    
-   
+
+
     setAuthenticatedUser(authenticatedUser);
     Navigate('/');
   }
@@ -69,7 +69,7 @@ import Navigate from '../Components/Router/Navigate';
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
-        
+
         return nonPresent;
       }
       stagePresent = await response.json();
@@ -91,22 +91,20 @@ import Navigate from '../Components/Router/Navigate';
       };
       const response = await fetch(`http://localhost:8080/auth/contact`, options);
 
-      if (!response.ok) {
-        const nonPresent = "Aucun contact n'as été passé"
-        
-        return nonPresent;
-      }
-      contacts = await response.json();
+    if (!response.ok) {
+      return "Aucun contact n'as été passé";
     }
+    contacts = await response.json();
+  }
 
     return contacts;
   }
 
-  
+
   async function getUserData() {
     let user = null;
     const token = getToken();
-    
+
     if (token) {
       const options = {
         method: 'GET',
@@ -115,20 +113,20 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-  
+
       try {
         const response = await fetch(`http://localhost:8080/auth/user`, options);
-  
+
         if (!response.ok) {
           throw new Error(`Error fetching user data: ${response.statusText}`);
         }
-  
+
         user = await response.json();
       } catch (error) {
         console.error('Error fetching user data');
       }
     }
-    
+
     return user;
   }
 
@@ -161,5 +159,32 @@ import Navigate from '../Components/Router/Navigate';
     return users;
   }
 
+async function registerUser(user){
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      lastname: user.lastname,
+      firstname: user.firstname,
+      password: user.password,
+      confirmPassword: user.confirmPassword,
+      email: user.email,
+      phone: user.phone,
+      role: user.role
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 
-  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getAllUsers};
+  const response = await fetch(`http://localhost:8080/auth/register`, options);
+
+  if (!response.ok) throw new Error('Error');
+
+  const authenticatedUser = await response.json();
+
+  setAuthenticatedUser(authenticatedUser);
+  Navigate('/');
+}
+
+
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getAllUsers, registerUser};

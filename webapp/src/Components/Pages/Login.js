@@ -100,7 +100,7 @@ function renderLoginForm() {
 
               </form>
 
-              <p class="text-center">Pas de compte ? <a href="#" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
+              <p class="text-center">Pas de compte ? <a href="#" data_uri="/register" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
               
             </div>
           </div>
@@ -110,7 +110,8 @@ function renderLoginForm() {
   `;
 
 
-  document.getElementById('togglePassword').addEventListener('click', () => {
+  document.getElementById('togglePassword').addEventListener('click', (e) => {
+    e.preventDefault();
     const passwordInput = document.getElementById('password');
     const togglePasswordImage = document.getElementById('togglePassword');
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';

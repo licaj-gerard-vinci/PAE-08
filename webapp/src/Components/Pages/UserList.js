@@ -4,10 +4,10 @@ const { getAllUsers } = require("../../model/users");
 const UserList = () => renderUserList();
 
 async function renderUserList() {
-  const main = document.querySelector('main');
-  
-  
-  main.innerHTML = `
+    const main = document.querySelector('main');
+
+
+    main.innerHTML = `
     <div class="container my-5">
       <h1 class="text-center mb-3">Recherche Utilisateurs</h1>
       <div class="row">
@@ -18,18 +18,18 @@ async function renderUserList() {
         </div>
       </div>
     </div>`;
-  
-  
-  const userList = await getAllUsers();
 
-  
-  if (!userList || userList.length === 0) {
-    document.getElementById('user-list-table-container').innerHTML = `
+
+    const userList = await getAllUsers();
+
+
+    if (!userList || userList.length === 0) {
+        document.getElementById('user-list-table-container').innerHTML = `
       <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment ou vous n'avez pas les droits pour accéder à la page.</p>
     `;
-  } else {
-    
-    const tableHtml = `
+    } else {
+
+        const tableHtml = `
       <table class="table table-hover shadow-sm">
         <thead class="table-dark">
           <tr>
@@ -53,8 +53,8 @@ async function renderUserList() {
         </tbody>
       </table>`;
 
-    document.getElementById('user-list-table-container').innerHTML = tableHtml;
-  }
+        document.getElementById('user-list-table-container').innerHTML = tableHtml;
+    }
 }
 
 module.exports = UserList;
