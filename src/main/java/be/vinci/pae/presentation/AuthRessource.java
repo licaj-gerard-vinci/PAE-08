@@ -101,6 +101,7 @@ public class AuthRessource {
     UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
     if (authenticated == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+
     }
     return authenticated;
   }
