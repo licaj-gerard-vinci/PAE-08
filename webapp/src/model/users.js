@@ -166,7 +166,6 @@ async function registerUser(user){
       lastname: user.lastname,
       firstname: user.firstname,
       password: user.password,
-      confirmPassword: user.confirmPassword,
       email: user.email,
       phone: user.phone,
       role: user.role

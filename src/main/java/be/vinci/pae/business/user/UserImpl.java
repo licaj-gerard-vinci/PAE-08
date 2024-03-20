@@ -1,7 +1,7 @@
 package be.vinci.pae.business.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -16,18 +16,18 @@ public class UserImpl implements User {
 
   private String email;
 
-  private String nom;
+  private String lastname;
 
-  private String prenom;
+  private String firstname;
 
-  private String numTel;
+  private String phone;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
 
-  private Date dateInscription;
+  private Date registration_date;
 
   private String role;
 
-  @JsonIgnore
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
   private String schoolyear;
@@ -100,18 +100,18 @@ public class UserImpl implements User {
    * @return the user's last name.
    */
   @Override
-  public String getNom() {
-    return nom;
+  public String getLastname() {
+    return lastname;
   }
 
   /**
    * Sets the user's last name.
    *
-   * @param nom the new last name for the user.
+   * @param lastname the new last name for the user.
    */
   @Override
-  public void setNom(String nom) {
-    this.nom = nom;
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
   /**
@@ -120,18 +120,18 @@ public class UserImpl implements User {
    * @return the user's first name.
    */
   @Override
-  public String getPrenom() {
-    return prenom;
+  public String getFirstname() {
+    return firstname;
   }
 
   /**
    * Sets the user's first name.
    *
-   * @param prenom the new first name for the user.
+   * @param firstname the new first name for the user.
    */
   @Override
-  public void setPrenom(String prenom) {
-    this.prenom = prenom;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
   /**
@@ -140,18 +140,18 @@ public class UserImpl implements User {
    * @return the user's phone number.
    */
   @Override
-  public String getNumTel() {
-    return numTel;
+  public String getPhone() {
+    return phone;
   }
 
   /**
    * Sets the user's phone number.
    *
-   * @param numTel the new phone number for the user.
+   * @param phone the new phone number for the user.
    */
   @Override
-  public void setNumTel(String numTel) {
-    this.numTel = numTel;
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   /**
@@ -160,18 +160,18 @@ public class UserImpl implements User {
    * @return the user's registration date.
    */
   @Override
-  public Date getDateInscription() {
-    return dateInscription;
+  public Date getRegistration_date() {
+    return registration_date;
   }
 
   /**
    * Sets the user's registration date.
    *
-   * @param dateInscription the new registration date for the user.
+   * @param registration_date the new registration date for the user.
    */
   @Override
-  public void setDateInscription(Date dateInscription) {
-    this.dateInscription = dateInscription;
+  public void setRegistration_date(Date registration_date) {
+    this.registration_date = registration_date;
   }
 
   /**
@@ -257,8 +257,8 @@ public class UserImpl implements User {
    */
   @Override
   public String toString() {
-    return "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
-        + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
+    return "id=" + id + ", email='" + email + '\'' + ", nom='" + lastname + '\'' + ", prenom='"
+        + firstname + '\'' + ", numTel='" + phone + '\'' + ", dateInscription=" + registration_date
         + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }

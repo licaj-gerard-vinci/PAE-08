@@ -60,19 +60,18 @@ public class UserUCCImpl implements UserUCC {
    * @return the registered user.
    */
   @Override
-  public UserDTO register(String email, String password, String name, String firstname,
-      String phone, String confirmPassword, String role) {
-    User user = (User) userDAO.getOneByEmail(email);
-    if (user != null || !password.equals(confirmPassword)) {
+  public UserDTO register(UserDTO userDTO) {
+    User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
+    if (user != null) {
       return null;
     }
-    if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
+    if(!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A") && !userDTO.getRole().equals("P")){
       return null;
     }
+    userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-    user = (User) userDAO.insertUser(email, password, name, firstname,
-        phone, role, dateInscription);
-    user.setDateInscription(dateInscription);
+    userDTO.setRegistration_date(dateInscription);
+    user = (User) userDAO.insertUser(userDTO);
 
     return user;
   }
