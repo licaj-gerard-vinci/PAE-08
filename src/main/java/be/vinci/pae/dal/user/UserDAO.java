@@ -43,7 +43,8 @@ public interface UserDAO {
    * @param phone The phone of the user.
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
-  UserDTO insertUser(String email, String password, String name, String firstname, String phone, String role, Date dateInscription);
+  UserDTO insertUser(String email, String password, String name, String firstname,
+      String phone, String role, Date dateInscription);
 
 
 }

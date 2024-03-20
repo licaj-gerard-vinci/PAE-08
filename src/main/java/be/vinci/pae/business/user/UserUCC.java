@@ -43,6 +43,7 @@ public interface UserUCC {
    * @param confirmPassword the user's confirmPassword.
    * @return the registered user.
    */
-  UserDTO register(String email, String password, String name, String firstname, String phone, String confirmPassword, String role);
+  UserDTO register(String email, String password, String name, String firstname,
+      String phone, String confirmPassword, String role);
 
 }

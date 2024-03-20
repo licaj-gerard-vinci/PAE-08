@@ -60,7 +60,8 @@ public class UserUCCImpl implements UserUCC {
    * @return the registered user.
    */
   @Override
-  public UserDTO register(String email, String password, String name, String firstname, String phone, String confirmPassword, String role) {
+  public UserDTO register(String email, String password, String name, String firstname,
+      String phone, String confirmPassword, String role) {
     User user = (User) userDAO.getOneByEmail(email);
     if (user != null || !password.equals(confirmPassword)) {
       return null;
@@ -69,7 +70,8 @@ public class UserUCCImpl implements UserUCC {
       return null;
     }
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-    user = (User) userDAO.insertUser(email, password, name, firstname, phone, role, dateInscription);
+    user = (User) userDAO.insertUser(email, password, name, firstname,
+        phone, role, dateInscription);
     user.setDateInscription(dateInscription);
 
     return user;
