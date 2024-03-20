@@ -135,11 +135,11 @@ public class UserDAOImpl implements UserDAO {
   /**
    * Retrieves a single user by their login and password.
    *
-   * @param rs the user's query.
-   * @return the user with the specified login and password or null if not found.
-   * @throws SQLException if an error occurs while processing the query.
+   * @param rs the ResultSet containing user data.
+   * @return a UserDTO object populated with user data from the ResultSet row.
+   * @throws SQLException if an error occurs while accessing the ResultSet.
    */
-  public UserDTO rsToUser(ResultSet rs) throws SQLException {
+  private UserDTO rsToUser(ResultSet rs) throws SQLException {
     UserDTO user = factory.getPublicUser();
     user.setId(rs.getInt("user_id"));
     user.setEmail(rs.getString("email"));
@@ -153,6 +153,4 @@ public class UserDAOImpl implements UserDAO {
     user.setHasInternship(rs.getBoolean("has_internship"));
     return user;
   }
-
-
 }
