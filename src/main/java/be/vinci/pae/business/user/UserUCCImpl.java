@@ -67,7 +67,7 @@ public class UserUCCImpl implements UserUCC {
     if (user != null || !password.equals(confirmPassword)) {
       return null;
     }
-    user = (User) userDAO.register(email, password, name, firstname, phone, role);
+    user = (User) userDAO.insertUser(email, password, name, firstname, phone, role);
 
     user.setDateInscription(new java.sql.Date(System.currentTimeMillis()));
 

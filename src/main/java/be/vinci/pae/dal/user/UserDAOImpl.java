@@ -107,8 +107,8 @@ public class UserDAOImpl implements UserDAO {
    * @param phone the user's phone.
    * @return the registered user.
    */
-  public UserDTO register(String email, String password, String name, String firstname, String phone, String role) {
-    String query = "INSERT INTO pae.users (email, password, lastname, firstname, phone_number, user_role) VALUES (?, ?, ?, ?, ?, ?) returning user_id";
+  public UserDTO insertUser(String email, String password, String name, String firstname, String phone, String role) {
+    String query = "INSERT INTO pae.users (email, password, lastname, firstname, phone_number, user_role, has_internship) VALUES (?, ?, ?, ?, ?, ?, FALSE) returning user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       statement.setString(2, password);

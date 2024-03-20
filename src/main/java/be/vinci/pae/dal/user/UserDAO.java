@@ -42,7 +42,7 @@ public interface UserDAO {
    * @param phone The phone of the user.
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
-  UserDTO register(String email, String password, String name, String firstname, String phone, String role);
+  UserDTO insertUser(String email, String password, String name, String firstname, String phone, String role);
 
 
 }

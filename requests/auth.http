@@ -12,13 +12,13 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "admin.admin@vinci.be",
+  "email": "dirna.ahdid@student.vinci.be",
   "password": "a",
-  "name": "admin",
-  "firstname": "admin",
+  "lastname": "Ahdid",
+  "firstname": "Nadir",
   "phone": "123456789",
   "confirmPassword": "a",
-  "role": "A"
+  "role": "E"
 }
 
 > {%

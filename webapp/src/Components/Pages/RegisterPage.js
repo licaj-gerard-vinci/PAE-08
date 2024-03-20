@@ -91,7 +91,7 @@ function checkUser(){
 
 
 
-    registerSubmit.addEventListener('submit', async (e) => {
+    registerSubmit.addEventListener('click', async (e) => {
         e.preventDefault();
         if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
             return;
