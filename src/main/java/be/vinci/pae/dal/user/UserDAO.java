@@ -1,7 +1,6 @@
 package be.vinci.pae.dal.user;
 
 import be.vinci.pae.business.user.UserDTO;
-import java.util.Date;
 import java.util.List;
 
 /**
