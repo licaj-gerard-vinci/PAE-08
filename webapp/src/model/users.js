@@ -6,90 +6,90 @@ import {
 
 import Navigate from '../Components/Router/Navigate';
 
-async function loginUser(email, password) {
+  async function loginUser(email, password) {
 
-  const options = {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-
-  const response = await fetch(`http://localhost:8080/auth/login`, options);
-
-  if (!response.ok) throw new Error('Invalid username or password');
-
-  const authenticatedUser = await response.json();
-
-
-
-  setAuthenticatedUser(authenticatedUser);
-  Navigate('/');
-}
-
-async function refreshUser(){
-  let authenticatedUser = null;
-  const token = getToken();
-  if(token) {
     const options = {
-      method: 'GET',
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token,
       },
     };
-    const response = await fetch(`http://localhost:8080/auth/user`, options);
 
-    if (!response.ok) {
-      clearAuthenticatedUser();
-    }
-    authenticatedUser = await response.json();
+
+    const response = await fetch(`http://localhost:8080/auth/login`, options);
+
+    if (!response.ok) throw new Error('Invalid username or password');
+
+    const authenticatedUser = await response.json();
+
+
+
+    setAuthenticatedUser(authenticatedUser);
+    Navigate('/');
   }
 
-  return authenticatedUser;
-}
+  async function refreshUser(){
+    let authenticatedUser = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/user`, options);
 
-async function getStagePresent(){
-  let stagePresent = null;
-  const token = getToken();
-  if(token) {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    };
-    const response = await fetch(`http://localhost:8080/auth/stage`, options);
-
-    if (!response.ok) {
-      const nonPresent = "Aucun stage n'est en cours"
-
-      return nonPresent;
+      if (!response.ok) {
+        clearAuthenticatedUser();
+      }
+      authenticatedUser = await response.json();
     }
-    stagePresent = await response.json();
+
+    return authenticatedUser;
   }
 
-  return stagePresent;
-}
+  async function getStagePresent(){
+    let stagePresent = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/stage`, options);
 
-async function getContacts(){
-  let contacts = null;
-  const token = getToken();
-  if(token) {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    };
-    const response = await fetch(`http://localhost:8080/auth/contact`, options);
+      if (!response.ok) {
+        const nonPresent = "Aucun stage n'est en cours"
+
+        return nonPresent;
+      }
+      stagePresent = await response.json();
+    }
+
+    return stagePresent;
+  }
+
+  async function getContacts(){
+    let contacts = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/auth/contact`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";
@@ -97,8 +97,67 @@ async function getContacts(){
     contacts = await response.json();
   }
 
-  return contacts;
-}
+    return contacts;
+  }
+
+
+  async function getUserData() {
+    let user = null;
+    const token = getToken();
+
+    if (token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+
+      try {
+        const response = await fetch(`http://localhost:8080/auth/user`, options);
+
+        if (!response.ok) {
+          throw new Error(`Error fetching user data: ${response.statusText}`);
+        }
+
+        user = await response.json();
+      } catch (error) {
+        console.error('Error fetching user data');
+      }
+    }
+
+    return user;
+  }
+
+  async function getAllUsers() {
+    let users = null;
+    const token = getToken();
+
+    if (token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+
+      try {
+        const response = await fetch(`http://localhost:8080/auth/users`, options);
+
+        if (!response.ok) {
+          throw new Error(`Error fetching users: ${response.statusText}`);
+        }
+
+        users = await response.json();
+      } catch (error) {
+        console.error('Error fetching users');
+      }
+    }
+
+    return users;
+  }
 
 async function registerUser(user){
   const options = {
@@ -126,39 +185,5 @@ async function registerUser(user){
   Navigate('/');
 }
 
-async function getUserData() {
-  let user = null;
-  const token = getToken();
 
-  console.log('Token:', token);
-
-  if (token) {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    };
-
-    try {
-      const response = await fetch(`http://localhost:8080/auth/user`, options);
-
-      if (!response.ok) {
-        throw new Error(`Error fetching user data: ${response.statusText}`);
-      }
-
-      user = await response.json();
-    } catch (error) {
-      console.error('Error fetching user data:', error.message);
-    }
-  }
-
-  console.log('User:', user);
-
-  return user;
-}
-
-
-export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, registerUser};
-
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getAllUsers, registerUser};

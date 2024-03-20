@@ -110,7 +110,8 @@ function renderLoginForm() {
   `;
 
 
-  document.getElementById('togglePassword').addEventListener('click', () => {
+  document.getElementById('togglePassword').addEventListener('click', (e) => {
+    e.preventDefault();
     const passwordInput = document.getElementById('password');
     const togglePasswordImage = document.getElementById('togglePassword');
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';

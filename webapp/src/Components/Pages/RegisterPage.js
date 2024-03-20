@@ -1,8 +1,14 @@
 import { clearPage } from '../../utils/render';
 import {registerUser} from '../../model/users';
 import Navigate from '../Router/Navigate';
+import {getAuthenticatedUser} from "../../utils/auths";
 
 const RegisterPage = () => {
+    const authenticatedUser = getAuthenticatedUser();
+    if(authenticatedUser) {
+        Navigate('/');
+        return;
+    }
     clearPage();
     renderRegisterForm();
     checkUser();
@@ -21,7 +27,7 @@ function renderRegisterForm() {
                 <form>
                   <div class="form-group">
                     <label for="name">Nom<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="RegisterName" placeholder="Nom">
+                    <input type="text" class="form-control" id="RegisterLastname" placeholder="Nom">
                   </div>
 
                   <div class="form-group">
@@ -76,7 +82,7 @@ function renderRegisterForm() {
 function checkUser(){
     const email = document.querySelector('#RegisterEmail');
     const password = document.querySelector('#RegisterPassword');
-    const name = document.querySelector('#RegisterName');
+    const lastname = document.querySelector('#RegisterLastname');
     const firstname = document.querySelector('#RegisterFirstname');
     const role = document.querySelector('#RegisterRole');
     const confirmPassword = document.querySelector('#RegisterConfirmPassword');
@@ -87,11 +93,11 @@ function checkUser(){
 
     registerSubmit.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if(!email.value || !password.value || !name.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
+        if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
             return;
         }
         const user = {
-            name : name.value,
+            lastname : lastname.value,
             firstname : firstname.value,
             email : email.value,
             role : role.value,

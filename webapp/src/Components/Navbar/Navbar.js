@@ -21,7 +21,7 @@ function renderNavbar() {
     const unauthenticatedUser = `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
       <div class="container-fluid">
-      <button
+       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
@@ -32,7 +32,8 @@ function renderNavbar() {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-        <a class="navbar-brand" href="/" style="color: #fff; display: flex; align-items: center;">
+
+        <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center;">
           <img src="${logo}" alt="Logo" style="margin-right: 10px;">
           VinciTech Solutions
         </a>
@@ -79,7 +80,7 @@ function renderNavbar() {
 
         <div class="d-flex align-items-center ms-auto text-white">
           <a class="nav-link" href="#" data-uri="/logout" style="margin-right: 15px;">Se déconnecter</a>
-          <a class="nav-link" href="#" data-uri="/profile"> ${userFirstName} ${userName} suieheghuig </a>
+          <a class="nav-link" href="#" data-uri="/profile"> ${userFirstName} ${userName} </a>
         </div>
 
         
