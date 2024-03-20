@@ -1,7 +1,10 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +17,10 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private UserDAO userDAO;
+
+  @Inject
+  private DALServices dalServices;
+
 
 
   /**
@@ -62,18 +69,24 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO register(String email, String password, String name, String firstname,
       String phone, String confirmPassword, String role) {
+
+    dalServices.startTransaction();
+
     User user = (User) userDAO.getOneByEmail(email);
     if (user != null || !password.equals(confirmPassword)) {
-      return null;
+      dalServices.rollbackTransaction();
+      throw new WebApplicationException("email incorrect", Status.CONFLICT);
     }
     if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
-      return null;
+      dalServices.rollbackTransaction();
+      throw new WebApplicationException("email incorrect", Status.CONFLICT);
     }
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
     user = (User) userDAO.insertUser(email, password, name, firstname,
         phone, role, dateInscription);
     user.setDateInscription(dateInscription);
 
+    dalServices.commitTransaction();
     return user;
   }
 

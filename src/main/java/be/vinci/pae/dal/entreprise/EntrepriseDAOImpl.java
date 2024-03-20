@@ -2,7 +2,7 @@ package be.vinci.pae.dal.entreprise;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.util.List;
 public class EntrepriseDAOImpl implements EntrepriseDAO {
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalBackService;
   @Inject
   private Factory factory;
 
@@ -33,7 +33,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
-    try (PreparedStatement statement = dalService.preparedStatement(query);
+    try (PreparedStatement statement = dalBackService.preparedStatement(query);
         ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
         entreprises.add(rsToEntreprises(rs));

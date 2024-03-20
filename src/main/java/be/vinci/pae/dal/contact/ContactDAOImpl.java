@@ -2,7 +2,7 @@ package be.vinci.pae.dal.contact;
 
 import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ContactDAOImpl implements ContactDAO {
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalBackService;
 
   @Inject
   private Factory factory;
@@ -44,7 +44,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     List<ContactDetailledDTO> contacts = new ArrayList<>();
 
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {

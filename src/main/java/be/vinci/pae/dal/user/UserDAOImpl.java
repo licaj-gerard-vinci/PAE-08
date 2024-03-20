@@ -2,7 +2,7 @@ package be.vinci.pae.dal.user;
 
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +19,7 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalService;
 
   @Inject
   private Factory factory;
