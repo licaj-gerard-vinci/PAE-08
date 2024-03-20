@@ -1,6 +1,8 @@
 package be.vinci.pae.business.user;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -26,6 +28,7 @@ public class UserImpl implements User {
 
   private String role;
 
+  @JsonIgnore
   private String password;
 
   private String schoolyear;
@@ -209,7 +212,7 @@ public class UserImpl implements User {
    * @param password the password to hash.
    * @return the hashed password.
    */
-  @Override
+
   public String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }

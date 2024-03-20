@@ -163,11 +163,12 @@ async function registerUser(user){
   const options = {
     method: 'POST',
     body: JSON.stringify({
-      name: user.name,
+      lastname: user.lastname,
       firstname: user.firstname,
       password: user.password,
+      confirmPassword: user.confirmPassword,
       email: user.email,
-      numTel: user.phone,
+      phone: user.phone,
       role: user.role
     }),
     headers: {

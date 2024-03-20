@@ -41,16 +41,15 @@ function renderRegisterForm() {
                   </div>
 
                   <div class="form-group">
-                    <label for="phone">Numéro de téléphone<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
+                    <label for="role" id="RegisterRoleLabel">Role<span class="text-danger">*</span></label>
+                    <select class="form-control" id="RegisterRole">
+                      
+                    </select>
                   </div>
 
                   <div class="form-group">
-                    <label for="role">Rôle<span class="text-danger">*</span></label>
-                    <select class="form-control" id="RegisterRole">
-                      <option>Professeur</option>
-                      <option>Administratif</option>
-                    </select>
+                    <label for="phone">Numéro de téléphone<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
                   </div>
 
                   <div class="form-group">
@@ -63,8 +62,9 @@ function renderRegisterForm() {
                     <input type="password" class="form-control" id="RegisterConfirmPassword" placeholder="Répétez mot de passe">
                   </div>
 
-                  
-                  <input type="submit" class="btn btn-primary" id="registerSubmit" placeholder="S'inscrire">
+                  <p class="text-danger">* Champs obligatoires</p>
+
+                  <button type="submit" class="btn btn-primary" id="registerSubmit">S'inscrire</button>
 
                 </form>
 
@@ -80,41 +80,87 @@ function renderRegisterForm() {
 }
 
 function checkUser(){
-    const email = document.querySelector('#RegisterEmail');
-    const password = document.querySelector('#RegisterPassword');
-    const lastname = document.querySelector('#RegisterLastname');
-    const firstname = document.querySelector('#RegisterFirstname');
-    const role = document.querySelector('#RegisterRole');
-    const confirmPassword = document.querySelector('#RegisterConfirmPassword');
-    const phone = document.querySelector('#RegisterPhone');
-    const registerSubmit = document.querySelector('#registerSubmit');
+  const email = document.getElementById('RegisterEmail');
+  const role = document.getElementById('RegisterRole');
+  const roleLabel = document.getElementById('RegisterRoleLabel');
+  const password = document.querySelector('#RegisterPassword');
+  const lastname = document.querySelector('#RegisterLastname');
+  const firstname = document.querySelector('#RegisterFirstname');
+  const confirmPassword = document.querySelector('#RegisterConfirmPassword');
+  const phone = document.querySelector('#RegisterPhone');
+  const registerSubmit = document.querySelector('#registerSubmit');
+
+  const errorMessage = document.createElement('p');
+  errorMessage.style.color = 'red';
+  email.parentNode.insertBefore(errorMessage, email.nextSibling);
+
+  const passwordErrorMessage = document.createElement('p');
+  passwordErrorMessage.style.color = 'red';
+  confirmPassword.parentNode.insertBefore(passwordErrorMessage, confirmPassword.nextSibling);
+
+  role.style.display = 'none';
+  roleLabel.style.display = 'none';
+
+  email.addEventListener('input', () => {
+    const emailValue = email.value;
+
+    if (emailValue.endsWith('@student.vinci.be')) {
+      role.innerHTML = '<option>Etudiant</option>';
+      role.style.display = 'block';
+      roleLabel.style.display = 'block';
+      errorMessage.textContent = ''; // Effacez le message d'erreur
+      } 
+      else if (emailValue.endsWith('@vinci.be')) {
+        role.innerHTML = '<option>Professeur</option><option>Administratif</option>';
+        role.style.display = 'block';
+        roleLabel.style.display = 'block';
+        errorMessage.textContent = ''; // Effacez le message d'erreur
+      } 
+      else {
+        role.style.display = 'none';
+        roleLabel.style.display = 'none';
+        errorMessage.textContent = 'Veuillez entrer un e-mail valide (@student.vinci.be ou @vinci.be)'; // Affichez le message d'erreur
+      }
+  });
+
+  password.addEventListener('input', checkPasswords);
+  confirmPassword.addEventListener('input', checkPasswords);
+
+  function checkPasswords() {
+    if (password.value !== confirmPassword.value) {
+      passwordErrorMessage.textContent = 'Les mots de passe ne correspondent pas.';
+    } else {
+      passwordErrorMessage.textContent = '';
+    }
+  }
+
+  registerSubmit.addEventListener('click', async (e) => {
+      e.preventDefault();
+      if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
+          return;
+      }
+      
+      const user = {
+          lastname : lastname.value,
+          firstname : firstname.value,
+          password : password.value,
+          confirmPassword : confirmPassword.value,
+          email : email.value,
+          role : role.value.charAt(0).toUpperCase(),
+          phone : phone.value
+      }
+      console.log(user);
+      try {
+          await registerUser(user);
+
+          Navigate('/');
+      } catch (error) {
+
+          console.error(error);
 
 
-
-    registerSubmit.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
-            return;
-        }
-        const user = {
-            lastname : lastname.value,
-            firstname : firstname.value,
-            email : email.value,
-            role : role.value,
-            password : password.value,
-            confirmPassword : confirmPassword.value,
-            phone : phone.value
-        }
-        try {
-            await registerUser(user);
-            Navigate('/');
-        } catch (error) {
-
-            console.error(error);
-
-
-        }
-    })
+      }
+  });
 }
 
 export default RegisterPage;

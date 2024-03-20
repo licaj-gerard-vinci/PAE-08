@@ -1,6 +1,7 @@
 package be.vinci.pae.dal.user;
 
 import be.vinci.pae.business.user.UserDTO;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public interface UserDAO {
    * @param phone The phone of the user.
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
-  UserDTO insertUser(String email, String password, String name, String firstname, String phone, String role);
+  UserDTO insertUser(String email, String password, String name, String firstname, String phone, String role, Date dateInscription);
 
 
 }

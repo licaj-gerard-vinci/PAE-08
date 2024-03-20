@@ -17,7 +17,6 @@ const Navbar = () => {
 
 function renderNavbar() {
 
-
     const unauthenticatedUser = `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
       <div class="container-fluid">
