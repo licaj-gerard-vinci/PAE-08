@@ -13,7 +13,6 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
@@ -46,19 +45,14 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       try {
         decodedToken = this.jwtVerifier.verify(token);
         if (decodedToken.getExpiresAt().before(new Date())) {
-          requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-              .header("Location",
-                  "/login")
-              .entity("Token expired")
-              .build());
-          return;
+          throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
         }
       } catch (Exception e) {
         throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
-        throw new WebApplicationException("login or password required", Status.FORBIDDEN);
+        throw new WebApplicationException("tozzzzzzzzzzzz", Status.FORBIDDEN);
       }
 
       requestContext.setProperty("user", authenticatedUser);

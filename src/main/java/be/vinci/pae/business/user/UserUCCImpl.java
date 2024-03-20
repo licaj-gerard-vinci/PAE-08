@@ -3,8 +3,6 @@ package be.vinci.pae.business.user;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +18,6 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private DALServices dalServices;
-
 
 
   /**
@@ -67,25 +64,22 @@ public class UserUCCImpl implements UserUCC {
    * @return the registered user.
    */
   @Override
-  public UserDTO register(String email, String password, String name, String firstname,
-      String phone, String confirmPassword, String role) {
-
+  public UserDTO register(UserDTO userDTO) {
     dalServices.startTransaction();
-
-    User user = (User) userDAO.getOneByEmail(email);
-    if (user != null || !password.equals(confirmPassword)) {
+    User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
+    if (user != null) {
       dalServices.rollbackTransaction();
-      throw new WebApplicationException("email incorrect", Status.CONFLICT);
+      return null;
     }
-    if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
+    if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A") && !userDTO.getRole()
+        .equals("P")) {
       dalServices.rollbackTransaction();
-      throw new WebApplicationException("email incorrect", Status.CONFLICT);
+      return null;
     }
+    userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-    user = (User) userDAO.insertUser(email, password, name, firstname,
-        phone, role, dateInscription);
-    user.setDateInscription(dateInscription);
-
+    userDTO.setRegistration_date(dateInscription);
+    user = (User) userDAO.insertUser(userDTO);
     dalServices.commitTransaction();
     return user;
   }

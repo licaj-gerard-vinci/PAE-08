@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,29 +102,23 @@ public class UserDAOImpl implements UserDAO {
   /**
    * Registers a new user.
    *
-   * @param email    the user's email.
-   * @param password the user's password.
-   * @param name the user's name.
-   * @param firstname the user's firstname.
-   * @param phone the user's phone.
+   * @param user the user to register.
    * @return the registered user.
    */
-  public UserDTO insertUser(String email, String password, String name,
-      String firstname, String phone, String role, Date dateInscription) {
+  public UserDTO insertUser(UserDTO user) {
     String query = "INSERT INTO pae.users (email, password, lastname, firstname,"
         + " phone_number, user_role, registration_date ,has_internship) "
         + "VALUES (?, ?, ?, ?, ?, ?, ?, FALSE) returning user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      statement.setString(1, email);
-      statement.setString(2, password);
-      statement.setString(3, name);
-      statement.setString(4, firstname);
-      statement.setString(5, phone);
-      statement.setString(6, role);
-      statement.setDate(7, (java.sql.Date) dateInscription);
+      statement.setString(1, user.getEmail());
+      statement.setString(2, user.getPassword());
+      statement.setString(3, user.getLastname());
+      statement.setString(4, user.getFirstname());
+      statement.setString(5, user.getPhone());
+      statement.setString(6, user.getRole());
+      statement.setDate(7, (java.sql.Date) user.getRegistration_date());
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          UserDTO user = factory.getPublicUser();
           user.setId(rs.getInt("user_id"));
           return user;
         }
@@ -148,10 +141,10 @@ public class UserDAOImpl implements UserDAO {
     user.setId(rs.getInt("user_id"));
     user.setEmail(rs.getString("email"));
     user.setPassword(rs.getString("password"));
-    user.setNom(rs.getString("lastname"));
-    user.setPrenom(rs.getString("firstname"));
-    user.setNumTel(rs.getString("phone_number"));
-    user.setDateInscription(rs.getDate("registration_date"));
+    user.setLastname(rs.getString("lastname"));
+    user.setFirstname(rs.getString("firstname"));
+    user.setPhone(rs.getString("phone_number"));
+    user.setRegistration_date(rs.getDate("registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setYear(rs.getString("year"));
     user.setHasInternship(rs.getBoolean("has_internship"));
