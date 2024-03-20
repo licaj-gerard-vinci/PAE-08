@@ -1,6 +1,6 @@
 package be.vinci.pae.business.user;
 
-import be.vinci.pae.business.user.UserDTO;
+import java.util.List;
 
 /**
  * The {@code UserUCC} interface provides methods for managing user-related operations, such as
@@ -18,6 +18,21 @@ public interface UserUCC {
   UserDTO login(String email, String password);
 
   /**
+   * Retrieves a single user by their ID.
+   *
+   * @param id the user's ID.
+   * @return the user with the specified ID or null if not found.
+   */
+  UserDTO getOne(int id);
+
+  /**
+   * Retrieves all users.
+   *
+   * @return a list of all users.
+   */
+  List<UserDTO> getAll();
+
+  /**
    * Registers a new user.
    *
    * @param email    the user's email.
@@ -29,13 +44,5 @@ public interface UserUCC {
    * @return the registered user.
    */
   UserDTO register(String email, String password, String name, String firstname, String phone, String confirmPassword, String role);
-
-  /**
-   * Retrieves a single user by their ID.
-   *
-   * @param id the user's ID.
-   * @return the user with the specified ID or null if not found.
-   */
-  UserDTO getOne(int id);
 
 }

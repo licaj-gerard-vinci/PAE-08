@@ -10,16 +10,27 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserImpl implements User {
 
+
   private int id;
+
   private String email;
+
   private String nom;
+
   private String prenom;
+
   private String numTel;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
+
   private Date dateInscription;
+
   private String role;
+
   private String password;
 
+  private String schoolyear;
+
+  private boolean hasInternship;
 
   /**
    * Gets the user's login.
@@ -204,12 +215,48 @@ public class UserImpl implements User {
   }
 
   /**
+   * Gets the user's school year.
+   *
+   * @return the user's school year.
+   */
+  public String getYear() {
+    return schoolyear;
+  }
+
+  /**
+   * Sets the user's school year.
+   *
+   * @param schoolyear the new school year for the user.
+   */
+  public void setYear(String schoolyear) {
+    this.schoolyear = schoolyear;
+  }
+
+  /**
+   * Gets the user's internship status.
+   *
+   * @return the user's internship status.
+   */
+  public boolean getHasInternship() {
+    return hasInternship;
+  }
+
+  /**
+   * Sets the user's internship status.
+   *
+   * @param hasInternship the internship status to set for the user.
+   */
+  public void setHasInternship(boolean hasInternship) {
+    this.hasInternship = hasInternship;
+  }
+
+  /**
    * return string of attributs.
    */
   @Override
   public String toString() {
     return "id=" + id + ", email='" + email + '\'' + ", nom='" + nom + '\'' + ", prenom='"
-            + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
-            + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
+        + prenom + '\'' + ", numTel='" + numTel + '\'' + ", dateInscription=" + dateInscription
+        + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }

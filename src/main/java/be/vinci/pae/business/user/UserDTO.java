@@ -124,5 +124,32 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
-}
+  /**
+   * Gets the academic year of the user.
+   *
+   * @return the academic year of the user.
+   */
+  String getYear();
 
+  /**
+   * Sets the academic year of the user.
+   *
+   * @param year the new academic year for the user.
+   */
+  void setYear(String year);
+
+  /**
+   * Gets the academic year of the user.
+   *
+   * @return the academic year of the user.
+   */
+  boolean getHasInternship();
+
+
+  /**
+   * Sets whether the user has an internship.
+   *
+   * @param hasInternship the internship status to set for the user.
+   */
+  void setHasInternship(boolean hasInternship);
+}
