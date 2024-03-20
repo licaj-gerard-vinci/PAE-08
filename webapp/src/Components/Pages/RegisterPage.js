@@ -136,7 +136,7 @@ function checkUser(){
 
   registerSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
-      if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !confirmPassword.value || !phone) {
+      if(!email.value || !password.value || !lastname.value || !firstname.value || !role.value || !phone) {
           return;
       }
       
@@ -144,12 +144,10 @@ function checkUser(){
           lastname : lastname.value,
           firstname : firstname.value,
           password : password.value,
-          confirmPassword : confirmPassword.value,
           email : email.value,
           role : role.value.charAt(0).toUpperCase(),
           phone : phone.value
       }
-      console.log(user);
       try {
           await registerUser(user);
           Navigate('/');

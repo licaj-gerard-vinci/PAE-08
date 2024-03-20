@@ -35,15 +35,9 @@ public interface UserUCC {
   /**
    * Registers a new user.
    *
-   * @param email    the user's email.
-   * @param password the user's password.
-   * @param name the user's name.
-   * @param firstname the user's firstname.
-   * @param phone the user's phone.
-   * @param confirmPassword the user's confirmPassword.
+   * @param userDTO the user to register.
    * @return the registered user.
    */
-  UserDTO register(String email, String password, String name, String firstname,
-      String phone, String confirmPassword, String role);
+  UserDTO register(UserDTO userDTO);
 
 }
