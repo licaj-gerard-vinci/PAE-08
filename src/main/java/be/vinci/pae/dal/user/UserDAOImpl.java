@@ -81,6 +81,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
+
+
     String query = "SELECT u.user_id, u.email, u.password, u.lastname, u.firstname, u.phone_number,"
         + "u.registration_date, u.user_role, sc.year, u.has_internship "
         + "FROM pae.users u, pae.school_years sc "
@@ -123,7 +125,9 @@ public class UserDAOImpl implements UserDAO {
       statement.setDate(7, (java.sql.Date) dateInscription);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          UserDTO user = factory.getPublicUser();
+          user.setId(rs.getInt("user_id"));
+          return user;
         }
       }
     } catch (SQLException e) {

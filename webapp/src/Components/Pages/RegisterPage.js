@@ -152,7 +152,6 @@ function checkUser(){
       console.log(user);
       try {
           await registerUser(user);
-
           Navigate('/');
       } catch (error) {
 

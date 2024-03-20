@@ -56,6 +56,7 @@ function renderNavbar() {
     const user = getAuthenticatedUser();
     const userFirstName = user?.firstName || '';
     const userName = user?.name || '';
+    
 
     const authenticatedUser = `
   <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
