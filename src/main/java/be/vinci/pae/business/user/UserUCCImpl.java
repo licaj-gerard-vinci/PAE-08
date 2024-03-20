@@ -68,7 +68,6 @@ public class UserUCCImpl implements UserUCC {
     if(!role.equals("E") && !role.equals("A") && !role.equals("P")){
       return null;
     }
-
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
     user = (User) userDAO.insertUser(email, password, name, firstname, phone, role, dateInscription);
     user.setDateInscription(dateInscription);
