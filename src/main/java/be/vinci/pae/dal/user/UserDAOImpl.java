@@ -81,6 +81,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
+
+
     String query = "SELECT u.user_id, u.email, u.password, u.lastname, u.firstname, u.phone_number,"
         + "u.registration_date, u.user_role, sc.year, u.has_internship "
         + "FROM pae.users u, pae.school_years sc "
