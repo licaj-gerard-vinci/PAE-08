@@ -125,7 +125,9 @@ public class UserDAOImpl implements UserDAO {
       statement.setDate(7, (java.sql.Date) dateInscription);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          UserDTO user = factory.getPublicUser();
+          user.setId(rs.getInt("user_id"));
+          return user;
         }
       }
     } catch (SQLException e) {

@@ -183,7 +183,6 @@ async function registerUser(user){
   const authenticatedUser = await response.json();
 
   setAuthenticatedUser(authenticatedUser);
-  Navigate('/');
 }
 
 
