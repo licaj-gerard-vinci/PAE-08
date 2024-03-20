@@ -21,4 +21,6 @@ public interface ContactUCC {
   List<ContactDTO> getContactsAllInfo(int idUser);
 
   void insertContact(ContactDTO contact);
+
+  void updateContact(ContactDTO contact);
 }

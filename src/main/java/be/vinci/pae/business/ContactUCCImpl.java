@@ -35,4 +35,9 @@ public class ContactUCCImpl implements ContactUCC {
   public void insertContact(ContactDTO contact){
     contactDAO.insertContact(contact);
   }
+
+  public void updateContact(ContactDTO contact){
+    contactDAO.updateContact(contact);
+  }
+
 }

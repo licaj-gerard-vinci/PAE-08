@@ -1,4 +1,4 @@
-import { getContactsAllInfo, getUserData, insertContact } from "../../model/users";
+import { getContactsAllInfo, getUserData, insertContact, updateContact } from "../../model/users";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 
@@ -43,7 +43,6 @@ async function renderHomePage(){
               } else if (contactFound.etatContact === 'initiated') {
                 button = `
                 <div class="d-flex justify-content-between">
-                  <button type='button' class='btn btn-danger' id='refusedButton${entreprise.id}'>refuser contact</button>
                   <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
                   <button type='button' class='btn btn-success' id='takenButton${entreprise.id}'>contact prise</button>
                 </div>`;
@@ -92,8 +91,11 @@ async function renderHomePage(){
 
       entreprises.forEach(entreprise => {
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
+        const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
+        const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
+
         if (initiatedButton) {
-          console.log('contactButton: ', initiatedButton)
+          console.log('initiatedButton: ', initiatedButton)
           initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
@@ -102,6 +104,32 @@ async function renderHomePage(){
             console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
+          });
+        }
+
+        if (takenButton) {
+          console.log('takenButton: ', takenButton)
+          takenButton.addEventListener('click', async () => {
+            // to make sure the insertion isn't done twice
+            takenButton.disabled = true;
+            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
+            await updateContact(entreprise.id, user.id, "taken");
+            console.log('after update')
+            await renderHomePage();
+            takenButton.disabled = false;
+          });
+        }
+
+        if (acceptedButton) {
+          console.log('acceptedButton: ', acceptedButton)
+          acceptedButton.addEventListener('click', async () => {
+            // to make sure the insertion isn't done twice
+            acceptedButton.disabled = true;
+            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
+            await updateContact(entreprise.id, user.id, "accepted");
+            console.log('after update')
+            await renderHomePage();
+            acceptedButton.disabled = false;
           });
         }
       });

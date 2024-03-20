@@ -14,6 +14,7 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -211,6 +212,22 @@ public class AuthRessource {
     return responseNode;
   }
 
+  @PUT
+  @Path("updateContact")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ObjectNode updateContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (authenticatedUser == null) {
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
+    }
+    myContactUcc.updateContact(contact);
+
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Contact updated successfully");
+    return responseNode;
+  }
 
   /**
    * Generates a JWT token for the given user.

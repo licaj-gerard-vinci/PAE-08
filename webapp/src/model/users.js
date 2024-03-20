@@ -190,5 +190,36 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
+  async function updateContact(entrepriseId, userId, etat) {
+    const token = getToken();
+    if(token) {
+      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
+      const options = {
+        method: 'PUT',
+        body: JSON.stringify({
+          entreprise: entrepriseId,
+          utilisateur: userId,
+          etatContact: etat
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      try {
+        const response = await fetch(`http://localhost:8080/auth/updateContact`, options);
+        console.log('response: ', response)
+        if (!response.ok) {
+          throw new Error(`Error inserting contact: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error inserting contact');
+      }
+    }
+  }
 
-  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getContactsAllInfo, insertContact };
+
+  export {loginUser, refreshUser, getStagePresent, getContacts, getUserData, getContactsAllInfo, insertContact, updateContact };

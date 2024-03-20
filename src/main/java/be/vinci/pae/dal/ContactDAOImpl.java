@@ -92,6 +92,18 @@ public class ContactDAOImpl implements ContactDAO {
     }
   }
 
+  public void updateContact(ContactDTO contact) {
+    String query = "UPDATE pae.contacts SET contact_status = ? WHERE company_id = ? AND student_id = ?;";
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, contact.getEtatContact());
+      statement.setInt(2, contact.getEntreprise());
+      statement.setInt(3, contact.getUtilisateur());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   /**
    * Rs to detailed contact.
    *
