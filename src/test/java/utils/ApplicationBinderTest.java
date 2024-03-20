@@ -6,6 +6,7 @@ import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.DALServiceImpl;
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import jakarta.ws.rs.ext.Provider;
@@ -28,6 +29,6 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(UserUCCImpl.class).to(UserUCC.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
     bind(FactoryImpl.class).to(Factory.class);
-    bind(DALServiceImpl.class).to(DALBackService.class);
+    bind(DALServiceImpl.class).to(DALServices.class);
   }
 }
