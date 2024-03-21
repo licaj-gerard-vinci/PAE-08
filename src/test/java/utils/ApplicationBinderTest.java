@@ -18,11 +18,11 @@ public class ApplicationBinderTest extends AbstractBinder {
     /**
      * Configures the binding.
      */
-    @Override
-    protected void configure() {
+  @Override
+  protected void configure() {
     bind(UserUCCImpl.class).to(UserUCC.class);
     bind(FactoryImpl.class).to(Factory.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
     bind(Mockito.mock(DALServiceImpl.class)).to(DALServices.class);
-    }
+  }
 }
