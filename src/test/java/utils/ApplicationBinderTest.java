@@ -24,5 +24,6 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(FactoryImpl.class).to(Factory.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
     bind(Mockito.mock(DALServiceImpl.class)).to(DALServices.class);
+
   }
 }
