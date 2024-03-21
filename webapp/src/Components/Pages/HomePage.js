@@ -20,18 +20,31 @@ async function renderHomePage(){
   } else if (user.role === "E") {
     const entreprises = await getEntreprises();
     const contacts = await getContactsAllInfo();
+    let  searchResult = entreprises;
 
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
       <p>Aucune entreprise n'est disponible pour le moment.</p>
       `;
     } else {
-      main.innerHTML = `
+      main.innerHTML = `       
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
+                    <button class="btn btn-primary" type="button" id="button-addon2">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
         <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
-          ${entreprises.map(entreprise => {
+          ${searchResult.map(entreprise => {
             let button;
+            
             if(contacts){
               const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
               console.log(contactFound);
@@ -57,6 +70,12 @@ async function renderHomePage(){
                 button = `
                 <div class="d-flex justify-content-center">
                   <p>Contact accepté</p>
+                </div>`;
+              }
+              else if (contactFound.etatContact === 'Unsupervised'){
+                button = `
+                <div class="d-flex justify-content-center">
+                  <p>Contact n'est plu suivi</p>
                 </div>`;
               }
             } else {
@@ -89,10 +108,26 @@ async function renderHomePage(){
       </div>
       `;
 
+
+        const searchButton = document.getElementById('button-addon2');
+        searchButton.addEventListener('click', async () => {
+          const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+          console.log('searchInput: ', searchInput);
+          if (searchInput !== '') {
+             searchResult = entreprises.filter(entreprise =>
+                entreprise.nom.toLowerCase().includes(searchInput)
+             );
+        }
+        await renderHomePage();
+        });
+
+
+
       entreprises.forEach(entreprise => {
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
+        const stopFollowingButton = document.querySelector(`#stopFollowingButton${entreprise.id}`);
 
         if (initiatedButton) {
           console.log('initiatedButton: ', initiatedButton)
@@ -106,7 +141,6 @@ async function renderHomePage(){
             initiatedButton.disabled = false;
           });
         }
-
         if (takenButton) {
           console.log('takenButton: ', takenButton)
           takenButton.addEventListener('click', async () => {
@@ -120,6 +154,18 @@ async function renderHomePage(){
           });
         }
 
+        if (stopFollowingButton) {
+          console.log('stopFollowingButton: ', stopFollowingButton)
+          stopFollowingButton.addEventListener('click', async () => {
+            // to make sure the insertion isn't done twice
+            stopFollowingButton.disabled = true;
+            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
+            await updateContact(entreprise.id, user.id, "Unsupervised");
+            console.log('after update')
+            await renderHomePage();
+            takenButton.disabled = false;
+          });
+        }
         if (acceptedButton) {
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
@@ -133,11 +179,13 @@ async function renderHomePage(){
           });
         }
       });
-      
+
     }
   } else {
     console.log("Unknown user role");
   }
 }
+
+
 
 export default HomePage;

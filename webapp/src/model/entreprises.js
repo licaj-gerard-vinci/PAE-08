@@ -24,4 +24,6 @@ async function getEntreprises(){
     return entreprises;
 }
 
+
+
 export default getEntreprises;
