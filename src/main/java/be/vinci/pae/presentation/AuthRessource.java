@@ -122,10 +122,12 @@ public class AuthRessource {
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
     if (authenticated == null) {
-      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+      throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
     }
-    if (authenticated.getRole().equals("E")) {
-      throw new WebApplicationException("not authorized", Status.UNAUTHORIZED);
+    // Vérifie si l'utilisateur authentifié est un professeur ('P') ou un administrateur ('A')
+    if (!authenticated.getRole().equals("P") && !authenticated.getRole().equals("A")) {
+      throw new WebApplicationException("Not authorized to access this resource",
+          Status.UNAUTHORIZED);
     }
     return myUserUcc.getAll();
   }
