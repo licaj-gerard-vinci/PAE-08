@@ -32,34 +32,34 @@
 
 .btn-orange {
   color: #fff;
-  background-color: #ff8c00; /* Orange foncé */
-  border-color: #ff8c00; /* Orange foncé */
+  background-color: #ff8c00; 
+  border-color: #ff8c00; 
 }
 
 .btn-orange:hover {
     color: #fff;
-    background-color: #e67e00; /* Orange foncé plus intense au survol */
-    border-color: #cc7000; /* Bordure orange foncé plus intense au survol */
+    background-color: #e67e00; 
+    border-color: #cc7000; 
 }
 
 .btn-orange:focus, .btn-primary.focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.5); /* Ombre orange foncé lors du focus */
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.5);
 }
 
 .btn-orange.disabled, .btn-primary:disabled {
     color: #fff;
-    background-color: #ff8c00; /* Orange foncé */
-    border-color: #ff8c00; /* Orange foncé */
+    background-color: #ff8c00; 
+    border-color: #ff8c00; 
 }
 
 .btn-orange:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #cc7000; /* Orange foncé plus intense lorsqu'il est actif */
-    border-color: #b36300; /* Bordure orange foncé plus intense lorsqu'il est actif */
+    background-color: #cc7000; 
+    border-color: #b36300; 
 }
 
 .btn-orange:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.5); /* Ombre orange foncé lors du focus */
+    box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.5); 
 }
