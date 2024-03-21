@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 /**
  * Provides a data access layer service for creating prepared statements.
  */
-public interface DALService {
+public interface DALBackService {
 
   /**
    * Create a PS.

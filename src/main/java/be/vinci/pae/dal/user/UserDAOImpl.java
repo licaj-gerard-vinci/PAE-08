@@ -2,7 +2,7 @@ package be.vinci.pae.dal.user;
 
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalService;
 
   @Inject
   private Factory factory;
@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO {
       statement.setString(4, user.getFirstname());
       statement.setString(5, user.getPhone());
       statement.setString(6, user.getRole());
-      statement.setDate(7, (java.sql.Date) user.getRegistration_date());
+      statement.setDate(7, (java.sql.Date) user.getRegistrationDate());
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
           user.setId(rs.getInt("user_id"));
@@ -144,7 +144,7 @@ public class UserDAOImpl implements UserDAO {
     user.setLastname(rs.getString("lastname"));
     user.setFirstname(rs.getString("firstname"));
     user.setPhone(rs.getString("phone_number"));
-    user.setRegistration_date(rs.getDate("registration_date"));
+    user.setRegistrationDate(rs.getDate("registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setYear(rs.getString("year"));
     user.setHasInternship(rs.getBoolean("has_internship"));
