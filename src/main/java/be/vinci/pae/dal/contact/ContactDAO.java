@@ -15,14 +15,13 @@ public interface ContactDAO {
    * Gets the contacts.
    *
    * @param id the user ID.
-   * @return the contacts.
    */
   List<ContactDetailledDTO> getContacts(int id);
 
   /**
    * Fetches all contact information for a specific user.
    *
-   * @return A list of contact information.
+   * @param idUser the user ID.
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
 

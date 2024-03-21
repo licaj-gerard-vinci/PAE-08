@@ -70,6 +70,11 @@ public class FactoryImpl implements Factory {
     return new EntrepriseImpl();
   }
 
+  /**
+   * Create a new ContactDTO.
+   *
+   * @return a new instance of ContactDTO.
+   */
   public ContactDTO getContactDTO() {
     return new ContactImpl();
   }
