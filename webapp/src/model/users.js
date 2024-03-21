@@ -190,16 +190,17 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
-  async function updateContact(entrepriseId, userId, etat) {
+  async function updateContact(entrepriseId, userId, etat, refusalReason) {
     const token = getToken();
     if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
+      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', refusal reason: ', refusalReason)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
           entreprise: entrepriseId,
           utilisateur: userId,
-          etatContact: etat
+          etatContact: etat,
+          raisonRefus: refusalReason
         }),
         headers: {
           'Content-Type': 'application/json',
