@@ -16,10 +16,14 @@ const ProfilePage = async () => {
   const topContainer = document.createElement('div');
   topContainer.style = "display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;";
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
-  topContainer.appendChild(await displayStage());
+
+  const user = getAuthenticatedUser();
+  if(user.role === 'E') {
+    topContainer.appendChild(await displayStage());
+    container.appendChild(await displayContacts());
+  }
 
   container.appendChild(topContainer);
-  container.appendChild(await displayContacts());
 };
 
 function renderRole(user) {
