@@ -70,8 +70,8 @@ public class UserUCCImpl implements UserUCC {
     if (user != null) {
       return null;
     }
-    if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A") && !userDTO.getRole()
-        .equals("P")) {
+    if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A")
+            && !userDTO.getRole().equals("P")) {
       return null;
     }
     userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));

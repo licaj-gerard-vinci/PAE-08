@@ -9,7 +9,7 @@ async function getEntreprises(){
             }
         }
 
-        const response = await fetch(`http://localhost:8080/ent/all`, options);
+        const response = await fetch(`http://localhost:8080/entreprise`, options);
 
         if (!response.ok) {
             throw new Error(`Error fetchng entreprises data`);

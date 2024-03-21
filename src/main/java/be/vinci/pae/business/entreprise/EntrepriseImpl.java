@@ -3,7 +3,8 @@ package be.vinci.pae.business.entreprise;
 /**
  * Represents the EntrepriseImpl class.
  */
-public class EntrepriseImpl implements Entreprise {
+
+public class EntrepriseImpl implements EntrepriseDTO {
 
   private int id;
 

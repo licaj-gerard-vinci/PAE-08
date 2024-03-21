@@ -1,5 +1,6 @@
 package be.vinci.pae.business.factory;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.stage.StageDTO;
@@ -48,4 +49,11 @@ public interface Factory {
    * @return a new instance of EntrepriseDTO.
    */
   EntrepriseDTO getEntrepriseDTO();
+
+  /**
+   * Create a new ContactDTO.
+   *
+   * @return a new instance of ContactDTO.
+   */
+  ContactDTO getContactDTO();
 }
