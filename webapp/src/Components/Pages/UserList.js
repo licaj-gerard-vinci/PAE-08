@@ -47,7 +47,7 @@ async function renderUserList() {
               <td>${user.firstname}</td>
               <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
               <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
-              <td>${user.year}</td>
+              <td>${user.year === null ? 'N/A' : user.year}</td>
             </tr>
           `).join('')}
         </tbody>
