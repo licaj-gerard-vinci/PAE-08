@@ -16,56 +16,56 @@ public interface UserDTO {
    *
    * @return the last name of the user.
    */
-  String getNom();
+  String getLastname();
 
   /**
    * Sets the last name of the user.
    *
-   * @param nom the new last name for the user.
+   * @param lastname the new last name for the user.
    */
-  void setNom(String nom);
+  void setLastname(String lastname);
 
   /**
    * Gets the first name of the user.
    *
    * @return the first name of the user.
    */
-  String getPrenom();
+  String getFirstname();
 
   /**
    * Sets the first name of the user.
    *
-   * @param prenom the new first name for the user.
+   * @param firstname the new first name for the user.
    */
-  void setPrenom(String prenom);
+  void setFirstname(String firstname);
 
   /**
    * Gets the phone number of the user.
    *
    * @return the phone number of the user.
    */
-  String getNumTel();
+  String getPhone();
 
   /**
    * Sets the phone number of the user.
    *
-   * @param numTel the new phone number for the user.
+   * @param phone the new phone number for the user.
    */
-  void setNumTel(String numTel);
+  void setPhone(String phone);
 
   /**
    * Gets the registration date of the user.
    *
    * @return the registration date of the user.
    */
-  Date getDateInscription();
+  Date getRegistration_date();
 
   /**
    * Sets the registration date of the user.
    *
-   * @param dateInscription the new registration date for the user.
+   * @param registration_date the new registration date for the user.
    */
-  void setDateInscription(Date dateInscription);
+  void setRegistration_date(Date registration_date);
 
 
   /**
@@ -124,5 +124,32 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
-}
+  /**
+   * Gets the academic year of the user.
+   *
+   * @return the academic year of the user.
+   */
+  String getYear();
 
+  /**
+   * Sets the academic year of the user.
+   *
+   * @param year the new academic year for the user.
+   */
+  void setYear(String year);
+
+  /**
+   * Gets the academic year of the user.
+   *
+   * @return the academic year of the user.
+   */
+  boolean getHasInternship();
+
+
+  /**
+   * Sets whether the user has an internship.
+   *
+   * @param hasInternship the internship status to set for the user.
+   */
+  void setHasInternship(boolean hasInternship);
+}

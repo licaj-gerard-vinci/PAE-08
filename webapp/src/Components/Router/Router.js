@@ -29,6 +29,7 @@ function onHistoryChange() {
   window.addEventListener('popstate', () => {
     const uri = window.location.pathname;
     const componentToRender = routes[uri];
+    if (!componentToRender) throw Error(`The ${uri} resource does not exist.`);
     componentToRender();
   });
 }
@@ -37,7 +38,7 @@ async function onFrontendLoad() {
   window.addEventListener('load', async () => {
     const uri = window.location.pathname;
     const componentToRender = routes[uri];
-    
+
     // Si le composant n'existe pas, redirigez vers une page d'erreur ou de connexion
     if (!componentToRender) {
       console.error(`The resource ${uri} does not exist.`);
@@ -48,11 +49,12 @@ async function onFrontendLoad() {
     // Tentez de rafraîchir l'utilisateur
     const result = await refreshUser();
     if (result === undefined || result === null) {
-      if (uri !== '/login') {
+      // Autorisez l'accès à la page d'inscription même si l'utilisateur n'est pas connecté
+      if (uri !== '/login' && uri !== '/register') {
         Navigate('/login');
         return;
       }
-    } else if (uri === '/login') {
+    } else if (uri === '/login' || uri === '/register') {
       Navigate('/'); // Redirigez vers la page d'accueil si l'utilisateur est déjà connecté
       return;
     }

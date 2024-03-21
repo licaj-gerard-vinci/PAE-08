@@ -106,7 +106,10 @@ public class AuthRessource {
   }
 
   /**
-   * Retrives all the users from the database.
+   * Retrieves all the users from the database.
+   *
+   * @param requestContext the request context of the HTTP request.
+   * @return a list of UserDTO representing all users.
    */
   @GET
   @Path("users")
@@ -177,6 +180,33 @@ public class AuthRessource {
     return contactDetailledDTOs; // Retourne la liste des contacts détaillés
   }
 
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public ObjectNode register(UserDTO user) {
+    if (user.getLastname() == null || user.getFirstname() == null || user.getEmail() == null
+        || user.getPassword() == null || user.getPhone() == null || user.getRole() == null) {
+      throw new WebApplicationException("no info", Status.NOT_FOUND);
+    }
+
+    if (user.getEmail().isEmpty() || user.getPassword().isEmpty() || user.getLastname().isEmpty()
+        || user.getFirstname().isEmpty() || user.getPhone().isEmpty() || user.getRole().isEmpty()
+    ) {
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
+    }
+    if (!user.getEmail().endsWith("@student.vinci.be") && !user.getEmail().endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+    }
+
+    // Try to log in
+    UserDTO publicUser = myUserUcc.register(user);
+    if (publicUser == null) {
+      throw new WebApplicationException("not found", Status.NOT_FOUND);
+    }
+
+    return generateTokenForUser(publicUser);
+  }
 
   /**
    * Generates a JWT token for the given user.
@@ -193,11 +223,13 @@ public class AuthRessource {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("name", user.getNom())
-        .put("firstName", user.getPrenom())
+        .put("name", user.getLastname())
+        .put("firstName", user.getFirstname())
         .put("email", user.getEmail())
         .put("role", user.getRole())
-        .put("numTel", user.getNumTel());
+        .put("numTel", user.getPhone())
+        .put("schoolYear", user.getYear())
+        .put("hasInternship", user.getHasInternship());
   }
 
 

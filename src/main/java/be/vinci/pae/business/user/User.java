@@ -22,6 +22,7 @@ public interface User extends UserDTO {
    */
   String hashPassword(String password);
 
+
   /**
    * Creates a string representation of the user, typically including essential details like user
    * ID, login, and password (hashed).

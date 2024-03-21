@@ -19,6 +19,8 @@ public interface UserDAO {
 
   /**
    * Retrieves a list of all users.
+   *
+   * @return a list of all UserDTO objects.
    */
   List<UserDTO> getAllUsers();
 
@@ -29,5 +31,14 @@ public interface UserDAO {
    * @return The {@link UserDTO} instance, or {@code null} if not found.
    */
   UserDTO getOneByEmail(String email);
+
+  /**
+   * Registers a new user.
+   *
+   * @param user The user to register.
+   * @return The {@link UserDTO} instance, or {@code null} if not found.
+   */
+  UserDTO insertUser(UserDTO user);
+
 
 }

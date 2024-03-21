@@ -6,14 +6,14 @@ let currentUser;
 
 const getAuthenticatedUser = () => {
     if (currentUser !== undefined) return currentUser;
-  
+
     const remembered = getRememberMe();
     const serializedUser = remembered
       ? localStorage.getItem(STORE_NAME)
       : sessionStorage.getItem(STORE_NAME);
-  
+
     if (!serializedUser) return undefined;
-  
+
     currentUser = JSON.parse(serializedUser);
     return currentUser;
   };
@@ -23,10 +23,10 @@ const getAuthenticatedUser = () => {
     const remembered = getRememberMe();
     if (remembered) localStorage.setItem(STORE_NAME, serializedUser);
     else sessionStorage.setItem(STORE_NAME, serializedUser);
-  
+
     currentUser = authenticatedUser;
   };
-  
+
 
 
   function getRememberMe() {
