@@ -28,8 +28,10 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
    */
   @Override
   public List<EntrepriseDTO> getEntreprises() {
-    String query = "SELECT name, designation,"
-        + " address, phone_number FROM pae.companies";
+
+    String query = "SELECT company_id,name, designation, "
+        + "address, phone_number FROM pae.companies "
+        + "WHERE is_blacklisted = false";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
@@ -46,10 +48,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
   private EntrepriseDTO rsToEntreprises(ResultSet rs) throws SQLException {
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    entreprise.setId(rs.getInt("company_id"));
     entreprise.setNom(rs.getString("name"));
     entreprise.setAppellation(rs.getString("designation"));
     entreprise.setAdresse(rs.getString("address"));
     entreprise.setNumTel(rs.getString("phone_number"));
+
     return entreprise;
   }
 }

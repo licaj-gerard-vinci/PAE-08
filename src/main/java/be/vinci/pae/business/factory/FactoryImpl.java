@@ -1,5 +1,6 @@
 package be.vinci.pae.business.factory;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.contact.ContactImpl;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
@@ -67,6 +68,15 @@ public class FactoryImpl implements Factory {
   @Override
   public EntrepriseDTO getEntrepriseDTO() {
     return new EntrepriseImpl();
+  }
+
+  /**
+   * Create a new ContactDTO.
+   *
+   * @return a new instance of ContactDTO.
+   */
+  public ContactDTO getContactDTO() {
+    return new ContactImpl();
   }
 }
 
