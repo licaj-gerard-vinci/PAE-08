@@ -91,6 +91,13 @@ async function renderHomePage(){
                   <div class="col"></div>
                 </div>`;
               }
+              else if (contactFound.etatContact === 'Unsupervised'){
+                button = `
+                <div class="d-flex justify-content-center">
+                  <p>Contact n'est plu suivi</p>
+                </div>`;
+              }
+
             } else {
               button = `
               <div class="row">
@@ -131,6 +138,8 @@ async function renderHomePage(){
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const refusedButton = document.querySelector(`#refusedButton${entreprise.id}`);
+        const stopFollowingButton = document.querySelector(`#stopFollowingButton${entreprise.id}`);
+
 
         if (initiatedButton) {
           console.log('initiatedButton: ', initiatedButton)
@@ -166,6 +175,19 @@ async function renderHomePage(){
             console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
+          });
+        }
+
+        if (stopFollowingButton) {
+          console.log('stopFollowingButton: ', stopFollowingButton)
+          stopFollowingButton.addEventListener('click', async () => {
+            // to make sure the insertion isn't done twice
+            stopFollowingButton.disabled = true;
+            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
+            await updateContact(entreprise.id, user.id, "Unsupervised", null);
+            console.log('after update')
+            await renderHomePage();
+            stopFollowingButton.disabled = false;
           });
         }
 
