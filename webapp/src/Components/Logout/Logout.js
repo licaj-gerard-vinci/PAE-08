@@ -4,9 +4,9 @@ import Navbar from '../Navbar/Navbar';
 
 
 const Logout = () => {
-  clearAuthenticatedUser(); 
-  Navbar(); 
-  Navigate('/login'); 
+  clearAuthenticatedUser();
+  Navbar();
+  Navigate('/login');
 };
 
 export default Logout;

@@ -16,7 +16,7 @@ const Login = () => {
   renderPageTitle('Login');
   renderLoginForm();
   checkUser();
-  
+
 };
 
 function checkUser() {
@@ -28,38 +28,38 @@ function checkUser() {
   errorMessage.id = 'error-message';
 
   form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    
-    const previousError = document.querySelector('#error-message');
-    if (previousError) previousError.remove();
 
-    
-      try {
-        await loginUser(email.value, password.value);
-        Navbar();
-        Navigate('/');
-      } catch (error) {
-        console.error(error);
-        errorMessage.id = 'error-message';
-        errorMessage.textContent = 'Erreur : Nom d\'utilisateur ou mot de passe invalide.';
-        errorMessage.style.fontWeight = 'bold';
-        errorMessage.style.backgroundColor = 'grey'; 
-        errorMessage.style.color = 'black'; 
-        errorMessage.style.padding = '10px';
-        errorMessage.style.marginTop = '10px';
-        errorMessage.style.borderRadius = '4px';
+        const previousError = document.querySelector('#error-message');
+        if (previousError) previousError.remove();
 
-        
-        const rememberMeElement = document.querySelector('.form-check');
-        rememberMeElement.insertAdjacentElement('afterend', errorMessage);
+
+        try {
+          await loginUser(email.value, password.value);
+          Navbar();
+          Navigate('/');
+        } catch (error) {
+          console.error(error);
+          errorMessage.id = 'error-message';
+          errorMessage.textContent = 'Erreur : Nom d\'utilisateur ou mot de passe invalide.';
+          errorMessage.style.fontWeight = 'bold';
+          errorMessage.style.backgroundColor = 'grey';
+          errorMessage.style.color = 'black';
+          errorMessage.style.padding = '10px';
+          errorMessage.style.marginTop = '10px';
+          errorMessage.style.borderRadius = '4px';
+
+
+          const rememberMeElement = document.querySelector('.form-check');
+          rememberMeElement.insertAdjacentElement('afterend', errorMessage);
+        }
       }
-    }
   )};
 
 
-    
-    
+
+
 function renderLoginForm() {
   const main = document.querySelector('main');
   main.innerHTML = `
@@ -100,7 +100,7 @@ function renderLoginForm() {
 
               </form>
 
-              <p class="text-center">Pas de compte ? <a href="#" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
+              <p class="text-center">Pas de compte ? <a href="#" data_uri="/register" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
               
             </div>
           </div>
@@ -108,14 +108,15 @@ function renderLoginForm() {
       </div>
     </div>
   `;
-  
 
-  document.getElementById('togglePassword').addEventListener('click', () => {
+
+  document.getElementById('togglePassword').addEventListener('click', (e) => {
+    e.preventDefault();
     const passwordInput = document.getElementById('password');
     const togglePasswordImage = document.getElementById('togglePassword');
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
-    
+
     togglePasswordImage.src = type === 'text' ? eyeOpen : eyeClose;
   });
 
@@ -125,10 +126,11 @@ function renderLoginForm() {
   rememberme.addEventListener('click', onCheckboxClicked);
 }
 
-  function onCheckboxClicked(e) {
-    setRememberMe(e.target.checked);
-  }
+function onCheckboxClicked(e) {
+  setRememberMe(e.target.checked);
+}
 
 
-  export default Login;
+export default Login;
+
 
