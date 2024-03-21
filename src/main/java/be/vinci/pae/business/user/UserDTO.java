@@ -63,9 +63,9 @@ public interface UserDTO {
   /**
    * Sets the registration date of the user.
    *
-   * @param registration_date the new registration date for the user.
+   * @param registrationDate the new registration date for the user.
    */
-  void setRegistration_date(Date registration_date);
+  void setRegistration_date(Date registrationDate);
 
 
   /**

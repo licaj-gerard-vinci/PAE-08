@@ -27,16 +27,16 @@ public class ContactUCCImpl implements ContactUCC {
   }
 
 
-  public List<ContactDTO> getContactsAllInfo(int idUser){
+  public List<ContactDTO> getContactsAllInfo(int idUser) {
     return contactDAO.getContactsAllInfo(idUser);
   }
 
 
-  public void insertContact(ContactDTO contact){
+  public void insertContact(ContactDTO contact) {
     contactDAO.insertContact(contact);
   }
 
-  public void updateContact(ContactDTO contact){
+  public void updateContact(ContactDTO contact) {
     contactDAO.updateContact(contact);
   }
 

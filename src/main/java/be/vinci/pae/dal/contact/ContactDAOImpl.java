@@ -53,12 +53,18 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-
-  public List<ContactDTO> getContactsAllInfo(int id){
-    String query = "SELECT contact_id, company_id, student_id, contact_status, " +
-            "meeting_place, refusal_reason "
-            + "FROM pae.contacts " +
-            "WHERE student_id = ?";
+  /**
+   * Fetches all contact information for a specific user.
+   *
+   * @param id The ID of the user.
+   * @return A list of contact information.
+   * @throws RuntimeException If an SQL exception occurs.
+   */
+  public List<ContactDTO> getContactsAllInfo(int id) {
+    String query = "SELECT contact_id, company_id, student_id, contact_status, "
+            + "meeting_place, refusal_reason "
+            + "FROM pae.contacts "
+            + "WHERE student_id = ?";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
@@ -76,8 +82,15 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
+  /**
+   * Inserts a new contact into the database.
+   *
+   * @param contact The contact information to insert.
+   * @throws RuntimeException If an SQL exception occurs.
+   */
   public void insertContact(ContactDTO contact) {
-    String query = "INSERT INTO pae.contacts (school_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
+    String query = "INSERT INTO pae.contacts (school_year_id, company_id, student_id, contact_status) "
+            + "VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise());
       statement.setInt(2, contact.getUtilisateur());
@@ -88,8 +101,15 @@ public class ContactDAOImpl implements ContactDAO {
     }
   }
 
+  /**
+   * Updates a contact in the database.
+   *
+   * @param contact The contact information to update.
+   * @throws RuntimeException If an SQL exception occurs.
+   */
   public void updateContact(ContactDTO contact) {
-    String query = "UPDATE pae.contacts SET contact_status = ?, refusal_reason = ? WHERE company_id = ? AND student_id = ?;";
+    String query = "UPDATE pae.contacts SET contact_status = ?, refusal_reason = ? "
+            + "WHERE company_id = ? AND student_id = ?;";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getRaisonRefus());

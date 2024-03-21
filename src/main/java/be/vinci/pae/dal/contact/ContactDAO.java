@@ -19,9 +19,24 @@ public interface ContactDAO {
    */
   List<ContactDetailledDTO> getContacts(int id);
 
+  /**
+   * Fetches all contact information for a specific user.
+   *
+   * @return A list of contact information.
+   */
   List<ContactDTO> getContactsAllInfo(int idUser);
 
+  /**
+   * Inserts a new contact into the database.
+   *
+   * @param contact The contact information to insert.
+   */
   void insertContact(ContactDTO contact);
 
+  /**
+   * Updates a contact in the database.
+   *
+   * @param contact The contact information to update.
+   */
   void updateContact(ContactDTO contact);
 }

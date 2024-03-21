@@ -28,7 +28,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,6 +183,13 @@ public class AuthRessource {
     return contactDetailledDTOs; // Retourne la liste des contacts détaillés
   }
 
+  /**
+   * Registers a new user.
+   *
+   * @param user The user to register.
+   * @return A JSON object containing a token for the registered user.
+   * @throws WebApplicationException If any required information is missing or if the email is incorrect.
+   */
   @POST
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -212,6 +218,13 @@ public class AuthRessource {
     return generateTokenForUser(publicUser);
   }
 
+  /**
+   * Retrieves all contact information for the authenticated user.
+   *
+   * @param requestContext The context of the container request.
+   * @return A list of all contact information.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @GET
   @Path("contactAllInfo")
   @Produces(MediaType.APPLICATION_JSON)
@@ -230,13 +243,21 @@ public class AuthRessource {
     return contactDTOs;
   }
 
-
+  /**
+   * Inserts a new contact for the authenticated user.
+   *
+   * @param contact The contact to insert.
+   * @param requestContext The context of the container request.
+   * @return A JSON object containing a success message.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @POST
   @Path("insertContact")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode insertContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+  public ObjectNode insertContact(ContactDTO contact,
+                                  @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
@@ -248,12 +269,21 @@ public class AuthRessource {
     return responseNode;
   }
 
+  /**
+   * Updates a contact for the authenticated user.
+   *
+   * @param contact The contact to update.
+   * @param requestContext The context of the container request.
+   * @return A JSON object containing a success message.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @PUT
   @Path("updateContact")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode updateContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+  public ObjectNode updateContact(ContactDTO contact,
+                                  @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);

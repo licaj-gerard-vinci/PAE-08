@@ -23,7 +23,7 @@ public class UserImpl implements User {
   private String phone;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy hh:mm:ss")
 
-  private Date registration_date;
+  private Date registrationDate;
 
   private String role;
 
@@ -161,17 +161,17 @@ public class UserImpl implements User {
    */
   @Override
   public Date getRegistration_date() {
-    return registration_date;
+    return registrationDate;
   }
 
   /**
    * Sets the user's registration date.
    *
-   * @param registration_date the new registration date for the user.
+   * @param registrationDate the new registration date for the user.
    */
   @Override
-  public void setRegistration_date(Date registration_date) {
-    this.registration_date = registration_date;
+  public void setRegistration_date(Date registrationDate) {
+    this.registrationDate = registrationDate;
   }
 
   /**
@@ -258,7 +258,7 @@ public class UserImpl implements User {
   @Override
   public String toString() {
     return "id=" + id + ", email='" + email + '\'' + ", nom='" + lastname + '\'' + ", prenom='"
-        + firstname + '\'' + ", numTel='" + phone + '\'' + ", dateInscription=" + registration_date
+        + firstname + '\'' + ", numTel='" + phone + '\'' + ", dateInscription=" + registrationDate
         + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
   }
 }

@@ -30,8 +30,8 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   public List<EntrepriseDTO> getEntreprises() {
 
     String query = "SELECT company_id,name, designation, "
-        + "address, phone_number FROM pae.companies " +
-            "WHERE is_blacklisted = false";
+        + "address, phone_number FROM pae.companies "
+        + "WHERE is_blacklisted = false";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
