@@ -15,9 +15,9 @@ import org.mockito.Mockito;
  * Binds the classes for testing.
  */
 public class ApplicationBinderTest extends AbstractBinder {
-    /**
-     * Configures the binding.
-     */
+  /**
+   * Configures the binding.
+   * */
   @Override
   protected void configure() {
     bind(UserUCCImpl.class).to(UserUCC.class);
