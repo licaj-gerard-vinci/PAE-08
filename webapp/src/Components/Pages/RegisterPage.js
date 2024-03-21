@@ -49,7 +49,7 @@ function renderRegisterForm() {
 
                   <div class="form-group">
                     <label for="phone">Numéro de téléphone<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
+                    <input type="number" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
                   </div>
 
                   <div class="form-group">
@@ -103,12 +103,17 @@ function checkUser(){
 
   email.addEventListener('input', () => {
     const emailValue = email.value;
-
-    if (emailValue.endsWith('@student.vinci.be')) {
-      role.innerHTML = '<option>Etudiant</option>';
-      role.style.display = 'block';
-      roleLabel.style.display = 'block';
-      errorMessage.textContent = ''; // Effacez le message d'erreur
+    const lastnameValue = lastname.value;
+    const firstnameValue = firstname.value;
+  
+    const expectedEmail = `${lastnameValue}.${firstnameValue}@`;
+  
+    if (emailValue.startsWith(expectedEmail)) {
+      if (emailValue.endsWith('@student.vinci.be')) {
+        role.innerHTML = '<option>Etudiant</option>';
+        role.style.display = 'block';
+        roleLabel.style.display = 'block';
+        errorMessage.textContent = ''; // Effacez le message d'erreur
       } 
       else if (emailValue.endsWith('@vinci.be')) {
         role.innerHTML = '<option>Professeur</option><option>Administratif</option>';
@@ -118,9 +123,11 @@ function checkUser(){
       } 
       else {
         role.style.display = 'none';
-        roleLabel.style.display = 'none';
-        errorMessage.textContent = 'Veuillez entrer un e-mail valide (@student.vinci.be ou @vinci.be)'; // Affichez le message d'erreur
+        errorMessage.textContent = 'L\'email doit se terminer par @student.vinci.be ou @vinci.be';
       }
+    } else {
+      errorMessage.textContent = 'L\'email doit commencer par nom.prenom@';
+    }
   });
 
   password.addEventListener('input', checkPasswords);
