@@ -68,12 +68,10 @@ public class UserUCCImpl implements UserUCC {
     dalServices.startTransaction();
     User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
     if (user != null) {
-      dalServices.rollbackTransaction();
       return null;
     }
     if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A") && !userDTO.getRole()
         .equals("P")) {
-      dalServices.rollbackTransaction();
       return null;
     }
     userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
