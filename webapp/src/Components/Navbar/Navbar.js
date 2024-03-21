@@ -11,17 +11,16 @@ import logo from '../../img/HELOGO.png';
  */
 
 const Navbar = () => {
-  renderNavbar();
+    renderNavbar();
 };
 
 
-  function renderNavbar() {
-    
+function renderNavbar() {
 
     const unauthenticatedUser = `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
       <div class="container-fluid">
-      <button
+       <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
@@ -32,7 +31,8 @@ const Navbar = () => {
         <span class="navbar-toggler-icon"></span>
       </button>
 
-        <a class="navbar-brand" href="/" style="color: #fff; display: flex; align-items: center;">
+
+        <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center;">
           <img src="${logo}" alt="Logo" style="margin-right: 10px;">
           VinciTech Solutions
         </a>
@@ -56,6 +56,7 @@ const Navbar = () => {
     const user = getAuthenticatedUser();
     const userFirstName = user?.firstName || '';
     const userName = user?.name || '';
+    
 
     const authenticatedUser = `
   <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
@@ -87,10 +88,10 @@ const Navbar = () => {
     </div>
   </nav>
 `;
-    
 
 
-const navbarWrapper = document.querySelector('#navbarWrapper');
+
+    const navbarWrapper = document.querySelector('#navbarWrapper');
 
     if (isAuthenticated()) {
         navbarWrapper.innerHTML = authenticatedUser;

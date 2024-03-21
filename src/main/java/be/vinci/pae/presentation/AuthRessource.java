@@ -1,7 +1,13 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.*;
-import be.vinci.pae.dal.utils.Json;
+import be.vinci.pae.business.contact.ContactDTO;
+import be.vinci.pae.business.contact.ContactDetailledDTO;
+import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.stage.StageDetailedDTO;
+import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
@@ -22,7 +28,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +44,7 @@ public class AuthRessource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-  private final Json json = new Json<>(UserDTO.class);
+
   @Inject
   private UserUCC myUserUcc;
   @Inject
@@ -100,11 +105,14 @@ public class AuthRessource {
     if (authenticated == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
     }
-    return (UserDTO) json.filterPublicJsonView(authenticated);
+    return authenticated;
   }
 
   /**
-   * Retrives all the users from the database.
+   * Retrieves all the users from the database.
+   *
+   * @param requestContext the request context of the HTTP request.
+   * @return a list of UserDTO representing all users.
    */
   @GET
   @Path("users")
@@ -175,7 +183,48 @@ public class AuthRessource {
     return contactDetailledDTOs; // Retourne la liste des contacts détaillés
   }
 
+  /**
+   * Registers a new user.
+   *
+   * @param user The user to register.
+   * @return A JSON object containing a token for the registered user.
+   * @throws WebApplicationException If any required information is missing or incorrect
+   */
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public ObjectNode register(UserDTO user) {
+    if (user.getLastname() == null || user.getFirstname() == null || user.getEmail() == null
+        || user.getPassword() == null || user.getPhone() == null || user.getRole() == null) {
+      throw new WebApplicationException("no info", Status.NOT_FOUND);
+    }
 
+    if (user.getEmail().isEmpty() || user.getPassword().isEmpty() || user.getLastname().isEmpty()
+        || user.getFirstname().isEmpty() || user.getPhone().isEmpty() || user.getRole().isEmpty()
+    ) {
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
+    }
+    if (!user.getEmail().endsWith("@student.vinci.be") && !user.getEmail().endsWith("@vinci.be")) {
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+    }
+
+    // Try to log in
+    UserDTO publicUser = myUserUcc.register(user);
+    if (publicUser == null) {
+      throw new WebApplicationException("not found", Status.NOT_FOUND);
+    }
+
+    return generateTokenForUser(publicUser);
+  }
+
+  /**
+   * Retrieves all contact information for the authenticated user.
+   *
+   * @param requestContext The context of the container request.
+   * @return A list of all contact information.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @GET
   @Path("contactAllInfo")
   @Produces(MediaType.APPLICATION_JSON)
@@ -194,13 +243,21 @@ public class AuthRessource {
     return contactDTOs;
   }
 
-
+  /**
+   * Inserts a new contact for the authenticated user.
+   *
+   * @param contact The contact to insert.
+   * @param requestContext The context of the container request.
+   * @return A JSON object containing a success message.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @POST
   @Path("insertContact")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode insertContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+  public ObjectNode insertContact(ContactDTO contact,
+                                  @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
@@ -212,12 +269,21 @@ public class AuthRessource {
     return responseNode;
   }
 
+  /**
+   * Updates a contact for the authenticated user.
+   *
+   * @param contact The contact to update.
+   * @param requestContext The context of the container request.
+   * @return A JSON object containing a success message.
+   * @throws WebApplicationException If the user is not authenticated.
+   */
   @PUT
   @Path("updateContact")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode updateContact(ContactDTO contact, @Context ContainerRequestContext requestContext) {
+  public ObjectNode updateContact(ContactDTO contact,
+                                  @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Status.UNAUTHORIZED);
@@ -244,11 +310,13 @@ public class AuthRessource {
     return jsonMapper.createObjectNode()
         .put("token", token)
         .put("id", user.getId())
-        .put("name", user.getNom())
-        .put("firstName", user.getPrenom())
+        .put("name", user.getLastname())
+        .put("firstName", user.getFirstname())
         .put("email", user.getEmail())
         .put("role", user.getRole())
-        .put("numTel", user.getNumTel());
+        .put("numTel", user.getPhone())
+        .put("schoolYear", user.getYear())
+        .put("hasInternship", user.getHasInternship());
   }
 
 

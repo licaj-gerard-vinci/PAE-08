@@ -24,6 +24,7 @@ public class DALServiceImpl implements DALService {
       String user = Config.getProperty("User");
       String password = Config.getProperty("Password");
 
+
       conn = DriverManager.getConnection(url, user, password);
 
     } catch (SQLException e) {

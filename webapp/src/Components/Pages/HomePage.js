@@ -50,26 +50,58 @@ async function renderHomePage(){
               console.log(contactFound);
               if(!contactFound){
                 button = `
-                <div class="d-flex justify-content-center">
-                  <button type='button' class='btn btn-primary' id='initiatedButton${entreprise.id}'>Contacter l'entreprise</button>
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col d-flex justify-content-center">
+                    <button type='button' class='btn btn-primary' id='initiatedButton${entreprise.id}'>Contacter l'entreprise</button>
+                  </div>
+                  <div class="col"></div>
                 </div>`;
               } else if (contactFound.etatContact === 'initiated') {
                 button = `
-                <div class="d-flex justify-content-between">
-                  <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
-                  <button type='button' class='btn btn-success' id='takenButton${entreprise.id}'>contact prise</button>
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col d-flex justify-content-center">
+                    <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
+                  </div>
+                  <div class="col d-flex justify-content-end">
+                    <button type='button' class='btn btn-success' id='takenButton${entreprise.id}'>contact pris</button>
+                  </div>
                 </div>`;
               } else if (contactFound.etatContact === 'taken'){
                 button = `
-                <div class="d-flex justify-content-between">
-                  <button type='button' class='btn btn-danger' id='refusedButton${entreprise.id}'>refuser contact</button>
-                  <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
-                  <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>contact accepté</button>                
+                <div class="row">
+                  <div class="col d-flex justify-content-start">
+                    <button type='button' class='btn btn-danger' id='refusedButton${entreprise.id}'>contact refusé</button>
+                  </div>
+                  <div class="col d-flex justify-content-center">
+                    <button type='button' class='btn btn-orange' id='stopFollowingButton${entreprise.id}'>ne plus suivre</button>
+                  </div>
+                  <div class="col d-flex justify-content-end">
+                    <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>stage accepté</button>
+                  </div>
+                </div>
+                <div id='form${entreprise.id}' style='display: none;'>
+                  <input type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus'>
+                  <button type='button' id='saveButton${entreprise.id}'>Save</button>
                 </div>`;
               } else if(contactFound.etatContact === 'accepted') {
                 button = `
-                <div class="d-flex justify-content-center">
-                  <p>Contact accepté</p>
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col d-flex justify-content-center">
+                    <p>Contact accepté</p>
+                  </div>
+                  <div class="col"></div>
+                </div>`;
+              } else if(contactFound.etatContact === 'refused'){
+                button = `
+                <div class="row">
+                  <div class="col"></div>
+                  <div class="col d-flex justify-content-center">
+                    <p>Contact refusé</p>
+                  </div>
+                  <div class="col"></div>
                 </div>`;
               }
               else if (contactFound.etatContact === 'Unsupervised'){
@@ -80,10 +112,15 @@ async function renderHomePage(){
               }
             } else {
               button = `
-              <div class="d-flex justify-content-center">
-                <button type='button' class='btn btn-primary' id='contactButton${entreprise.id}'>Contacter l'entreprise</button>
+              <div class="row">
+                <div class="col"></div>
+                <div class="col d-flex justify-content-center">
+                  <button type='button' class='btn btn-primary' id='contactButton${entreprise.id}'>Contacter l'entreprise</button>
+                </div>
+                <div class="col"></div>
               </div>`;
             }
+
             return `
               <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
                   <div>
@@ -128,6 +165,8 @@ async function renderHomePage(){
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const stopFollowingButton = document.querySelector(`#stopFollowingButton${entreprise.id}`);
+        const refusedButton = document.querySelector(`#refusedButton${entreprise.id}`);
+
 
         if (initiatedButton) {
           console.log('initiatedButton: ', initiatedButton)
@@ -135,7 +174,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
             console.log('before insert informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await insertContact(entreprise.id, user.id, "initiated");
+            await insertContact(entreprise.id, user.id, "initiated", null);
             console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
@@ -144,10 +183,9 @@ async function renderHomePage(){
         if (takenButton) {
           console.log('takenButton: ', takenButton)
           takenButton.addEventListener('click', async () => {
-            // to make sure the insertion isn't done twice
             takenButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "taken");
+            await updateContact(entreprise.id, user.id, "taken", null);
             console.log('after update')
             await renderHomePage();
             takenButton.disabled = false;
@@ -166,16 +204,33 @@ async function renderHomePage(){
             takenButton.disabled = false;
           });
         }
+        
         if (acceptedButton) {
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
-            // to make sure the insertion isn't done twice
             acceptedButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "accepted");
+            await updateContact(entreprise.id, user.id, "accepted", null);
             console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
+          });
+        }
+
+        if (refusedButton) {
+          console.log('refusedButton: ', refusedButton)
+          refusedButton.addEventListener('click', () => {
+            document.querySelector(`#form${entreprise.id}`).style.display = 'block';
+          });
+        }
+        
+        if (document.querySelector(`#saveButton${entreprise.id}`)) {
+          document.querySelector(`#saveButton${entreprise.id}`).addEventListener('click', async () => {
+            const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
+            if(textInputValue){
+              await updateContact(entreprise.id, user.id, "refused", textInputValue);
+              await renderHomePage();
+            }
           });
         }
       });
