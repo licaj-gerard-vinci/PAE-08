@@ -3,7 +3,7 @@ package be.vinci.pae.dal.stage;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.stage.StageDetailedDTO;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ public class StageDAOImpl implements StageDAO {
 
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalBackService;
 
   @Inject
   private Factory factory;
@@ -31,7 +31,7 @@ public class StageDAOImpl implements StageDAO {
 
   public StageDTO getStageOfUser(int id) {
     String query = "SELECT * FROM pae.internships WHERE student_id = ?";
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
@@ -70,7 +70,7 @@ public class StageDAOImpl implements StageDAO {
             int.student_id = ?;
         """;
 
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
