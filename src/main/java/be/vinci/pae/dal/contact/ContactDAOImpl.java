@@ -89,8 +89,8 @@ public class ContactDAOImpl implements ContactDAO {
    * @throws RuntimeException If an SQL exception occurs.
    */
   public void insertContact(ContactDTO contact) {
-    String query = "INSERT INTO pae.contacts " +
-            "(school_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
+    String query = "INSERT INTO pae.contacts "
+            + "(school_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise());
       statement.setInt(2, contact.getUtilisateur());

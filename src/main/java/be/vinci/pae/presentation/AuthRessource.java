@@ -188,8 +188,7 @@ public class AuthRessource {
    *
    * @param user The user to register.
    * @return A JSON object containing a token for the registered user.
-   * @throws WebApplicationException If any required information is missing
-   * or if the email is incorrect.
+   * @throws WebApplicationException If any required information is missing or incorrect
    */
   @POST
   @Path("register")
