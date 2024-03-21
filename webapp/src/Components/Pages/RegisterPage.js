@@ -68,7 +68,7 @@ function renderRegisterForm() {
 
                 </form>
 
-                <p class="text-center">Déjà un compte ? <a href="#" data_uri="/login" id="loginLink" class="text-primary" data-uri="login">Connectez vous !</a></p>
+                <p class="text-center">Déjà un compte ? <a href="/login" id="loginLink" class="text-primary" data-uri="login">Connectez vous !</a></p>
               
             </div>
           </div>
