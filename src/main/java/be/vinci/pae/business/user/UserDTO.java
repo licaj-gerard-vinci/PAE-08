@@ -58,14 +58,14 @@ public interface UserDTO {
    *
    * @return the registration date of the user.
    */
-  Date getRegistration_date();
+  Date getRegistrationDate();
 
   /**
    * Sets the registration date of the user.
    *
    * @param registrationDate the new registration date for the user.
    */
-  void setRegistration_date(Date registrationDate);
+  void setRegistrationDate(Date registrationDate);
 
 
   /**

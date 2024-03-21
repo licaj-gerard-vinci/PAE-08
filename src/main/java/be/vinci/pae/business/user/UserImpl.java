@@ -160,7 +160,7 @@ public class UserImpl implements User {
    * @return the user's registration date.
    */
   @Override
-  public Date getRegistration_date() {
+  public Date getRegistrationDate() {
     return registrationDate;
   }
 
@@ -170,7 +170,8 @@ public class UserImpl implements User {
    * @param registrationDate the new registration date for the user.
    */
   @Override
-  public void setRegistration_date(Date registrationDate) {
+  public void setRegistrationDate(Date registrationDate) {
+
     this.registrationDate = registrationDate;
   }
 

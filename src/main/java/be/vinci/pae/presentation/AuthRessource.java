@@ -104,6 +104,7 @@ public class AuthRessource {
     UserDTO authenticated = (UserDTO) requestContext.getProperty("user");
     if (authenticated == null) {
       throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+
     }
     return authenticated;
   }
@@ -184,11 +185,13 @@ public class AuthRessource {
   }
 
   /**
-   * Registers a new user.
+
+   * Registers a new user by creating a new account with the given details. The method expects a
+   * JSON object containing the necessary user details and returns a JSON object with the
+   * authentication result.
    *
-   * @param user The user to register.
-   * @return A JSON object containing a token for the registered user.
-   * @throws WebApplicationException If any required information is missing or incorrect
+   * @param user A {@code UserDTO} containing the user's details.
+   * @return An {@code ObjectNode} representing the authentication result.
    */
   @POST
   @Path("register")

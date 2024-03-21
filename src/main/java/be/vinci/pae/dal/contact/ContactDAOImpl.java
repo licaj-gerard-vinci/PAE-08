@@ -3,7 +3,7 @@ package be.vinci.pae.dal.contact;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.dal.DALService;
+import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactDAOImpl implements ContactDAO {
 
   @Inject
-  private DALService dalService;
+  private DALBackService dalBackService;
 
   @Inject
   private Factory factory;
@@ -40,7 +40,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     List<ContactDetailledDTO> contacts = new ArrayList<>();
 
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
@@ -68,7 +68,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     List<ContactDTO> contacts = new ArrayList<>();
 
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
@@ -91,7 +91,7 @@ public class ContactDAOImpl implements ContactDAO {
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
             + "(school_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise());
       statement.setInt(2, contact.getUtilisateur());
       statement.setString(3, contact.getEtatContact());
@@ -110,7 +110,7 @@ public class ContactDAOImpl implements ContactDAO {
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_status = ?, refusal_reason = ? "
             + "WHERE company_id = ? AND student_id = ?;";
-    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getRaisonRefus());
       statement.setInt(3, contact.getEntreprise());

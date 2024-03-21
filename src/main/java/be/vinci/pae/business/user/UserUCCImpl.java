@@ -1,5 +1,6 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
 import java.util.Date;
@@ -14,6 +15,9 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private UserDAO userDAO;
+
+  @Inject
+  private DALServices dalServices;
 
 
   /**
@@ -61,6 +65,7 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
+    dalServices.startTransaction();
     User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
     if (user != null) {
       return null;
@@ -71,10 +76,9 @@ public class UserUCCImpl implements UserUCC {
     }
     userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-    userDTO.setRegistration_date(dateInscription);
+    userDTO.setRegistrationDate(dateInscription);
     user = (User) userDAO.insertUser(userDTO);
-
+    dalServices.commitTransaction();
     return user;
   }
-
 }
