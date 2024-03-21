@@ -58,8 +58,8 @@ public class StageDAOImpl implements StageDAO {
             int.internship_id,
             int.topic,
             int.date_of_signature,
-            man.last_name ,
-            man.first_name ,
+            man.lastname ,
+            man.firstname ,
             com.name ,
             com.designation
           FROM
@@ -118,8 +118,8 @@ public class StageDAOImpl implements StageDAO {
     stage.setId(rs.getInt("internship_id"));
     stage.setSujet(rs.getString("topic"));
     stage.setdateSignature(rs.getString("date_of_signature"));
-    stage.setResponsableNom(rs.getString("last_name"));
-    stage.setResponsablePrenom(rs.getString("first_name"));
+    stage.setResponsableNom(rs.getString("lastname"));
+    stage.setResponsablePrenom(rs.getString("firstname"));
     stage.setEntrepriseNom(rs.getString("name"));
     stage.setEntrepriseAppellation(rs.getString("designation"));
     return stage;
