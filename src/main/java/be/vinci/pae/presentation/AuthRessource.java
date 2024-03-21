@@ -214,6 +214,10 @@ public class AuthRessource {
       throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
     }
 
+    if(!user.getEmail().startsWith(user.getLastname().toLowerCase() + user.getFirstname().toLowerCase())) {
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+    }
+
     // Try to log in
     UserDTO publicUser = myUserUcc.register(user);
     if (publicUser == null) {
@@ -314,14 +318,7 @@ public class AuthRessource {
         .sign(jwtAlgorithm);
     return jsonMapper.createObjectNode()
         .put("token", token)
-        .put("id", user.getId())
-        .put("name", user.getLastname())
-        .put("firstName", user.getFirstname())
-        .put("email", user.getEmail())
-        .put("role", user.getRole())
-        .put("numTel", user.getPhone())
-        .put("schoolYear", user.getYear())
-        .put("hasInternship", user.getHasInternship());
+        .putPOJO("user", user);
   }
 
 

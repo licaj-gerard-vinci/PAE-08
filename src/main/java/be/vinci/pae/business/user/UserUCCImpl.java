@@ -74,6 +74,9 @@ public class UserUCCImpl implements UserUCC {
             && !userDTO.getRole().equals("P")) {
       return null;
     }
+
+
+
     userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
     Date dateInscription = new java.sql.Date(System.currentTimeMillis());
     userDTO.setRegistrationDate(dateInscription);
