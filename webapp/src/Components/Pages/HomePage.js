@@ -179,8 +179,10 @@ async function renderHomePage(){
         if (document.querySelector(`#saveButton${entreprise.id}`)) {
           document.querySelector(`#saveButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
-            await updateContact(entreprise.id, user.id, "refused", textInputValue);
-            await renderHomePage();
+            if(textInputValue){
+              await updateContact(entreprise.id, user.id, "refused", textInputValue);
+              await renderHomePage();
+            }
           });
         }
       });
