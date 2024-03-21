@@ -32,10 +32,9 @@ function renderNavbar() {
       </button>
 
 
-        <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center;">
-          <img src="${logo}" alt="Logo" style="margin-right: 10px;">
-          VinciTech Solutions
-        </a>
+        <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center;"></a>
+         <p><img src="${logo}" alt="Logo" style="margin-right: 10px;">
+          VinciTech Solutions </p>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
