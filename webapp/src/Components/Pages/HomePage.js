@@ -2,7 +2,16 @@ import { getContactsAllInfo, getUserData, insertContact, updateContact } from ".
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 
+let entreprises;
+let searchResult;
+
+async function renderEntreprises(){
+  entreprises = await getEntreprises();
+  searchResult = entreprises;
+}
+
 const HomePage = async () => {
+  await renderEntreprises()
   await renderHomePage();
 };
 
@@ -18,7 +27,6 @@ async function renderHomePage(){
     </div>
   `;
   } else if (user.role === "E") {
-    const entreprises = await getEntreprises();
     const contacts = await getContactsAllInfo();
 
     if(!entreprises || entreprises.length === 0) {
@@ -27,10 +35,21 @@ async function renderHomePage(){
       `;
     } else {
       main.innerHTML = `
+
+        <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-8 col-lg-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
+                    <button class="btn btn-primary" type="button" id="button-addon2">Rechercher</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
-          ${entreprises.map(entreprise => {
+          ${searchResult.map(entreprise => {
             let button;
             if(contacts){
               const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
@@ -133,13 +152,28 @@ async function renderHomePage(){
       </div>
       `;
 
+      const searchButton = document.getElementById('button-addon2');
+
+      searchButton.addEventListener('click', async () => {
+        const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+        console.log('searchInput: ', searchInput);
+        if (searchInput !== '') {
+          searchResult = entreprises.filter(entreprise =>
+              entreprise.nom.toLowerCase().includes(searchInput)
+          );
+          console.log('searchResult: ', searchResult);
+        } else {
+          await renderEntreprises();
+        }
+        await renderHomePage();
+      });
+
       entreprises.forEach(entreprise => {
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const refusedButton = document.querySelector(`#refusedButton${entreprise.id}`);
         const stopFollowingButton = document.querySelector(`#stopFollowingButton${entreprise.id}`);
-
 
         if (initiatedButton) {
           console.log('initiatedButton: ', initiatedButton)
