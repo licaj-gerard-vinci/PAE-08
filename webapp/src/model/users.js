@@ -43,7 +43,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/user`, options);
+      const response = await fetch(`http://localhost:8080/user`, options);
 
       if (!response.ok) {
         clearAuthenticatedUser();
@@ -65,7 +65,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/stage`, options);
+      const response = await fetch(`http://localhost:8080/stage`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
@@ -115,7 +115,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/auth/user`, options);
+        const response = await fetch(`http://localhost:8080/user`, options);
 
         if (!response.ok) {
           throw new Error(`Error fetching user data: ${response.statusText}`);
@@ -143,7 +143,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/auth/contactAllInfo`, options);
+        const response = await fetch(`http://localhost:8080/contact`, options);
   
         if (!response.ok) {
           throw new Error(`Error fetching contacts data: ${response.statusText}`);
@@ -176,7 +176,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/auth/insertContact`, options);
+        const response = await fetch(`http://localhost:8080/contact/insert`, options);
         console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
@@ -208,7 +208,7 @@ import Navigate from '../Components/Router/Navigate';
         },
       };
       try {
-        const response = await fetch(`http://localhost:8080/auth/updateContact`, options);
+        const response = await fetch(`http://localhost:8080/contact/`, options);
         console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);

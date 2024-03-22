@@ -4,7 +4,7 @@ package be.vinci.pae.business.contact;
  * Represents the ContactImpl class.
  */
 
-public class ContactImpl implements ContactDetailledDTO {
+public class ContactImpl implements ContactDTO {
 
   private int id;
 

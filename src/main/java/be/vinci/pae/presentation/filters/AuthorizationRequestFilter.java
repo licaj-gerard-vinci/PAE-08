@@ -52,7 +52,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
-        throw new WebApplicationException("tozzzzzzzzzzzz", Status.FORBIDDEN);
+        throw new WebApplicationException("tozzzzzzzzzzzz", Status.UNAUTHORIZED);
       }
 
       requestContext.setProperty("user", authenticatedUser);

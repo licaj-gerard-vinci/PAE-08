@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Represents the ContactDTO interface.
  */
-@JsonDeserialize(as = ContactImpl.class)
 public interface ContactDTO {
 
   /**
