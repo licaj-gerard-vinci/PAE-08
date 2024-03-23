@@ -43,7 +43,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/user`, options);
+      const response = await fetch(`http://localhost:8080/auth`, options);
 
       if (!response.ok) {
         clearAuthenticatedUser();
@@ -65,7 +65,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/stage`, options);
+      const response = await fetch(`http://localhost:8080/stages`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
@@ -89,7 +89,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/contact`, options);
+      const response = await fetch(`http://localhost:8080/auth/contacts`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";
@@ -115,7 +115,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/user`, options);
+        const response = await fetch(`http://localhost:8080/auth`, options);
 
         if (!response.ok) {
           throw new Error(`Error fetching user data: ${response.statusText}`);
@@ -143,7 +143,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/contact`, options);
+        const response = await fetch(`http://localhost:8080/contacts`, options);
   
         if (!response.ok) {
           throw new Error(`Error fetching contacts data: ${response.statusText}`);

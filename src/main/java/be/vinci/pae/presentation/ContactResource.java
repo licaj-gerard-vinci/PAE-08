@@ -87,7 +87,7 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ObjectNode insertContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext) {
+                                  @Context ContainerRequestContext requestContext, @PathParam("id") int id) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
