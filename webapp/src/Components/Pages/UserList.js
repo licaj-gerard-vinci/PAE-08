@@ -1,8 +1,19 @@
 /* eslint-disable no-nested-ternary */
-const { getAllUsers } = require("../../model/users");
+import Navigate from '../Router/Navigate';
+import { getAuthenticatedUser } from '../../utils/auths';
+import { getAllUsers } from '../../model/users';
 
-const UserList = () => renderUserList();
 
+
+const UserList = () =>{
+const authenticatedUser = getAuthenticatedUser();
+if(!authenticatedUser) {
+    Navigate('/');
+    return;
+}
+
+renderUserList();
+}
 async function renderUserList() {
     const main = document.querySelector('main');
 
@@ -57,4 +68,4 @@ async function renderUserList() {
     }
 }
 
-module.exports = UserList;
+export default UserList;
