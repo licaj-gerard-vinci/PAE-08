@@ -101,6 +101,20 @@ public class DALServiceImpl implements DALBackService, DALServices {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Closes the connection.
+   */
+  @Override
+  public void close() {
+    try {
+      if (connection.get() != null) {
+        connection.get().close();
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }
 
 

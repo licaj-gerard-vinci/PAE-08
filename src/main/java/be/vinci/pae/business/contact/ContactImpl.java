@@ -1,5 +1,9 @@
 package be.vinci.pae.business.contact;
 
+import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
+
 /**
  * Represents the ContactImpl class.
  */
@@ -8,27 +12,41 @@ public class ContactImpl implements ContactDTO {
 
   private int id;
 
-  private int entreprise;
-  private int utilisateur;
+  private EntrepriseDTO entreprise;
 
+  private int idEntreprise;
+
+  private UserDTO utilisateur;
+  private int idUtilisateur;
   private String etatContact;
 
   private String lieuxRencontre;
 
   private String raisonRefus;
 
-  private int annee;
-
-  private String nomEntreprise;
-
-  private String appellation;
+  private YearDTO annee;
 
 
-  /**
-   * Gets the contact ID.
-   *
-   * @return the contact ID.
-   */
+  @Override
+  public int getIdEntreprise() {
+    return idEntreprise;
+  }
+
+  @Override
+  public void setIdEntreprise(int idEntreprise) {
+    this.idEntreprise = idEntreprise;
+  }
+
+  @Override
+  public int getIdUtilisateur() {
+    return idUtilisateur;
+  }
+
+  @Override
+  public void setIdUtilisateur(int idUtilisateur) {
+    this.idUtilisateur = idUtilisateur;
+  }
+
   @Override
   public int getId() {
     return id;
@@ -45,12 +63,12 @@ public class ContactImpl implements ContactDTO {
   }
 
   /**
-   * Gets the associated enterprise ID.
+   * Gets the associated enterprise.
    *
-   * @return the enterprise ID.
+   * @return the enterprise.
    */
   @Override
-  public int getEntreprise() {
+  public EntrepriseDTO getEntreprise() {
     return entreprise;
   }
 
@@ -60,7 +78,7 @@ public class ContactImpl implements ContactDTO {
    * @param entreprise the new enterprise ID.
    */
   @Override
-  public void setEntreprise(int entreprise) {
+  public void setEntreprise(EntrepriseDTO entreprise) {
     this.entreprise = entreprise;
   }
 
@@ -70,7 +88,7 @@ public class ContactImpl implements ContactDTO {
    * @return the user ID.
    */
   @Override
-  public int getUtilisateur() {
+  public UserDTO getUtilisateur() {
     return utilisateur;
   }
 
@@ -80,7 +98,7 @@ public class ContactImpl implements ContactDTO {
    * @param utilisateur the new user ID.
    */
   @Override
-  public void setUtilisateur(int utilisateur) {
+  public void setUtilisateur(UserDTO utilisateur) {
     this.utilisateur = utilisateur;
   }
 
@@ -151,7 +169,7 @@ public class ContactImpl implements ContactDTO {
    * @return the associated year.
    */
   @Override
-  public int getAnnee() {
+  public YearDTO getAnnee() {
     return annee;
   }
 
@@ -161,46 +179,8 @@ public class ContactImpl implements ContactDTO {
    * @param annee the new associated year.
    */
   @Override
-  public void setAnnee(int annee) {
+  public void setAnnee(YearDTO annee) {
     this.annee = annee;
-  }
-
-  /**
-   * Gets the name of the associated enterprise.
-   *
-   * @return the name of the associated enterprise.
-   */
-  public String getNomEntreprise() {
-    return nomEntreprise;
-  }
-
-  /**
-   * Sets the name of the associated enterprise.
-   *
-   * @param nomEntreprise the new name of the associated enterprise.
-   */
-  public void setNomEntreprise(String nomEntreprise) {
-    this.nomEntreprise = nomEntreprise;
-  }
-
-  /**
-   * Gets the appellation of the associated enterprise.
-   *
-   * @return the appellation of the associated enterprise.
-   */
-
-  public String getAppellation() {
-    return appellation;
-
-  }
-
-  /**
-   * Sets the appellation of the associated enterprise.
-   *
-   * @param appellation the new appellation of the associated enterprise.
-   */
-  public void setAppellation(String appellation) {
-    this.appellation = appellation;
   }
 
 

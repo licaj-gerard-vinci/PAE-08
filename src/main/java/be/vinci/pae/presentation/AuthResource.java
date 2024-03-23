@@ -1,10 +1,8 @@
 package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
 import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
@@ -47,8 +45,6 @@ public class AuthResource {
 
   @Inject
   private UserUCC myUserUcc;
-  @Inject
-  private ContactUCC myContactUcc;
 
 
   /**
@@ -151,14 +147,7 @@ public class AuthResource {
         .sign(jwtAlgorithm);
     return jsonMapper.createObjectNode()
         .put("token", token)
-        .put("id", user.getId())
-        .put("name", user.getLastname())
-        .put("firstName", user.getFirstname())
-        .put("email", user.getEmail())
-        .put("role", user.getRole())
-        .put("numTel", user.getPhone())
-        .put("schoolYear", user.getYear())
-        .put("hasInternship", user.getHasInternship());
+        .putPOJO("user", user);
   }
 
 

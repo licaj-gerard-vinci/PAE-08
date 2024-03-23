@@ -1,7 +1,6 @@
 package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
 import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
@@ -12,6 +11,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.List;
 
 @Singleton
 @Path("stages")
@@ -44,5 +44,16 @@ public class StageResource {
     }
 
     return userStage;
+  }
+
+  /**
+   * Retrieves all stages.
+   *
+   * @return all stages.
+   */
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<StageDTO> getStages() {
+    return myStageUcc.getStages();
   }
 }

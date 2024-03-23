@@ -16,7 +16,7 @@ public interface ContactUCC {
    * @return the contacts.
    */
 
-  List<ContactDetailledDTO> getContacts(int idUser);
+  List<ContactDTO> getContacts(int idUser);
 
   /**
    * Fetches all contact information for a specific user.

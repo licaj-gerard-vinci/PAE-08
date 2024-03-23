@@ -2,6 +2,7 @@ package be.vinci.pae.business.stage;
 
 import be.vinci.pae.dal.stage.StageDAO;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * The Class StageUCCImpl.
@@ -19,19 +20,17 @@ public class StageUCCImpl implements StageUCC {
    */
 
   public StageDTO getStageUser(int idUser) {
-    return stageDAO.getStageOfUser(idUser);
+    return stageDAO.getStageById(idUser);
   }
 
-
   /**
-   * Gets the detailed stage for user.
+   * Gets all stages.
    *
-   * @param idUser the id user
-   * @return the detailed stage for user
+   * @return all stages
    */
   @Override
-  public StageDetailedDTO getDetailedStageForUser(int idUser) {
-    return stageDAO.getDetailOfStage(idUser);
+  public List<StageDTO> getStages() {
+    return stageDAO.getStages();
   }
 
 }

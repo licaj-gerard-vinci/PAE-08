@@ -64,6 +64,13 @@ public interface EntrepriseDTO {
    */
   void setAdresse(String adresse);
 
+
+  String getCity();
+
+
+  void setCity(String city);
+
+
   /**
    * Gets the postal code of the entreprise.
    *

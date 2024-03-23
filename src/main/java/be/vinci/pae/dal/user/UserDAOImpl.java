@@ -2,6 +2,7 @@ package be.vinci.pae.dal.user;
 
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -32,10 +33,8 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneById(int id) {
     String query =
-        "SELECT u.user_id, u.email,u.password,u.lastname,u.firstname,u.phone_number,"
-            + "u.registration_date,"
-            + "u.user_role,has_internship,"
-            + " sy.year FROM pae.users u, pae.school_years sy WHERE user_id = ?";
+        "SELECT u.*,sy.*"
+            + " FROM pae.users u, pae.school_years sy WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -57,9 +56,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public UserDTO getOneByEmail(String email) {
-    String query = "SELECT u.user_id, u.email,u.password,u.lastname,u.firstname,u.phone_number,"
-        + "u.registration_date,u.user_role,has_internship,sy.year "
-        + "FROM pae.users u, pae.school_years sy WHERE email = ?";
+    String query = "SELECT u.* ,sy.* "
+        + "FROM pae.users u, pae.school_years sy WHERE user_email = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
@@ -80,8 +78,7 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT u.user_id, u.email,u.password,u.lastname,u.firstname,u.phone_number,"
-            + "  u.registration_date,u.user_role,has_internship,sy.year FROM pae.users u "
+    String query = "SELECT u.* FROM pae.users u "
             + "LEFT JOIN pae.school_years sy ON u.school_year_id = sy.school_year_id";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
@@ -103,8 +100,8 @@ public class UserDAOImpl implements UserDAO {
    * @return the registered user.
    */
   public UserDTO insertUser(UserDTO user) {
-    String query = "INSERT INTO pae.users (email, password, lastname, firstname,"
-        + " phone_number, user_role, registration_date ,has_internship) "
+    String query = "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname,"
+        + " user_phone_number, user_role, user_registration_date ,user_has_internship) "
         + "VALUES (?, ?, ?, ?, ?, ?, ?, FALSE) returning user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
@@ -135,16 +132,21 @@ public class UserDAOImpl implements UserDAO {
    */
   private UserDTO rsToUser(ResultSet rs) throws SQLException {
     UserDTO user = factory.getPublicUser();
+    YearDTO year = factory.getYearDTO();
+
+    year.setId(rs.getInt("school_year_id"));
+    year.setAnnee(rs.getString("year"));
+
     user.setId(rs.getInt("user_id"));
-    user.setEmail(rs.getString("email"));
-    user.setPassword(rs.getString("password"));
-    user.setLastname(rs.getString("lastname"));
-    user.setFirstname(rs.getString("firstname"));
-    user.setPhone(rs.getString("phone_number"));
-    user.setRegistrationDate(rs.getDate("registration_date"));
+    user.setEmail(rs.getString("user_email"));
+    user.setPassword(rs.getString("user_password"));
+    user.setLastname(rs.getString("user_lastname"));
+    user.setFirstname(rs.getString("user_firstname"));
+    user.setPhone(rs.getString("user_phone_number"));
+    user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
-    user.setYear(rs.getString("year"));
-    user.setHasInternship(rs.getBoolean("has_internship"));
+    user.setYear(year);
+    user.setHasInternship(rs.getBoolean("user_has_internship"));
     return user;
   }
 }

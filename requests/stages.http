@@ -1,0 +1,20 @@
+### Login with default user credentials
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "annouck.lancaster@vinci.be",
+  "password": "a"
+}
+
+> {%
+  client.global.set("token", response.body.token);
+%}
+
+### Get all stages
+GET {{baseUrl}}/stages
+Authorization: {{token}}
+
+### Get a stage by id
+GET {{baseUrl}}/stages/1
+Authorization: {{token}}

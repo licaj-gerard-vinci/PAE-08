@@ -1,7 +1,6 @@
 package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
@@ -36,13 +35,13 @@ public class ContactResource {
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDetailledDTO> getContatcs(@Context ContainerRequestContext requestContext) {
+  public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDetailledDTO> contactDetailledDTOs = myContactUcc.getContacts(
+    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts(
             authenticatedUser.getId());
     if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Response.Status.NOT_FOUND);

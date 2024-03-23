@@ -22,7 +22,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contacts.
    */
   @Override
-  public List<ContactDetailledDTO> getContacts(int idUser) {
+  public List<ContactDTO> getContacts(int idUser) {
     return contactDAO.getContacts(idUser);
   }
 

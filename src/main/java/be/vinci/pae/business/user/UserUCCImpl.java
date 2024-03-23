@@ -55,6 +55,9 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public List<UserDTO> getAll() {
     List<UserDTO> users = userDAO.getAllUsers();
+    if(users == null){
+      return null;
+    }
     return users;
   }
 
@@ -65,20 +68,27 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
-    dalServices.startTransaction();
-    User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
-    if (user != null) {
-      return null;
+    try {
+      dalServices.startTransaction();
+      User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
+      if (user != null) {
+        return null;
+      }
+      if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A")
+          && !userDTO.getRole().equals("P")) {
+        return null;
+      }
+      userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
+      Date dateInscription = new java.sql.Date(System.currentTimeMillis());
+      userDTO.setRegistrationDate(dateInscription);
+      user = (User) userDAO.insertUser(userDTO);
+      dalServices.commitTransaction();
+      return user;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw new RuntimeException(e);
+    } finally {
+      dalServices.close();
     }
-    if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A")
-            && !userDTO.getRole().equals("P")) {
-      return null;
-    }
-    userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
-    Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-    userDTO.setRegistrationDate(dateInscription);
-    user = (User) userDAO.insertUser(userDTO);
-    dalServices.commitTransaction();
-    return user;
   }
 }

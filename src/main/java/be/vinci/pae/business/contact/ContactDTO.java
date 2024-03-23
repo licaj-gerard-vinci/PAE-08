@@ -1,6 +1,8 @@
 package be.vinci.pae.business.contact;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 
 /**
  * Represents the ContactDTO interface.
@@ -26,28 +28,56 @@ public interface ContactDTO {
    *
    * @return the enterprise ID.
    */
-  int getEntreprise();
+  EntrepriseDTO getEntreprise();
 
   /**
    * Sets the associated enterprise ID.
    *
    * @param entreprise the new enterprise ID.
    */
-  void setEntreprise(int entreprise);
+  void setEntreprise(EntrepriseDTO entreprise);
+
+  /**
+   * Gets the associated enterprise ID.
+   *
+   * @return the enterprise ID.
+   */
+  int getIdEntreprise();
+
+  /**
+   * Sets the associated enterprise ID.
+   *
+   * @param idEntreprise the new enterprise ID.
+   */
+  void setIdEntreprise(int idEntreprise);
 
   /**
    * Gets the associated user ID.
    *
    * @return the user ID.
    */
-  int getUtilisateur();
+  UserDTO getUtilisateur();
 
   /**
    * Sets the associated user ID.
    *
    * @param utilisateur the new user ID.
    */
-  void setUtilisateur(int utilisateur);
+  void setUtilisateur(UserDTO utilisateur);
+
+  /**
+   * Gets the associated user ID.
+   *
+   * @return the user ID.
+   */
+  int getIdUtilisateur();
+
+  /**
+   * Sets the associated user ID.
+   *
+   * @param idUtilisateur the new user ID.
+   */
+  void setIdUtilisateur(int idUtilisateur);
 
   /**
    * Gets the contact state.
@@ -96,14 +126,17 @@ public interface ContactDTO {
    *
    * @return the meeting date.
    */
-  int getAnnee();
+  YearDTO getAnnee();
 
   /**
    * Sets the meeting date.
    *
    * @param annee the new meeting date.
    */
-  void setAnnee(int annee);
+  void setAnnee(YearDTO annee);
+
+
+
 
 
 }

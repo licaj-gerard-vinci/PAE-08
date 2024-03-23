@@ -106,7 +106,7 @@ function checkUser(){
     const lastnameValue = lastname.value;
     const firstnameValue = firstname.value;
   
-    const expectedEmail = `${lastnameValue}.${firstnameValue}@`;
+    const expectedEmail = `${lastnameValue.toLowerCase()}.${firstnameValue.toLowerCase()}@`;
   
     if (emailValue.startsWith(expectedEmail)) {
       if (emailValue.endsWith('@student.vinci.be')) {

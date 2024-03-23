@@ -1,275 +1,155 @@
 package be.vinci.pae.business.stage;
 
+import be.vinci.pae.business.contact.ContactDTO;
+import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.user.UserDTO;
+
 /**
  * Represents the StageImpl class.
  */
-public class StageImpl implements StageDetailedDTO {
+public class StageImpl implements StageDTO {
 
-  /**
-   * Gets the stage ID.
-   *
-   * @return the stage ID.
-   */
   private int id;
 
-  /**
-   * Gets the stage Responsable.
-   *
-   * @return the stage Responsable.
-   */
-  private int responsable;
+  private ResponsableDTO responsable;
 
-  /**
-   * Gets the stage Etudiant.
-   *
-   * @return the stage Etudiant.
-   */
-  private int etudiant;
+  private int idResponsable;
 
-  /**
-   * Gets the stage Contact.
-   *
-   * @return the stage Contact.
-   */
-  private int contact;
+  private UserDTO etudiant;
 
-  /**
-   * Gets the stage Entreprise.
-   *
-   * @return the stage Entreprise.
-   */
-  private int entreprise;
+  private int idEtudiant;
 
-  /**
-   * Gets the stage Sujet.
-   *
-   * @return the stage Sujet.
-   */
+  private ContactDTO contact;
+
+  private int idContact;
+
+  private EntrepriseDTO entreprise;
+
+  private int idEntreprise;
+
   private String sujet;
 
-  /**
-   * Gets the stage dateSignature.
-   *
-   * @return the stage dateSignature.
-   */
   private String dateSignature;
-  private String responsableNom;
-  private String responsablePrenom;
-  private String entrepriseNom;
-  private String entrepriseAppellation;
 
-  /**
-   * Gets the stage ID.
-   *
-   * @return the stage ID.
-   */
+  @Override
   public int getId() {
     return id;
   }
 
-  /**
-   * Sets the stage ID.
-   *
-   * @param id the new stage ID.
-   */
+  @Override
   public void setId(int id) {
     this.id = id;
   }
 
-  /**
-   * Gets the stage Responsable.
-   *
-   * @return the stage Responsable.
-   */
-  public int getResponsable() {
+  @Override
+  public ResponsableDTO getResponsable() {
     return responsable;
   }
 
-  /**
-   * Sets the stage Responsable.
-   *
-   * @param responsable the new stage Responsable.
-   */
-
-  public void setResponsable(int responsable) {
+  @Override
+  public void setResponsable(ResponsableDTO responsable) {
     this.responsable = responsable;
   }
 
-  /**
-   * Gets the stage Etudiant.
-   *
-   * @return the stage Etudiant.
-   */
+  @Override
+  public int getIdResponsable() {
+    return idResponsable;
+  }
 
-  public int getEtudiant() {
+  @Override
+  public void setIdResponsable(int idResponsable) {
+    this.idResponsable = idResponsable;
+  }
+
+  @Override
+  public UserDTO getEtudiant() {
     return etudiant;
   }
 
-  /**
-   * Sets the stage Etudiant.
-   *
-   * @param etudiant the new stage Etudiant.
-   */
-
-  public void setEtudiant(int etudiant) {
+  @Override
+  public void setEtudiant(UserDTO etudiant) {
     this.etudiant = etudiant;
   }
 
-  /**
-   * Gets the stage Contact.
-   *
-   * @return the stage Contact.
-   */
+  @Override
+  public int getIdEtudiant() {
+    return idEtudiant;
+  }
 
-  public int getContact() {
+  @Override
+  public void setIdEtudiant(int idEtudiant) {
+    this.idEtudiant = idEtudiant;
+  }
+
+  @Override
+  public ContactDTO getContact() {
     return contact;
   }
 
-  /**
-   * Sets the stage Contact.
-   *
-   * @param contact the new stage Contact.
-   */
-
-  public void setContact(int contact) {
+  @Override
+  public void setContact(ContactDTO contact) {
     this.contact = contact;
   }
 
+  @Override
+  public int getIdContact() {
+    return idContact;
+  }
 
-  /**
-   * Gets the stage Entreprise.
-   *
-   * @return the stage Entreprise.
-   */
-  public int getEntreprise() {
+  @Override
+  public void setIdContact(int idContact) {
+    this.idContact = idContact;
+  }
+
+  @Override
+  public EntrepriseDTO getEntreprise() {
     return entreprise;
   }
 
-  /**
-   * Sets the stage Entreprise.
-   *
-   * @param entreprise the new stage Entreprise.
-   */
-
-  public void setEntreprise(int entreprise) {
+  @Override
+  public void setEntreprise(EntrepriseDTO entreprise) {
     this.entreprise = entreprise;
   }
 
-  /**
-   * Gets the stage Sujet.
-   *
-   * @return the stage Sujet.
-   */
+  @Override
+  public int getIdEntreprise() {
+    return idEntreprise;
+  }
 
+  @Override
+  public void setIdEntreprise(int idEntreprise) {
+    this.idEntreprise = idEntreprise;
+  }
+
+  @Override
   public String getSujet() {
     return sujet;
   }
 
-  /**
-   * Sets the stage Sujet.
-   *
-   * @param sujet the new stage Sujet.
-   */
-
+  @Override
   public void setSujet(String sujet) {
     this.sujet = sujet;
   }
 
   /**
-   * Gets the stage dateSignature.
+   * Gets the stage date.
    *
-   * @return the stage dateSignature.
+   * @return the stage date.
    */
-
+  @Override
   public String getdateSignature() {
     return dateSignature;
   }
 
   /**
-   * Sets the stage dateSignature.
+   * Sets the stage date.
    *
-   * @param dateSignature the new stage dateSignature.
+   * @param dateSignature the new stage date.
    */
+  @Override
   public void setdateSignature(String dateSignature) {
     this.dateSignature = dateSignature;
   }
-
-  /**
-   * Gets the responsable nom.
-   *
-   * @return the responsable nom
-   */
-  public String getResponsableNom() {
-    return responsableNom;
-  }
-
-  /**
-   * Sets the responsable nom.
-   *
-   * @param responsableNom the new responsable nom
-   */
-  public void setResponsableNom(String responsableNom) {
-    this.responsableNom = responsableNom;
-  }
-
-  /**
-   * Gets the responsable prenom.
-   *
-   * @return the responsable prenom
-   */
-  public String getResponsablePrenom() {
-    return responsablePrenom;
-  }
-
-  /**
-   * Sets the responsable prenom.
-   *
-   * @param responsablePrenom the new responsable prenom
-   */
-
-  public void setResponsablePrenom(String responsablePrenom) {
-    this.responsablePrenom = responsablePrenom;
-  }
-
-  /**
-   * Gets the entreprise nom.
-   *
-   * @return the entreprise nom
-   */
-
-  public String getEntrepriseNom() {
-    return entrepriseNom;
-  }
-
-  /**
-   * Sets the entreprise nom.
-   *
-   * @param entrepriseNom the new entreprise nom
-   */
-
-  public void setEntrepriseNom(String entrepriseNom) {
-    this.entrepriseNom = entrepriseNom;
-  }
-
-  /**
-   * Gets the entreprise appellation.
-   *
-   * @return the entreprise appellation
-   */
-
-  public String getEntrepriseAppellation() {
-    return entrepriseAppellation;
-  }
-
-  /**
-   * Sets the entreprise appellation.
-   *
-   * @param entrepriseAppellation the new entreprise appellation
-   */
-
-  public void setEntrepriseAppellation(String entrepriseAppellation) {
-    this.entrepriseAppellation = entrepriseAppellation;
-  }
-
 
 }
