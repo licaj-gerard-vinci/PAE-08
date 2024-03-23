@@ -148,7 +148,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param etat the state of the contact
    * @return true if the contact exists and is in the specified state, false otherwise
    */
-  public boolean checkContactAndState(int idUser, int idEntreprise, String etat){
+  public boolean checkContactAndState(int idUser, int idEntreprise, String etat) {
     return contactDAO.checkContactAndState(idUser,idEntreprise,etat);
   }
 
@@ -159,6 +159,10 @@ public class ContactUCCImpl implements ContactUCC {
     if (!checkUser(contact.getIdUtilisateur()) || !checkCompany(contact.getIdEntreprise())) {
       throw new RuntimeException("User or company does not exist");
     }
+  }
+
+  public void updateContact(ContactDTO contact) {
+    contactDAO.updateContact(contact);
   }
 
 }

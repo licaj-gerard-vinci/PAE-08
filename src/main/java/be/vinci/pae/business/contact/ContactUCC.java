@@ -96,4 +96,6 @@ public interface ContactUCC {
    * @return true if the contact exists and is in the specified state, false otherwise
    */
   boolean checkContactAndState(int idUser, int idEntreprise, String etat);
+
+  void updateContact(ContactDTO contact);
 }
