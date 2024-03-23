@@ -237,7 +237,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/auth/users`, options);
+        const response = await fetch(`http://localhost:8080/users`, options);
 
         if (!response.ok) {
           throw new Error(`Error fetching users: ${response.statusText}`);

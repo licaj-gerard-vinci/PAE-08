@@ -21,30 +21,30 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject
   private Factory factory;
 
-    /**
-     * Retrieves an entreprise from the database.
-     *
-     * @param id the id of the entreprise to retrieve.
-     * @return the entreprise with the specified id.
-     */
-    @Override
-    public EntrepriseDTO getEntreprise(int id) {
-      String query = "SELECT company_id, company_name, company_designation, "
-          + "company_address, company_phone_number FROM pae.companies "
-          + "WHERE company_id = ? AND company_is_blacklisted = false";
+  /**
+   * Retrieves an entreprise from the database.
+   *
+   * @param id the id of the entreprise to retrieve.
+   * @return the entreprise with the specified id.
+   */
+  @Override
+  public EntrepriseDTO getEntreprise(int id) {
+    String query = "SELECT company_id, company_name, company_designation, "
+        + "company_address, company_phone_number FROM pae.companies "
+        + "WHERE company_id = ? AND company_is_blacklisted = false";
 
-      try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-        statement.setInt(1, id);
-        try (ResultSet rs = statement.executeQuery()) {
-          if (rs.next()) {
-            return rsToEntreprises(rs);
-          }
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setInt(1, id);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          return rsToEntreprises(rs);
         }
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
       }
-      return null;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
+    return null;
+  }
 
   /**
    * Retrieves all entreprises from the database.
@@ -55,7 +55,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   public List<EntrepriseDTO> getEntreprises() {
 
     String query = "SELECT company_id, company_name, company_designation, "
-        + "company_address, company_hone_number FROM pae.companies "
+        + "company_address, company_phone_number FROM pae.companies "
         + "WHERE company_is_blacklisted = false";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();

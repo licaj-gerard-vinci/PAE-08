@@ -3,7 +3,7 @@ import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 
 let entreprises;
-let searchResult;
+let searchResult = []
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();

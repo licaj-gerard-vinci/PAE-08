@@ -78,8 +78,8 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT u.* FROM pae.users u "
-            + "LEFT JOIN pae.school_years sy ON u.school_year_id = sy.school_year_id";
+    String query = "SELECT u.*, sy.school_year_id, sy.year FROM pae.users u "
+        + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
@@ -100,9 +100,10 @@ public class UserDAOImpl implements UserDAO {
    * @return the registered user.
    */
   public UserDTO insertUser(UserDTO user) {
-    String query = "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname,"
-        + " user_phone_number, user_role, user_registration_date ,user_has_internship) "
-        + "VALUES (?, ?, ?, ?, ?, ?, ?, FALSE) returning user_id";
+    String query =
+        "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname,"
+            + " user_phone_number, user_role, user_registration_date ,user_has_internship) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, FALSE) returning user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
       statement.setString(2, user.getPassword());
