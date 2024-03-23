@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "carole.skile@student.vinci.be",
+  "email": "Carole.skile@student.vinci.be",
   "password": "a"
 }
 
@@ -12,6 +12,6 @@ Content-Type: application/json
 %}
 
 ### Get all stages
-GET {{baseUrl}}/contacts/9&2
+GET {{baseUrl}}/contacts
 Authorization: {{token}}
 

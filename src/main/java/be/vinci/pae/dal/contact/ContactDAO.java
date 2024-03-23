@@ -28,7 +28,13 @@ public interface ContactDAO {
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
 
-  boolean checkContact(int idUser, int idEntreprise) throws SQLException;
+  boolean checkContactExists(int idUser, int idEntreprise);
+
+  boolean checkUserExists(int idUser);
+
+  boolean checkCompanyExists(int idCompany);
+
+  boolean checkContactAndState(int idUser, int idEntreprise, String expectedState);
 
   /**
    * Inserts a new contact into the database.

@@ -90,22 +90,57 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-  public boolean checkContact(int idUser, int idEntreprise) throws SQLException {
+  public boolean checkContactExists(int idUser, int idEntreprise) {
     String query = "SELECT contact_id FROM pae.contact WHERE student_id = ? AND company_id = ?";
-    ResultSet rs;
     try (PreparedStatement statement = dalBackService.preparedStatement(query)){
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
-      rs = statement.executeQuery();
+      ResultSet rs = statement.executeQuery();
+      return rs.next();
     } catch (SQLException e) {
       throw new RuntimeException();
     }
-
-    if(rs.getInt("contact_id") <= 0) {
-      return false;
-    }
-    return true;
   }
+
+  public boolean checkUserExists(int idUser) {
+    String query = "SELECT user_id FROM pae.users WHERE user_id = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+      statement.setInt(1, idUser);
+      ResultSet rs = statement.executeQuery();
+      return rs.next();
+    } catch (SQLException e) {
+      throw new RuntimeException();
+    }
+  }
+
+  public boolean checkCompanyExists(int idCompany) {
+    String query = "SELECT company_id FROM pae.companies WHERE company_id = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+      statement.setInt(1, idCompany);
+      ResultSet rs = statement.executeQuery();
+      return rs.next();
+    } catch (SQLException e) {
+      throw new RuntimeException();
+    }
+  }
+
+  public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
+    String query = "SELECT contact_status FROM pae.contacts WHERE student_id = ? AND company_id = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+      statement.setInt(1, idUser);
+      statement.setInt(2, idEntreprise);
+      ResultSet rs = statement.executeQuery();
+      if (rs.next()) {
+        String currentState = rs.getString("contact_status");
+        return currentState.equals(expectedState);
+      } else {
+        return false;
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException();
+    }
+  }
+
 
 
   /**

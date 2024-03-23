@@ -27,19 +27,73 @@ public interface ContactUCC {
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
 
-  boolean checkContact(int idUser, int idEntreprise) throws SQLException;
-
   /**
    * Inserts a new contact into the database.
    *
    * @param contact A ContactDTO object containing the information of the contact to be inserted.
    */
-  void insertContact(ContactDTO contact);
+  void insertContact(ContactDTO contact) throws SQLException;
 
   /**
-   * Updates the information of an existing contact in the database.
+   * Updates a contact to the 'taken' state.
    *
-   * @param contact A ContactDTO object containing the updated information of the contact.
+   * @param contact the contact to update
    */
-  void updateContact(ContactDTO contact);
+  void updateContactTaken(ContactDTO contact);
+
+  /**
+   * Updates a contact to the 'accepted' state.
+   *
+   * @param contact the contact to update
+   */
+  void updateContactAccepted(ContactDTO contact);
+
+  /**
+   * Updates a contact to the 'refused' state.
+   *
+   * @param contact the contact to update
+   */
+  void updateContactRefused(ContactDTO contact);
+
+  /**
+   * Updates a contact to the 'unsupervised' state.
+   *
+   * @param contact the contact to update
+   */
+  void updateContactUnsupervised(ContactDTO contact);
+
+  /**
+   * Checks if a contact exists between a user and a company.
+   *
+   * @param idUser the ID of the user
+   * @param idEntreprise the ID of the company
+   * @return true if the contact exists, false otherwise
+   */
+  boolean checkContact(int idUser, int idEntreprise);
+
+  /**
+   * Checks if a company exists.
+   *
+   * @param idEntreprise the ID of the company
+   * @return true if the company exists, false otherwise
+   */
+  boolean checkCompany(int idEntreprise);
+
+  /**
+   * Checks if a user exists.
+   *
+   * @param idUser the ID of the user
+   * @return true if the user exists, false otherwise
+   */
+  boolean checkUser(int idUser);
+
+  /**
+   * Checks if a contact exists between a user and a company and if the contact is in a specific state.
+   *
+   * @param idUser the ID of the user
+   * @param idEntreprise the ID of the company
+   * @param etat the state of the contact
+   * @return true if the contact exists and is in the specified state, false otherwise
+   */
+  boolean checkContactAndState(int idUser, int idEntreprise, String etat);
 }
