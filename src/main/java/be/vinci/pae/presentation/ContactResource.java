@@ -82,7 +82,7 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @POST
-  @Path("insert")
+  @Path("/{id}/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
