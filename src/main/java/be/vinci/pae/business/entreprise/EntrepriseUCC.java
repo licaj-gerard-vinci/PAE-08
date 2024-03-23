@@ -1,5 +1,7 @@
 package be.vinci.pae.business.entreprise;
 
+import be.vinci.pae.business.user.UserDTO;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,14 @@ import java.util.List;
  * operations on the entreprises.
  */
 public interface EntrepriseUCC {
+
+  /**
+   * Gets the associated entreprise.
+   *
+   * @param id the id of the entreprise.
+   * @return the associated entreprise.
+   */
+  EntrepriseDTO getEntreprise(int id);
 
   /**
    * Retrieves all entreprises.

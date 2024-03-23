@@ -20,7 +20,14 @@ public class StageUCCImpl implements StageUCC {
    */
 
   public StageDTO getStageUser(int idUser) {
-    return stageDAO.getStageById(idUser);
+    if (idUser <= 0) {
+      return null;
+    }
+    StageDTO stage = stageDAO.getStageById(idUser);
+    if (stage == null) {
+      return null;
+    }
+    return stage;
   }
 
   /**
@@ -30,7 +37,11 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public List<StageDTO> getStages() {
-    return stageDAO.getStages();
+    List<StageDTO> stages = stageDAO.getStages();
+    if (stages == null) {
+      return null;
+    }
+    return stages;
   }
 
 }
