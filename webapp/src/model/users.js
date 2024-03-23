@@ -104,7 +104,7 @@ import Navigate from '../Components/Router/Navigate';
   async function getUserData() {
     let user = null;
     const token = getToken();
-
+    console.log('token: ', token);
     if (token) {
       const options = {
         method: 'GET',
@@ -122,6 +122,7 @@ import Navigate from '../Components/Router/Navigate';
         }
 
         user = await response.json();
+        console.log('user: ', user);
       } catch (error) {
         console.error('Error fetching user data');
       }
