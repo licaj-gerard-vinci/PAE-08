@@ -90,6 +90,23 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
+  public boolean checkContact(int idUser, int idEntreprise) throws SQLException {
+    String query = "SELECT contact_id FROM pae.contact WHERE student_id = ? AND company_id = ?";
+    ResultSet rs;
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+      statement.setInt(1, idUser);
+      statement.setInt(2, idEntreprise);
+      rs = statement.executeQuery();
+    } catch (SQLException e) {
+      throw new RuntimeException();
+    }
+
+    if(rs.getInt("contact_id") <= 0) {
+      return false;
+    }
+    return true;
+  }
+
 
   /**
    * Inserts a new contact into the database.

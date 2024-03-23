@@ -1,6 +1,8 @@
 package be.vinci.pae.dal.contact;
 
 import be.vinci.pae.business.contact.ContactDTO;
+
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public interface ContactDAO {
    * @return A list of contact information.
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
+
+  boolean checkContact(int idUser, int idEntreprise) throws SQLException;
 
   /**
    * Inserts a new contact into the database.

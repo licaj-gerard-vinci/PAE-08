@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,15 +83,21 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @POST
-  @Path("insert")
+  @Path("/{idUser}&{idEntreprise}/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ObjectNode insertContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext) {
+                                  @Context ContainerRequestContext requestContext,
+                                  @PathParam("idUser") int idUser,
+                                  @PathParam("idEntreprise") int idEntreprise) throws SQLException {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
+    }
+
+    if(myContactUcc.checkContact(idUser, idEntreprise)){
+      throw new WebApplicationException("Contact already exists", Response.Status.UNAUTHORIZED);
     }
     myContactUcc.insertContact(contact);
 
@@ -108,7 +115,7 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @PUT
-  @Path("update")
+  @Path("/{idContact}/update")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize

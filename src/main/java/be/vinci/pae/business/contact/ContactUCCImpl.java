@@ -2,6 +2,8 @@ package be.vinci.pae.business.contact;
 
 import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
+
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -34,6 +36,13 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public List<ContactDTO> getContactsAllInfo(int idUser) {
     return contactDAO.getContactsAllInfo(idUser);
+  }
+
+  public boolean checkContact(int idUser, int idEntreprise) throws SQLException {
+    if(!contactDAO.checkContact(idUser, idEntreprise)){
+      return false;
+    }
+    return true;
   }
 
   /**

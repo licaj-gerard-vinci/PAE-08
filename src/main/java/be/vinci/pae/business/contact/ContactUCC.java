@@ -1,5 +1,6 @@
 package be.vinci.pae.business.contact;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public interface ContactUCC {
    * @return A list of ContactDTO objects containing all contact information for the user.
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
+
+  boolean checkContact(int idUser, int idEntreprise) throws SQLException;
 
   /**
    * Inserts a new contact into the database.

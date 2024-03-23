@@ -28,24 +28,25 @@ async function renderHomePage(){
   `;
   } else if (user.role === "E") {
     const contacts = await getContactsAllInfo();
+    const searchBar = `<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-8 col-lg-6">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="button-addon2">Rechercher</button>
+        </div>
+      </div>
+    </div>
+    </div>`
 
-    if(!entreprises || entreprises.length === 0) {
+    if(!searchResult || searchResult.length === 0) {
       main.innerHTML = `
-      <p>Aucune entreprise n'est disponible pour le moment.</p>
+      ${searchBar}
+      <p>Aucune entreprise n'a été trouvé.</p>
       `;
     } else {
       main.innerHTML = `
-
-        <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-10 col-md-8 col-lg-6">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
-                    <button class="btn btn-primary" type="button" id="button-addon2">Rechercher</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        ${searchBar}
         <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
@@ -89,7 +90,7 @@ async function renderHomePage(){
                 </div>
                 <div id='form${entreprise.id}' style='display: none;'>
                   <input type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus'>
-                  <button type='button' id='saveButton${entreprise.id}'>Save</button>
+                  <button type='button' id='saveRefusedButton${entreprise.id}'>Save</button>
                 </div>`;
               } else if(contactFound.etatContact === 'accepted') {
                 button = `
@@ -152,22 +153,6 @@ async function renderHomePage(){
       </div>
       `;
 
-      const searchButton = document.getElementById('button-addon2');
-
-      searchButton.addEventListener('click', async () => {
-        const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-        console.log('searchInput: ', searchInput);
-        if (searchInput !== '') {
-          searchResult = entreprises.filter(entreprise =>
-              entreprise.nom.toLowerCase().includes(searchInput)
-          );
-          console.log('searchResult: ', searchResult);
-        } else {
-          await renderEntreprises();
-        }
-        await renderHomePage();
-      });
-
       entreprises.forEach(entreprise => {
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
@@ -190,13 +175,18 @@ async function renderHomePage(){
 
         if (takenButton) {
           console.log('takenButton: ', takenButton)
-          takenButton.addEventListener('click', async () => {
-            takenButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "taken", null);
-            console.log('after update')
-            await renderHomePage();
-            takenButton.disabled = false;
+          takenButton.addEventListener('click', () => {
+            document.querySelector(`#form${entreprise.id}`).style.display = 'block';
+          });
+        }
+        
+        if (document.querySelector(`#saveMeetingButton${entreprise.id}`)) {
+          document.querySelector(`#saveMeetingButton${entreprise.id}`).addEventListener('click', async () => {
+            const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
+            if(textInputValue){
+              await updateContact(entreprise.id, user.id, "refused", textInputValue);
+              await renderHomePage();
+            }
           });
         }
 
@@ -232,8 +222,8 @@ async function renderHomePage(){
           });
         }
         
-        if (document.querySelector(`#saveButton${entreprise.id}`)) {
-          document.querySelector(`#saveButton${entreprise.id}`).addEventListener('click', async () => {
+        if (document.querySelector(`#saveRefusedButton${entreprise.id}`)) {
+          document.querySelector(`#saveRefusedButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
               await updateContact(entreprise.id, user.id, "refused", textInputValue);
@@ -244,6 +234,21 @@ async function renderHomePage(){
       });
       
     }
+    const searchButton = document.getElementById('button-addon2');
+
+    searchButton.addEventListener('click', async () => {
+      const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
+      console.log('searchInput: ', searchInput);
+      if (searchInput !== '') {
+        searchResult = entreprises.filter(entreprise =>
+            entreprise.nom.toLowerCase().includes(searchInput)
+        );
+        console.log('searchResult: ', searchResult);
+      } else {
+        await renderEntreprises();
+      }
+      await renderHomePage();
+    });
   } else {
     console.log("Unknown user role");
   }
