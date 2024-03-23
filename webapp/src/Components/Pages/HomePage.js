@@ -20,7 +20,7 @@ async function renderHomePage(){
   const user = await getUserData();
   console.log(user);
 
-  if(user.role === "A" || user.role === "P"){
+  if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
       <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
