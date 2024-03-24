@@ -25,7 +25,6 @@ async function renderHomePage(){
   const main = document.querySelector('main');
   const user = getAuthenticatedUser();
   console.log(user);
-  console.log(user.user.role);
 
   if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
@@ -35,8 +34,6 @@ async function renderHomePage(){
   `;
   } else if (user.user.role === "E") {
     const contacts = await getContacts();
-    console.log('contactssasas: ', contacts);
-
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
       <p>Aucune entreprise n'est disponible pour le moment.</p>
@@ -167,12 +164,12 @@ async function renderHomePage(){
 
       searchButton.addEventListener('click', async () => {
         const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-        console.log('searchInput: ', searchInput);
+
         if (searchInput !== '') {
           searchResult = entreprises.filter(entreprise =>
               entreprise.nom.toLowerCase().includes(searchInput)
           );
-          console.log('searchResult: ', searchResult);
+
         } else {
           await renderEntreprises();
         }
@@ -192,9 +189,9 @@ async function renderHomePage(){
           initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
-            console.log('before insert informations: entrepriseId: ', entreprise, ', userId: ', user)
+
             await insertContact(entreprise, user.user, "initiated", null);
-            console.log('after insert')
+
             await renderHomePage();
             initiatedButton.disabled = false;
           });
@@ -204,9 +201,7 @@ async function renderHomePage(){
           console.log('takenButton: ', takenButton)
           takenButton.addEventListener('click', async () => {
             takenButton.disabled = true;
-            console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
             await updateContact(entreprise, user.user, "taken", null);
-            console.log('after update')
             await renderHomePage();
             takenButton.disabled = false;
           });
@@ -216,9 +211,7 @@ async function renderHomePage(){
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
             await updateContact(entreprise, user.user, "accepted", null);
-            console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
           });
@@ -229,9 +222,7 @@ async function renderHomePage(){
           stopFollowingButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             stopFollowingButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
             await updateContact(entreprise, user.user, "Unsupervised", null);
-            console.log('after update')
             await renderHomePage();
             stopFollowingButton.disabled = false;
           });

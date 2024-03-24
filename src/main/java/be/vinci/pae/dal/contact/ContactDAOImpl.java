@@ -155,7 +155,7 @@ public class ContactDAOImpl implements ContactDAO {
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
 
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
     contact.setEntreprise(entreprise);
     contact.setIdEntreprise(entreprise.getId());
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
