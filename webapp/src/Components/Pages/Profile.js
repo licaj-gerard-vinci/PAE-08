@@ -18,7 +18,7 @@ const ProfilePage = async () => {
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
 
   const user = getAuthenticatedUser();
-  if(user.role === 'E') {
+  if(user.user.role === 'E') {
     topContainer.appendChild(await displayStage());
     container.appendChild(await displayContacts());
   }
@@ -64,8 +64,7 @@ async function displayStage() {
   stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
 
   stageDiv.style = "flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
-  const stage = await getStagePresent();
-  console.log('stage: zeofkjezoçfjkzopefjkzpoef', stage);
+const stage = await getStagePresent();
 
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {

@@ -58,31 +58,33 @@ public class StageDAOImpl implements StageDAO {
   /**
    * Gets the stage by id.
    *
-   * @param id the id
+   * @param userId the id
    * @return the stage by id
    */
   @Override
-  public StageDTO getStageById(int id) {
-    String query = "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
-        + "FROM pae.internships int "
-        + "INNER JOIN pae.managers man ON int.internship_manager_id = man.manager_id "
-        + "INNER JOIN pae.users use ON int.internship_student_id = use.user_id "
-        + "INNER JOIN pae.contacts con ON int.internship_contact_id = con.contact_id "
-        + "INNER JOIN pae.companies com ON int.internship_company_id = com.company_id "
-        + "INNER JOIN pae.school_years sch ON int.internship_school_year_id = sch.school_year_id "
-        + "WHERE int.internship_id = ?";
+  public StageDTO getStageById(int userId) {
+    String query =
+        "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
+            + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, pae.companies com, pae.school_years sch "
+            + "WHERE int.internship_manager_id = man.manager_id "
+            + "AND int.internship_student_id = use.user_id "
+            + "AND int.internship_contact_id = con.contact_id "
+            + "AND con.contact_company_id = com.company_id "
+            + "AND use.user_school_year_id = sch.school_year_id "
+            + "AND use.user_id = ?";
 
+    StageDTO stage = null;
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, id);
+      statement.setInt(1, userId);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToStage(rs);
+          stage = rsToStage(rs);
         }
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return null;
+    return stage;
   }
 
 
@@ -164,7 +166,6 @@ public class StageDAOImpl implements StageDAO {
     stage.setIdEntreprise(entreprise.getId());
 
     return stage;
-
 
 
   }

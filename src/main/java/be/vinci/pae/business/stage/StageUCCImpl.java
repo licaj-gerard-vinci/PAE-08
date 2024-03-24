@@ -1,5 +1,6 @@
 package be.vinci.pae.business.stage;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -12,6 +13,9 @@ public class StageUCCImpl implements StageUCC {
   @Inject
   private StageDAO stageDAO;
 
+  @Inject
+  private DALServices dalServices;
+
   /**
    * Gets the stage user.
    *
@@ -20,15 +24,19 @@ public class StageUCCImpl implements StageUCC {
    */
 
   public StageDTO getStageUser(int idUser) {
-    if (idUser <= 0) {
-      return null;
+    try {
+      dalServices.startTransaction();
+      StageDTO stage = stageDAO.getStageById(idUser);
+      dalServices.commitTransaction();
+      return stage;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    StageDTO stage = stageDAO.getStageById(idUser);
-    if (stage == null) {
-      return null;
-    }
-    return stage;
   }
+
 
   /**
    * Gets all stages.
@@ -37,11 +45,16 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public List<StageDTO> getStages() {
-    List<StageDTO> stages = stageDAO.getStages();
-    if (stages == null) {
-      return null;
+    try {
+      dalServices.startTransaction();
+      List<StageDTO> stages = stageDAO.getStages();
+      dalServices.commitTransaction();
+      return stages;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    return stages;
   }
-
 }
