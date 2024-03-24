@@ -2,7 +2,7 @@ package be.vinci.pae.business.responsable;
 
 
 /**
- * interface Responsable
+ * interface Responsable.
  */
 public interface Responsable {
 

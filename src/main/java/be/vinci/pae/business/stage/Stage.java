@@ -2,7 +2,7 @@ package be.vinci.pae.business.stage;
 
 
 /**
- * interface Stage
+ * interface Stage.
  */
 public interface Stage {
 

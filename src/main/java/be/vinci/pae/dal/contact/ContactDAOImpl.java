@@ -144,23 +144,21 @@ public class ContactDAOImpl implements ContactDAO {
    * @throws SQLException the SQL exception
    */
   private ContactDTO rsToContact(ResultSet rs) throws SQLException {
-
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
-    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
-
     YearDTO year = factory.getYearDTO();
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
 
     ContactDTO contact = factory.getContactDTO();
-    //CONTACT
+
     contact.setId(rs.getInt("contact_id"));
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
 
+    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
     contact.setEntreprise(entreprise);
     contact.setIdEntreprise(entreprise.getId());
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
     contact.setAnnee(year);
