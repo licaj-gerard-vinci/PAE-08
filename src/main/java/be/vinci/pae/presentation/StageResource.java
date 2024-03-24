@@ -4,6 +4,7 @@ import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
+import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Singleton
 @Path("stages")
+@Log
 public class StageResource {
 
   @Inject

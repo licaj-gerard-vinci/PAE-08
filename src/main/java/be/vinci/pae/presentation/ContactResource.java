@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
+import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -27,6 +28,7 @@ import java.util.List;
  */
 @Singleton
 @Path("contacts")
+@Log
 public class ContactResource {
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
