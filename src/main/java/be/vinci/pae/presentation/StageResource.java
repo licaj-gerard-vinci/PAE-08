@@ -18,7 +18,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * StageResource
+ * StageResource.
  */
 @Singleton
 @Path("stages")
@@ -30,6 +30,7 @@ public class StageResource {
   /**
    * Retrieves the stage of the authenticated user from the request context.
    *
+   * @param id the id of the user.
    * @param requestContext the request context.
    * @return the stage of the authenticated user.
    */
