@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import {
+  getAuthenticatedUser,
   setAuthenticatedUser,
   getToken,
   clearAuthenticatedUser
@@ -58,6 +59,8 @@ import Navigate from '../Components/Router/Navigate';
   async function getStagePresent(){
     let stagePresent = null;
     const token = getToken();
+    const id = getAuthenticatedUser();
+    const idUser = id.user.id;
     if(token) {
       const options = {
         method: 'GET',
@@ -66,7 +69,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/stages`, options);
+      const response = await fetch(`http://localhost:8080/stages/${idUser}`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
