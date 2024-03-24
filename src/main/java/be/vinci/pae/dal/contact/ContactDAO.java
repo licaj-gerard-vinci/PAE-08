@@ -30,9 +30,6 @@ public interface ContactDAO {
 
   boolean checkContactExists(int idUser, int idEntreprise);
 
-  boolean checkUserExists(int idUser);
-
-  boolean checkCompanyExists(int idCompany);
 
   boolean checkContactAndState(int idUser, int idEntreprise, String expectedState);
 

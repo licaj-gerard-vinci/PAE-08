@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import {
+  getAuthenticatedUser,
   setAuthenticatedUser,
   getToken,
   clearAuthenticatedUser
@@ -43,7 +45,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/user`, options);
+      const response = await fetch(`http://localhost:8080/auth`, options);
 
       if (!response.ok) {
         clearAuthenticatedUser();
@@ -57,6 +59,8 @@ import Navigate from '../Components/Router/Navigate';
   async function getStagePresent(){
     let stagePresent = null;
     const token = getToken();
+    const id = getAuthenticatedUser();
+    const idUser = id.user.id;
     if(token) {
       const options = {
         method: 'GET',
@@ -65,7 +69,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/stage`, options);
+      const response = await fetch(`http://localhost:8080/stages/${idUser}`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
@@ -89,7 +93,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/contact`, options);
+      const response = await fetch(`http://localhost:8080/contacts`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";
@@ -104,7 +108,7 @@ import Navigate from '../Components/Router/Navigate';
   async function getUserData() {
     let user = null;
     const token = getToken();
-
+    console.log('token: ', token);
     if (token) {
       const options = {
         method: 'GET',
@@ -115,13 +119,14 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/user`, options);
+        const response = await fetch(`http://localhost:8080/auth`, options);
 
         if (!response.ok) {
           throw new Error(`Error fetching user data: ${response.statusText}`);
         }
 
         user = await response.json();
+        console.log('user: ', user);
       } catch (error) {
         console.error('Error fetching user data');
       }
@@ -130,43 +135,15 @@ import Navigate from '../Components/Router/Navigate';
     return user;
   }
 
-  async function getContactsAllInfo(){
-    let contacts = [];
+  async function insertContact(entrepriseObject, userObject, etat) {
     const token = getToken();
     if(token) {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-
-      try {
-        const response = await fetch(`http://localhost:8080/contact`, options);
-  
-        if (!response.ok) {
-          throw new Error(`Error fetching contacts data: ${response.statusText}`);
-        }
-  
-        contacts = await response.json();
-      } catch (error) {
-        console.error('Error fetching contacts data');
-      }
-    }
-
-    return contacts;
-  }
-
-  async function insertContact(entrepriseId, userId, etat) {
-    const token = getToken();
-    if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
+      console.log('entreprise: ', entrepriseObject, ', user: ', userObject, ', etat:', etat)
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          entreprise: entrepriseId,
-          utilisateur: userId,
+          entreprise : entrepriseObject,
+          utilisateur: userObject,
           etatContact: etat
         }),
         headers: {
@@ -176,7 +153,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/contact/insert`, options);
+        const response = await fetch(`http://localhost:8080/contacts/insert`, options);
         console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
@@ -190,79 +167,19 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
-  async function updateContact(entrepriseId, userId, etat) {
+
+  async function updateContact(entrepriseId, userId, etat, refusalReason, meetingPlace) {
     const token = getToken();
     if(token) {
       console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
-      const options = {
-        method: 'PUT',
-        body: JSON.stringify({
-          entreprise: entrepriseId,
-          utilisateur: userId,
-          etatContact: etat
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-      try {
-        const response = await fetch(`http://localhost:8080/contact/`, options);
-        console.log('response: ', response)
-        if (!response.ok) {
-          throw new Error(`Error inserting contact: ${response.statusText}`);
-        }
-  
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error('Error inserting contact');
-      }
-    }
-  }
-
-  async function updateContactRefused(entrepriseId, userId, etat, refusalReason) {
-    const token = getToken();
-    if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', refusal reason: ', refusalReason)
+      console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
           entreprise: entrepriseId,
           utilisateur: userId,
           etatContact: etat,
-          raisonRefus: refusalReason
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-      try {
-        const response = await fetch(`http://localhost:8080/contact/`, options);
-        console.log('response: ', response)
-        if (!response.ok) {
-          throw new Error(`Error inserting contact: ${response.statusText}`);
-        }
-  
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error('Error inserting contact');
-      }
-    }
-  }
-
-  async function updateContactTaken(entrepriseId, userId, etat, meetingPlace) {
-    const token = getToken();
-    if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', meeting place: ', meetingPlace)
-      const options = {
-        method: 'PUT',
-        body: JSON.stringify({
-          entreprise: entrepriseId,
-          utilisateur: userId,
-          etatContact: etat,
+          raisonRefus: refusalReason,
           lieuxRencontre: meetingPlace
         }),
         headers: {
@@ -285,6 +202,7 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
+  
   async function getAllUsers() {
     let users = null;
     const token = getToken();
@@ -299,7 +217,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/auth/users`, options);
+        const response = await fetch(`http://localhost:8080/users`, options);
 
         if (!response.ok) {
           throw new Error(`Error fetching users: ${response.statusText}`);
@@ -347,9 +265,6 @@ export {loginUser,
   getUserData,
   getAllUsers,
   registerUser,
-  getContactsAllInfo,
   insertContact,
-  updateContact,
-  updateContactRefused,
-  updateContactTaken
+  updateContact
 };

@@ -33,7 +33,7 @@ public class ContactResource {
    * @return the contacts of the authenticated user.
    */
   @GET
-  @Path("all")
+  @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
@@ -91,6 +91,7 @@ public class ContactResource {
                                   @Context ContainerRequestContext requestContext,
                                   @PathParam("idUser") int idUser,
                                   @PathParam("idEntreprise") int idEntreprise) throws SQLException {
+    System.out.println(contact);
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);

@@ -1,9 +1,15 @@
-import { getContactsAllInfo, getUserData, insertContact, updateContact } from "../../model/users";
+/* eslint-disable no-console */
+import {
+  getContacts,
+  insertContact,
+  updateContact
+} from "../../model/users";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
+import {getAuthenticatedUser} from "../../utils/auths";
 
 let entreprises;
-let searchResult;
+let searchResult = []
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
@@ -11,23 +17,25 @@ async function renderEntreprises(){
 }
 
 const HomePage = async () => {
-  await renderEntreprises()
+  await renderEntreprises();
   await renderHomePage();
 };
 
 async function renderHomePage(){
   const main = document.querySelector('main');
-  const user = await getUserData();
+  const user = getAuthenticatedUser();
   console.log(user);
+  console.log(user.user.role);
 
-  if(user.role === "A" || user.role === "P"){
+  if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
       <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
     </div>
   `;
-  } else if (user.role === "E") {
-    const contacts = await getContactsAllInfo();
+  } else if (user.user.role === "E") {
+    const contacts = await getContacts();
+    console.log('contactssasas: ', contacts);
     const searchBar = `<div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-10 col-md-8 col-lg-6">
@@ -53,8 +61,10 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
             let button;
             if(contacts){
-              const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
-              console.log(contactFound);
+              
+              const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+
+              console.log("contact findddd",contactFound);
               if(!contactFound){
                 button = `
                 <div class="row">
@@ -154,6 +164,7 @@ async function renderHomePage(){
       `;
 
       entreprises.forEach(entreprise => {
+        console.log('entreprise: ', entreprise)
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
@@ -165,8 +176,8 @@ async function renderHomePage(){
           initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
-            console.log('before insert informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await insertContact(entreprise.id, user.id, "initiated");
+            console.log('before insert informations: entrepriseId: ', entreprise, ', userId: ', user)
+            await insertContact(entreprise, user.user, "initiated");
             console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
@@ -175,7 +186,7 @@ async function renderHomePage(){
 
         if (takenButton) {
           console.log('takenButton: ', takenButton)
-          takenButton.addEventListener('click', () => {
+          takenButton.addEventListener('click', async () => {
             document.querySelector(`#form${entreprise.id}`).style.display = 'block';
           });
         }
@@ -194,7 +205,7 @@ async function renderHomePage(){
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
+            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
             await updateContact(entreprise.id, user.id, "accepted");
             console.log('after update')
             await renderHomePage();
@@ -226,7 +237,7 @@ async function renderHomePage(){
           document.querySelector(`#saveRefusedButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContactRefused(entreprise.id, user.id, "refused", textInputValue);
+              await updateContact(entreprise, user.user, "refused", textInputValue);
               await renderHomePage();
             }
           });

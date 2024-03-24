@@ -1,9 +1,5 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
@@ -96,6 +92,7 @@ public class AuthResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode register(UserDTO user) {
+    System.out.println(user);
     if (user.getLastname() == null || user.getFirstname() == null || user.getEmail() == null
         || user.getPassword() == null || user.getPhone() == null || user.getRole() == null) {
       throw new WebApplicationException("no info", Status.NOT_FOUND);

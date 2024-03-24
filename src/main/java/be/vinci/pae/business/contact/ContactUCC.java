@@ -72,22 +72,6 @@ public interface ContactUCC {
   boolean checkContact(int idUser, int idEntreprise);
 
   /**
-   * Checks if a company exists.
-   *
-   * @param idEntreprise the ID of the company
-   * @return true if the company exists, false otherwise
-   */
-  boolean checkCompany(int idEntreprise);
-
-  /**
-   * Checks if a user exists.
-   *
-   * @param idUser the ID of the user
-   * @return true if the user exists, false otherwise
-   */
-  boolean checkUser(int idUser);
-
-  /**
    * Checks if a contact exists between a user and a company and if the contact is in a specific state.
    *
    * @param idUser the ID of the user

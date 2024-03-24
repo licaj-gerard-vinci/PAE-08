@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import { clearPage } from '../../utils/render';
 import {registerUser} from '../../model/users';
 import Navigate from '../Router/Navigate';
 import {getAuthenticatedUser} from "../../utils/auths";
+import Navbar from '../Navbar/Navbar';
 
 const RegisterPage = () => {
     const authenticatedUser = getAuthenticatedUser();
@@ -157,6 +159,7 @@ function checkUser(){
       }
       try {
           await registerUser(user);
+          Navbar();
           Navigate('/');
       } catch (error) {
 

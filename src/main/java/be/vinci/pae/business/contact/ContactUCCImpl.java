@@ -1,5 +1,6 @@
 package be.vinci.pae.business.contact;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
 
@@ -11,6 +12,9 @@ public class ContactUCCImpl implements ContactUCC {
   @Inject
   ContactDAO contactDAO;
 
+  @Inject
+  private DALServices dalServices;
+
   /**
    * Retrieves a list of contacts for a specific user.
    *
@@ -19,7 +23,17 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public List<ContactDTO> getContacts(int idUser) {
-    return contactDAO.getContacts(idUser);
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> contacts = contactDAO.getContacts(idUser);
+      dalServices.commitTransaction();
+      return contacts;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
   /**
@@ -29,10 +43,17 @@ public class ContactUCCImpl implements ContactUCC {
    * @return a list of contacts with all information
    */
   public List<ContactDTO> getContactsAllInfo(int idUser) {
-    if (!checkUser(idUser)) {
-      throw new RuntimeException("User or company does not exist");
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> contacts = contactDAO.getContactsAllInfo(idUser);
+      dalServices.commitTransaction();
+      return contacts;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    return contactDAO.getContactsAllInfo(idUser);
   }
 
   /**
@@ -43,10 +64,22 @@ public class ContactUCCImpl implements ContactUCC {
   public void insertContact(ContactDTO contact) {
     validateContact(contact);
 
-    if (checkContact(contact.getIdUtilisateur(), contact.getIdEntreprise())) {
-      throw new RuntimeException("Contact already exists");
+    try {
+      dalServices.startTransaction();
+
+      if (checkContact(contact.getIdUtilisateur(), contact.getIdEntreprise())) {
+        throw new RuntimeException("Contact already exists");
+      }
+
+      contactDAO.insertContact(contact);
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    contactDAO.insertContact(contact);
+
   }
 
   /**
@@ -120,25 +153,6 @@ public class ContactUCCImpl implements ContactUCC {
     return contactDAO.checkContactExists(idUser, idEntreprise);
   }
 
-  /**
-   * Checks if a company exists.
-   *
-   * @param idEntreprise the ID of the company
-   * @return true if the company exists, false otherwise
-   */
-  public boolean checkCompany(int idEntreprise) {
-    return contactDAO.checkCompanyExists(idEntreprise);
-  }
-
-  /**
-   * Checks if a user exists.
-   *
-   * @param idUser the ID of the user
-   * @return true if the user exists, false otherwise
-   */
-  public boolean checkUser(int idUser) {
-    return contactDAO.checkUserExists(idUser);
-  }
 
   /**
    * Checks if a contact exists between a user and a company and if the contact is in a specific state.
@@ -156,13 +170,19 @@ public class ContactUCCImpl implements ContactUCC {
     if (contact == null) {
       throw new IllegalArgumentException("Contact cannot be null");
     }
-    if (!checkUser(contact.getIdUtilisateur()) || !checkCompany(contact.getIdEntreprise())) {
-      throw new RuntimeException("User or company does not exist");
-    }
   }
 
   public void updateContact(ContactDTO contact) {
-    contactDAO.updateContact(contact);
+    try {
+      dalServices.startTransaction();
+      contactDAO.updateContact(contact);
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
 }

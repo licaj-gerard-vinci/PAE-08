@@ -1,8 +1,25 @@
 /* eslint-disable no-nested-ternary */
-const { getAllUsers } = require("../../model/users");
+import Navigate from '../Router/Navigate';
+import { getAuthenticatedUser } from '../../utils/auths';
+import { getAllUsers } from '../../model/users';
 
-const UserList = () => renderUserList();
 
+
+const UserList = () => {
+  const authenticatedUser = getAuthenticatedUser();
+  if (!authenticatedUser) {
+    Navigate('/');
+    return;
+    
+  }
+  if (authenticatedUser.user.role === 'E') {
+    Navigate('/');
+    return;
+  }
+  
+
+  renderUserList();
+}
 async function renderUserList() {
     const main = document.querySelector('main');
 
@@ -28,7 +45,6 @@ async function renderUserList() {
       <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment ou vous n'avez pas les droits pour accéder à la page.</p>
     `;
     } else {
-
         const tableHtml = `
       <table class="table table-hover shadow-sm">
         <thead class="table-dark">
@@ -47,7 +63,7 @@ async function renderUserList() {
               <td>${user.firstname}</td>
               <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
               <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
-              <td>${user.year === null ? 'N/A' : user.year}</td>
+              <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
             </tr>
           `).join('')}
         </tbody>
@@ -57,4 +73,4 @@ async function renderUserList() {
     }
 }
 
-module.exports = UserList;
+export default UserList;

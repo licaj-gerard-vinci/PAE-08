@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Represents the AnneeDTO interface.
  */
-
+@JsonDeserialize(as = YearImpl.class)
 public interface YearDTO {
 
   /**

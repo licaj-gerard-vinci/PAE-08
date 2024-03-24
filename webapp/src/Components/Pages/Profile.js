@@ -18,7 +18,7 @@ const ProfilePage = async () => {
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
 
   const user = getAuthenticatedUser();
-  if(user.role === 'E') {
+  if(user.user.role === 'E') {
     topContainer.appendChild(await displayStage());
     container.appendChild(await displayContacts());
   }
@@ -44,11 +44,11 @@ function renderProfile(user) {
 
   const profileHTML = `
     <h2 style="text-align: center; margin-bottom: 30px;">Bonjour</h2>
-    <p><strong>Email :</strong> ${user.email}</p>
-    <p><strong>Nom :</strong> ${user.name}</p>
-    <p><strong>Prénom :</strong> ${user.firstName}</p>
-    <p><strong>Nr de téléphone :</strong> ${user.numTel}</p>
-    ${user.role && user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.role)}</p>` : ''}
+    <p><strong>Email :</strong> ${user.user.email}</p>
+    <p><strong>Nom :</strong> ${user.user.lastname}</p>
+    <p><strong>Prénom :</strong> ${user.user.firstname}</p>
+    <p><strong>Nr de téléphone :</strong> ${user.user.phone}</p>
+    ${user.user.role && user.user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.user)}</p>` : ''}
     <div style="text-align: center; margin-top: 30px;">
       <button class="btn btn-primary">Modifier informations</button>
       <button class="btn btn-secondary">Se déconnecter</button>
@@ -65,13 +65,14 @@ async function displayStage() {
 
   stageDiv.style = "flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
 const stage = await getStagePresent();
+console.log('stage:zad ', stage);
 
-  let stageHTML;
+let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
       <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.responsableNom} ${stage.responsablePrenom}</p>
-      <p><strong>Entreprise :</strong> ${stage.entrepriseNom}, ${stage.entrepriseAppellation}</p>
+      <p><strong>Responsable :</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
+      <p><strong>Entreprise :</strong> ${stage.entreprise.nom}, ${stage.entreprise.appellation}</p>
       <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
       <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
@@ -125,6 +126,7 @@ const stage = await getStagePresent();
 
 async function displayContacts() {
   const contacts = await getContacts();
+  console.log('contacts:zad zadzadzadza d zad za ', contacts);
   const contactsDiv = document.createElement('div');
   contactsDiv.classList.add('contacts-container', 'shadow', 'p-4', 'bg-white', 'rounded');
   contactsDiv.style = "width: 90%; margin-top: 20px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
@@ -148,7 +150,7 @@ async function displayContacts() {
     contacts.forEach(contact => {
       contactsHTML += `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.nomEntreprise} ${contact.appellation ? contact.appellation : ''}</td>
+          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.entreprise.nom} ${contact.entreprise.appellation ? contact.entreprise.appellation : ''}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.etatContact}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.lieuxRencontre ? contact.lieuxRencontre : 'N/A'}</td>
           <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.raisonRefus ? contact.raisonRefus : 'N/A'}</td>

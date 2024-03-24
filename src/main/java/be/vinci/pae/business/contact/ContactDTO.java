@@ -3,11 +3,14 @@ package be.vinci.pae.business.contact;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents the ContactDTO interface.
  */
+@JsonDeserialize(as = ContactImpl.class)
 public interface ContactDTO {
+
 
   /**
    * Gets the contact ID.

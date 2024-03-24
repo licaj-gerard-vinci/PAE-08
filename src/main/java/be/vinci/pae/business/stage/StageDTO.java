@@ -1,14 +1,16 @@
 package be.vinci.pae.business.stage;
 
 import be.vinci.pae.business.contact.ContactDTO;
+import be.vinci.pae.business.contact.ContactImpl;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents the StageDTO interface.
  */
-
+@JsonDeserialize(as = StageImpl.class)
 public interface StageDTO {
 
   /**
