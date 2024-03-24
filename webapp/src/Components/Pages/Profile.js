@@ -148,7 +148,7 @@ async function displayContacts() {
     contacts.forEach(contact => {
       contactsHTML += `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.nomEntreprise} ${contact.appellation ? contact.appellation : ''}</td>
+          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.entreprise.nom} ${contact.appellation ? contact.appellation : ''}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.etatContact}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.lieuxRencontre ? contact.lieuxRencontre : 'N/A'}</td>
           <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.raisonRefus ? contact.raisonRefus : 'N/A'}</td>
