@@ -190,7 +190,38 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
-  async function updateContact(entrepriseId, userId, etat, refusalReason) {
+  async function updateContact(entrepriseId, userId, etat) {
+    const token = getToken();
+    if(token) {
+      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
+      const options = {
+        method: 'PUT',
+        body: JSON.stringify({
+          entreprise: entrepriseId,
+          utilisateur: userId,
+          etatContact: etat
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      try {
+        const response = await fetch(`http://localhost:8080/contact/`, options);
+        console.log('response: ', response)
+        if (!response.ok) {
+          throw new Error(`Error inserting contact: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error inserting contact');
+      }
+    }
+  }
+
+  async function updateContactRefused(entrepriseId, userId, etat, refusalReason) {
     const token = getToken();
     if(token) {
       console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', refusal reason: ', refusalReason)
@@ -201,6 +232,38 @@ import Navigate from '../Components/Router/Navigate';
           utilisateur: userId,
           etatContact: etat,
           raisonRefus: refusalReason
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      try {
+        const response = await fetch(`http://localhost:8080/contact/`, options);
+        console.log('response: ', response)
+        if (!response.ok) {
+          throw new Error(`Error inserting contact: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error inserting contact');
+      }
+    }
+  }
+
+  async function updateContactTaken(entrepriseId, userId, etat, meetingPlace) {
+    const token = getToken();
+    if(token) {
+      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', meeting place: ', meetingPlace)
+      const options = {
+        method: 'PUT',
+        body: JSON.stringify({
+          entreprise: entrepriseId,
+          utilisateur: userId,
+          etatContact: etat,
+          lieuxRencontre: meetingPlace
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -286,5 +349,7 @@ export {loginUser,
   registerUser,
   getContactsAllInfo,
   insertContact,
-  updateContact
+  updateContact,
+  updateContactRefused,
+  updateContactTaken
 };
