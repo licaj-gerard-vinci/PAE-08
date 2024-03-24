@@ -1,5 +1,6 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class UserImpl implements User {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
-  private String schoolyear;
+  private YearDTO schoolyear;
 
   private boolean hasInternship;
 
@@ -217,12 +218,13 @@ public class UserImpl implements User {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
+
   /**
    * Gets the user's school year.
    *
    * @return the user's school year.
    */
-  public String getYear() {
+  public YearDTO getYear() {
     return schoolyear;
   }
 
@@ -231,7 +233,7 @@ public class UserImpl implements User {
    *
    * @param schoolyear the new school year for the user.
    */
-  public void setYear(String schoolyear) {
+  public void setYear(YearDTO schoolyear) {
     this.schoolyear = schoolyear;
   }
 
@@ -253,13 +255,5 @@ public class UserImpl implements User {
     this.hasInternship = hasInternship;
   }
 
-  /**
-   * return string of attributs.
-   */
-  @Override
-  public String toString() {
-    return "id=" + id + ", email='" + email + '\'' + ", nom='" + lastname + '\'' + ", prenom='"
-        + firstname + '\'' + ", numTel='" + phone + '\'' + ", dateInscription=" + registrationDate
-        + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
-  }
+
 }

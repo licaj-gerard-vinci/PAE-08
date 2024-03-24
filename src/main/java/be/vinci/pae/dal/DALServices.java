@@ -21,4 +21,9 @@ public interface DALServices {
    */
   void rollbackTransaction();
 
+  /**
+   * Closes the connection.
+   */
+  void close();
+
 }

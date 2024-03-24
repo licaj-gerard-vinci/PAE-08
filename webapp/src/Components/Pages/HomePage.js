@@ -1,9 +1,15 @@
-import { getContactsAllInfo, getUserData, insertContact, updateContact } from "../../model/users";
+/* eslint-disable no-console */
+import {
+  getContacts,
+  insertContact,
+  updateContact
+} from "../../model/users";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
+import {getAuthenticatedUser} from "../../utils/auths";
 
 let entreprises;
-let searchResult;
+let searchResult = []
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
@@ -11,24 +17,23 @@ async function renderEntreprises(){
 }
 
 const HomePage = async () => {
-  await renderEntreprises()
+  await renderEntreprises();
   await renderHomePage();
 };
 
 async function renderHomePage(){
   const main = document.querySelector('main');
-  const user = await getUserData();
+  const user = getAuthenticatedUser();
   console.log(user);
 
-  if(user.role === "A" || user.role === "P"){
+  if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
       <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
     </div>
   `;
-  } else if (user.role === "E") {
-    const contacts = await getContactsAllInfo();
-
+  } else if (user.user.role === "E") {
+    const contacts = await getContacts();
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
       <p>Aucune entreprise n'est disponible pour le moment.</p>
@@ -52,8 +57,11 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
             let button;
             if(contacts){
-              const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
-              console.log(contactFound);
+              
+              const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+
+
+              console.log("contact findddd",contactFound);
               if(!contactFound){
                 button = `
                 <div class="row">
@@ -156,12 +164,12 @@ async function renderHomePage(){
 
       searchButton.addEventListener('click', async () => {
         const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-        console.log('searchInput: ', searchInput);
+
         if (searchInput !== '') {
           searchResult = entreprises.filter(entreprise =>
               entreprise.nom.toLowerCase().includes(searchInput)
           );
-          console.log('searchResult: ', searchResult);
+
         } else {
           await renderEntreprises();
         }
@@ -169,6 +177,7 @@ async function renderHomePage(){
       });
 
       entreprises.forEach(entreprise => {
+        console.log('entreprise: ', entreprise)
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
@@ -180,9 +189,9 @@ async function renderHomePage(){
           initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
-            console.log('before insert informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await insertContact(entreprise.id, user.id, "initiated", null);
-            console.log('after insert')
+
+            await insertContact(entreprise, user.user, "initiated", null);
+
             await renderHomePage();
             initiatedButton.disabled = false;
           });
@@ -192,9 +201,7 @@ async function renderHomePage(){
           console.log('takenButton: ', takenButton)
           takenButton.addEventListener('click', async () => {
             takenButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "taken", null);
-            console.log('after update')
+            await updateContact(entreprise, user.user, "taken", null);
             await renderHomePage();
             takenButton.disabled = false;
           });
@@ -204,9 +211,7 @@ async function renderHomePage(){
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "accepted", null);
-            console.log('after update')
+            await updateContact(entreprise, user.user, "accepted", null);
             await renderHomePage();
             acceptedButton.disabled = false;
           });
@@ -217,9 +222,7 @@ async function renderHomePage(){
           stopFollowingButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             stopFollowingButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "Unsupervised", null);
-            console.log('after update')
+            await updateContact(entreprise, user.user, "Unsupervised", null);
             await renderHomePage();
             stopFollowingButton.disabled = false;
           });
@@ -236,7 +239,7 @@ async function renderHomePage(){
           document.querySelector(`#saveButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContact(entreprise.id, user.id, "refused", textInputValue);
+              await updateContact(entreprise, user.user, "refused", textInputValue);
               await renderHomePage();
             }
           });

@@ -13,6 +13,7 @@ public class ResponsableImpl implements ResponsableDTO {
   private String numTel;
   private String email;
   private EntrepriseDTO entreprise;
+  private int idEntreprise;
 
   /**
    * Gets the responsable ID.
@@ -134,4 +135,23 @@ public class ResponsableImpl implements ResponsableDTO {
     this.entreprise = entreprise;
   }
 
+  /**
+   * Gets the entreprise ID of the responsable.
+   *
+   * @return the entreprise ID of the responsable.
+   */
+  @Override
+  public int getIdEntreprise() {
+    return idEntreprise;
+  }
+
+  /**
+   * Sets the entreprise ID of the responsable.
+   *
+   * @param idEntreprise the new entreprise ID of the responsable.
+   */
+  @Override
+  public void setIdEntreprise(int idEntreprise) {
+    this.idEntreprise = idEntreprise;
+  }
 }

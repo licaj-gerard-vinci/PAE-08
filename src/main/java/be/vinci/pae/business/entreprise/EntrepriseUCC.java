@@ -9,6 +9,14 @@ import java.util.List;
 public interface EntrepriseUCC {
 
   /**
+   * Gets the associated entreprise.
+   *
+   * @param id the id of the entreprise.
+   * @return the associated entreprise.
+   */
+  EntrepriseDTO getEntreprise(int id);
+
+  /**
    * Retrieves all entreprises.
    *
    * @return the list containing all entreprises.

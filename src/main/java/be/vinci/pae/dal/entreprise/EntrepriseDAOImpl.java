@@ -22,6 +22,31 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   private Factory factory;
 
   /**
+   * Retrieves an entreprise from the database.
+   *
+   * @param id the id of the entreprise to retrieve.
+   * @return the entreprise with the specified id.
+   */
+  @Override
+  public EntrepriseDTO getEntreprise(int id) {
+    String query = "SELECT company_id, company_name, company_designation, "
+        + "company_address, company_phone_number FROM pae.companies "
+        + "WHERE company_id = ? AND company_is_blacklisted = false";
+
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setInt(1, id);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          return rsToEntreprises(rs);
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
+  }
+
+  /**
    * Retrieves all entreprises from the database.
    *
    * @return a list of all entreprises.
@@ -29,9 +54,9 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public List<EntrepriseDTO> getEntreprises() {
 
-    String query = "SELECT company_id,name, designation, "
-        + "address, phone_number FROM pae.companies "
-        + "WHERE is_blacklisted = false";
+    String query = "SELECT company_id, company_name, company_designation, "
+        + "company_address, company_phone_number FROM pae.companies "
+        + "WHERE company_is_blacklisted = false";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
@@ -49,10 +74,10 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   private EntrepriseDTO rsToEntreprises(ResultSet rs) throws SQLException {
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
     entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("name"));
-    entreprise.setAppellation(rs.getString("designation"));
-    entreprise.setAdresse(rs.getString("address"));
-    entreprise.setNumTel(rs.getString("phone_number"));
+    entreprise.setNom(rs.getString("company_name"));
+    entreprise.setAppellation(rs.getString("company_designation"));
+    entreprise.setAdresse(rs.getString("company_address"));
+    entreprise.setNumTel(rs.getString("company_phone_number"));
 
     return entreprise;
   }

@@ -1,11 +1,14 @@
 package be.vinci.pae.business.stage;
 
+import be.vinci.pae.business.contact.ContactDTO;
+import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.user.UserDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents the StageDTO interface.
  */
-
 @JsonDeserialize(as = StageImpl.class)
 public interface StageDTO {
 
@@ -28,56 +31,114 @@ public interface StageDTO {
    *
    * @return the stage Responsable.
    */
-  int getResponsable();
+  ResponsableDTO getResponsable();
 
   /**
    * Sets the stage Responsable.
    *
    * @param responsable the new stage Responsable.
    */
-  void setResponsable(int responsable);
+  void setResponsable(ResponsableDTO responsable);
+
+  /**
+   * Gets the stage Responsable ID.
+   *
+   * @return the stage Responsable ID.
+   */
+  int getIdResponsable();
+
+  /**
+   * Sets the stage Responsable ID.
+   *
+   * @param idResponsable the new stage Responsable ID.
+   */
+  void setIdResponsable(int idResponsable);
+
+
 
   /**
    * Gets the stage Etudiant.
    *
    * @return the stage Etudiant.
    */
-  int getEtudiant();
+  UserDTO getEtudiant();
 
   /**
    * Sets the stage Etudiant.
    *
    * @param etudiant the new stage Etudiant.
    */
-  void setEtudiant(int etudiant);
+  void setEtudiant(UserDTO etudiant);
+
+  /**
+   * Gets the stage Etudiant ID.
+   *
+   * @return the stage Etudiant ID.
+   */
+  int getIdEtudiant();
+
+  /**
+   * Sets the stage Etudiant ID.
+   *
+   * @param idEtudiant the new stage Etudiant ID.
+   */
+  void setIdEtudiant(int idEtudiant);
 
   /**
    * Gets the stage Contact.
    *
    * @return the stage Contact.
    */
-  int getContact();
+  ContactDTO getContact();
 
   /**
    * Sets the stage Contact.
    *
    * @param contact the new stage Contact.
    */
-  void setContact(int contact);
+  void setContact(ContactDTO contact);
+
+  /**
+   * Gets the stage Contact ID.
+   *
+   * @return the stage Contact ID.
+   */
+  int getIdContact();
+
+  /**
+   * Sets the stage Contact ID.
+   *
+   * @param idContact the new stage Contact ID.
+   */
+  void setIdContact(int idContact);
 
   /**
    * Gets the stage Entreprise.
    *
    * @return the stage Entreprise.
    */
-  int getEntreprise();
+  EntrepriseDTO getEntreprise();
 
   /**
    * Sets the stage Entreprise.
    *
    * @param entreprise the new stage Entreprise.
    */
-  void setEntreprise(int entreprise);
+  void setEntreprise(EntrepriseDTO entreprise);
+
+  /**
+   * Gets the stage Entreprise ID.
+   *
+   * @return the stage Entreprise ID.
+   */
+  int getIdEntreprise();
+
+  /**
+   * Sets the stage Entreprise ID.
+   *
+   * @param idEntreprise the new stage Entreprise ID.
+   */
+  void setIdEntreprise(int idEntreprise);
 
   /**
    * Gets the stage Sujet.

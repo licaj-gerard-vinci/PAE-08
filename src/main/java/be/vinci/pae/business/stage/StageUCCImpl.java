@@ -1,7 +1,9 @@
 package be.vinci.pae.business.stage;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * The Class StageUCCImpl.
@@ -11,6 +13,9 @@ public class StageUCCImpl implements StageUCC {
   @Inject
   private StageDAO stageDAO;
 
+  @Inject
+  private DALServices dalServices;
+
   /**
    * Gets the stage user.
    *
@@ -19,19 +24,37 @@ public class StageUCCImpl implements StageUCC {
    */
 
   public StageDTO getStageUser(int idUser) {
-    return stageDAO.getStageOfUser(idUser);
+    try {
+      dalServices.startTransaction();
+      StageDTO stage = stageDAO.getStageById(idUser);
+      dalServices.commitTransaction();
+      return stage;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
 
   /**
-   * Gets the detailed stage for user.
+   * Gets all stages.
    *
-   * @param idUser the id user
-   * @return the detailed stage for user
+   * @return all stages
    */
   @Override
-  public StageDetailedDTO getDetailedStageForUser(int idUser) {
-    return stageDAO.getDetailOfStage(idUser);
+  public List<StageDTO> getStages() {
+    try {
+      dalServices.startTransaction();
+      List<StageDTO> stages = stageDAO.getStages();
+      dalServices.commitTransaction();
+      return stages;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
-
 }

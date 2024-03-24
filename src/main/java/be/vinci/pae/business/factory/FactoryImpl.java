@@ -1,15 +1,17 @@
 package be.vinci.pae.business.factory;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactDetailledDTO;
 import be.vinci.pae.business.contact.ContactImpl;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseImpl;
+import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.responsable.ResponsableImpl;
 import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
 import be.vinci.pae.business.stage.StageImpl;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserImpl;
+import be.vinci.pae.business.year.YearDTO;
+import be.vinci.pae.business.year.YearImpl;
 
 /**
  * Implementation of the {@code UserFactory} interface, providing methods to create instances of
@@ -40,25 +42,6 @@ public class FactoryImpl implements Factory {
     return new StageImpl();
   }
 
-  /**
-   * Creates and returns a new instance of {@code StageDetailedDTO}.
-   *
-   * @return a new {@code StageDetailedDTO} instance.
-   */
-  @Override
-  public StageDetailedDTO getDetailedStageDTO() {
-    return new StageImpl();
-  }
-
-  /**
-   * Creates and returns a new instance of {@code ContactDTO}.
-   *
-   * @return a new {@code ContactDTO} instance.
-   */
-  @Override
-  public ContactDetailledDTO getDetailledContactDTO() {
-    return new ContactImpl();
-  }
 
   /**
    * Create a new EntrepriseDTO.
@@ -77,6 +60,24 @@ public class FactoryImpl implements Factory {
    */
   public ContactDTO getContactDTO() {
     return new ContactImpl();
+  }
+
+  /**
+   * year DTO.
+   *
+   * @return year DTO
+   */
+  @Override
+  public YearDTO getYearDTO() {
+    return new YearImpl();
+  }
+
+  /**
+   * Create a new ResponsableDTO.
+   */
+  @Override
+  public ResponsableDTO getResponsableDTO() {
+    return new ResponsableImpl();
   }
 }
 

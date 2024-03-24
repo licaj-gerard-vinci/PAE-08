@@ -1,5 +1,6 @@
 package be.vinci.pae.business.contact;
 
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -14,6 +15,9 @@ public class ContactUCCImpl implements ContactUCC {
   @Inject
   ContactDAO contactDAO;
 
+  @Inject
+  private DALServices dalServices;
+
 
   /**
    * Gets the contacts.
@@ -22,8 +26,18 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contacts.
    */
   @Override
-  public List<ContactDetailledDTO> getContacts(int idUser) {
-    return contactDAO.getContacts(idUser);
+  public List<ContactDTO> getContacts(int idUser) {
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> contacts = contactDAO.getContacts(idUser);
+      dalServices.commitTransaction();
+      return contacts;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
   /**
@@ -33,7 +47,17 @@ public class ContactUCCImpl implements ContactUCC {
    * @return A list of ContactDTO objects containing all contact information for the user.
    */
   public List<ContactDTO> getContactsAllInfo(int idUser) {
-    return contactDAO.getContactsAllInfo(idUser);
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> contacts = contactDAO.getContactsAllInfo(idUser);
+      dalServices.commitTransaction();
+      return contacts;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
   /**
@@ -42,7 +66,17 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact A ContactDTO object containing the information of the contact to be inserted.
    */
   public void insertContact(ContactDTO contact) {
-    contactDAO.insertContact(contact);
+    try {
+      dalServices.startTransaction();
+      contactDAO.insertContact(contact);
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
+
   }
 
   /**
@@ -51,7 +85,16 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact A ContactDTO object containing the updated information of the contact.
    */
   public void updateContact(ContactDTO contact) {
-    contactDAO.updateContact(contact);
+    try {
+      dalServices.startTransaction();
+      contactDAO.updateContact(contact);
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
 }

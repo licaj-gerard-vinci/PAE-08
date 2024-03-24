@@ -7,20 +7,23 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * Provides a data access layer service for creating prepared statements.
+ * The Class DALServiceImpl.
  */
 public class DALServiceImpl implements DALBackService, DALServices {
 
-  private ThreadLocal<Connection> connection;
-
+  private ThreadLocal<Connection> connection = new ThreadLocal<>();
+  private ThreadLocal<Integer> transactionCounter = new ThreadLocal<Integer>() {
+    @Override
+    protected Integer initialValue() {
+      return 0;
+    }
+  };
   private BasicDataSource dataSource;
 
   /**
-   * Constructs a Configuration object and initializes a database connection. If connection cannot
-   * be established, the application will terminate.
+   * Instantiates a new DAL service impl.
    */
   public DALServiceImpl() {
-    connection = new ThreadLocal<>();
     dataSource = new BasicDataSource();
 
     String url = Config.getProperty("DatabaseFilePath");
@@ -30,15 +33,8 @@ public class DALServiceImpl implements DALBackService, DALServices {
     dataSource.setUrl(url);
     dataSource.setUsername(user);
     dataSource.setPassword(password);
-
   }
 
-  /**
-   * Create a PS.
-   *
-   * @param query the query to be executed.
-   * @return the prepared statement.
-   */
   @Override
   public PreparedStatement preparedStatement(String query) {
     try {
@@ -49,59 +45,79 @@ public class DALServiceImpl implements DALBackService, DALServices {
   }
 
   /**
-   * Retrieves a connection to the database.
+   * Gets the connection.
    *
-   * @return the connection.
+   * @return the connection
    */
   public Connection getConnection() {
-    if (connection.get() == null) {
+    Connection conn = connection.get();
+    if (conn == null) {
       try {
-        connection.set(dataSource.getConnection());
+        conn = dataSource.getConnection();
+        connection.set(conn);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
     }
-    return connection.get();
+    return conn;
   }
 
-  /**
-   * Starts a transaction.
-   */
   @Override
   public void startTransaction() {
     try {
-      getConnection().setAutoCommit(false);
+      if (transactionCounter.get() == 0) {
+
+        getConnection().setAutoCommit(false);
+      }
+      transactionCounter.set(transactionCounter.get() + 1);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  /**
-   * Commits a transaction.
-   */
   @Override
   public void commitTransaction() {
     try {
-      getConnection().commit();
-      getConnection().setAutoCommit(true);
+      int counter = transactionCounter.get() - 1;
+      transactionCounter.set(counter);
+      if (counter == 0) {
+        getConnection().commit();
+        getConnection().setAutoCommit(true);
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  /**
-   * Rolls back a transaction.
-   */
   @Override
   public void rollbackTransaction() {
     try {
-      getConnection().rollback();
-      getConnection().setAutoCommit(true);
+      int counter = transactionCounter.get() - 1;
+      transactionCounter.set(counter);
+      if (counter == 0) {
+        getConnection().rollback();
+        getConnection().setAutoCommit(true);
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
+
+  @Override
+  public void close() {
+    try {
+      if (connection.get() != null) {
+        System.out.println("avant le close " + dataSource.getNumActive());
+        connection.get().close();
+        connection.remove();
+        transactionCounter.remove();
+        System.out.println("apres le close " + dataSource.getNumActive());
+
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+
 }
-
-
-

@@ -1,5 +1,6 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 
@@ -129,14 +130,14 @@ public interface UserDTO {
    *
    * @return the academic year of the user.
    */
-  String getYear();
+  YearDTO getYear();
 
   /**
    * Sets the academic year of the user.
    *
    * @param year the new academic year for the user.
    */
-  void setYear(String year);
+  void setYear(YearDTO year);
 
   /**
    * Gets the academic year of the user.

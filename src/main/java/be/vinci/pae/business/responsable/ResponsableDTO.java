@@ -95,5 +95,19 @@ public interface ResponsableDTO {
    */
   void setEntreprise(EntrepriseDTO entreprise);
 
+  /**
+   * Gets the entreprise ID.
+   *
+   * @return the entreprise ID.
+   */
+  int getIdEntreprise();
+
+  /**
+   * Sets the entreprise ID.
+   *
+   * @param idEntreprise the new entreprise ID.
+   */
+  void setIdEntreprise(int idEntreprise);
+
 
 }

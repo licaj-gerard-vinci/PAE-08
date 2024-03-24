@@ -1,7 +1,7 @@
 package be.vinci.pae.dal.stage;
 
 import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageDetailedDTO;
+import java.util.List;
 
 /**
  * The Interface StageDAO.
@@ -10,21 +10,21 @@ public interface StageDAO {
 
 
   /**
-   * Gets the stage of user.
+   * Gets all stages.
    *
-   * @param id the id
-   * @return the stage of user
+   * @return all stages
    */
 
-  StageDTO getStageOfUser(int id);
+  List<StageDTO> getStages();
 
   /**
-   * Gets the detail of stage.
+   * Gets the stage by id.
    *
    * @param id the id
-   * @return the detail of stage
+   * @return the stage by id
    */
+  StageDTO getStageById(int id);
 
-  StageDetailedDTO getDetailOfStage(int id);
+
 
 }

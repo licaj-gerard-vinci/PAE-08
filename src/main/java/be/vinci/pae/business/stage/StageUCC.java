@@ -1,5 +1,7 @@
 package be.vinci.pae.business.stage;
 
+import java.util.List;
+
 /**
  * The Interface StageUCC.
  */
@@ -15,11 +17,9 @@ public interface StageUCC {
   StageDTO getStageUser(int idUser);
 
   /**
-   * Gets the detailed stage for user.
+   * Gets all stages.
    *
-   * @param idUser the id user
-   * @return the detailed stage for user
+   * @return all stages
    */
-
-  StageDetailedDTO getDetailedStageForUser(int idUser);
+  List<StageDTO> getStages();
 }

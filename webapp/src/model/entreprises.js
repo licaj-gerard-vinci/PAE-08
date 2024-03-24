@@ -1,27 +1,29 @@
+import {
+    getToken,
+  } from '../utils/auths';
+
 async function getEntreprises(){
-    let entreprises = null;
+    let entreprise = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/entreprise`, options);
 
-    try {
-        const options = {
-            method: 'GET',
-            headers: {
-                'content-type': 'application/json'
-            }
-        }
+      if (!response.ok) {
+        const nonPresent = "Aucun stage n'est en cours"
 
-        const response = await fetch(`http://localhost:8080/entreprise`, options);
-
-        if (!response.ok) {
-            throw new Error(`Error fetchng entreprises data`);
-        
-        }
-
-        entreprises = await response.json();
-    } catch (error) {
-        console.log('Error fetching entreprise data');
+        return nonPresent;
+      }
+      entreprise = await response.json();
     }
 
-    return entreprises;
+    return entreprise;
 }
 
 export default getEntreprises;
