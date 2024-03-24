@@ -66,11 +66,18 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public List<UserDTO> getAll() {
-    List<UserDTO> users = userDAO.getAllUsers();
-    if(users == null){
-      return null;
+    try {
+      dalServices.startTransaction();
+      List<UserDTO> users = userDAO.getAllUsers();
+      dalServices.commitTransaction();
+      return users;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw new RuntimeException(e);
+    } finally {
+      dalServices.close();
     }
-    return users;
+   
   }
 
   /**

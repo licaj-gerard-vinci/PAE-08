@@ -64,15 +64,13 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public List<ContactDTO> getContactsAllInfo(int id) {
 
-    String query = "SELECT contact_id, contact_status, contact_meeting_place, contact_refusal_reason, "
-        + "company_id, company_name, company_designation, company_address, company_city, company_phone_number, company_email, company_is_blacklisted, company_blacklist_reason, "
-        + "user_id, user_email, user_lastname, user_firstname, user_phone_number, user_registration_date, user_role, user_password, "
-        + "school_year_id, year "
-        + "FROM pae.contacts "
-        + "JOIN pae.users ON contact_student_id = user_id "
-        + "JOIN pae.companies ON company_id = company_id "
-        + "JOIN pae.school_years ON user_school_year_id = school_year_id "
-        + "WHERE user_id = ?;";
+    String query =
+        "SELECT c.*, u.*, comp.*, sy.* "
+            + "FROM pae.contacts c "
+            + "JOIN pae.users u ON c.contact_student_id = u.user_id "
+            + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
+            + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
+            + "WHERE u.user_id = ?";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
@@ -101,8 +99,10 @@ public class ContactDAOImpl implements ContactDAO {
     String query = "INSERT INTO pae.contacts "
         + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(2, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
+      statement.setInt(1,
+          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(2,
+          contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -122,8 +122,10 @@ public class ContactDAOImpl implements ContactDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getRaisonRefus());
-      statement.setInt(3, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(4, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
+      statement.setInt(3,
+          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(4,
+          contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -143,7 +145,6 @@ public class ContactDAOImpl implements ContactDAO {
     UserDTO user = factory.getPublicUser();
     YearDTO year = factory.getYearDTO();
     ContactDTO contact = factory.getContactDTO();
-
 
     //ENTREPRISE
     entreprise.setId(rs.getInt("company_id"));
@@ -177,6 +178,8 @@ public class ContactDAOImpl implements ContactDAO {
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
 
     contact.setEntreprise(entreprise);
+    contact.setIdEntreprise(entreprise.getId());
+    contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
     contact.setAnnee(year);
 

@@ -44,11 +44,11 @@ function renderProfile(user) {
 
   const profileHTML = `
     <h2 style="text-align: center; margin-bottom: 30px;">Bonjour</h2>
-    <p><strong>Email :</strong> ${user.email}</p>
-    <p><strong>Nom :</strong> ${user.name}</p>
-    <p><strong>Prénom :</strong> ${user.firstName}</p>
-    <p><strong>Nr de téléphone :</strong> ${user.numTel}</p>
-    ${user.role && user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.role)}</p>` : ''}
+    <p><strong>Email :</strong> ${user.user.email}</p>
+    <p><strong>Nom :</strong> ${user.user.lastname}</p>
+    <p><strong>Prénom :</strong> ${user.user.firstname}</p>
+    <p><strong>Nr de téléphone :</strong> ${user.user.phone}</p>
+    ${user.user.role && user.user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.user)}</p>` : ''}
     <div style="text-align: center; margin-top: 30px;">
       <button class="btn btn-primary">Modifier informations</button>
       <button class="btn btn-secondary">Se déconnecter</button>

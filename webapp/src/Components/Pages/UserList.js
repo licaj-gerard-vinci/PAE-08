@@ -5,14 +5,20 @@ import { getAllUsers } from '../../model/users';
 
 
 
-const UserList = () =>{
-const authenticatedUser = getAuthenticatedUser();
-if(!authenticatedUser) {
+const UserList = () => {
+  const authenticatedUser = getAuthenticatedUser();
+  if (!authenticatedUser) {
     Navigate('/');
     return;
-}
+    
+  }
+  if (authenticatedUser.user.role === 'E') {
+    Navigate('/');
+    return;
+  }
+  
 
-renderUserList();
+  renderUserList();
 }
 async function renderUserList() {
     const main = document.querySelector('main');

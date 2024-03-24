@@ -53,8 +53,8 @@ function renderNavbar() {
 
 
     const user = getAuthenticatedUser();
-    const userFirstName = user?.firstName || '';
-    const userName = user?.name || '';
+    const userFirstName = user?.user?.firstname || '';
+    const userName = user?.user?.lastname || '';
     
 
     const authenticatedUser = `

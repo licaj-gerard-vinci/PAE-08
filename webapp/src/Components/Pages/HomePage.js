@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   getContacts,
   insertContact,
@@ -24,6 +25,7 @@ async function renderHomePage(){
   const main = document.querySelector('main');
   const user = getAuthenticatedUser();
   console.log(user);
+  console.log(user.user.role);
 
   if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
@@ -31,8 +33,9 @@ async function renderHomePage(){
       <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
     </div>
   `;
-  } else if (user.role === "E") {
+  } else if (user.user.role === "E") {
     const contacts = await getContacts();
+    console.log('contactssasas: ', contacts);
 
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
@@ -57,8 +60,11 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
             let button;
             if(contacts){
-              const contactFound = contacts.find(contact => contact.entreprise === entreprise.id);
-              console.log(contactFound);
+              
+              const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+
+
+              console.log("contact findddd",contactFound);
               if(!contactFound){
                 button = `
                 <div class="row">
@@ -115,7 +121,7 @@ async function renderHomePage(){
                   <div class="col"></div>
                 </div>`;
               }
-              else if (contactFound.etatContact === 'Unsupervised'){
+              else if (contactFound.etatContact === 'on hold'){
                 button = `
                 <div class="d-flex justify-content-center">
                   <p>Contact n'est plu suivi</p>
@@ -174,6 +180,7 @@ async function renderHomePage(){
       });
 
       entreprises.forEach(entreprise => {
+        console.log('entreprise: ', entreprise)
         const initiatedButton = document.querySelector(`#initiatedButton${entreprise.id}`);
         const takenButton = document.querySelector(`#takenButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);

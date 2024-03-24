@@ -12,7 +12,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
   private ThreadLocal<Integer> transactionCounter = new ThreadLocal<Integer>() {
     @Override
     protected Integer initialValue() {
-      return 0; // Initialiser le compteur de transaction à 0 pour chaque thread
+      return 0;
     }
   };
   private BasicDataSource dataSource;
@@ -42,9 +42,9 @@ public class DALServiceImpl implements DALBackService, DALServices {
     Connection conn = connection.get();
     if (conn == null) {
       try {
-        System.out.println("avant la conexion "+ dataSource.getNumActive());
+        System.out.println("avant la conexion " + dataSource.getNumActive());
         conn = dataSource.getConnection();
-      System.out.println("apres la conexion "+ dataSource.getNumActive());
+        System.out.println("apres la conexion " + dataSource.getNumActive());
         connection.set(conn);
       } catch (SQLException e) {
         throw new RuntimeException(e);
@@ -71,7 +71,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     try {
       int counter = transactionCounter.get() - 1;
       transactionCounter.set(counter);
-      if (counter == 0) { // Commit seulement si c'est la transaction de niveau le plus externe
+      if (counter == 0) {
         getConnection().commit();
         getConnection().setAutoCommit(true);
       }
@@ -85,7 +85,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     try {
       int counter = transactionCounter.get() - 1;
       transactionCounter.set(counter);
-      if (counter == 0) { // Rollback seulement si c'est la transaction de niveau le plus externe
+      if (counter == 0) {
         getConnection().rollback();
         getConnection().setAutoCommit(true);
       }
@@ -100,8 +100,8 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (connection.get() != null) {
         System.out.println("avant le close " + dataSource.getNumActive());
         connection.get().close();
-        connection.remove(); // Assurez-vous de nettoyer la référence de la connexion
-        transactionCounter.remove(); // Nettoyer le compteur de transaction pour le thread actuel
+        connection.remove();
+        transactionCounter.remove();
         System.out.println("apres le close " + dataSource.getNumActive());
 
       }
