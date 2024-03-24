@@ -17,23 +17,23 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   @Inject
   private DALServices dalServices;
 
-    /**
-     * Gets the associated entreprise.
-     *
-     * @param id the id of the entreprise.
-     * @return the associated entreprise.
-     */
-    @Override
-    public EntrepriseDTO getEntreprise(int id) {
-      if(id <= 0) {
-        return null; //Il faut retourner une exception ici, pas null
-      }
-      EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
-      if (entreprise == null) {
-        return null; //Il faut retourner une exception ici, pas null
-      }
-      return entreprise;
+  /**
+   * Gets the associated entreprise.
+   *
+   * @param id the id of the entreprise.
+   * @return the associated entreprise.
+   */
+  @Override
+  public EntrepriseDTO getEntreprise(int id) {
+    if (id <= 0) {
+      return null; //Il faut retourner une exception ici, pas null
     }
+    EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
+    if (entreprise == null) {
+      return null; //Il faut retourner une exception ici, pas null
+    }
+    return entreprise;
+  }
 
   /**
    * Retrieves all entreprises.

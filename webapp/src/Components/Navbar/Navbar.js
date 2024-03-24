@@ -78,6 +78,7 @@ function renderNavbar() {
         </a>
 
         <div class="d-flex align-items-center ms-auto text-white">
+          <a class="nav-link" href="#" data-uri="/users" style="margin-right: 15px;">Recherche utilisateur</a>
           <a class="nav-link" href="#" data-uri="/logout" style="margin-right: 15px;">Se déconnecter</a>
           <a class="nav-link" href="#" data-uri="/profile"> ${userFirstName} ${userName} </a>
         </div>

@@ -14,7 +14,6 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -22,8 +21,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -104,6 +101,7 @@ public class AuthResource {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
     if (!user.getEmail().endsWith("@student.vinci.be") && !user.getEmail().endsWith("@vinci.be")) {
+
       throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
     }
 

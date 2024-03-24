@@ -6,8 +6,8 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.user.UserDTO;
-import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
+import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +25,11 @@ public class StageDAOImpl implements StageDAO {
   private DALBackService dalBackService;
 
   @Inject
+  private DALBackServiceUtils dalBackServiceUtils;
+
+  @Inject
   private Factory factory;
+
 
   /**
    * Gets all stage.
@@ -65,7 +69,8 @@ public class StageDAOImpl implements StageDAO {
   public StageDTO getStageById(int userId) {
     String query =
         "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
-            + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, pae.companies com, pae.school_years sch "
+            + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, "
+            + "pae.companies com, pae.school_years sch "
             + "WHERE int.internship_manager_id = man.manager_id "
             + "AND int.internship_student_id = use.user_id "
             + "AND int.internship_contact_id = con.contact_id "
@@ -97,65 +102,20 @@ public class StageDAOImpl implements StageDAO {
    */
 
   public StageDTO rsToStage(ResultSet rs) throws SQLException {
-
     StageDTO stage = factory.getStageDTO();
-    ResponsableDTO responsable = factory.getResponsableDTO();
-    UserDTO etudiant = factory.getPublicUser();
-    ContactDTO contact = factory.getContactDTO();
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    YearDTO year = factory.getYearDTO();
 
-    //Add year info
-    year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
+    // Fill DTOs using methods from DALBackServiceUtils
+    ResponsableDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs);
+    UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs);
+    ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs);
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
 
-    //Add manager info
-    responsable.setId(rs.getInt("manager_id"));
-    responsable.setNom(rs.getString("manager_lastname"));
-    responsable.setPrenom(rs.getString("manager_firstname"));
-    responsable.setNumTel(rs.getString("manager_phone_number"));
-    responsable.setEmail(rs.getString("manager_email"));
-    responsable.setIdEntreprise(rs.getInt("manager_company_id"));
-
-    //Add student info
-    etudiant.setId(rs.getInt("user_id"));
-    etudiant.setEmail(rs.getString("user_email"));
-    etudiant.setLastname(rs.getString("user_lastname"));
-    etudiant.setFirstname(rs.getString("user_firstname"));
-    etudiant.setPhone(rs.getString("user_phone_number"));
-    etudiant.setPassword(rs.getString("user_password"));
-    etudiant.setRegistrationDate(rs.getDate("user_registration_date"));
-    etudiant.setRole(rs.getString("user_role"));
-    etudiant.setYear(year);
-    etudiant.setHasInternship(rs.getBoolean("user_has_internship"));
-
-    //Add contact info
-    contact.setId(rs.getInt("contact_id"));
-    contact.setEntreprise(entreprise);
-    contact.setIdEntreprise(rs.getInt("contact_company_id"));
-    contact.setUtilisateur(etudiant);
-    contact.setIdUtilisateur(rs.getInt("contact_student_id"));
-    contact.setEtatContact(rs.getString("contact_status"));
-    contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
-    contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
-    contact.setAnnee(year);
-
-    //Add entreprise info
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("company_name"));
-    entreprise.setAppellation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setNumTel(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
-
-    //Add stage info
+    // Add stage info
     stage.setId(rs.getInt("internship_id"));
     stage.setSujet(rs.getString("internship_topic"));
     stage.setdateSignature(rs.getString("internship_date_of_signature"));
 
+    // Set filled DTOs to stage
     stage.setResponsable(responsable);
     stage.setIdResponsable(responsable.getId());
     stage.setEtudiant(etudiant);
@@ -166,7 +126,5 @@ public class StageDAOImpl implements StageDAO {
     stage.setIdEntreprise(entreprise.getId());
 
     return stage;
-
-
   }
 }

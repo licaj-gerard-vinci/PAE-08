@@ -32,7 +32,7 @@ public interface ContactUCC {
    *
    * @param contact A ContactDTO object containing the information of the contact to be inserted.
    */
-  void insertContact(ContactDTO contact) throws SQLException;
+  void insertContact(ContactDTO contact);
 
   /**
    * Updates a contact to the 'taken' state.

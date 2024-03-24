@@ -102,7 +102,8 @@ public class UserDAOImpl implements UserDAO {
   public UserDTO insertUser(UserDTO user) {
     String query =
         "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname, "
-            + "user_school_year_id, user_phone_number, user_role, user_registration_date, user_has_internship) "
+            + "user_school_year_id, user_phone_number, user_role, user_registration_date, "
+            + "user_has_internship) "
             + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE) RETURNING user_id;";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());

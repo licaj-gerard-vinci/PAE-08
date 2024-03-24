@@ -64,10 +64,18 @@ public interface EntrepriseDTO {
    */
   void setAdresse(String adresse);
 
-
+  /**
+   * Gets the city of the entreprise.
+   *
+   * @return the city of the entreprise.
+   */
   String getCity();
 
-
+  /**
+   * Sets the city of the entreprise.
+   *
+   * @param city the new city for the entreprise.
+   */
   void setCity(String city);
 
 

@@ -6,6 +6,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
+import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,9 @@ public class ContactDAOImpl implements ContactDAO {
   private DALBackService dalBackService;
 
   @Inject
+  private DALBackServiceUtils dalBackServiceUtils;
+
+  @Inject
   private Factory factory;
 
   /**
@@ -33,7 +37,8 @@ public class ContactDAOImpl implements ContactDAO {
   @Override
   public List<ContactDTO> getContacts(int id) {
     String query =
-        "SELECT comp.company_name, comp.company_designation, con.contact_contact_status, con.contact_meeting_place"
+        "SELECT comp.company_name, comp.company_designation, con.contact_contact_status,"
+            + " con.contact_meeting_place"
             + ", con.contact_refusal_reason, con.contact_contact_id "
             + "FROM pae.users AS usr "
             + "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
@@ -127,10 +132,11 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
-        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) VALUES (1, ?, ?, ?)";
+        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) "
+        + "VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(2, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
+      statement.setInt(1, contact.getEntreprise().getId());
+      statement.setInt(2, contact.getUtilisateur().getId());
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -169,45 +175,21 @@ public class ContactDAOImpl implements ContactDAO {
    * @throws SQLException the SQL exception
    */
   private ContactDTO rsToContact(ResultSet rs) throws SQLException {
-
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    UserDTO user = factory.getPublicUser();
     YearDTO year = factory.getYearDTO();
-    ContactDTO contact = factory.getContactDTO();
-
-    //ENTREPRISE
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("company_name"));
-    entreprise.setAppellation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setNumTel(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
-
-    //USER
-    user.setId(rs.getInt("user_id"));
-    user.setEmail(rs.getString("user_email"));
-    user.setLastname(rs.getString("user_lastname"));
-    user.setFirstname(rs.getString("user_firstname"));
-    user.setPhone(rs.getString("user_phone_number"));
-    user.setRegistrationDate(rs.getDate("user_registration_date"));
-    user.setRole(rs.getString("user_role"));
-    user.setPassword(rs.getString("user_password"));
-
-    //YEAR
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
 
-    //CONTACT
+    ContactDTO contact = factory.getContactDTO();
+
     contact.setId(rs.getInt("contact_id"));
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
 
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
     contact.setEntreprise(entreprise);
     contact.setIdEntreprise(entreprise.getId());
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
     contact.setAnnee(year);

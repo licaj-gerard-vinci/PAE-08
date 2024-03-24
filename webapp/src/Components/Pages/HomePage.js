@@ -25,7 +25,6 @@ async function renderHomePage(){
   const main = document.querySelector('main');
   const user = getAuthenticatedUser();
   console.log(user);
-  console.log(user.user.role);
 
   if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
@@ -178,7 +177,6 @@ async function renderHomePage(){
             initiatedButton.disabled = true;
             console.log('before insert informations: entrepriseId: ', entreprise, ', userId: ', user)
             await insertContact(entreprise, user.user, "initiated");
-            console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
           });
@@ -198,6 +196,7 @@ async function renderHomePage(){
               await updateContactTaken(entreprise.id, user.id, "taken", textInputValue);
               await renderHomePage();
             }
+
           });
         }
 

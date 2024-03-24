@@ -2,16 +2,14 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
-import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-
 import java.util.List;
 
 /**
@@ -38,20 +36,20 @@ public class EntrepriseResource {
     return myEntrepriseUcc.getEntreprises();
   }
 
-    /**
-     * Retrieves an entreprise with the specified id.
-     *
-     * @param id The id of the entreprise to retrieve.
-     * @return The entreprise with the specified id.
-     */
-    @GET
-    @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Authorize
-    public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
-      if(id <= 0) {
-        return null; //Il faut retourner une exception ici, pas null
-      }
-      return myEntrepriseUcc.getEntreprise(id);
+  /**
+   * Retrieves an entreprise with the specified id.
+   *
+   * @param id The id of the entreprise to retrieve.
+   * @return The entreprise with the specified id.
+   */
+  @GET
+  @Path("/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
+    if (id <= 0) {
+      return null; //Il faut retourner une exception ici, pas null
     }
+    return myEntrepriseUcc.getEntreprise(id);
+  }
 }
