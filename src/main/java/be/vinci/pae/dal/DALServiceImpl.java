@@ -42,9 +42,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     Connection conn = connection.get();
     if (conn == null) {
       try {
-        System.out.println("avant la conexion " + dataSource.getNumActive());
         conn = dataSource.getConnection();
-        System.out.println("apres la conexion " + dataSource.getNumActive());
         connection.set(conn);
       } catch (SQLException e) {
         throw new RuntimeException(e);

@@ -1,0 +1,17 @@
+### Login with default user credentials
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "Carole.skile@student.vinci.be",
+  "password": "a"
+}
+
+> {%
+  client.global.set("token", response.body.token);
+%}
+
+### Get all companies
+GET {{baseUrl}}/entreprise
+Content-Type: application/json
+Authorization: {{token}}

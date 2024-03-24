@@ -140,7 +140,7 @@ import Navigate from '../Components/Router/Navigate';
         method: 'POST',
         body: JSON.stringify({
           entreprise : entrepriseObject,
-          utilisateur: userObject.user,
+          utilisateur: userObject,
           etatContact: etat
         }),
         headers: {

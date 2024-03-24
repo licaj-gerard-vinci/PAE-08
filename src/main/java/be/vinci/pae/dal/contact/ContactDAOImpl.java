@@ -99,10 +99,8 @@ public class ContactDAOImpl implements ContactDAO {
     String query = "INSERT INTO pae.contacts "
         + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1,
-          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(2,
-          contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
+      statement.setInt(1, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(2, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {

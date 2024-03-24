@@ -121,7 +121,7 @@ async function renderHomePage(){
                   <div class="col"></div>
                 </div>`;
               }
-              else if (contactFound.etatContact === 'on hold'){
+              else if (contactFound.etatContact === 'Unsupervised'){
                 button = `
                 <div class="d-flex justify-content-center">
                   <p>Contact n'est plu suivi</p>
@@ -193,7 +193,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
             console.log('before insert informations: entrepriseId: ', entreprise, ', userId: ', user)
-            await insertContact(entreprise, user, "initiated", null);
+            await insertContact(entreprise, user.user, "initiated", null);
             console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
@@ -205,7 +205,7 @@ async function renderHomePage(){
           takenButton.addEventListener('click', async () => {
             takenButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
-            await updateContact(entreprise, user, "taken", null);
+            await updateContact(entreprise, user.user, "taken", null);
             console.log('after update')
             await renderHomePage();
             takenButton.disabled = false;
@@ -216,8 +216,8 @@ async function renderHomePage(){
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "accepted", null);
+            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
+            await updateContact(entreprise, user.user, "accepted", null);
             console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
@@ -230,7 +230,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             stopFollowingButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "Unsupervised", null);
+            await updateContact(entreprise, user.user, "Unsupervised", null);
             console.log('after update')
             await renderHomePage();
             stopFollowingButton.disabled = false;
@@ -248,7 +248,7 @@ async function renderHomePage(){
           document.querySelector(`#saveButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContact(entreprise.id, user.id, "refused", textInputValue);
+              await updateContact(entreprise, user.user, "refused", textInputValue);
               await renderHomePage();
             }
           });
