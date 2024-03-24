@@ -3,6 +3,7 @@ package be.vinci.pae.presentation;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
+import be.vinci.pae.presentation.filters.Log;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -31,6 +32,7 @@ import jakarta.ws.rs.core.Response.Status;
  */
 @Singleton
 @Path("auth")
+@Log
 public class AuthResource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
@@ -76,7 +78,6 @@ public class AuthResource {
   }
 
   /**
-
    * Registers a new user by creating a new account with the given details. The method expects a
    * JSON object containing the necessary user details and returns a JSON object with the
    * authentication result.

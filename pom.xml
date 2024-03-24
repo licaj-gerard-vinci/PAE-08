@@ -43,8 +43,18 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
+			<artifactId>log4j-api</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<version>2.20.0</version>
+		</dependency>
+		<dependency>
+			<artifactId>log4j-core</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<version>2.20.0</version>
+		</dependency>
+		<dependency>
 			<artifactId>commons-dbcp2</artifactId>
+			<groupId>org.apache.commons</groupId>
 			<version>2.12.0</version>
 		</dependency>
 		<dependency>
