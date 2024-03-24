@@ -218,6 +218,7 @@ public class UserImpl implements User {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
+
   /**
    * Gets the user's school year.
    *
@@ -254,13 +255,5 @@ public class UserImpl implements User {
     this.hasInternship = hasInternship;
   }
 
-  /**
-   * return string of attributs.
-   */
-  @Override
-  public String toString() {
-    return "id=" + id + ", email='" + email + '\'' + ", nom='" + lastname + '\'' + ", prenom='"
-        + firstname + '\'' + ", numTel='" + phone + '\'' + ", dateInscription=" + registrationDate
-        + ", role='" + role + '\'' + ", password='" + password + '\'' + '}';
-  }
+
 }

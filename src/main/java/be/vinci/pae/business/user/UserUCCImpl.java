@@ -1,5 +1,6 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
@@ -15,7 +16,6 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private UserDAO userDAO;
-
   @Inject
   private DALServices dalServices;
 
@@ -26,10 +26,13 @@ public class UserUCCImpl implements UserUCC {
    * @return the registered user.
    */
   @Override
-  public UserDTO login(String email, String password) throws IllegalArgumentException {
+  public UserDTO login(String email, String password) {
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(email);
+      if (user == null || !user.checkPassword(password)) {
+        return null;
+      }
       dalServices.commitTransaction();
       return user;
     } catch (Exception e) {
@@ -69,6 +72,9 @@ public class UserUCCImpl implements UserUCC {
     try {
       dalServices.startTransaction();
       List<UserDTO> users = userDAO.getAllUsers();
+      if (users == null) {
+        return null;
+      }
       dalServices.commitTransaction();
       return users;
     } catch (Exception e) {
@@ -87,14 +93,24 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
+
+    if (!userDTO.getEmail().matches("^[a-zA-Z]+\\.[a-zA-Z]+@.*")) {
+      return null;
+    }
+    if (userDTO.getEmail().endsWith("@student.vinci.be")) {
+      userDTO.setRole("E");
+    } else if (userDTO.getEmail().endsWith("@vinci.be")) {
+      if (!userDTO.getRole().equals("A") && !userDTO.getRole().equals("P")) {
+        return null;
+      }
+    } else {
+      return null;
+    }
+
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
       if (user != null) {
-        return null;
-      }
-      if (!userDTO.getRole().equals("E") && !userDTO.getRole().equals("A")
-          && !userDTO.getRole().equals("P")) {
         return null;
       }
       userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
