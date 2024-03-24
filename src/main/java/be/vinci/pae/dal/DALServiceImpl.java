@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * The Class DALServiceImpl.
+ */
 public class DALServiceImpl implements DALBackService, DALServices {
 
   private ThreadLocal<Connection> connection = new ThreadLocal<>();
@@ -17,6 +20,9 @@ public class DALServiceImpl implements DALBackService, DALServices {
   };
   private BasicDataSource dataSource;
 
+  /**
+   * Instantiates a new DAL service impl.
+   */
   public DALServiceImpl() {
     dataSource = new BasicDataSource();
 
@@ -38,6 +44,11 @@ public class DALServiceImpl implements DALBackService, DALServices {
     }
   }
 
+  /**
+   * Gets the connection.
+   *
+   * @return the connection
+   */
   public Connection getConnection() {
     Connection conn = connection.get();
     if (conn == null) {

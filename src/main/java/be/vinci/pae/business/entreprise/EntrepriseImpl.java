@@ -114,11 +114,11 @@ public class EntrepriseImpl implements EntrepriseDTO {
   }
 
 
-  public String getCity(){
+  public String getCity() {
     return city;
   }
 
-  public void setCity(String city){
+  public void setCity(String city) {
     this.city = city;
   }
 

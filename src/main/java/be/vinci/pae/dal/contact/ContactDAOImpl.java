@@ -33,7 +33,8 @@ public class ContactDAOImpl implements ContactDAO {
   @Override
   public List<ContactDTO> getContacts(int id) {
     String query =
-        "SELECT comp.company_name, comp.company_designation, con.contact_contact_status, con.contact_meeting_place"
+        "SELECT comp.company_name, comp.company_designation, con.contact_contact_status,"
+            + " con.contact_meeting_place"
             + ", con.contact_refusal_reason, con.contact_contact_id "
             + "FROM pae.users AS usr "
             + "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
@@ -97,10 +98,11 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
-        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) VALUES (1, ?, ?, ?)";
+        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) "
+        + "VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(2, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
+      statement.setInt(1, contact.getEntreprise().getId());
+      statement.setInt(2, contact.getUtilisateur().getId());
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -140,10 +142,6 @@ public class ContactDAOImpl implements ContactDAO {
   private ContactDTO rsToContact(ResultSet rs) throws SQLException {
 
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    UserDTO user = factory.getPublicUser();
-    YearDTO year = factory.getYearDTO();
-    ContactDTO contact = factory.getContactDTO();
-
     //ENTREPRISE
     entreprise.setId(rs.getInt("company_id"));
     entreprise.setNom(rs.getString("company_name"));
@@ -155,6 +153,7 @@ public class ContactDAOImpl implements ContactDAO {
     entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
     entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
 
+    UserDTO user = factory.getPublicUser();
     //USER
     user.setId(rs.getInt("user_id"));
     user.setEmail(rs.getString("user_email"));
@@ -165,10 +164,12 @@ public class ContactDAOImpl implements ContactDAO {
     user.setRole(rs.getString("user_role"));
     user.setPassword(rs.getString("user_password"));
 
+    YearDTO year = factory.getYearDTO();
     //YEAR
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
 
+    ContactDTO contact = factory.getContactDTO();
     //CONTACT
     contact.setId(rs.getInt("contact_id"));
     contact.setEtatContact(rs.getString("contact_status"));

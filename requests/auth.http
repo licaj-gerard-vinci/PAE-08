@@ -16,10 +16,10 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "test.ramadani@student.vinci.be",
+  "email": "zeub.humide@student.vinci.be",
   "password": "a",
-  "lastname": "resul",
-  "firstname": "ramadani",
+  "lastname": "zeub",
+  "firstname": "humide",
   "phone": "123456789",
   "role": "E"
 }

@@ -1,7 +1,6 @@
 package be.vinci.pae.business.stage;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactImpl;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;

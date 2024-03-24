@@ -1,6 +1,5 @@
 package be.vinci.pae.business.user;
 
-import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import jakarta.inject.Inject;
@@ -110,6 +109,7 @@ public class UserUCCImpl implements UserUCC {
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
+      System.out.println(user);
       if (user != null) {
         return null;
       }

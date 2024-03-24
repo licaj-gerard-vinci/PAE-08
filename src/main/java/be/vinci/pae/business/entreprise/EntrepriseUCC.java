@@ -1,7 +1,5 @@
 package be.vinci.pae.business.entreprise;
 
-import be.vinci.pae.business.user.UserDTO;
-
 import java.util.List;
 
 /**
