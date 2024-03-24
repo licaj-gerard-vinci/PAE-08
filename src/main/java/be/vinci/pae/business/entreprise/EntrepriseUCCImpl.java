@@ -18,11 +18,11 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   private DALServices dalServices;
 
   /**
-     * Gets the associated entreprise.
-     *
-     * @param id the id of the entreprise.
-     * @return the associated entreprise.
-     */
+   * Gets the associated entreprise.
+   *
+   * @param id the id of the entreprise.
+   * @return the associated entreprise.
+   */
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     if (id <= 0) {

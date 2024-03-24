@@ -29,6 +29,8 @@ public class StageDAOImpl implements StageDAO {
 
   @Inject
   private Factory factory;
+
+
   /**
    * Gets all stage.
    *
@@ -67,7 +69,8 @@ public class StageDAOImpl implements StageDAO {
   public StageDTO getStageById(int userId) {
     String query =
         "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
-            + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, pae.companies com, pae.school_years sch "
+            + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, "
+            + "pae.companies com, pae.school_years sch "
             + "WHERE int.internship_manager_id = man.manager_id "
             + "AND int.internship_student_id = use.user_id "
             + "AND int.internship_contact_id = con.contact_id "

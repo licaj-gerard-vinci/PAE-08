@@ -10,11 +10,22 @@ import jakarta.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Utility class for data access layer back-end services.
+ * Provides methods to fill DTOs from SQL ResultSet data.
+ */
 public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
 
   @Inject
   private Factory factory;
 
+  /**
+   * Fills a UserDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing user data.
+   * @return UserDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   @Override
   public  UserDTO fillUserDTO(ResultSet rs) throws SQLException {
     User user = (User) factory.getPublicUser();
@@ -30,6 +41,13 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     return user;
   }
 
+  /**
+   * Fills a ContactDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing contact data.
+   * @return ContactDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   public ContactDTO fillContactDTO(ResultSet rs) throws SQLException {
     ContactDTO contact = (ContactDTO) factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
@@ -39,6 +57,13 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     return contact;
   }
 
+  /**
+   * Fills a ResponsableDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing manager data.
+   * @return ResponsableDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   public ResponsableDTO fillResponsableDTO(ResultSet rs) throws SQLException {
     ResponsableDTO responsable = (ResponsableDTO) factory.getResponsableDTO();
     responsable.setId(rs.getInt("manager_id"));
@@ -50,6 +75,13 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     return responsable;
   }
 
+  /**
+   * Fills an EntrepriseDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing company data.
+   * @return EntrepriseDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   public EntrepriseDTO fillEntrepriseDTO(ResultSet rs) throws SQLException {
     EntrepriseDTO entreprise = (EntrepriseDTO) factory.getEntrepriseDTO();
     entreprise.setId(rs.getInt("company_id"));
