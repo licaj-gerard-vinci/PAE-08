@@ -27,11 +27,17 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO login(String email, String password) throws IllegalArgumentException {
-    User user = (User) userDAO.getOneByEmail(email);
-    if (user != null && user.checkPassword(password)) {
+    try {
+      dalServices.startTransaction();
+      User user = (User) userDAO.getOneByEmail(email);
+      dalServices.commitTransaction();
       return user;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw new RuntimeException(e);
+    } finally {
+      dalServices.close();
     }
-    return null;
   }
 
   /**
@@ -42,11 +48,17 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO getOne(int id) {
-    User user = (User) userDAO.getOneById(id);
-    if (user == null) {
-      return null;
+    try {
+      dalServices.startTransaction();
+      User user = (User) userDAO.getOneById(id);
+      dalServices.commitTransaction();
+      return user;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw new RuntimeException(e);
+    } finally {
+      dalServices.close();
     }
-    return user;
   }
 
   /**

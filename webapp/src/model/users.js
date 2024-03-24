@@ -90,7 +90,7 @@ import Navigate from '../Components/Router/Navigate';
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/auth/contacts`, options);
+      const response = await fetch(`http://localhost:8080/contacts`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";
@@ -132,43 +132,15 @@ import Navigate from '../Components/Router/Navigate';
     return user;
   }
 
-  async function getContactsAllInfo(){
-    let contacts = [];
+  async function insertContact(entrepriseObject, userObject, etat) {
     const token = getToken();
     if(token) {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-
-      try {
-        const response = await fetch(`http://localhost:8080/contacts`, options);
-  
-        if (!response.ok) {
-          throw new Error(`Error fetching contacts data: ${response.statusText}`);
-        }
-  
-        contacts = await response.json();
-      } catch (error) {
-        console.error('Error fetching contacts data');
-      }
-    }
-
-    return contacts;
-  }
-
-  async function insertContact(entrepriseId, userId, etat) {
-    const token = getToken();
-    if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat)
+      console.log('entreprise: ', entrepriseObject, ', user: ', userObject, ', etat:', etat)
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          entreprise: entrepriseId,
-          utilisateur: userId,
+          entreprise : entrepriseObject,
+          utilisateur: userObject,
           etatContact: etat
         }),
         headers: {
@@ -178,7 +150,7 @@ import Navigate from '../Components/Router/Navigate';
       };
 
       try {
-        const response = await fetch(`http://localhost:8080/contact/insert`, options);
+        const response = await fetch(`http://localhost:8080/contacts/insert`, options);
         console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
@@ -192,15 +164,15 @@ import Navigate from '../Components/Router/Navigate';
     }
   }
 
-  async function updateContact(entrepriseId, userId, etat, refusalReason) {
+  async function updateContact(entrepriseObject, userObject, etat, refusalReason) {
     const token = getToken();
     if(token) {
-      console.log('entrepriseId: ', entrepriseId, ', userId: ', userId, ', etat:', etat, ', refusal reason: ', refusalReason)
+      console.log('entreprise: ', entrepriseObject, ', user: ', userObject, ', etat:', etat, ', refusal reason: ', refusalReason)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
-          entreprise: entrepriseId,
-          utilisateur: userId,
+          entreprise: entrepriseObject,
+          utilisateur: userObject,
           etatContact: etat,
           raisonRefus: refusalReason
         }),
@@ -210,7 +182,7 @@ import Navigate from '../Components/Router/Navigate';
         },
       };
       try {
-        const response = await fetch(`http://localhost:8080/contact/`, options);
+        const response = await fetch(`http://localhost:8080/contacts/update`, options);
         console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
@@ -286,7 +258,6 @@ export {loginUser,
   getUserData,
   getAllUsers,
   registerUser,
-  getContactsAllInfo,
   insertContact,
   updateContact
 };

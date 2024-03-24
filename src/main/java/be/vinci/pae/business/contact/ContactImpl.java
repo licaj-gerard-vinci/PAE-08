@@ -3,11 +3,9 @@ package be.vinci.pae.business.contact;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
-
 /**
  * Represents the ContactImpl class.
  */
-
 public class ContactImpl implements ContactDTO {
 
   private int id;
@@ -25,7 +23,6 @@ public class ContactImpl implements ContactDTO {
   private String raisonRefus;
 
   private YearDTO annee;
-
 
   @Override
   public int getIdEntreprise() {

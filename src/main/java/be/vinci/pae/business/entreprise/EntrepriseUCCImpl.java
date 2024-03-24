@@ -1,6 +1,6 @@
 package be.vinci.pae.business.entreprise;
 
-import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -13,6 +13,9 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
   @Inject
   private EntrepriseDAO entrepriseDAO;
+
+  @Inject
+  private DALServices dalServices;
 
     /**
      * Gets the associated entreprise.
@@ -39,11 +42,21 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    */
   @Override
   public List<EntrepriseDTO> getEntreprises() {
-    List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
-    if (entreprises == null) {
-      return null; //Il faut retourner une exception ici, pas null
+    try {
+      dalServices.startTransaction();
+      List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
+      if (entreprises == null) {
+        return null; //Il faut retourner une exception ici, pas null
+      }
+      dalServices.commitTransaction();
+      return entreprises;
+    } catch (Exception e) {
+      System.out.println("Erreur lors de la récupération des entreprises : " + e.getMessage());
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    return entreprises;
   }
 
 }

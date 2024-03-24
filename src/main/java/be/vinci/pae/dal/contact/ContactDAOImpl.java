@@ -64,15 +64,15 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public List<ContactDTO> getContactsAllInfo(int id) {
 
-    String query = "SELECT con.contact_id, con.contact_status, con.contact_meeting_place, con.contact_refusal_reason, " +
-        "com.company_id, com.company_name, com.company_designation, com.company_address, com.company_city, com.company_phone_number, com.company_email, com.company_is_blacklisted, com.company_blacklist_reason, " +
-        "usr.user_id, usr.user_email, usr.user_lastname, usr.user_firstname, usr.user_phone_number, usr.user_registration_date, usr.user_role, " +
-        "sch.school_year_id, sch.year " +
-        "FROM pae.contacts con " +
-        "JOIN pae.users usr ON con.student_id = usr.user_id " +
-        "JOIN pae.companies com ON con.company_id = com.company_id " +
-        "JOIN pae.school_years sch ON usr.user_school_year_id = sch.school_year_id " +
-        "WHERE usr.user_id = ?";
+    String query = "SELECT contact_id, contact_status, contact_meeting_place, contact_refusal_reason, "
+        + "company_id, company_name, company_designation, company_address, company_city, company_phone_number, company_email, company_is_blacklisted, company_blacklist_reason, "
+        + "user_id, user_email, user_lastname, user_firstname, user_phone_number, user_registration_date, user_role, user_password, "
+        + "school_year_id, year "
+        + "FROM pae.contacts "
+        + "JOIN pae.users ON contact_student_id = user_id "
+        + "JOIN pae.companies ON company_id = company_id "
+        + "JOIN pae.school_years ON user_school_year_id = school_year_id "
+        + "WHERE user_id = ?;";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
@@ -99,10 +99,10 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
-            + "(school_year_id, company_id, student_id, contact_status) VALUES (1, ?, ?, ?)";
+        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) VALUES (1, ?, ?, ?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setObject(1, contact.getEntreprise());
-      statement.setObject(2, contact.getUtilisateur());
+      statement.setInt(1, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(2, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -118,12 +118,12 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_status = ?, contact_refusal_reason = ? "
-            + "WHERE company_id = ? AND student_id = ?;";
+        + "WHERE contact_company_id = ? AND contact_student_id = ?;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getRaisonRefus());
-      statement.setObject(3, contact.getEntreprise());
-      statement.setObject(4, contact.getUtilisateur());
+      statement.setInt(3, contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(4, contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
