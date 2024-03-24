@@ -47,7 +47,7 @@ public class EntrepriseResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
-    if ( id <= 0 ) {
+    if (id <= 0) {
       return null; //Il faut retourner une exception ici, pas null
     }
     return myEntrepriseUcc.getEntreprise(id);

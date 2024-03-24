@@ -6,7 +6,6 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.user.UserDTO;
-import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import jakarta.inject.Inject;

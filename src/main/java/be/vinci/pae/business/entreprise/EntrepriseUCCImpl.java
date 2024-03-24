@@ -17,7 +17,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   @Inject
   private DALServices dalServices;
 
-    /**
+  /**
      * Gets the associated entreprise.
      *
      * @param id the id of the entreprise.

@@ -3,7 +3,6 @@ package be.vinci.pae.dal.entreprise;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.DALBackService;
-import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
