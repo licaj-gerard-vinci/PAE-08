@@ -88,7 +88,8 @@ public class AuthResource {
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode register(UserDTO user) {System.out.println(user);
+  public ObjectNode register(UserDTO user) {
+    System.out.println(user);
     if (user.getLastname() == null || user.getFirstname() == null || user.getEmail() == null
         || user.getPassword() == null || user.getPhone() == null || user.getRole() == null) {
       throw new WebApplicationException("no info", Status.NOT_FOUND);

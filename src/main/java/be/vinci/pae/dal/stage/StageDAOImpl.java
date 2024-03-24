@@ -25,7 +25,8 @@ public class StageDAOImpl implements StageDAO {
   @Inject
   private DALBackService dalBackService;
 
-  @Inject DALBackServiceUtils dalBackServiceUtils;
+  @Inject
+  private DALBackServiceUtils dalBackServiceUtils;
 
   @Inject
   private Factory factory;

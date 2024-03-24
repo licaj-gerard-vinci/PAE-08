@@ -7,6 +7,9 @@ import be.vinci.pae.business.user.UserDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * interface DALBackServiceUtils
+ */
 public interface DALBackServiceUtils {
 
 

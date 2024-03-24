@@ -6,6 +6,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
+import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +21,9 @@ public class ContactDAOImpl implements ContactDAO {
 
   @Inject
   private DALBackService dalBackService;
+
+  @Inject
+  private DALBackServiceUtils dalBackServiceUtils;
 
   @Inject
   private Factory factory;
@@ -141,31 +145,10 @@ public class ContactDAOImpl implements ContactDAO {
    */
   private ContactDTO rsToContact(ResultSet rs) throws SQLException {
 
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    //ENTREPRISE
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("company_name"));
-    entreprise.setAppellation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setNumTel(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
-
-    UserDTO user = factory.getPublicUser();
-    //USER
-    user.setId(rs.getInt("user_id"));
-    user.setEmail(rs.getString("user_email"));
-    user.setLastname(rs.getString("user_lastname"));
-    user.setFirstname(rs.getString("user_firstname"));
-    user.setPhone(rs.getString("user_phone_number"));
-    user.setRegistrationDate(rs.getDate("user_registration_date"));
-    user.setRole(rs.getString("user_role"));
-    user.setPassword(rs.getString("user_password"));
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
 
     YearDTO year = factory.getYearDTO();
-    //YEAR
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
 
