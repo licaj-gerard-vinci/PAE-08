@@ -1,6 +1,11 @@
-import { getContactsAllInfo, getUserData, insertContact, updateContact } from "../../model/users";
+import {
+  getContacts,
+  insertContact,
+  updateContact
+} from "../../model/users";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
+import {getAuthenticatedUser} from "../../utils/auths";
 
 let entreprises;
 let searchResult = []
@@ -11,13 +16,13 @@ async function renderEntreprises(){
 }
 
 const HomePage = async () => {
-  await renderEntreprises()
+  await renderEntreprises();
   await renderHomePage();
 };
 
 async function renderHomePage(){
   const main = document.querySelector('main');
-  const user = await getUserData();
+  const user = getAuthenticatedUser();
   console.log(user);
 
   if(user.role === "A" || user.role === "P"){
@@ -27,7 +32,7 @@ async function renderHomePage(){
     </div>
   `;
   } else if (user.role === "E") {
-    const contacts = await getContactsAllInfo();
+    const contacts = await getContacts();
 
     if(!entreprises || entreprises.length === 0) {
       main.innerHTML = `
@@ -180,8 +185,8 @@ async function renderHomePage(){
           initiatedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             initiatedButton.disabled = true;
-            console.log('before insert informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await insertContact(entreprise.id, user.id, "initiated", null);
+            console.log('before insert informations: entrepriseId: ', entreprise, ', userId: ', user)
+            await insertContact(entreprise, user, "initiated", null);
             console.log('after insert')
             await renderHomePage();
             initiatedButton.disabled = false;
@@ -192,8 +197,8 @@ async function renderHomePage(){
           console.log('takenButton: ', takenButton)
           takenButton.addEventListener('click', async () => {
             takenButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise.id, ', userId: ', user.id)
-            await updateContact(entreprise.id, user.id, "taken", null);
+            console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
+            await updateContact(entreprise, user, "taken", null);
             console.log('after update')
             await renderHomePage();
             takenButton.disabled = false;

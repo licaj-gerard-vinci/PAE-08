@@ -6,21 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-/**
- * Provides a data access layer service for creating prepared statements.
- */
 public class DALServiceImpl implements DALBackService, DALServices {
 
-  private ThreadLocal<Connection> connection;
-
+  private ThreadLocal<Connection> connection = new ThreadLocal<>();
+  private ThreadLocal<Integer> transactionCounter = new ThreadLocal<Integer>() {
+    @Override
+    protected Integer initialValue() {
+      return 0; // Initialiser le compteur de transaction à 0 pour chaque thread
+    }
+  };
   private BasicDataSource dataSource;
 
-  /**
-   * Constructs a Configuration object and initializes a database connection. If connection cannot
-   * be established, the application will terminate.
-   */
   public DALServiceImpl() {
-    connection = new ThreadLocal<>();
     dataSource = new BasicDataSource();
 
     String url = Config.getProperty("DatabaseFilePath");
@@ -30,15 +27,8 @@ public class DALServiceImpl implements DALBackService, DALServices {
     dataSource.setUrl(url);
     dataSource.setUsername(user);
     dataSource.setPassword(password);
-
   }
 
-  /**
-   * Create a PS.
-   *
-   * @param query the query to be executed.
-   * @return the prepared statement.
-   */
   @Override
   public PreparedStatement preparedStatement(String query) {
     try {
@@ -48,74 +38,75 @@ public class DALServiceImpl implements DALBackService, DALServices {
     }
   }
 
-  /**
-   * Retrieves a connection to the database.
-   *
-   * @return the connection.
-   */
   public Connection getConnection() {
-    if (connection.get() == null) {
+    Connection conn = connection.get();
+    if (conn == null) {
       try {
-        connection.set(dataSource.getConnection());
+        System.out.println("avant la conexion "+ dataSource.getNumActive());
+        conn = dataSource.getConnection();
+      System.out.println("apres la conexion "+ dataSource.getNumActive());
+        connection.set(conn);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
     }
-    return connection.get();
+    return conn;
   }
 
-  /**
-   * Starts a transaction.
-   */
   @Override
   public void startTransaction() {
     try {
-      getConnection().setAutoCommit(false);
+      if (transactionCounter.get() == 0) {
+
+        getConnection().setAutoCommit(false);
+      }
+      transactionCounter.set(transactionCounter.get() + 1);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  /**
-   * Commits a transaction.
-   */
   @Override
   public void commitTransaction() {
     try {
-      getConnection().commit();
-      getConnection().setAutoCommit(true);
+      int counter = transactionCounter.get() - 1;
+      transactionCounter.set(counter);
+      if (counter == 0) { // Commit seulement si c'est la transaction de niveau le plus externe
+        getConnection().commit();
+        getConnection().setAutoCommit(true);
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  /**
-   * Rolls back a transaction.
-   */
   @Override
   public void rollbackTransaction() {
     try {
-      getConnection().rollback();
-      getConnection().setAutoCommit(true);
+      int counter = transactionCounter.get() - 1;
+      transactionCounter.set(counter);
+      if (counter == 0) { // Rollback seulement si c'est la transaction de niveau le plus externe
+        getConnection().rollback();
+        getConnection().setAutoCommit(true);
+      }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  /**
-   * Closes the connection.
-   */
   @Override
   public void close() {
     try {
       if (connection.get() != null) {
+        System.out.println("avant le close " + dataSource.getNumActive());
         connection.get().close();
+        connection.remove(); // Assurez-vous de nettoyer la référence de la connexion
+        transactionCounter.remove(); // Nettoyer le compteur de transaction pour le thread actuel
+        System.out.println("apres le close " + dataSource.getNumActive());
+
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 }
-
-
-

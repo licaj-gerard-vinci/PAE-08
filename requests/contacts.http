@@ -11,6 +11,21 @@ Content-Type: application/json
   client.global.set("token", response.body.token);
 %}
 
+### Insert a new contact
+POST {{baseUrl}}/contacts/insert
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "entreprise": {
+      "id": 1
+    },
+    "utilisateur": {
+    "id": 1
+    },
+    "etatContact": "initiated"
+}
+
 ### Get all stages
 GET {{baseUrl}}/contacts
 Authorization: {{token}}

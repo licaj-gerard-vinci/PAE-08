@@ -32,7 +32,7 @@ public class ContactResource {
    * @return the contacts of the authenticated user.
    */
   @GET
-  @Path("all")
+  @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
@@ -82,12 +82,13 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @POST
-  @Path("/{id}/insert")
+  @Path("insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ObjectNode insertContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext, @PathParam("id") int id) {
+                                  @Context ContainerRequestContext requestContext) {
+    System.out.println(contact);
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
