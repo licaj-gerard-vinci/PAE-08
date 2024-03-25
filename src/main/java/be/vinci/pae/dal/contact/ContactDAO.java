@@ -2,7 +2,6 @@ package be.vinci.pae.dal.contact;
 
 import be.vinci.pae.business.contact.ContactDTO;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,7 +29,15 @@ public interface ContactDAO {
   /**
    * Get a contact by its ID.
    */
-    ContactDTO getContactById(int idContact);
+  ContactDTO getContactById(int idContact);
+
+  /**
+   * Check if a contact can be updated to the 'taken' state.
+   *
+   * @param idUser The contact to update.
+   * @param idEntreprise The contact to update.
+   * @return true if the contact can be updated, false otherwise.
+   */
 
   ContactDTO checkContactExists(int idUser, int idEntreprise);
 

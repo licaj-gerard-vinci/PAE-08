@@ -1,6 +1,5 @@
 package be.vinci.pae.business.contact;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

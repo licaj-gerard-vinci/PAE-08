@@ -7,6 +7,9 @@ import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
 import java.util.List;
 
+/**
+ * The type Contact UCC.
+ */
 public class ContactUCCImpl implements ContactUCC {
 
   @Inject
@@ -49,7 +52,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public List<ContactDTO> getContactsAllInfo(int idUser) {
-    if(myUser.getOne(idUser) == null) {
+    if (myUser.getOne(idUser) == null) {
       return null;
     }
     try {
@@ -74,18 +77,18 @@ public class ContactUCCImpl implements ContactUCC {
   @Override
   public ContactDTO getContactById(int idContact) {
     System.out.println("enter getContactById from ucc");
-      try {
-      dalServices.startTransaction();
-      ContactDTO contact = contactDAO.getContactById(idContact);
-        System.out.println("contact: " + contact);
-      dalServices.commitTransaction();
-      return contact;
-      } catch (Exception e) {
-      dalServices.rollbackTransaction();
-      throw e;
-      } finally {
-      dalServices.close();
-      }
+    try {
+    dalServices.startTransaction();
+    ContactDTO contact = contactDAO.getContactById(idContact);
+    System.out.println("contact: " + contact);
+    dalServices.commitTransaction();
+    return contact;
+    } catch (Exception e) {
+    dalServices.rollbackTransaction();
+    throw e;
+    } finally {
+    dalServices.close();
+    }
   }
 
   /**
@@ -94,14 +97,9 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    if(myUser.getOne(contact.getUtilisateur().getId()) == null){
-        return;
-    };
+    if (myUser.getOne(contact.getUtilisateur().getId()) == null){return;};
 
-    if(myCompany.getEntreprise(contact.getEntreprise().getId()) == null){
-        return;
-    };
-
+    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null){return;};
 
     try {
       dalServices.startTransaction();
@@ -119,19 +117,23 @@ public class ContactUCCImpl implements ContactUCC {
     }
   }
 
+  /**
+   * Updates a contact.
+   *
+   * @param contact the contact to update
+   */
   public void updateContact(ContactDTO contact) {
     System.out.println("enter updateContact method");
     System.out.println("contact status: " + contact.getEtatContact());
     System.out.println("contact userId: " + contact.getUtilisateur().getId());
     System.out.println("contact companyId: " + contact.getEntreprise().getId());
     System.out.println("Contact id: " + contact.getId());
-    ContactDTO contact2 = checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId());
+    ContactDTO contact2 = checkContact(contact.getUtilisateur()
+            .getId(), contact.getEntreprise().getId());
     System.out.println("contact: " + contact2);
     System.out.println("Contact2 id: " + contact2.getId());
 
-    if(getContactById(contact2.getId()) == null){
-      return;
-    };
+    if (getContactById(contact2.getId()) == null){return;};
 
     try {
       dalServices.startTransaction();
@@ -201,7 +203,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public boolean checkContactUnsupervised(ContactDTO contact) {
     System.out.println("enter unsupervised method");
-     return checkContactAndState(contact.getUtilisateur().getId(),
+    return checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "initiated")
             || checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "taken");
@@ -221,7 +223,8 @@ public class ContactUCCImpl implements ContactUCC {
 
 
   /**
-   * Checks if a contact exists between a user and a company and if the contact is in a specific state.
+   * Checks if a contact exists between a user and a company and
+   * if the contact is in a specific state.
    *
    * @param idUser the ID of the user
    * @param idEntreprise the ID of the company
