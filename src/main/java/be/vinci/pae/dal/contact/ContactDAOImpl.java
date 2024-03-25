@@ -109,9 +109,9 @@ public class ContactDAOImpl implements ContactDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idContact);
       try (ResultSet rs = statement.executeQuery()) {
-          if (rs.next()) {
-            return rsToContact(rs);
-          }
+        if (rs.next()) {
+          return rsToContact(rs);
+        }
       }
     } catch (SQLException e) {
       e.printStackTrace();

@@ -27,6 +27,9 @@ public interface ContactUCC {
 
   /**
    * Get a contact by its ID.
+   *
+   * @param idContact The ID of the contact to fetch.
+   * @return A ContactDTO object containing the contact information.
    */
   ContactDTO getContactById(int idContact);
 
@@ -37,6 +40,11 @@ public interface ContactUCC {
    */
   void insertContact(ContactDTO contact);
 
+  /**
+   * Updates the information of a contact in the database.
+   *
+   * @param contact A ContactDTO object containing the updated information of the contact.
+   */
   void updateContact(ContactDTO contact);
 
 }

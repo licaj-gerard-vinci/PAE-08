@@ -9,6 +9,7 @@ public interface Contact {
    * check if a contact can be updated to the 'taken' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   boolean checkContactTaken(ContactDTO contact);
 
@@ -16,6 +17,7 @@ public interface Contact {
    * check if a contact can be updated to the 'accepted' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   boolean checkContactAccepted(ContactDTO contact);
 
@@ -23,6 +25,7 @@ public interface Contact {
    * check if a contact can be updated to the 'refused' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   boolean checkContactRefused(ContactDTO contact);
 
@@ -30,6 +33,7 @@ public interface Contact {
    * Updates a contact to the 'unsupervised' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   boolean checkContactUnsupervised(ContactDTO contact);
 

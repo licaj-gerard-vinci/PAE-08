@@ -27,6 +27,9 @@ public interface ContactDAO {
 
   /**
    * Get a contact by its ID.
+   *
+   * @param idContact The ID of the contact to fetch.
+   * @return A ContactDTO object containing the contact information.
    */
   ContactDTO getContactById(int idContact);
 
@@ -38,9 +41,23 @@ public interface ContactDAO {
    * @return true if the contact can be updated, false otherwise.
    */
 
+  /**
+   * Check if a contact exists.
+   *
+   * @param idUser The user ID.
+   * @param idEntreprise The entreprise ID.
+   * @return A ContactDTO object containing the contact information.
+   */
   ContactDTO checkContactExists(int idUser, int idEntreprise);
 
-
+  /**
+   * Check if a contact can be updated to the 'taken' state.
+   *
+   * @param idUser The user ID.
+   * @param idEntreprise The entreprise ID.
+   * @param expectedState The expected state of the contact.
+   * @return true if the contact can be updated, false otherwise.
+   */
   boolean checkContactAndState(int idUser, int idEntreprise, String expectedState);
 
   /**

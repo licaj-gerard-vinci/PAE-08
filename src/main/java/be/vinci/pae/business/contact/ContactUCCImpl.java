@@ -97,11 +97,11 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    if (myUser.getOne(contact.getUtilisateur().getId()) == null){
+    if (myUser.getOne(contact.getUtilisateur().getId()) == null) {
       return;
     }
 
-    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null){
+    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null) {
       return;
     }
 
@@ -137,7 +137,7 @@ public class ContactUCCImpl implements ContactUCC {
     System.out.println("contact: " + contact2);
     System.out.println("Contact2 id: " + contact2.getId());
 
-    if (getContactById(contact2.getId()) == null){
+    if (getContactById(contact2.getId()) == null) {
       return;
     }
 
@@ -172,6 +172,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Updates a contact to the 'taken' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   public boolean checkContactTaken(ContactDTO contact) {
     System.out.println("enter taken method");
@@ -183,6 +184,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Updates a contact to the 'accepted' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   public boolean checkContactAccepted(ContactDTO contact) {
     System.out.println("enter accepted method");
@@ -194,6 +196,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Updates a contact to the 'refused' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   public boolean checkContactRefused(ContactDTO contact) {
     System.out.println("enter refused method");
@@ -206,6 +209,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Updates a contact to the 'unsupervised' state.
    *
    * @param contact the contact to update
+   * @return true if the contact can be updated, false otherwise
    */
   public boolean checkContactUnsupervised(ContactDTO contact) {
     System.out.println("enter unsupervised method");
