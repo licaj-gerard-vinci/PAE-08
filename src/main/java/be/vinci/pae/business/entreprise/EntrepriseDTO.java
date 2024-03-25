@@ -128,12 +128,42 @@ public interface EntrepriseDTO {
    */
   String getMotivation_blacklist();
 
+
   /**
    * Sets the motivation_blacklist of the entreprise.
    *
    * @param motivationBlacklist the new motivation_blacklist for the entreprise.
    */
   void setMotivation_blacklist(String motivationBlacklist);
+
+  /**
+   * Get the motivation.
+   *
+   * @return motivation
+   */
+  String getMotivation();
+
+  /**
+   * Sets the motivation
+   *
+   * @param motivation
+   */
+  void setMotivation(String motivation);
+
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  int getVersion();
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  void setVersion(int version);
+
 
 
 }

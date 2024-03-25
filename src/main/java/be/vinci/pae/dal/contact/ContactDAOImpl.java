@@ -157,6 +157,7 @@ public class ContactDAOImpl implements ContactDAO {
   public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
     String query = "SELECT contact_status FROM pae.contacts WHERE contact_student_id = ? "
             + "AND contact_company_id = ?";
+
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
@@ -185,8 +186,9 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
-        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) "
-        + "VALUES (1, ?, ?, ?)";
+        + "(contact_school_year_id, contact_company_id, contact_student_id, "
+        + "contact_status, contact_version) "
+        + "VALUES (1, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise().getId());
       statement.setInt(2, contact.getUtilisateur().getId());
@@ -206,14 +208,15 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_status = ?, contact_meeting_place = ?, "
-            + "contact_refusal_reason = ? WHERE contact_company_id = ? AND contact_student_id = ?;";
+            + "contact_refusal_reason = ? , contact_version = ?  WHERE contact_company_id = ? AND contact_student_id = ?;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getLieuxRencontre());
       statement.setString(3, contact.getRaisonRefus());
-      statement.setInt(4,
-          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(4,contact.getVersion());
       statement.setInt(5,
+          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
+      statement.setInt(6,
           contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -240,6 +243,7 @@ public class ContactDAOImpl implements ContactDAO {
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    contact.setVersion(rs.getInt("contact_version"));
 
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
     contact.setEntreprise(entreprise);

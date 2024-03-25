@@ -14,6 +14,7 @@ public class ResponsableImpl implements ResponsableDTO {
   private String email;
   private EntrepriseDTO entreprise;
   private int idEntreprise;
+  private int version;
 
   /**
    * Gets the responsable ID.
@@ -153,5 +154,24 @@ public class ResponsableImpl implements ResponsableDTO {
   @Override
   public void setIdEntreprise(int idEntreprise) {
     this.idEntreprise = idEntreprise;
+  }
+
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  @Override
+  public int getVersion() {
+    return version;
+  }
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
   }
 }
