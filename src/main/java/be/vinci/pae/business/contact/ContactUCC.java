@@ -35,32 +35,32 @@ public interface ContactUCC {
   void insertContact(ContactDTO contact);
 
   /**
-   * Updates a contact to the 'taken' state.
+   * check if a contact can be updated to the 'taken' state.
    *
    * @param contact the contact to update
    */
-  void updateContactTaken(ContactDTO contact);
+  boolean checkContactTaken(ContactDTO contact);
 
   /**
-   * Updates a contact to the 'accepted' state.
+   * check if a contact can be updated to the 'accepted' state.
    *
    * @param contact the contact to update
    */
-  void updateContactAccepted(ContactDTO contact);
+  boolean checkContactAccepted(ContactDTO contact);
 
   /**
-   * Updates a contact to the 'refused' state.
+   * check if a contact can be updated to the 'refused' state.
    *
    * @param contact the contact to update
    */
-  void updateContactRefused(ContactDTO contact);
+  boolean checkContactRefused(ContactDTO contact);
 
   /**
    * Updates a contact to the 'unsupervised' state.
    *
    * @param contact the contact to update
    */
-  void updateContactUnsupervised(ContactDTO contact);
+  boolean checkContactUnsupervised(ContactDTO contact);
 
   /**
    * Checks if a contact exists between a user and a company.

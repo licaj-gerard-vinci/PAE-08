@@ -67,7 +67,7 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       dalServices.startTransaction();
 
-      if (checkContact(contact.getIdUtilisateur(), contact.getIdEntreprise())) {
+      if (checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId())) {
         throw new RuntimeException("Contact already exists");
       }
 
@@ -87,13 +87,9 @@ public class ContactUCCImpl implements ContactUCC {
    *
    * @param contact the contact to update
    */
-  public void updateContactTaken(ContactDTO contact) {
-    validateContact(contact);
-
-    if (!checkContactAndState(contact.getIdUtilisateur(), contact.getIdEntreprise(), "initiated")) {
-      throw new RuntimeException("Contact does not exist or is not in the 'initiated' state");
-    }
-    contactDAO.updateContact(contact);
+  public boolean checkContactTaken(ContactDTO contact) {
+    return checkContactAndState(contact.getUtilisateur().getId(),
+            contact.getEntreprise().getId(), "initiated");
   }
 
   /**
@@ -101,13 +97,9 @@ public class ContactUCCImpl implements ContactUCC {
    *
    * @param contact the contact to update
    */
-  public void updateContactAccepted(ContactDTO contact) {
-    validateContact(contact);
-
-    if (!checkContactAndState(contact.getIdUtilisateur(), contact.getIdEntreprise(), "taken")) {
-      throw new RuntimeException("Contact does not exist or is not in the 'taken' state");
-    }
-    contactDAO.updateContact(contact);
+  public boolean checkContactAccepted(ContactDTO contact) {
+    return checkContactAndState(contact.getUtilisateur().getId(),
+            contact.getEntreprise().getId(), "taken");
   }
 
   /**
@@ -115,16 +107,10 @@ public class ContactUCCImpl implements ContactUCC {
    *
    * @param contact the contact to update
    */
-  public void updateContactRefused(ContactDTO contact) {
-    validateContact(contact);
-
-    if (!checkContactAndState(contact.getIdUtilisateur(), contact.getIdEntreprise(), "taken")) {
-      throw new RuntimeException("Contact does not exist or is not in the 'taken' state");
-    }
-    if (contact.getRaisonRefus() == null) {
-      throw new RuntimeException("Reason for refusal cannot be null");
-    }
-    contactDAO.updateContact(contact);
+  public boolean checkContactRefused(ContactDTO contact) {
+    return checkContactAndState(contact.getUtilisateur().getId(),
+            contact.getEntreprise().getId(), "taken")
+            && contact.getRaisonRefus() != null;
   }
 
   /**
@@ -132,14 +118,11 @@ public class ContactUCCImpl implements ContactUCC {
    *
    * @param contact the contact to update
    */
-  public void updateContactUnsupervised(ContactDTO contact) {
-    validateContact(contact);
-
-    if (!checkContactAndState(contact.getIdUtilisateur(), contact.getIdEntreprise(), "initiated") &&
-            !checkContactAndState(contact.getIdUtilisateur(), contact.getIdEntreprise(), "taken")) {
-      throw new RuntimeException("Contact does not exist or is not in the 'initiated' or 'taken' state");
-    }
-    contactDAO.updateContact(contact);
+  public boolean checkContactUnsupervised(ContactDTO contact) {
+    return checkContactAndState(contact.getUtilisateur().getId(),
+            contact.getEntreprise().getId(), "initiated")
+            || checkContactAndState(contact.getUtilisateur().getId(),
+            contact.getEntreprise().getId(), "taken");
   }
 
   /**
@@ -173,8 +156,24 @@ public class ContactUCCImpl implements ContactUCC {
   }
 
   public void updateContact(ContactDTO contact) {
+    System.out.println("enter updateContact method");
+    System.out.println("contact status: " + contact.getEtatContact());
+    System.out.println("contact userId: " + contact.getUtilisateur().getId());
+    System.out.println("contact companyId: " + contact.getEntreprise().getId());
+    validateContact(contact);
     try {
       dalServices.startTransaction();
+      if(contact.getEtatContact().equals("taken")) {
+        checkContactTaken(contact);
+      } else if(contact.getEtatContact().equals("accepted")) {
+        checkContactAccepted(contact);
+      } else if(contact.getEtatContact().equals("refused")) {
+        checkContactRefused(contact);
+      } else if(contact.getEtatContact().equals("unsupervised")) {
+        checkContactUnsupervised(contact);
+      } else {
+        throw new IllegalArgumentException("etat du contact non valide");
+      }
       contactDAO.updateContact(contact);
       dalServices.commitTransaction();
     } catch (Exception e) {

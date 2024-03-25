@@ -2,7 +2,9 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +16,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -36,6 +37,12 @@ public class ContactResource {
   @Inject
   private ContactUCC myContactUcc;
 
+  @Inject
+  private UserUCC myUser;
+
+  @Inject
+  private EntrepriseUCC myCompany;
+
   /**
    * Retrieves the contacts of the authenticated user from the request context.
    *
@@ -43,7 +50,7 @@ public class ContactResource {
    * @return the contacts of the authenticated user.
    */
   @GET
-  @Path("/{id}")
+  @Path("/detailed")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
@@ -76,8 +83,7 @@ public class ContactResource {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(
-            authenticatedUser.getId());
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(authenticatedUser.getId());
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }
@@ -93,23 +99,18 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @POST
-  @Path("/{idUser}&{idEntreprise}/insert")
+  @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ObjectNode insertContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext,
-                                  @PathParam("idUser") int idUser,
-                                  @PathParam("idEntreprise") int idEntreprise) {
+                                  @Context ContainerRequestContext requestContext) {
     System.out.println(contact);
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    if(myContactUcc.checkContact(idUser, idEntreprise)){
-      throw new WebApplicationException("Contact already exists", Response.Status.UNAUTHORIZED);
-    }
     myContactUcc.insertContact(contact);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
@@ -126,7 +127,7 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @PUT
-  @Path("/{idContact}/update")
+  @Path("/update")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize

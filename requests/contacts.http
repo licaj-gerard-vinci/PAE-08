@@ -12,7 +12,7 @@ Content-Type: application/json
 %}
 
 ### Insert a new contact
-POST {{baseUrl}}/contacts/insert
+POST {{baseUrl}}/contacts/insert/9&1
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -21,13 +21,13 @@ Content-Type: application/json
       "id": 1
     },
     "utilisateur": {
-    "id": 1
+    "id": 9
     },
     "etatContact": "initiated"
 }
 
 ### Get all contacts
-GET {{baseUrl}}/contacts
+GET {{baseUrl}}/contacts/9
 Authorization: {{token}}
 
 ### Update a contact
