@@ -149,6 +149,8 @@ public class ContactUCCImpl implements ContactUCC {
       throw new IllegalArgumentException("Version conflict");
     }
 
+    contact.setVersion(contact.getVersion() + 1);
+
 
 
     try {
