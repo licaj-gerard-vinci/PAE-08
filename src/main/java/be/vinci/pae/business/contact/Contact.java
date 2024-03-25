@@ -43,7 +43,8 @@ public interface Contact {
   ContactDTO checkContact(int idUser, int idEntreprise);
 
   /**
-   * Checks if a contact exists between a user and a company and if the contact is in a specific state.
+   * Checks if a contact exists between a user and a company
+   * and if the contact is in a specific state.
    *
    * @param idUser the ID of the user
    * @param idEntreprise the ID of the company

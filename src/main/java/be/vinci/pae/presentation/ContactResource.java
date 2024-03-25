@@ -2,9 +2,7 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.user.UserDTO;
-import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -78,16 +78,16 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO getContactById(int idContact) {
     System.out.println("enter getContactById from ucc");
     try {
-    dalServices.startTransaction();
-    ContactDTO contact = contactDAO.getContactById(idContact);
-    System.out.println("contact: " + contact);
-    dalServices.commitTransaction();
-    return contact;
-    } catch (Exception e) {
-    dalServices.rollbackTransaction();
-    throw e;
-    } finally {
-    dalServices.close();
+      dalServices.startTransaction();
+      ContactDTO contact = contactDAO.getContactById(idContact);
+      System.out.println("contact: " + contact);
+      dalServices.commitTransaction();
+      return contact;
+      } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+      } finally {
+      dalServices.close();
     }
   }
 
@@ -97,9 +97,13 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    if (myUser.getOne(contact.getUtilisateur().getId()) == null){return;};
+    if (myUser.getOne(contact.getUtilisateur().getId()) == null){
+      return;
+    }
 
-    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null){return;};
+    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null){
+      return;
+    }
 
     try {
       dalServices.startTransaction();
@@ -133,7 +137,9 @@ public class ContactUCCImpl implements ContactUCC {
     System.out.println("contact: " + contact2);
     System.out.println("Contact2 id: " + contact2.getId());
 
-    if (getContactById(contact2.getId()) == null){return;};
+    if (getContactById(contact2.getId()) == null){
+      return;
+    }
 
     try {
       dalServices.startTransaction();

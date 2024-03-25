@@ -1,7 +1,6 @@
 package be.vinci.pae.dal.contact;
 
 import be.vinci.pae.business.contact.ContactDTO;
-
 import java.util.List;
 
 /**

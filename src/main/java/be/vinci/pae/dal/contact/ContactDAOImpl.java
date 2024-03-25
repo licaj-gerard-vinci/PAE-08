@@ -90,35 +90,35 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-    /**
-     * Get a contact by its ID.
-     *
-     * @param idContact the ID of the contact.
-     * @return the contact.
-     */
+  /**
+   * Get a contact by its ID.
+   *
+   * @param idContact the ID of the contact.
+   * @return the contact.
+   */
   public ContactDTO getContactById(int idContact) {
     System.out.println("enter DAO getContactById");
-      String query =
-          "SELECT c.*, u.*, comp.*, sy.* "
-              + "FROM pae.contacts c "
-              + "JOIN pae.users u ON c.contact_student_id = u.user_id "
-              + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
-              + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
-              + "WHERE c.contact_id = ?";
+    String query =
+        "SELECT c.*, u.*, comp.*, sy.* "
+            + "FROM pae.contacts c "
+            + "JOIN pae.users u ON c.contact_student_id = u.user_id "
+            + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
+            + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
+            + "WHERE c.contact_id = ?";
 
-      try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, idContact);
-      try (ResultSet rs = statement.executeQuery()) {
-          if (rs.next()) {
-            return rsToContact(rs);
-          }
-      }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      throw new RuntimeException(e);
-      }
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+    statement.setInt(1, idContact);
+    try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          return rsToContact(rs);
+        }
+    }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    throw new RuntimeException(e);
+    }
 
-      return null;
+    return null;
   }
 
   public ContactDTO checkContactExists(int idUser, int idEntreprise) {
