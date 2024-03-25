@@ -87,7 +87,7 @@ async function getContacts(){
         const result = await response.json();
         console.log(result);
       } catch (error) {
-        console.error('Error inserting contact');
+        console.error('Error updating contact');
       }
     }
   }

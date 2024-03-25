@@ -32,7 +32,7 @@ public interface ContactDAO {
    */
     ContactDTO getContactById(int idContact);
 
-  boolean checkContactExists(int idUser, int idEntreprise);
+  ContactDTO checkContactExists(int idUser, int idEntreprise);
 
 
   boolean checkContactAndState(int idUser, int idEntreprise, String expectedState);

@@ -73,9 +73,11 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public ContactDTO getContactById(int idContact) {
+    System.out.println("enter getContactById");
       try {
       dalServices.startTransaction();
       ContactDTO contact = contactDAO.getContactById(idContact);
+        System.out.println("contact: " + contact);
       dalServices.commitTransaction();
       return contact;
       } catch (Exception e) {
@@ -108,7 +110,7 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       dalServices.startTransaction();
 
-      if (checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId())) {
+      if (checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId()) != null) {
         throw new RuntimeException("Contact already exists");
       }
 
@@ -127,10 +129,16 @@ public class ContactUCCImpl implements ContactUCC {
     System.out.println("contact status: " + contact.getEtatContact());
     System.out.println("contact userId: " + contact.getUtilisateur().getId());
     System.out.println("contact companyId: " + contact.getEntreprise().getId());
+    System.out.println("Contact id: " + contact.getId());
+    ContactDTO contact2 = checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId());
+    System.out.println("contact: " + contact2);
+    System.out.println("Contact2 id: " + contact2.getId());
 
-    if(getContactById(contact.getId()) == null){
+    if(getContactById(contact2.getId()) == null){
       return;
     };
+
+    System.out.println(getContactById(contact2.getId()));
 
     try {
       dalServices.startTransaction();
@@ -205,7 +213,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idEntreprise the ID of the company
    * @return true if the contact exists, false otherwise
    */
-  public boolean checkContact(int idUser, int idEntreprise) {
+  public ContactDTO checkContact(int idUser, int idEntreprise) {
+    System.out.println("idUser: " + idUser + ", idEntreprise: " + idEntreprise);
     return contactDAO.checkContactExists(idUser, idEntreprise);
   }
 

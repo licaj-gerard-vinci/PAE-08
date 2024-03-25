@@ -119,20 +119,26 @@ public class ContactDAOImpl implements ContactDAO {
         return null;
     }
 
-  public boolean checkContactExists(int idUser, int idEntreprise) {
-    String query = "SELECT contact_id FROM pae.contact WHERE student_id = ? AND company_id = ?";
+  public ContactDTO checkContactExists(int idUser, int idEntreprise) {
+    System.out.println("enter check");
+    String query = "SELECT * FROM pae.contacts, pae.school_years, pae.companies, pae.users WHERE contact_student_id = ? AND contact_company_id = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)){
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
-      return rs.next();
+      while(rs.next()){
+        return rsToContact(rs);
+      }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new RuntimeException();
     }
+    System.out.println("nothing found");
+    return null;
   }
 
   public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
-    String query = "SELECT contact_status FROM pae.contacts WHERE student_id = ? AND company_id = ?";
+    String query = "SELECT contact_status FROM pae.contacts WHERE contact_student_id = ? AND contact_company_id = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)){
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);

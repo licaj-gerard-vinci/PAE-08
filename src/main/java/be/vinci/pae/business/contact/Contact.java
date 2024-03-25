@@ -40,7 +40,7 @@ public interface Contact {
      * @param idEntreprise the ID of the company
      * @return true if the contact exists, false otherwise
      */
-    boolean checkContact(int idUser, int idEntreprise);
+    ContactDTO checkContact(int idUser, int idEntreprise);
 
     /**
      * Checks if a contact exists between a user and a company and if the contact is in a specific state.
