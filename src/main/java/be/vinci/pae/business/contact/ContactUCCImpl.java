@@ -102,7 +102,6 @@ public class ContactUCCImpl implements ContactUCC {
         return;
     };
 
-
     try {
       dalServices.startTransaction();
 
@@ -135,12 +134,12 @@ public class ContactUCCImpl implements ContactUCC {
 
     try {
       dalServices.startTransaction();
-      if(contact.getEtatContact().equals("taken")) {
+      if(contact.getEtatContact().equals("admitted")) {
         checkContactTaken(contact);
       } else if(contact.getEtatContact().equals("accepted")) {
         System.out.println("enter accepted if");
         checkContactAccepted(contact);
-      } else if(contact.getEtatContact().equals("refused")) {
+      } else if(contact.getEtatContact().equals("turned down")) {
         System.out.println("enter refused if");
         checkContactRefused(contact);
       } else if(contact.getEtatContact().equals("unsupervised")) {
@@ -168,7 +167,7 @@ public class ContactUCCImpl implements ContactUCC {
   public boolean checkContactTaken(ContactDTO contact) {
     System.out.println("enter taken method");
     return checkContactAndState(contact.getUtilisateur().getId(),
-            contact.getEntreprise().getId(), "initiated");
+            contact.getEntreprise().getId(), "started");
   }
 
   /**
@@ -179,7 +178,7 @@ public class ContactUCCImpl implements ContactUCC {
   public boolean checkContactAccepted(ContactDTO contact) {
     System.out.println("enter accepted method");
     return checkContactAndState(contact.getUtilisateur().getId(),
-            contact.getEntreprise().getId(), "taken");
+            contact.getEntreprise().getId(), "admitted");
   }
 
   /**
@@ -190,7 +189,7 @@ public class ContactUCCImpl implements ContactUCC {
   public boolean checkContactRefused(ContactDTO contact) {
     System.out.println("enter refused method");
     return checkContactAndState(contact.getUtilisateur().getId(),
-            contact.getEntreprise().getId(), "taken")
+            contact.getEntreprise().getId(), "admitted")
             && contact.getRaisonRefus() != null;
   }
 
@@ -202,9 +201,9 @@ public class ContactUCCImpl implements ContactUCC {
   public boolean checkContactUnsupervised(ContactDTO contact) {
     System.out.println("enter unsupervised method");
      return checkContactAndState(contact.getUtilisateur().getId(),
-            contact.getEntreprise().getId(), "initiated")
+            contact.getEntreprise().getId(), "started")
             || checkContactAndState(contact.getUtilisateur().getId(),
-            contact.getEntreprise().getId(), "taken");
+            contact.getEntreprise().getId(), "admitted");
   }
 
   /**

@@ -48,15 +48,15 @@ INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_em
 
 DROP TABLE IF EXISTS pae.companies;
 CREATE TABLE pae.companies(
-                              company_id                  SERIAL PRIMARY KEY,
-                              company_name                        TEXT NOT NULL,
-                              company_designation                 TEXT,
-                              company_address                     TEXT NOT NULL,
-                              company_city                        TEXT NOT NULL,
-                              company_phone_number                TEXT,
-                              company_email                       TEXT,
-                              company_is_blacklisted              BOOLEAN NOT NULL,
-                              company_blacklist_reason            TEXT
+    company_id                  SERIAL PRIMARY KEY,
+    company_name                        TEXT NOT NULL,
+    company_designation                 TEXT,
+    company_address                     TEXT NOT NULL,
+    company_city                        TEXT NOT NULL,
+    company_phone_number                TEXT,
+    company_email                       TEXT,
+    company_is_blacklisted              BOOLEAN NOT NULL,
+    company_blacklist_reason            TEXT
 );
 
 
@@ -69,36 +69,26 @@ INSERT INTO pae.companies (company_name,company_designation,company_phone_number
 
 DROP TABLE IF EXISTS pae.contacts;
 CREATE TABLE pae.contacts(
-                             contact_id              SERIAL PRIMARY KEY,
-                             contact_company_id              INTEGER REFERENCES pae.companies(company_id) NOT NULL,
-                             contact_student_id              INTEGER REFERENCES pae.users(user_id) NOT NULL,
-                             contact_school_year_id        INTEGER REFERENCES pae.school_years(school_year_id) NOT NULL,
-                             contact_status          TEXT NOT NULL,
-                             contact_meeting_place           TEXT,
-                             contact_refusal_reason          TEXT
+    contact_id              SERIAL PRIMARY KEY,
+    contact_company_id              INTEGER REFERENCES pae.companies(company_id) NOT NULL,
+    contact_student_id              INTEGER REFERENCES pae.users(user_id) NOT NULL,
+    contact_school_year_id        INTEGER REFERENCES pae.school_years(school_year_id) NOT NULL,
+    contact_status          TEXT NOT NULL,
+    contact_meeting_place           TEXT,
+    contact_refusal_reason          TEXT
 );
 
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,9,2,'accepted','distenciel');
-
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,9,2,'accepted','remote');
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,6,4,'accepted','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,6,3,'refused','N ont pas accepté d avoir un entretien','distance');
-
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,6,3,'turned down','N ont pas accepté d avoir un entretien','remote');
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,1,'accepted','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,2,'on hold','distance');
-
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,2,'on hold','remote');
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,7,4,'on hold');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,7,3,'refused','ne prennent qu un seul étudiant','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,5,3,'taken','distance');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,4,'initiated');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,2,'initiated');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,8,4,'initiated');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,7,3,'turned down','ne prennent qu un seul étudiant','on site');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,5,3,'admitted','distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,4,'started');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,2,'started');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,8,4,'started');
 
 
 
