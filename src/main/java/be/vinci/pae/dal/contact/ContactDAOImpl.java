@@ -179,8 +179,8 @@ public class ContactDAOImpl implements ContactDAO {
    * @throws RuntimeException If an SQL exception occurs.
    */
   public void updateContact(ContactDTO contact) {
-    String query = "UPDATE pae.contacts SET contact_status = ?, meeting_place = ?, "
-            + "contact_refusal_reason = ? WHERE company_id = ? AND student_id = ?;";
+    String query = "UPDATE pae.contacts SET contact_status = ?, contact_meeting_place = ?, "
+            + "contact_refusal_reason = ? WHERE contact_company_id = ? AND contact_student_id = ?;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getLieuxRencontre());
