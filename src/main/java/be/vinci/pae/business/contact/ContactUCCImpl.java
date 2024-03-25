@@ -132,6 +132,16 @@ public class ContactUCCImpl implements ContactUCC {
       return;
     };
 
+    if(contact2.getLieuxRencontre() != null) {
+      contact.setLieuxRencontre(contact2.getLieuxRencontre());
+    }
+
+    if(contact2.getRaisonRefus() != null) {
+      contact.setRaisonRefus(contact2.getRaisonRefus());
+    }
+
+    System.out.println("contact after set: " + contact);
+
     try {
       dalServices.startTransaction();
       if(contact.getEtatContact().equals("admitted")) {
