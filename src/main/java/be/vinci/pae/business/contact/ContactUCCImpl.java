@@ -138,12 +138,16 @@ public class ContactUCCImpl implements ContactUCC {
       if(contact.getEtatContact().equals("taken")) {
         checkContactTaken(contact);
       } else if(contact.getEtatContact().equals("accepted")) {
+        System.out.println("enter accepted if");
         checkContactAccepted(contact);
       } else if(contact.getEtatContact().equals("refused")) {
+        System.out.println("enter refused if");
         checkContactRefused(contact);
       } else if(contact.getEtatContact().equals("unsupervised")) {
+        System.out.println("enter unsupervised if");
         checkContactUnsupervised(contact);
       } else {
+        System.out.println("enter etat non trouvee");
         throw new IllegalArgumentException("etat du contact non valide");
       }
       contactDAO.updateContact(contact);
@@ -162,6 +166,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to update
    */
   public boolean checkContactTaken(ContactDTO contact) {
+    System.out.println("enter taken method");
     return checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "initiated");
   }
@@ -172,6 +177,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to update
    */
   public boolean checkContactAccepted(ContactDTO contact) {
+    System.out.println("enter accepted method");
     return checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "taken");
   }
@@ -182,6 +188,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to update
    */
   public boolean checkContactRefused(ContactDTO contact) {
+    System.out.println("enter refused method");
     return checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "taken")
             && contact.getRaisonRefus() != null;
@@ -193,7 +200,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to update
    */
   public boolean checkContactUnsupervised(ContactDTO contact) {
-    return checkContactAndState(contact.getUtilisateur().getId(),
+    System.out.println("enter unsupervised method");
+     return checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "initiated")
             || checkContactAndState(contact.getUtilisateur().getId(),
             contact.getEntreprise().getId(), "taken");

@@ -146,9 +146,9 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
       System.out.println("expectedState: " + expectedState);
-      System.out.println("receivedState: " + rs.getString("contact_status"));
       if (rs.next()) {
         String currentState = rs.getString("contact_status");
+        System.out.println("receivedState: " + currentState);
         return currentState.equals(expectedState);
       } else {
         return false;

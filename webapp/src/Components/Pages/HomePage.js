@@ -124,10 +124,10 @@ async function renderHomePage(){
                   <div class="col"></div>
                 </div>`;
               }
-              else if (contactFound.etatContact === 'Unsupervised'){
+              else if (contactFound.etatContact === 'unsupervised'){
                 button = `
                 <div class="d-flex justify-content-center">
-                  <p>Contact n'est plu suivi</p>
+                  <p>Contact n'est plus suivi</p>
                 </div>`;
               }
 
@@ -222,7 +222,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             stopFollowingButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user.user)
-            await updateContact(entreprise, user.user, "Unsupervised", null, null);
+            await updateContact(entreprise, user.user, "unsupervised", null, null);
             console.log('after update')
             await renderHomePage();
             stopFollowingButton.disabled = false;
