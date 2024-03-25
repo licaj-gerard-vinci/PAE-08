@@ -140,12 +140,12 @@ public class ContactUCCImpl implements ContactUCC {
     if (getContactById(contact2.getId()) == null) {
       return;
     }
-    
-    if(contact2.getLieuxRencontre() != null) {
+
+    if (contact2.getLieuxRencontre() != null) {
       contact.setLieuxRencontre(contact2.getLieuxRencontre());
     }
 
-    if(contact2.getRaisonRefus() != null) {
+    if (contact2.getRaisonRefus() != null) {
       contact.setRaisonRefus(contact2.getRaisonRefus());
     }
 
