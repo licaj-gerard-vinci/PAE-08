@@ -15,10 +15,9 @@ public interface ContactDAO {
   /**
    * Gets the contacts.
    *
-   * @param id the user ID.
    * @return the contacts.
    */
-  List<ContactDTO> getContacts(int id);
+  List<ContactDTO> getContacts();
 
   /**
    * Fetches all contact information for a specific user.
@@ -27,6 +26,11 @@ public interface ContactDAO {
    * @return A list of contact information.
    */
   List<ContactDTO> getContactsAllInfo(int idUser);
+
+  /**
+   * Get a contact by its ID.
+   */
+    ContactDTO getContactById(int idContact);
 
   boolean checkContactExists(int idUser, int idEntreprise);
 

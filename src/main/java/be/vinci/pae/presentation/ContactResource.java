@@ -53,8 +53,7 @@ public class ContactResource {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts(
-            authenticatedUser.getId());
+    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts();
     if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Response.Status.NOT_FOUND);
     }

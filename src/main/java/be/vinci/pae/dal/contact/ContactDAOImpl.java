@@ -31,24 +31,21 @@ public class ContactDAOImpl implements ContactDAO {
   /**
    * Gets the contacts.
    *
-   * @param id the user ID.
    * @return the contacts.
    */
   @Override
-  public List<ContactDTO> getContacts(int id) {
+  public List<ContactDTO> getContacts() {
     String query =
         "SELECT comp.company_name, comp.company_designation, con.contact_contact_status,"
             + " con.contact_meeting_place"
             + ", con.contact_refusal_reason, con.contact_contact_id "
             + "FROM pae.users AS usr "
             + "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
-            + "JOIN pae.companies AS comp ON con.company_id = comp.company_id "
-            + "WHERE usr.user_id = ?";
+            + "JOIN pae.companies AS comp ON con.company_id = comp.company_id ";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
           contacts.add(rsToContact(rs));
@@ -92,6 +89,35 @@ public class ContactDAOImpl implements ContactDAO {
 
     return contacts;
   }
+
+  /**
+   * Get a contact by its ID.
+   *
+   * @param idContact the ID of the contact.
+   * @return the contact.
+   */
+    public ContactDTO getContactById(int idContact) {
+        String query =
+            "SELECT c.*, u.*, comp.*, sy.* "
+                + "FROM pae.contacts c "
+                + "JOIN pae.users u ON c.contact_student_id = u.user_id "
+                + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
+                + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
+                + "WHERE c.contact_id = ?";
+
+        try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+        statement.setInt(1, idContact);
+        try (ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+            return rsToContact(rs);
+            }
+        }
+        } catch (SQLException e) {
+        throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 
   public boolean checkContactExists(int idUser, int idEntreprise) {
     String query = "SELECT contact_id FROM pae.contact WHERE student_id = ? AND company_id = ?";

@@ -24,14 +24,13 @@ public class ContactUCCImpl implements ContactUCC {
   /**
    * Retrieves a list of contacts for a specific user.
    *
-   * @param idUser the ID of the user
    * @return a list of contacts
    */
   @Override
-  public List<ContactDTO> getContacts(int idUser) {
+  public List<ContactDTO> getContacts() {
     try {
       dalServices.startTransaction();
-      List<ContactDTO> contacts = contactDAO.getContacts(idUser);
+      List<ContactDTO> contacts = contactDAO.getContacts();
       dalServices.commitTransaction();
       return contacts;
     } catch (Exception e) {
@@ -48,7 +47,11 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idUser the ID of the user
    * @return a list of contacts with all information
    */
+  @Override
   public List<ContactDTO> getContactsAllInfo(int idUser) {
+    if(myUser.getOne(idUser) == null) {
+      return null;
+    }
     try {
       dalServices.startTransaction();
       List<ContactDTO> contacts = contactDAO.getContactsAllInfo(idUser);
@@ -63,12 +66,44 @@ public class ContactUCCImpl implements ContactUCC {
   }
 
   /**
+   * Retrieves a contact by its ID.
+   *
+   * @param idContact the ID of the contact
+   * @return the contact
+   */
+  @Override
+  public ContactDTO getContactById(int idContact) {
+      try {
+      dalServices.startTransaction();
+      ContactDTO contact = contactDAO.getContactById(idContact);
+      dalServices.commitTransaction();
+      return contact;
+      } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+      } finally {
+      dalServices.close();
+      }
+  }
+
+  /**
    * Inserts a new contact.
    *
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    validateUserAndCompany(contact);
+    if(getContactById(contact.getId()) == null){
+      return;
+    };
+
+    if(myUser.getOne(contact.getUtilisateur().getId()) == null){
+        return;
+    };
+
+    if(myCompany.getEntreprise(contact.getEntreprise().getId()) == null){
+        return;
+    };
+
 
     try {
       dalServices.startTransaction();
@@ -92,7 +127,10 @@ public class ContactUCCImpl implements ContactUCC {
     System.out.println("contact status: " + contact.getEtatContact());
     System.out.println("contact userId: " + contact.getUtilisateur().getId());
     System.out.println("contact companyId: " + contact.getEntreprise().getId());
-    validateUserAndCompany(contact);
+
+    if(getContactById(contact.getId()) == null){
+      return;
+    };
 
     try {
       dalServices.startTransaction();
@@ -184,11 +222,5 @@ public class ContactUCCImpl implements ContactUCC {
     return contactDAO.checkContactAndState(idUser,idEntreprise,etat);
   }
 
-  private void validateUserAndCompany(ContactDTO contact) {
-    if(myUser.getOne(contact.getUtilisateur().getId()) != null
-            || myCompany.getEntreprise(contact.getEntreprise().getId()) != null) {
-      throw new IllegalArgumentException("User or company not found");
-    }
-  }
 
 }
