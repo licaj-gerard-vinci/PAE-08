@@ -83,10 +83,10 @@ public class ContactUCCImpl implements ContactUCC {
       System.out.println("contact: " + contact);
       dalServices.commitTransaction();
       return contact;
-      } catch (Exception e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
-      } finally {
+    } finally {
       dalServices.close();
     }
   }
@@ -143,15 +143,15 @@ public class ContactUCCImpl implements ContactUCC {
 
     try {
       dalServices.startTransaction();
-      if(contact.getEtatContact().equals("taken")) {
+      if (contact.getEtatContact().equals("taken")) {
         checkContactTaken(contact);
-      } else if(contact.getEtatContact().equals("accepted")) {
+      } else if (contact.getEtatContact().equals("accepted")) {
         System.out.println("enter accepted if");
         checkContactAccepted(contact);
-      } else if(contact.getEtatContact().equals("refused")) {
+      } else if (contact.getEtatContact().equals("refused")) {
         System.out.println("enter refused if");
         checkContactRefused(contact);
-      } else if(contact.getEtatContact().equals("unsupervised")) {
+      } else if (contact.getEtatContact().equals("unsupervised")) {
         System.out.println("enter unsupervised if");
         checkContactUnsupervised(contact);
       } else {
@@ -238,7 +238,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return true if the contact exists and is in the specified state, false otherwise
    */
   public boolean checkContactAndState(int idUser, int idEntreprise, String etat) {
-    return contactDAO.checkContactAndState(idUser,idEntreprise,etat);
+    return contactDAO.checkContactAndState(idUser, idEntreprise, etat);
   }
 
 

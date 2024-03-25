@@ -107,28 +107,36 @@ public class ContactDAOImpl implements ContactDAO {
             + "WHERE c.contact_id = ?";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-    statement.setInt(1, idContact);
-    try (ResultSet rs = statement.executeQuery()) {
-        if (rs.next()) {
-          return rsToContact(rs);
-        }
-    }
+      statement.setInt(1, idContact);
+      try (ResultSet rs = statement.executeQuery()) {
+          if (rs.next()) {
+            return rsToContact(rs);
+          }
+      }
     } catch (SQLException e) {
       e.printStackTrace();
-    throw new RuntimeException(e);
+      throw new RuntimeException(e);
     }
 
     return null;
   }
 
+  /**
+   * Check if a contact exists.
+   *
+   * @param idUser The ID of the user.
+   * @param idEntreprise The ID of the company.
+   * @return The contact if it exists, null otherwise.
+   */
   public ContactDTO checkContactExists(int idUser, int idEntreprise) {
     System.out.println("enter check");
-    String query = "SELECT * FROM pae.contacts, pae.school_years, pae.companies, pae.users WHERE contact_student_id = ? AND contact_company_id = ?";
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+    String query = "SELECT * FROM pae.contacts, pae.school_years, pae.companies, "
+            + "pae.users WHERE contact_student_id = ? AND contact_company_id = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
-      if(rs.next()){
+      if (rs.next()) {
         return rsToContact(rs);
       }
     } catch (SQLException e) {
@@ -139,9 +147,17 @@ public class ContactDAOImpl implements ContactDAO {
     return null;
   }
 
+  /**
+   * Check if a contact can be updated to the 'taken' state.
+   *
+   * @param idUser The ID of the user.
+   * @param idEntreprise The ID of the company.
+   * @return true if the contact can be updated, false otherwise.
+   */
   public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
-    String query = "SELECT contact_status FROM pae.contacts WHERE contact_student_id = ? AND contact_company_id = ?";
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)){
+    String query = "SELECT contact_status FROM pae.contacts WHERE contact_student_id = ? "
+            + "AND contact_company_id = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
