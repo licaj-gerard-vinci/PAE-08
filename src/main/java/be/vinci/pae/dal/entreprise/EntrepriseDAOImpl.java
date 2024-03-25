@@ -55,8 +55,9 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   public List<EntrepriseDTO> getEntreprises() {
 
     String query = "SELECT company_id, company_name, company_designation, "
-        + "company_address, company_phone_number FROM pae.companies "
+        + "company_address, company_phone_number,company_version FROM pae.companies "
         + "WHERE company_is_blacklisted = false";
+
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
@@ -78,6 +79,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     entreprise.setAppellation(rs.getString("company_designation"));
     entreprise.setAdresse(rs.getString("company_address"));
     entreprise.setNumTel(rs.getString("company_phone_number"));
+    entreprise.setVersion(rs.getInt("company_version"));
 
     return entreprise;
   }
