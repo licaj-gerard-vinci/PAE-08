@@ -12,11 +12,10 @@ public interface ContactUCC {
   /**
    * Gets the contacts.
    *
-   * @param idUser the user ID.
    * @return the contacts.
    */
 
-  List<ContactDTO> getContacts(int idUser);
+  List<ContactDTO> getContacts();
 
   /**
    * Fetches all contact information for a specific user.
@@ -27,6 +26,14 @@ public interface ContactUCC {
   List<ContactDTO> getContactsAllInfo(int idUser);
 
   /**
+   * Get a contact by its ID.
+   *
+   * @param idContact The ID of the contact to fetch.
+   * @return A ContactDTO object containing the contact information.
+   */
+  ContactDTO getContactById(int idContact);
+
+  /**
    * Inserts a new contact into the database.
    *
    * @param contact A ContactDTO object containing the information of the contact to be inserted.
@@ -34,9 +41,10 @@ public interface ContactUCC {
   void insertContact(ContactDTO contact);
 
   /**
-   * Updates the information of an existing contact in the database.
+   * Updates the information of a contact in the database.
    *
    * @param contact A ContactDTO object containing the updated information of the contact.
    */
   void updateContact(ContactDTO contact);
+
 }

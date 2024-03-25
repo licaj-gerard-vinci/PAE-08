@@ -42,7 +42,7 @@ public class ContactResource {
    * @return the contacts of the authenticated user.
    */
   @GET
-  @Path("/{id}")
+  @Path("/detailed")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
@@ -51,8 +51,7 @@ public class ContactResource {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts(
-            authenticatedUser.getId());
+    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts();
     if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Response.Status.NOT_FOUND);
     }
@@ -75,8 +74,7 @@ public class ContactResource {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(
-            authenticatedUser.getId());
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(authenticatedUser.getId());
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }
@@ -92,7 +90,7 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @POST
-  @Path("insert")
+  @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
@@ -103,6 +101,7 @@ public class ContactResource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
+
     myContactUcc.insertContact(contact);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
@@ -119,7 +118,7 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @PUT
-  @Path("update")
+  @Path("/update")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
@@ -129,6 +128,7 @@ public class ContactResource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
+
     myContactUcc.updateContact(contact);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();

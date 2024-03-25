@@ -1,7 +1,8 @@
 /* eslint-disable prefer-template */
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
-import { getStagePresent, getContacts } from '../../model/users';
+import { getStagePresent } from '../../model/users';
+import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();

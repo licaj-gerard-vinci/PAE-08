@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * The interface log
+ * The interface log.
  */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
