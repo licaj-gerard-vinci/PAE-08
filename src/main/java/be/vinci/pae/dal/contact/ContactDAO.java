@@ -34,14 +34,6 @@ public interface ContactDAO {
   ContactDTO getContactById(int idContact);
 
   /**
-   * Check if a contact can be updated to the 'taken' state.
-   *
-   * @param idUser The contact to update.
-   * @param idEntreprise The contact to update.
-   * @return true if the contact can be updated, false otherwise.
-   */
-
-  /**
    * Check if a contact exists.
    *
    * @param idUser The user ID.
