@@ -78,27 +78,17 @@ CREATE TABLE pae.contacts(
                              contact_refusal_reason          TEXT
 );
 
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,9,2,'accepted','distenciel');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,6,4,'accepted','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,6,3,'refused','N ont pas accepté d avoir un entretien','distance');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,1,'accepted','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,2,'on hold','distance');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,7,4,'on hold');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,7,3,'refused','ne prennent qu un seul étudiant','on site');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,5,3,'taken','distance');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,4,'initiated');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,2,'initiated');
-
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,8,4,'initiated');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,9,2,'accepté','distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,6,4,'accepté','sur place');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,6,3,'refusé','N ont pas accepté d avoir un entretien','distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,1,'accepté','sur place');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,7,2,'suspendu','distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,7,4,'suspendu');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place)VALUES (1,7,3,'refusé','ne prennent qu un seul étudiant','sur place');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place)VALUES (1,5,3,'pris','distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,4,'initié');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,5,2,'initié');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status)VALUES (1,8,4,'initié');
 
 
 
