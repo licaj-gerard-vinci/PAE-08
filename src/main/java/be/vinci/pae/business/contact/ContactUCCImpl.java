@@ -1,10 +1,10 @@
 package be.vinci.pae.business.contact;
 
+import be.vinci.pae.business.entreprise.EntrepriseUCC;
+import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import jakarta.inject.Inject;
-
-import java.sql.SQLException;
 import java.util.List;
 
 public class ContactUCCImpl implements ContactUCC {
@@ -14,6 +14,12 @@ public class ContactUCCImpl implements ContactUCC {
 
   @Inject
   private DALServices dalServices;
+
+  @Inject
+  private UserUCC myUser;
+
+  @Inject
+  private EntrepriseUCC myCompany;
 
   /**
    * Retrieves a list of contacts for a specific user.
@@ -62,7 +68,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    validateContact(contact);
+    validateUserAndCompany(contact);
 
     try {
       dalServices.startTransaction();
@@ -79,7 +85,36 @@ public class ContactUCCImpl implements ContactUCC {
     } finally {
       dalServices.close();
     }
+  }
 
+  public void updateContact(ContactDTO contact) {
+    System.out.println("enter updateContact method");
+    System.out.println("contact status: " + contact.getEtatContact());
+    System.out.println("contact userId: " + contact.getUtilisateur().getId());
+    System.out.println("contact companyId: " + contact.getEntreprise().getId());
+    validateUserAndCompany(contact);
+
+    try {
+      dalServices.startTransaction();
+      if(contact.getEtatContact().equals("taken")) {
+        checkContactTaken(contact);
+      } else if(contact.getEtatContact().equals("accepted")) {
+        checkContactAccepted(contact);
+      } else if(contact.getEtatContact().equals("refused")) {
+        checkContactRefused(contact);
+      } else if(contact.getEtatContact().equals("unsupervised")) {
+        checkContactUnsupervised(contact);
+      } else {
+        throw new IllegalArgumentException("etat du contact non valide");
+      }
+      contactDAO.updateContact(contact);
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
+    }
   }
 
   /**
@@ -149,38 +184,10 @@ public class ContactUCCImpl implements ContactUCC {
     return contactDAO.checkContactAndState(idUser,idEntreprise,etat);
   }
 
-  private void validateContact(ContactDTO contact) {
-    if (contact == null) {
-      throw new IllegalArgumentException("Contact cannot be null");
-    }
-  }
-
-  public void updateContact(ContactDTO contact) {
-    System.out.println("enter updateContact method");
-    System.out.println("contact status: " + contact.getEtatContact());
-    System.out.println("contact userId: " + contact.getUtilisateur().getId());
-    System.out.println("contact companyId: " + contact.getEntreprise().getId());
-    validateContact(contact);
-    try {
-      dalServices.startTransaction();
-      if(contact.getEtatContact().equals("taken")) {
-        checkContactTaken(contact);
-      } else if(contact.getEtatContact().equals("accepted")) {
-        checkContactAccepted(contact);
-      } else if(contact.getEtatContact().equals("refused")) {
-        checkContactRefused(contact);
-      } else if(contact.getEtatContact().equals("unsupervised")) {
-        checkContactUnsupervised(contact);
-      } else {
-        throw new IllegalArgumentException("etat du contact non valide");
-      }
-      contactDAO.updateContact(contact);
-      dalServices.commitTransaction();
-    } catch (Exception e) {
-      dalServices.rollbackTransaction();
-      throw e;
-    } finally {
-      dalServices.close();
+  private void validateUserAndCompany(ContactDTO contact) {
+    if(myUser.getOne(contact.getUtilisateur().getId()) != null
+            || myCompany.getEntreprise(contact.getEntreprise().getId()) != null) {
+      throw new IllegalArgumentException("User or company not found");
     }
   }
 

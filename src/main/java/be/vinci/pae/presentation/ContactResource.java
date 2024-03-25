@@ -37,12 +37,6 @@ public class ContactResource {
   @Inject
   private ContactUCC myContactUcc;
 
-  @Inject
-  private UserUCC myUser;
-
-  @Inject
-  private EntrepriseUCC myCompany;
-
   /**
    * Retrieves the contacts of the authenticated user from the request context.
    *
@@ -137,6 +131,7 @@ public class ContactResource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
+
     myContactUcc.updateContact(contact);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
