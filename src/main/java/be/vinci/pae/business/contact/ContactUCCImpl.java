@@ -73,7 +73,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public ContactDTO getContactById(int idContact) {
-    System.out.println("enter getContactById");
+    System.out.println("enter getContactById from ucc");
       try {
       dalServices.startTransaction();
       ContactDTO contact = contactDAO.getContactById(idContact);
@@ -94,10 +94,6 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    if(getContactById(contact.getId()) == null){
-      return;
-    };
-
     if(myUser.getOne(contact.getUtilisateur().getId()) == null){
         return;
     };
@@ -113,7 +109,6 @@ public class ContactUCCImpl implements ContactUCC {
       if (checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId()) != null) {
         throw new RuntimeException("Contact already exists");
       }
-
       contactDAO.insertContact(contact);
       dalServices.commitTransaction();
     } catch (Exception e) {
@@ -137,8 +132,6 @@ public class ContactUCCImpl implements ContactUCC {
     if(getContactById(contact2.getId()) == null){
       return;
     };
-
-    System.out.println(getContactById(contact2.getId()));
 
     try {
       dalServices.startTransaction();

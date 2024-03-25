@@ -97,6 +97,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return the contact.
    */
     public ContactDTO getContactById(int idContact) {
+      System.out.println("enter DAO getContactById");
         String query =
             "SELECT c.*, u.*, comp.*, sy.* "
                 + "FROM pae.contacts c "
@@ -113,6 +114,7 @@ public class ContactDAOImpl implements ContactDAO {
             }
         }
         } catch (SQLException e) {
+          e.printStackTrace();
         throw new RuntimeException(e);
         }
 
@@ -152,6 +154,7 @@ public class ContactDAOImpl implements ContactDAO {
         return false;
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new RuntimeException();
     }
   }
@@ -174,6 +177,7 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setString(3, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
@@ -197,6 +201,7 @@ public class ContactDAOImpl implements ContactDAO {
           contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
       statement.executeUpdate();
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }
