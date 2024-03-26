@@ -68,7 +68,7 @@ public class StageDAOImpl implements StageDAO {
   @Override
   public StageDTO getStageById(int userId) {
     String query =
-        "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
+        "SELECT int.*, man.*, use.*, con.*, com.*, sch.*"
             + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, "
             + "pae.companies com, pae.school_years sch "
             + "WHERE int.internship_manager_id = man.manager_id "
@@ -124,6 +124,7 @@ public class StageDAOImpl implements StageDAO {
     stage.setIdContact(contact.getId());
     stage.setEntreprise(entreprise);
     stage.setIdEntreprise(entreprise.getId());
+    stage.setVersion(rs.getInt("internship_version"));
 
     return stage;
   }

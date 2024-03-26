@@ -127,7 +127,6 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to update
    */
   public void updateContact(ContactDTO contact) {
-
     ContactDTO contact2 = checkContact(contact.getUtilisateur()
             .getId(), contact.getEntreprise().getId());
 
