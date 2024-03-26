@@ -28,7 +28,6 @@ import java.util.List;
  */
 @Singleton
 @Path("contacts")
-@Log
 public class ContactResource {
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -122,6 +121,7 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
+  @Log
   public ObjectNode updateContact(ContactDTO contact,
                                   @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");

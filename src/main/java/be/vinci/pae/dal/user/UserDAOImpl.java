@@ -108,7 +108,7 @@ public class UserDAOImpl implements UserDAO {
         "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname, "
             + "user_school_year_id, user_phone_number, user_role, user_registration_date, "
             + "user_has_internship, user_version) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE, 1) RETURNING user_id;";
+            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE, 1) RETURNING user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
       statement.setString(2, user.getPassword());

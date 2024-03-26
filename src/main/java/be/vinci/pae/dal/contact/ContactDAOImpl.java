@@ -7,6 +7,7 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -208,11 +209,12 @@ public class ContactDAOImpl implements ContactDAO {
    * @param contact The contact information to update.
    * @throws RuntimeException If an SQL exception occurs.
    */
+  @Log
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_company_id = ?, "
             + "contact_student_id = ? , contact_school_year_id = ?,  "
             + "contact_status = ?, contact_meeting_place = ?, contact_refusal_reason = ?, "
-            + "contact_version = contact_version + 1 WHERE contact_company_id = ? AND contact_version = ? returning *";
+            + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise().getId());
       statement.setInt(2, contact.getUtilisateur().getId());
@@ -220,25 +222,11 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setString(4, contact.getEtatContact());
       statement.setString(5, contact.getLieuxRencontre());
       statement.setString(6, contact.getRaisonRefus());
-      statement.setInt(7, contact.getEntreprise().getId());
+      statement.setInt(7, contact.getId());
       statement.setInt(8, contact.getVersion());
-      try (ResultSet rs = statement.executeQuery()){
-        if (rs.next()) {
-          System.out.println("Contact updated successfully");
-        }else{
-          String queryVerif = "SELECT contact_version FROM pae.contacts WHERE contact_id = ?";
-          try (PreparedStatement statementVerif = dalBackService.preparedStatement(queryVerif)) {
-              statementVerif.setInt(1, contact.getId());
-              try (ResultSet rsVerif = statementVerif.executeQuery()) {
-                if (rsVerif.next()) {
-                    int version = rsVerif.getInt("contact_version");
-                    if (version != contact.getVersion()) {
-                      throw new RuntimeException("Version mismatch");
-                    }
-                }
-              }
-          }
-        }
+      int rows = statement.executeUpdate();
+      if (rows == 0) {
+        throw new RuntimeException("Contact not found");
       }
     } catch (SQLException e) {
       e.printStackTrace();
@@ -253,7 +241,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return the contact detailled DTO
    * @throws SQLException the SQL exception
    */
-  private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException {
+  private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException{
 
 
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
