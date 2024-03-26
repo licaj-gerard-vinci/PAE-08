@@ -161,7 +161,7 @@ public class UserDAOImpl implements UserDAO {
     if (user.getPhone() != null) fieldsToUpdate.add("user_phone_number = ?");
     if (user.getRole() != null) fieldsToUpdate.add("user_role = ?");
 
-    if (fieldsToUpdate.isEmpty()) return false; // Aucune mise à jour à effectuer
+    if (fieldsToUpdate.isEmpty()) return false;
 
     String query = String.format("UPDATE pae.users SET %s WHERE user_id = ?",
         String.join(", ", fieldsToUpdate));

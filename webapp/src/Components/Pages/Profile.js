@@ -1,8 +1,10 @@
 /* eslint-disable prefer-template */
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
-import { getStagePresent, updateUser } from '../../model/users';
+// eslint-disable-next-line import/no-cycle
+import { getStagePresent, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
+
 
 
 
@@ -76,13 +78,13 @@ function renderProfile(user) {
     };
       console.log("updatedUser", updatedUser);
     // Mettre à jour les informations utilisateur via une requête API
-    try {
+    
       await updateUser(updatedUser);
+      await refreshUser();
+      ProfilePage();
       alert('Les informations ont été mises à jour.');
-      document.getElementById('edit-form').style.display = 'none';
-    } catch (error) {
-      alert('Une erreur est survenue lors de la mise à jour : ' + error.message);
-    }
+      
+    
   });
 
   // Ajouter un écouteur d'événements pour le bouton de changement de mot de passe

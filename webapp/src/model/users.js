@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 import {
   getAuthenticatedUser,
@@ -139,9 +140,8 @@ async function registerUser(user){
 
 
 async function updateUser(user){
-  let users = null;
   const id = getAuthenticatedUser();
-    const idUser = id.user.id;
+  const idUser = id.user.id;
   const token = getToken();
   const options = {
     method: 'PUT',
@@ -161,42 +161,33 @@ async function updateUser(user){
 
   try {
     const response = await fetch(`http://localhost:8080/auth/${idUser}`, options);
-    console.log("response", response);
     if (!response.ok) {
       throw new Error(`Error updating user: ${response.statusText}`);
     }
 
-    users = await response.json();
-    console.log("users", users);
+    // Obtenir la réponse mise à jour de l'utilisateur et préserver le token
+    const updatedUserResponse = await response.json();
+    const currentUser = getAuthenticatedUser();
 
-  } catch (error) { 
-    console.error('Error updating user', error);
-  }
-
-  if(token) {
-    const options2 = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
+    // Mettre à jour les informations de l'utilisateur actuel tout en préservant le token
+    const updatedUser = {
+      ...currentUser, // Cela préserve toutes les informations existantes
+      user: updatedUserResponse // Cela met à jour les informations de l'utilisateur
     };
-  try {
-    const updatedUser = await fetch(`http://localhost:8080/auth`, options2);
-    console.log("updatedUser", updatedUser);
 
-    const authenticatedUser = await updatedUser.json();
-    console.log("authenticatedUser", authenticatedUser);
-    setAuthenticatedUser(authenticatedUser);
-  }
-  catch (error) {
+    // Mettre à jour le stockage local
+    setAuthenticatedUser(updatedUser);
+
+    // Si vous avez besoin de rafraîchir la page ou l'état de l'application après la mise à jour, faites-le ici
+    // par exemple en rechargeant les informations de l'utilisateur ou en re-rendering les composants concernés.
+    await refreshUser();
+  
+  } catch (error) {
     console.error('Error updating user', error);
-  }
-
-  
-  
   }
 }
+
+
 
 
 export {loginUser,

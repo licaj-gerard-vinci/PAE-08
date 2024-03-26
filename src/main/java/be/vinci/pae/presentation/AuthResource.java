@@ -139,10 +139,10 @@ public class AuthResource {
     user.setId(id);
     boolean updateResult = myUserUcc.update(user);
     if (updateResult) {
-      // Supposons que getUserById est une méthode qui récupère l'utilisateur mis à jour par son ID.
-      return myUserUcc.getOne(id); // Retourne directement l'utilisateur mis à jour
+
+      return myUserUcc.getOne(id);
     } else {
-      // Si l'utilisateur n'est pas trouvé ou que la mise à jour échoue, vous pourriez lancer une exception personnalisée
+
       throw new WebApplicationException("User not found or update failed", Status.NOT_FOUND);
     }
   }
