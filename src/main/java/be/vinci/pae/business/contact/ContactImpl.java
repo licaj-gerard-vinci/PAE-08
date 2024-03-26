@@ -194,6 +194,7 @@ public class ContactImpl implements ContactDTO {
   public int getVersion() {
     return version;
   }
+  
   /**
    * Sets the version.
    *

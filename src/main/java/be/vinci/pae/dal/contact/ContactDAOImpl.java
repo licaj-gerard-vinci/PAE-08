@@ -208,12 +208,13 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_status = ?, contact_meeting_place = ?, "
-            + "contact_refusal_reason = ? , contact_version = ?  WHERE contact_company_id = ? AND contact_student_id = ?;";
+            + "contact_refusal_reason = ? , contact_version = ?  "
+            + "WHERE contact_company_id = ? AND contact_student_id = ?;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, contact.getEtatContact());
       statement.setString(2, contact.getLieuxRencontre());
       statement.setString(3, contact.getRaisonRefus());
-      statement.setInt(4,contact.getVersion());
+      statement.setInt(4, contact.getVersion());
       statement.setInt(5,
           contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
       statement.setInt(6,

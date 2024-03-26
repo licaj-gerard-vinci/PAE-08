@@ -144,9 +144,9 @@ public interface EntrepriseDTO {
   String getMotivation();
 
   /**
-   * Sets the motivation
+   * Sets the motivation.
    *
-   * @param motivation
+   * @param motivation the new motivation for the entreprise.
    */
   void setMotivation(String motivation);
 
