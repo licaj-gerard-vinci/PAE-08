@@ -12,7 +12,7 @@ Content-Type: application/json
 %}
 
 ### Insert a new contact
-POST {{baseUrl}}/contacts/insert/9&1
+POST {{baseUrl}}/contacts/insert/10&1
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -21,7 +21,7 @@ Content-Type: application/json
       "id": 1
     },
     "utilisateur": {
-    "id": 9
+    "id": 10
     },
     "etatContact": "initiated"
 }
@@ -36,7 +36,7 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "id": 27,
+    "id": 12,
     "entreprise": {
       "id": 1,
       "nom": "Assyst Europe",
@@ -49,7 +49,7 @@ Content-Type: application/json
       "motivation_blacklist": null
     },
     "utilisateur": {
-      "id": 11,
+      "id": 10,
       "email": "nadir.ahdid@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
@@ -60,7 +60,8 @@ Content-Type: application/json
       "version": 1,
       "year": {
         "id": 1,
-        "annee": "2023-2024"
+        "annee": "2023-2024",
+        "version": 1
       }
     },
   "etatContact": "pris",

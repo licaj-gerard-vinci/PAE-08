@@ -50,7 +50,7 @@ public class StageDAOImpl implements StageDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          stages.add(rsToStage(rs));
+          stages.add(rsToStage(rs, "get"));
         }
       }
     } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class StageDAOImpl implements StageDAO {
       statement.setInt(1, userId);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          stage = rsToStage(rs);
+          stage = rsToStage(rs, "get");
         }
       }
     } catch (SQLException e) {
@@ -101,14 +101,14 @@ public class StageDAOImpl implements StageDAO {
    * @throws SQLException the SQL exception
    */
 
-  public StageDTO rsToStage(ResultSet rs) throws SQLException {
+  public StageDTO rsToStage(ResultSet rs, String method) throws SQLException {
     StageDTO stage = factory.getStageDTO();
 
     // Fill DTOs using methods from DALBackServiceUtils
-    ResponsableDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs);
-    UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs);
-    ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs);
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
+    ResponsableDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
+    UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
+    ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
 
     // Add stage info
     stage.setId(rs.getInt("internship_id"));
@@ -124,8 +124,11 @@ public class StageDAOImpl implements StageDAO {
     stage.setIdContact(contact.getId());
     stage.setEntreprise(entreprise);
     stage.setIdEntreprise(entreprise.getId());
-    stage.setVersion(rs.getInt("internship_version"));
-
+    if (method.equals("update")) {
+      stage.setVersion(rs.getInt("internship_version") + 1);
+    } else {
+      stage.setVersion(rs.getInt("internship_version"));
+    }
     return stage;
   }
 }

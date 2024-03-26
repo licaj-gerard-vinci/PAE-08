@@ -129,7 +129,7 @@ public class ContactUCCImpl implements ContactUCC {
   public void updateContact(ContactDTO contact) {
     ContactDTO contact2 = checkContact(contact.getUtilisateur()
             .getId(), contact.getEntreprise().getId());
-
+    System.out.println("contact2: " + contact2);
 
     if (getContactById(contact2.getId()) == null) {
       return;
@@ -143,14 +143,6 @@ public class ContactUCCImpl implements ContactUCC {
     if (contact2.getRaisonRefus() != null) {
       contact.setRaisonRefus(contact2.getRaisonRefus());
     }
-
-    if (contact2.getVersion() != contact.getVersion()) {
-      throw new IllegalArgumentException("Version conflict");
-    }
-
-    contact.setVersion(contact.getVersion() + 1);
-
-
 
     try {
       dalServices.startTransaction();
@@ -169,6 +161,7 @@ public class ContactUCCImpl implements ContactUCC {
         System.out.println("enter etat non trouvee");
         throw new IllegalArgumentException("etat du contact non valide");
       }
+      contact.setAnnee(contact2.getAnnee());
       contactDAO.updateContact(contact);
       dalServices.commitTransaction();
     } catch (Exception e) {

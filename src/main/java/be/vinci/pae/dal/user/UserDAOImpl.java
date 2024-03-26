@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          return rsToUser(rs,"get");
         }
       }
     } catch (SQLException e) {
@@ -66,7 +66,7 @@ public class UserDAOImpl implements UserDAO {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          return rsToUser(rs, "get");
         }
       }
     } catch (SQLException e) {
@@ -88,7 +88,7 @@ public class UserDAOImpl implements UserDAO {
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          users.add(rsToUser(rs));
+          users.add(rsToUser(rs, "get"));
         }
       }
     } catch (SQLException e) {
@@ -137,12 +137,13 @@ public class UserDAOImpl implements UserDAO {
    * @return a UserDTO object populated with user data from the ResultSet row.
    * @throws SQLException if an error occurs while accessing the ResultSet.
    */
-  private UserDTO rsToUser(ResultSet rs) throws SQLException {
-    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
+  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     YearDTO year = factory.getYearDTO();
 
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
+    year.setVersion(rs.getInt("school_year_version"));
 
     user.setYear(year);
 

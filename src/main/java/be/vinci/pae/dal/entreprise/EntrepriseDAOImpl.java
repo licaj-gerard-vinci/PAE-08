@@ -38,7 +38,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToEntreprises(rs);
+          return rsToEntreprises(rs, "get");
         }
       }
     } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
         ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
-        entreprises.add(rsToEntreprises(rs));
+        entreprises.add(rsToEntreprises(rs, "get"));
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -72,7 +72,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     return entreprises;
   }
 
-  private EntrepriseDTO rsToEntreprises(ResultSet rs) throws SQLException {
-    return dalBackServiceUtils.fillEntrepriseDTO(rs);
+  private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
+    return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
   }
 }
