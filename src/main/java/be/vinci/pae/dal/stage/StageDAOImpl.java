@@ -97,6 +97,7 @@ public class StageDAOImpl implements StageDAO {
    * Rs to stage.
    *
    * @param rs the rs
+   * @param method the method
    * @return the stage DTO
    * @throws SQLException the SQL exception
    */
