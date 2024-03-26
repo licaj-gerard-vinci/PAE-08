@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Carole.skile@student.vinci.be",
+  "email": "nadir.ahdid@student.vinci.be",
   "password": "a"
 }
 
@@ -49,7 +49,7 @@ Content-Type: application/json
       "motivation_blacklist": null
     },
     "utilisateur": {
-      "id": 12,
+      "id": 11,
       "email": "nadir.ahdid@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
@@ -57,12 +57,14 @@ Content-Type: application/json
       "registrationDate": "23-03-24 11:00:00",
       "role": "E",
       "hasInternship": false,
+      "version": 1,
       "year": {
         "id": 1,
         "annee": "2023-2024"
       }
     },
-  "etatContact": "taken",
-  "raisonRefus": null
+  "etatContact": "pris",
+  "raisonRefus": null,
+  "version": 1
 }
 

@@ -24,6 +24,8 @@ public class EntrepriseImpl implements EntrepriseDTO {
 
   private String city;
 
+  private int version;
+
 
   /**
    * Gets the ID of the entreprise.
@@ -208,6 +210,26 @@ public class EntrepriseImpl implements EntrepriseDTO {
   @Override
   public void setMotivation_blacklist(String motivation) {
     this.motivation = motivation;
+  }
+
+  @Override
+  public String getMotivation() {
+    return motivation;
+  }
+
+  @Override
+  public void setMotivation(String motivation) {
+    this.motivation = motivation;
+  }
+
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
   }
 
   /**

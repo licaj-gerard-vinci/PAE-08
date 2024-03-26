@@ -38,6 +38,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setHasInternship(rs.getBoolean("user_has_internship"));
+    user.setVersion(rs.getInt("user_version"));
     return user;
   }
 
@@ -54,6 +55,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    contact.setVersion(rs.getInt("contact_version"));
     return contact;
   }
 
@@ -72,6 +74,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     responsable.setNumTel(rs.getString("manager_phone_number"));
     responsable.setEmail(rs.getString("manager_email"));
     responsable.setIdEntreprise(rs.getInt("manager_company_id"));
+    responsable.setVersion(rs.getInt("manager_version"));
     return responsable;
   }
 
@@ -93,6 +96,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     entreprise.setEmail(rs.getString("company_email"));
     entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
     entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
+    entreprise.setVersion(rs.getInt("company_version"));
     return entreprise;
   }
 
