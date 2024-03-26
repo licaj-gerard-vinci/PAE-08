@@ -35,6 +35,8 @@ public class UserImpl implements User {
 
   private boolean hasInternship;
 
+  private int version;
+
   /**
    * Gets the user's login.
    *
@@ -213,7 +215,7 @@ public class UserImpl implements User {
    * @param password the password to hash.
    * @return the hashed password.
    */
-
+  @Override
   public String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
@@ -224,6 +226,7 @@ public class UserImpl implements User {
    *
    * @return the user's school year.
    */
+  @Override
   public YearDTO getYear() {
     return schoolyear;
   }
@@ -233,6 +236,7 @@ public class UserImpl implements User {
    *
    * @param schoolyear the new school year for the user.
    */
+  @Override
   public void setYear(YearDTO schoolyear) {
     this.schoolyear = schoolyear;
   }
@@ -242,6 +246,7 @@ public class UserImpl implements User {
    *
    * @return the user's internship status.
    */
+  @Override
   public boolean getHasInternship() {
     return hasInternship;
   }
@@ -251,8 +256,29 @@ public class UserImpl implements User {
    *
    * @param hasInternship the internship status to set for the user.
    */
+  @Override
   public void setHasInternship(boolean hasInternship) {
     this.hasInternship = hasInternship;
+  }
+
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
   }
 
 

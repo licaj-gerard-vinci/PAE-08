@@ -62,8 +62,7 @@ async function renderHomePage(){
             if(contacts){
               
               const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
-
-              console.log("contact found: ",contactFound);
+                console.log('contactFound: ', contactFound);
               if(!contactFound){
                 button = `
                 <div class="row">
@@ -190,6 +189,8 @@ async function renderHomePage(){
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
+        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+
 
         if (startedButton) {
           console.log('startedButton: ', startedButton)
@@ -212,9 +213,10 @@ async function renderHomePage(){
         
         if (document.querySelector(`#saveMeetingButton${entreprise.id}`)) {
           document.querySelector(`#saveMeetingButton${entreprise.id}`).addEventListener('click', async () => {
+            const contactVersion = contactFound.version;
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContact(entreprise, user.user, "pris", null, textInputValue);
+              await updateContact(entreprise, user.user, "pris", null, textInputValue, contactVersion);
               await renderHomePage();
             }
 
@@ -224,9 +226,10 @@ async function renderHomePage(){
         if (acceptedButton) {
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
+            const contactVersion = contactFound.version;
             acceptedButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user.user)
-            await updateContact(entreprise, user.user, "accepté", null, null);
+            await updateContact(entreprise, user.user, "accepté", null, null, contactVersion);
             console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
@@ -236,10 +239,11 @@ async function renderHomePage(){
         if (unsupervisedButton) {
           console.log('unsupervisedButton: ', unsupervisedButton)
           unsupervisedButton.addEventListener('click', async () => {
+            const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user.user)
-            await updateContact(entreprise, user.user, "non suivi", null, null);
+            await updateContact(entreprise, user.user, "non suivi", null, null, contactVersion);
             console.log('after update')
             await renderHomePage();
             unsupervisedButton.disabled = false;
@@ -256,8 +260,9 @@ async function renderHomePage(){
         if (document.querySelector(`#saveRefusalReasonButton${entreprise.id}`)) {
           document.querySelector(`#saveRefusalReasonButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
+            const contactVersion = contactFound.version;
             if(textInputValue){
-              await updateContact(entreprise, user.user, "refusé", textInputValue, null);
+              await updateContact(entreprise, user.user, "refusé", textInputValue, null, contactVersion);
               await renderHomePage();
             }
           });

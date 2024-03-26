@@ -18,35 +18,39 @@ public interface DALBackServiceUtils {
    * Fills a UserDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing user data.
+   * @param method the method to call
    * @return UserDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  UserDTO fillUserDTO(ResultSet rs) throws SQLException;
+  UserDTO fillUserDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a ContactDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing contact data.
+   * @param method the method to call
    * @return ContactDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  ContactDTO fillContactDTO(ResultSet rs) throws SQLException;
+  ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a ResponsableDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing responsable data.
+   * @param method the method to call
    * @return ResponsableDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  ResponsableDTO fillResponsableDTO(ResultSet rs) throws SQLException;
+  ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a EntrepriseDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing entreprise data.
+   * @param method the method to call
    * @return EntrepriseDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  EntrepriseDTO fillEntrepriseDTO(ResultSet rs) throws SQLException;
+  EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException;
 }

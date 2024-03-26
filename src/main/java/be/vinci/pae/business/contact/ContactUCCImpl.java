@@ -124,49 +124,48 @@ public class ContactUCCImpl implements ContactUCC {
   /**
    * Updates a contact.
    *
-   * @param contact the contact to update
+   * @param contactToUpdate the contact to update
    */
-  public void updateContact(ContactDTO contact) {
-    System.out.println("enter updateContact method");
-    System.out.println("contact status: " + contact.getEtatContact());
-    System.out.println("contact userId: " + contact.getUtilisateur().getId());
-    System.out.println("contact companyId: " + contact.getEntreprise().getId());
-    System.out.println("Contact id: " + contact.getId());
-    ContactDTO contact2 = checkContact(contact.getUtilisateur()
-            .getId(), contact.getEntreprise().getId());
-    System.out.println("contact: " + contact2);
-    System.out.println("Contact2 id: " + contact2.getId());
+  public void updateContact(ContactDTO contactToUpdate) {
+    ContactDTO contactToVerif = checkContact(contactToUpdate.getUtilisateur()
+            .getId(), contactToUpdate.getEntreprise().getId());
+    System.out.println("contact2: " + contactToVerif);
 
-    if (getContactById(contact2.getId()) == null) {
+    if (getContactById(contactToVerif.getId()) == null) {
       return;
     }
 
-    if (contact2.getLieuxRencontre() != null) {
-      contact.setLieuxRencontre(contact2.getLieuxRencontre());
+    contactToUpdate.setId(contactToVerif.getId());
+
+    if (contactToVerif.getLieuxRencontre() != null) {
+      contactToUpdate.setLieuxRencontre(contactToVerif.getLieuxRencontre());
     }
 
-    if (contact2.getRaisonRefus() != null) {
-      contact.setRaisonRefus(contact2.getRaisonRefus());
+
+
+    if (contactToVerif.getRaisonRefus() != null) {
+      contactToUpdate.setRaisonRefus(contactToVerif.getRaisonRefus());
     }
 
     try {
       dalServices.startTransaction();
-      if (contact.getEtatContact().equals("pris")) {
-        checkContactTaken(contact);
-      } else if (contact.getEtatContact().equals("accepté")) {
+      if (contactToUpdate.getEtatContact().equals("pris")) {
+        checkContactTaken(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("accepté")) {
         System.out.println("enter accepted if");
-        checkContactAccepted(contact);
-      } else if (contact.getEtatContact().equals("refusé")) {
+        checkContactAccepted(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("refusé")) {
         System.out.println("enter refused if");
-        checkContactRefused(contact);
-      } else if (contact.getEtatContact().equals("non suivi")) {
+        checkContactRefused(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("non suivi")) {
         System.out.println("enter unsupervised if");
-        checkContactUnsupervised(contact);
+        checkContactUnsupervised(contactToUpdate);
       } else {
         System.out.println("enter etat non trouvee");
         throw new IllegalArgumentException("etat du contact non valide");
       }
-      contactDAO.updateContact(contact);
+      contactToUpdate.setAnnee(contactToVerif.getAnnee());
+      contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
     } catch (Exception e) {
       dalServices.rollbackTransaction();
