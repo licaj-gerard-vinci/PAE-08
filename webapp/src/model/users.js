@@ -138,9 +138,71 @@ async function registerUser(user){
 }
 
 
+async function updateUser(user){
+  let users = null;
+  const id = getAuthenticatedUser();
+    const idUser = id.user.id;
+  const token = getToken();
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify({
+      lastname: user.lastname,
+      firstname: user.firstname,
+      password: user.password,
+      email: user.email,
+      phone: user.phone,
+      role: user.role
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+
+  try {
+    const response = await fetch(`http://localhost:8080/auth/${idUser}`, options);
+    console.log("response", response);
+    if (!response.ok) {
+      throw new Error(`Error updating user: ${response.statusText}`);
+    }
+
+    users = await response.json();
+    console.log("users", users);
+
+  } catch (error) { 
+    console.error('Error updating user', error);
+  }
+
+  if(token) {
+    const options2 = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+  try {
+    const updatedUser = await fetch(`http://localhost:8080/auth`, options2);
+    console.log("updatedUser", updatedUser);
+
+    const authenticatedUser = await updatedUser.json();
+    console.log("authenticatedUser", authenticatedUser);
+    setAuthenticatedUser(authenticatedUser);
+  }
+  catch (error) {
+    console.error('Error updating user', error);
+  }
+
+  
+  
+  }
+}
+
+
 export {loginUser,
   refreshUser,
   getStagePresent,
   getAllUsers,
   registerUser,
+  updateUser,
 };

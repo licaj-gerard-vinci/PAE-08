@@ -1,8 +1,10 @@
 /* eslint-disable prefer-template */
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
-import { getStagePresent } from '../../model/users';
+import { getStagePresent, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
+
+
 
 const ProfilePage = async () => {
   clearPage();
@@ -40,23 +42,55 @@ function renderRole(user) {
 
 function renderProfile(user) {
   const profileDiv = document.createElement('div');
-  profileDiv.classList.add('profile-container');
-  profileDiv.style = "flex: 1; min-width: 450px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 10px;";
-
-  const profileHTML = `
-    <h2 style="text-align: center; margin-bottom: 30px;">Bonjour</h2>
-    <p><strong>Email :</strong> ${user.user.email}</p>
-    <p><strong>Nom :</strong> ${user.user.lastname}</p>
-    <p><strong>Prénom :</strong> ${user.user.firstname}</p>
-    <p><strong>Nr de téléphone :</strong> ${user.user.phone}</p>
-    ${user.user.role && user.user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.user)}</p>` : ''}
-    <div style="text-align: center; margin-top: 30px;">
-      <button class="btn btn-primary">Modifier informations</button>
-      <button class="btn btn-secondary">Se déconnecter</button>
+  profileDiv.innerHTML = `
+    <h2>Bonjour, ${user.user.firstname}</h2>
+    <p>Email : ${user.user.email}</p>
+    <p>Nom : ${user.user.lastname}</p>
+    <p>Prénom : ${user.user.firstname}</p>
+    <p>Numéro de téléphone : ${user.user.phone}</p>
+    <p>Rôle : ${renderRole(user.user.role)}</p>
+    <button id="edit-profile">Modifier les informations</button>
+    <div id="edit-form" style="display: none;">
+      <input type="text" id="firstname" placeholder="Prénom" value="${user.user.firstname}">
+      <input type="text" id="lastname" placeholder="Nom" value="${user.user.lastname}">
+      <input type="email" id="email" placeholder="Email" value="${user.user.email}">
+      <input type="tel" id="phone" placeholder="Numéro de téléphone" value="${user.user.phone}">
+      <button id="save-changes">Sauvegarder les changements</button>
     </div>
+    <button id="change-password">Changer le mot de passe</button>
   `;
 
-  profileDiv.innerHTML = profileHTML;
+  // Ajouter un écouteur d'événements pour le bouton de modification de profil
+  profileDiv.querySelector('#edit-profile').addEventListener('click', () => {
+    document.getElementById('edit-form').style.display = 'block';
+  });
+
+  // Ajouter un écouteur d'événements pour le bouton de sauvegarde des changements
+  profileDiv.querySelector('#save-changes').addEventListener('click', async () => {
+    const updatedUser = {
+      firstname: document.getElementById('firstname').value,
+      lastname: document.getElementById('lastname').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      // Ajoutez d'autres champs si nécessaire
+    };
+      console.log("updatedUser", updatedUser);
+    // Mettre à jour les informations utilisateur via une requête API
+    try {
+      await updateUser(updatedUser);
+      alert('Les informations ont été mises à jour.');
+      document.getElementById('edit-form').style.display = 'none';
+    } catch (error) {
+      alert('Une erreur est survenue lors de la mise à jour : ' + error.message);
+    }
+  });
+
+  // Ajouter un écouteur d'événements pour le bouton de changement de mot de passe
+  profileDiv.querySelector('#change-password').addEventListener('click', () => {
+    // Logique pour changer le mot de passe
+    // Peut inclure l'affichage d'un formulaire de changement de mot de passe et la gestion de la soumission
+  });
+
   return profileDiv;
 }
 

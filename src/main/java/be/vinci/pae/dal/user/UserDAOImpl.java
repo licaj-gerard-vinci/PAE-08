@@ -151,4 +151,34 @@ public class UserDAOImpl implements UserDAO {
     user.setHasInternship(rs.getBoolean("user_has_internship"));
     return user;
   }
+
+
+  public boolean updateUser(UserDTO user) {
+    List<String> fieldsToUpdate = new ArrayList<>();
+    if (user.getEmail() != null) fieldsToUpdate.add("user_email = ?");
+    if (user.getLastname() != null) fieldsToUpdate.add("user_lastname = ?");
+    if (user.getFirstname() != null) fieldsToUpdate.add("user_firstname = ?");
+    if (user.getPhone() != null) fieldsToUpdate.add("user_phone_number = ?");
+    if (user.getRole() != null) fieldsToUpdate.add("user_role = ?");
+
+    if (fieldsToUpdate.isEmpty()) return false; // Aucune mise à jour à effectuer
+
+    String query = String.format("UPDATE pae.users SET %s WHERE user_id = ?",
+        String.join(", ", fieldsToUpdate));
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      int index = 1;
+      if (user.getEmail() != null) statement.setString(index++, user.getEmail());
+      if (user.getLastname() != null) statement.setString(index++, user.getLastname());
+      if (user.getFirstname() != null) statement.setString(index++, user.getFirstname());
+      if (user.getPhone() != null) statement.setString(index++, user.getPhone());
+      if (user.getRole() != null) statement.setString(index++, user.getRole());
+      statement.setInt(index, user.getId());
+
+      int rowsUpdated = statement.executeUpdate();
+      return rowsUpdated > 0;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

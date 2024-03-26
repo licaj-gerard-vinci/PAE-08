@@ -126,4 +126,19 @@ public class UserUCCImpl implements UserUCC {
       dalServices.close();
     }
   }
+
+
+  public boolean update(UserDTO user) {
+    try {
+      dalServices.startTransaction();
+      boolean result = userDAO.updateUser(user);
+      dalServices.commitTransaction();
+      return result;
+    } catch (Exception e) {
+      dalServices.rollbackTransaction();
+      throw new RuntimeException(e);
+    } finally {
+      dalServices.close();
+    }
+  }
 }

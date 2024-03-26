@@ -40,5 +40,7 @@ public interface UserDAO {
    */
   UserDTO insertUser(UserDTO user);
 
+  boolean updateUser(UserDTO user);
+
 
 }

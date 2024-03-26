@@ -15,12 +15,15 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 /**
@@ -127,6 +130,24 @@ public class AuthResource {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     return myUserUcc.getOne(authenticatedUser.getId());
   }
+
+  @PUT
+  @Path("/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
+    user.setId(id);
+    boolean updateResult = myUserUcc.update(user);
+    if (updateResult) {
+      // Supposons que getUserById est une méthode qui récupère l'utilisateur mis à jour par son ID.
+      return myUserUcc.getOne(id); // Retourne directement l'utilisateur mis à jour
+    } else {
+      // Si l'utilisateur n'est pas trouvé ou que la mise à jour échoue, vous pourriez lancer une exception personnalisée
+      throw new WebApplicationException("User not found or update failed", Status.NOT_FOUND);
+    }
+  }
+
+
 
   /**
    * Generates a JWT token for the given user.
