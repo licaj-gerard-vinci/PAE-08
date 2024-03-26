@@ -270,6 +270,7 @@ public class UserImpl implements User {
   public int getVersion() {
     return version;
   }
+
   /**
    * Sets the version.
    *
