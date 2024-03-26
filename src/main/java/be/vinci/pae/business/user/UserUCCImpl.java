@@ -2,7 +2,10 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.presentation.exceptions.TokenDecodingException;
 import jakarta.inject.Inject;
+import jakarta.xml.bind.ValidationException;
+
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class UserUCCImpl implements UserUCC {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(email);
       if (user == null || !user.checkPassword(password)) {
-        return null;
+        throw new ValidationException("Invalid email or password");
       }
       dalServices.commitTransaction();
       return user;
@@ -111,7 +114,7 @@ public class UserUCCImpl implements UserUCC {
       User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
       System.out.println(user);
       if (user != null) {
-        return null;
+        throw new ValidationException("Email already used");
       }
       userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
       Date dateInscription = new java.sql.Date(System.currentTimeMillis());

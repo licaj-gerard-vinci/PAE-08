@@ -2,6 +2,7 @@ package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.presentation.exceptions.TokenDecodingException;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -45,7 +46,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       try {
         decodedToken = this.jwtVerifier.verify(token);
         if (decodedToken.getExpiresAt().before(new Date())) {
-          throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
+          throw new TokenDecodingException("token expired");
         }
       } catch (Exception e) {
         throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
