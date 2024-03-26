@@ -26,6 +26,10 @@ public class ContactImpl implements ContactDTO {
 
   private YearDTO annee;
 
+  private int version;
+
+
+
   @Override
   public int getIdEntreprise() {
     return idEntreprise;
@@ -182,4 +186,23 @@ public class ContactImpl implements ContactDTO {
     this.annee = annee;
   }
 
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
+  }
 }

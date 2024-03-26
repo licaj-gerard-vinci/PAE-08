@@ -16,11 +16,12 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "zeub.humide@student.vinci.be",
+  "email": "nadir.ahdid@student.vinci.be",
   "password": "a",
-  "lastname": "zeub",
-  "firstname": "humide",
-  "phone": "123456789",
+  "lastname": "nadir",
+  "firstname": "ahdid",
+  "phone": "0485367792",
+  "registrationDate": "23-03-24 11:00:00",
   "role": "E"
 }
 

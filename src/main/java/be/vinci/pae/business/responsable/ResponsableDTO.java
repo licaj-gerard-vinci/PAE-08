@@ -108,4 +108,20 @@ public interface ResponsableDTO {
    * @param idEntreprise the new entreprise ID.
    */
   void setIdEntreprise(int idEntreprise);
+
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  int getVersion();
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  void setVersion(int version);
+
+
 }

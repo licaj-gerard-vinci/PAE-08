@@ -127,30 +127,41 @@ public class ContactUCCImpl implements ContactUCC {
   /**
    * Updates a contact.
    *
-   * @param contact the contact to update
+   * @param contactToUpdate the contact to update
    */
-  public void updateContact(ContactDTO contact) {
-    ContactDTO contact2 = checkContact(contact.getUtilisateur()
-        .getId(), contact.getEntreprise().getId());
+  public void updateContact(ContactDTO contactToUpdate) {
+    ContactDTO contactToVerif = checkContact(contactToUpdate.getUtilisateur()
+        .getId(), contactToUpdate.getEntreprise().getId());
 
-    if (contact2 == null) {
+    if (contactToVerif == null) {
       throw new NotFoundException("Contact not found");
+    }
+
+    contactToUpdate.setId(contactToVerif.getId());
+
+    if (contactToVerif.getLieuxRencontre() != null) {
+      contactToUpdate.setLieuxRencontre(contactToVerif.getLieuxRencontre());
+    }
+
+    if (contactToVerif.getRaisonRefus() != null) {
+      contactToUpdate.setRaisonRefus(contactToVerif.getRaisonRefus());
     }
 
     try {
       dalServices.startTransaction();
-      if (contact.getEtatContact().equals("taken")) {
-        checkContactTaken(contact);
-      } else if (contact.getEtatContact().equals("accepted")) {
-        checkContactAccepted(contact);
-      } else if (contact.getEtatContact().equals("refused")) {
-        checkContactRefused(contact);
-      } else if (contact.getEtatContact().equals("unsupervised")) {
-        checkContactUnsupervised(contact);
+      if (contactToUpdate.getEtatContact().equals("taken")) {
+        checkContactTaken(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("accepted")) {
+        checkContactAccepted(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("refused")) {
+        checkContactRefused(contactToUpdate);
+      } else if (contactToUpdate.getEtatContact().equals("unsupervised")) {
+        checkContactUnsupervised(contactToUpdate);
       } else {
         throw new BusinessException("Invalid state");
       }
-      contactDAO.updateContact(contact);
+      contactToUpdate.setAnnee(contactToVerif.getAnnee());
+      contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
@@ -168,7 +179,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public boolean checkContactTaken(ContactDTO contact) {
     return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "initiated");
+        contact.getEntreprise().getId(), "initié");
   }
 
   /**
@@ -179,7 +190,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public boolean checkContactAccepted(ContactDTO contact) {
     return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "taken");
+        contact.getEntreprise().getId(), "pris");
   }
 
   /**
@@ -190,7 +201,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public boolean checkContactRefused(ContactDTO contact) {
     return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "taken")
+        contact.getEntreprise().getId(), "pris")
         && contact.getRaisonRefus() != null;
   }
 
@@ -202,9 +213,9 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public boolean checkContactUnsupervised(ContactDTO contact) {
     return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "initiated")
+        contact.getEntreprise().getId(), "initié")
         || checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "taken");
+        contact.getEntreprise().getId(), "pris");
   }
 
   /**

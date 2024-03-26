@@ -168,5 +168,19 @@ public interface StageDTO {
    */
   void setdateSignature(String dateSignature);
 
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  int getVersion();
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  void setVersion(int version);
+
 
 }

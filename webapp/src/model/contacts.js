@@ -58,11 +58,12 @@ async function getContacts(){
   }
 
 
-  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace) {
+  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
     const token = getToken();
     if(token) {
       console.log('entrepriseObject: ', entrepriseObject, ', userObject: ', userObject, ', etat:', etat)
       console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
+      console.log('contact version: ', contactVersion)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -70,7 +71,8 @@ async function getContacts(){
           utilisateur: userObject,
           etatContact: etat,
           raisonRefus: refusalReason,
-          lieuxRencontre: meetingPlace
+          lieuxRencontre: meetingPlace,
+          version: contactVersion
         }),
         headers: {
           'Content-Type': 'application/json',

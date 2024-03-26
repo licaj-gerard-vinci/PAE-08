@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Carole.skile@student.vinci.be",
+  "email": "nadir.ahdid@student.vinci.be",
   "password": "a"
 }
 
@@ -12,18 +12,39 @@ Content-Type: application/json
 %}
 
 ### Insert a new contact
-POST {{baseUrl}}/contacts/insert/9&1
+POST {{baseUrl}}/contacts/insert
 Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "entreprise": {
-      "id": 1
-    },
-    "utilisateur": {
-    "id": 9
-    },
-    "etatContact": "initiated"
+  "entreprise": {
+    "id": 1,
+    "nom": "Assyst Europe",
+    "appellation": "",
+    "adresse": "Avenue du Japon, 1/B9",
+    "numTel": "02.609.25.00",
+    "email": null,
+    "blackListed": false,
+    "city": null,
+    "motivation_blacklist": null
+  },
+  "utilisateur": {
+    "id": 10,
+    "email": "nadir.ahdid@student.vinci.be",
+    "lastname": "nadir",
+    "firstname": "ahdid",
+    "phone": "0485367792",
+    "registrationDate": "23-03-24 11:00:00",
+    "role": "E",
+    "hasInternship": false,
+    "version": 1,
+    "year": {
+      "id": 1,
+      "annee": "2023-2024",
+      "version": 1
+    }
+  },
+    "etatContact": "initié"
 }
 
 ### Get all contacts
@@ -36,7 +57,6 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "id": 27,
     "entreprise": {
       "id": 1,
       "nom": "Assyst Europe",
@@ -49,7 +69,7 @@ Content-Type: application/json
       "motivation_blacklist": null
     },
     "utilisateur": {
-      "id": 12,
+      "id": 10,
       "email": "nadir.ahdid@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
@@ -57,12 +77,16 @@ Content-Type: application/json
       "registrationDate": "23-03-24 11:00:00",
       "role": "E",
       "hasInternship": false,
+      "version": 1,
       "year": {
         "id": 1,
-        "annee": "2023-2024"
+        "annee": "2023-2024",
+        "version": 1
       }
     },
-  "etatContact": "taken",
-  "raisonRefus": null
+  "etatContact": "non suivi",
+  "raisonRefus": null,
+  "lieuxRencontre": null,
+  "version": 1
 }
 

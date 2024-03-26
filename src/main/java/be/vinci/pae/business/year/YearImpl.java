@@ -7,12 +7,14 @@ public class YearImpl implements YearDTO {
 
   private int id;
   private String annee;
+  private int version;
 
   /**
    * Gets the ID of the year.
    *
    * @return the ID of the year.
    */
+  @Override
   public int getId() {
     return id;
   }
@@ -22,6 +24,7 @@ public class YearImpl implements YearDTO {
    *
    * @param id the new ID for the year.
    */
+  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -31,6 +34,7 @@ public class YearImpl implements YearDTO {
    *
    * @return the year.
    */
+  @Override
   public String getAnnee() {
     return annee;
   }
@@ -40,8 +44,28 @@ public class YearImpl implements YearDTO {
    *
    * @param annee the new year.
    */
+  @Override
   public void setAnnee(String annee) {
     this.annee = annee;
   }
 
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
+  }
 }

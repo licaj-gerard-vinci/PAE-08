@@ -27,7 +27,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   @Override
-  public  UserDTO fillUserDTO(ResultSet rs) throws SQLException {
+  public  UserDTO fillUserDTO(ResultSet rs, String method) throws SQLException {
     User user = (User) factory.getPublicUser();
     user.setId(rs.getInt("user_id"));
     user.setEmail(rs.getString("user_email"));
@@ -38,6 +38,11 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setHasInternship(rs.getBoolean("user_has_internship"));
+    if (method.equals("update")) {
+      user.setVersion(rs.getInt("user_version") + 1);
+    } else {
+      user.setVersion(rs.getInt("user_version"));
+    }
     return user;
   }
 
@@ -48,12 +53,17 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return ContactDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ContactDTO fillContactDTO(ResultSet rs) throws SQLException {
+  public ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException {
     ContactDTO contact = (ContactDTO) factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
     contact.setEtatContact(rs.getString("contact_status"));
     contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
     contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    if (method.equals("update")) {
+      contact.setVersion(rs.getInt("contact_version") + 1);
+    } else {
+      contact.setVersion(rs.getInt("contact_version"));
+    }
     return contact;
   }
 
@@ -64,7 +74,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return ResponsableDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ResponsableDTO fillResponsableDTO(ResultSet rs) throws SQLException {
+  public ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
     ResponsableDTO responsable = (ResponsableDTO) factory.getResponsableDTO();
     responsable.setId(rs.getInt("manager_id"));
     responsable.setNom(rs.getString("manager_lastname"));
@@ -72,6 +82,11 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     responsable.setNumTel(rs.getString("manager_phone_number"));
     responsable.setEmail(rs.getString("manager_email"));
     responsable.setIdEntreprise(rs.getInt("manager_company_id"));
+    if (method.equals("update")) {
+      responsable.setVersion(rs.getInt("manager_version") + 1);
+    } else {
+      responsable.setVersion(rs.getInt("manager_version"));
+    }
     return responsable;
   }
 
@@ -82,7 +97,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return EntrepriseDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public EntrepriseDTO fillEntrepriseDTO(ResultSet rs) throws SQLException {
+  public EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException {
     EntrepriseDTO entreprise = (EntrepriseDTO) factory.getEntrepriseDTO();
     entreprise.setId(rs.getInt("company_id"));
     entreprise.setNom(rs.getString("company_name"));
@@ -93,6 +108,11 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     entreprise.setEmail(rs.getString("company_email"));
     entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
     entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
+    if (method.equals("update")) {
+      entreprise.setVersion(rs.getInt("company_version") + 1);
+    } else {
+      entreprise.setVersion(rs.getInt("company_version"));
+    }
     return entreprise;
   }
 
