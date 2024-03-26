@@ -22,4 +22,5 @@ public class TokenDecodingException extends WebApplicationException {
             .type("text/plain")
             .build());
   }
+
 }

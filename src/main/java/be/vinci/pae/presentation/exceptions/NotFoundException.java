@@ -10,4 +10,17 @@ public class NotFoundException extends WebApplicationException {
             .type("text/plain")
             .build());
   }
+
+    public NotFoundException(Throwable cause) {
+        super(Response.status(Response.Status.NOT_FOUND)
+                .entity(cause.getMessage())
+                .type("text/plain")
+                .build());
+    }
+
+    public NotFoundException() {
+        super(Response.status(Response.Status.NOT_FOUND)
+                .build());
+    }
+
 }
