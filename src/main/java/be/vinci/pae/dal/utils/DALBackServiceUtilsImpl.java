@@ -38,9 +38,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setHasInternship(rs.getBoolean("user_has_internship"));
-    if(method.equals("update")) {
+    if (method.equals("update")) {
       user.setVersion(rs.getInt("user_version") + 1);
-    }else{
+    } else {
       user.setVersion(rs.getInt("user_version"));
     }
     return user;
@@ -82,9 +82,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     responsable.setNumTel(rs.getString("manager_phone_number"));
     responsable.setEmail(rs.getString("manager_email"));
     responsable.setIdEntreprise(rs.getInt("manager_company_id"));
-    if(method.equals("update")) {
+    if (method.equals("update")) {
       responsable.setVersion(rs.getInt("manager_version") + 1);
-    }else{
+    } else {
       responsable.setVersion(rs.getInt("manager_version"));
     }
     return responsable;

@@ -128,7 +128,6 @@ public interface EntrepriseDTO {
    */
   String getMotivation_blacklist();
 
-
   /**
    * Sets the motivation_blacklist of the entreprise.
    *
@@ -139,12 +138,12 @@ public interface EntrepriseDTO {
   /**
    * Get the motivation.
    *
-   * @return motivation
+   * @return motivation.
    */
   String getMotivation();
 
   /**
-   * Sets the motivation
+   * Sets the motivation.
    *
    * @param motivation
    */

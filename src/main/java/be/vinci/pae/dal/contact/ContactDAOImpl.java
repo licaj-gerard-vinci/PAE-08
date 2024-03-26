@@ -131,10 +131,11 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO checkContactExists(int idUser, int idEntreprise) {
     System.out.println("enter check");
-    String query = "SELECT DISTINCT con.*, sy.*, com.*, u.* FROM pae.contacts con, pae.school_years sy, pae.companies com, pae.users u,\n" +
-            "            pae.users WHERE contact_student_id = ? AND contact_company_id = ?\n" +
-            "                        AND con.contact_company_id = com.company_id AND u.user_id = con.contact_student_id\n" +
-            "                        AND sy.school_year_id = con.contact_school_year_id;";
+    String query = "SELECT DISTINCT con.*, sy.*, com.*, u.* FROM pae.contacts con, "
+        + "pae.school_years sy, pae.companies com, pae.users u, "
+        + "pae.users WHERE contact_student_id = ? AND contact_company_id = ? "
+        + "AND con.contact_company_id = com.company_id AND u.user_id = con.contact_student_id "
+        + "AND sy.school_year_id = con.contact_school_year_id;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
@@ -242,8 +243,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @throws SQLException the SQL exception
    */
   private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException{
-
-
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
 
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
@@ -252,7 +251,7 @@ public class ContactDAOImpl implements ContactDAO {
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
-    if(method.equals("checkGet")){
+    if (method.equals("checkGet")) {
       YearDTO year = factory.getYearDTO();
       year.setId(rs.getInt("school_year_id"));
       year.setAnnee(rs.getString("year"));
