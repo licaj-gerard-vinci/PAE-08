@@ -242,7 +242,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return the contact detailled DTO
    * @throws SQLException the SQL exception
    */
-  private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException{
+  private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException {
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
 
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);

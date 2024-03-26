@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs,"get");
+          return rsToUser(rs, "get");
         }
       }
     } catch (SQLException e) {
@@ -140,13 +140,10 @@ public class UserDAOImpl implements UserDAO {
   private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     YearDTO year = factory.getYearDTO();
-
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
     year.setVersion(rs.getInt("school_year_version"));
-
     user.setYear(year);
-
     return user;
   }
 }

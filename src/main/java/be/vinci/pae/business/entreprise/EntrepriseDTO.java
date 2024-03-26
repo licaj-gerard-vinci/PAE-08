@@ -145,7 +145,7 @@ public interface EntrepriseDTO {
   /**
    * Sets the motivation.
    *
-   * @param motivation
+   * @param motivation the motivation of refuse.
    */
   void setMotivation(String motivation);
 

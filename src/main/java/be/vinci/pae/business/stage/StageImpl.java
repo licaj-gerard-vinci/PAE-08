@@ -163,6 +163,7 @@ public class StageImpl implements StageDTO {
   public int getVersion() {
     return version;
   }
+
   /**
    * Sets the version.
    *

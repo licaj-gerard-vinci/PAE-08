@@ -165,6 +165,7 @@ public class ResponsableImpl implements ResponsableDTO {
   public int getVersion() {
     return version;
   }
+
   /**
    * Sets the version.
    *

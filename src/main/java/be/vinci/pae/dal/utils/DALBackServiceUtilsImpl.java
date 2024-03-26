@@ -108,9 +108,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     entreprise.setEmail(rs.getString("company_email"));
     entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
     entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
-    if(method.equals("update")) {
+    if (method.equals("update")) {
       entreprise.setVersion(rs.getInt("company_version") + 1);
-    }else{
+    } else {
       entreprise.setVersion(rs.getInt("company_version"));
     }
     return entreprise;
