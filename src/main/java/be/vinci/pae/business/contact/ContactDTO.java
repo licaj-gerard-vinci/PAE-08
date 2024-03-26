@@ -138,8 +138,4 @@ public interface ContactDTO {
    */
   void setAnnee(YearDTO annee);
 
-
-
-
-
 }

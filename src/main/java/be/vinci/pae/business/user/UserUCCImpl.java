@@ -2,10 +2,11 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
-import be.vinci.pae.presentation.exceptions.TokenDecodingException;
+import be.vinci.pae.presentation.exceptions.BusinessException;
+import be.vinci.pae.presentation.exceptions.ConflictException;
+import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.presentation.exceptions.NotFoundException;
 import jakarta.inject.Inject;
-import jakarta.xml.bind.ValidationException;
-
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +33,15 @@ public class UserUCCImpl implements UserUCC {
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(email);
-      if (user == null || !user.checkPassword(password)) {
-        throw new ValidationException("Invalid email or password");
+      if (user == null) {
+        throw new NotFoundException("User not found");
+      }
+      if (!user.checkPassword(password)) {
+        throw new BusinessException("Password incorrect");
       }
       dalServices.commitTransaction();
       return user;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw new RuntimeException(e);
     } finally {
@@ -56,9 +60,12 @@ public class UserUCCImpl implements UserUCC {
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneById(id);
+      if (user == null) {
+        throw new NotFoundException("User not found");
+      }
       dalServices.commitTransaction();
       return user;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw new RuntimeException(e);
     } finally {
@@ -75,17 +82,16 @@ public class UserUCCImpl implements UserUCC {
       dalServices.startTransaction();
       List<UserDTO> users = userDAO.getAllUsers();
       if (users == null) {
-        return null;
+        throw new NotFoundException("No users found");
       }
       dalServices.commitTransaction();
       return users;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw new RuntimeException(e);
     } finally {
       dalServices.close();
     }
-   
   }
 
   /**
@@ -95,26 +101,24 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
-
     if (!userDTO.getEmail().matches("^[a-zA-Z]+\\.[a-zA-Z]+@.*")) {
-      return null;
+      throw new BusinessException("Invalid email");
     }
     if (userDTO.getEmail().endsWith("@student.vinci.be")) {
       userDTO.setRole("E");
     } else if (userDTO.getEmail().endsWith("@vinci.be")) {
       if (!userDTO.getRole().equals("A") && !userDTO.getRole().equals("P")) {
-        return null;
+        throw new BusinessException("Invalid role");
       }
     } else {
-      return null;
+      throw new BusinessException("Invalid email");
     }
 
     try {
       dalServices.startTransaction();
       User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
-      System.out.println(user);
       if (user != null) {
-        throw new ValidationException("Email already used");
+        throw new ConflictException("Email already used");
       }
       userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
       Date dateInscription = new java.sql.Date(System.currentTimeMillis());
@@ -122,9 +126,9 @@ public class UserUCCImpl implements UserUCC {
       user = (User) userDAO.insertUser(userDTO);
       dalServices.commitTransaction();
       return user;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
-      throw new RuntimeException(e);
+      throw e;
     } finally {
       dalServices.close();
     }

@@ -3,6 +3,7 @@ package be.vinci.pae.dal.entreprise;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.DALBackService;
+import be.vinci.pae.presentation.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +42,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -66,7 +67,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         entreprises.add(rsToEntreprises(rs));
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return entreprises;
   }

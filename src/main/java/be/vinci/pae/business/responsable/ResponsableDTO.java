@@ -108,6 +108,4 @@ public interface ResponsableDTO {
    * @param idEntreprise the new entreprise ID.
    */
   void setIdEntreprise(int idEntreprise);
-
-
 }

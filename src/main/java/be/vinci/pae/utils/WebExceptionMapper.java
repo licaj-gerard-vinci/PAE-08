@@ -35,8 +35,7 @@ public class WebExceptionMapper implements ExceptionMapper<Throwable> {
     exception.printStackTrace(pw);
     if (exception instanceof WebApplicationException) {
       return Response.status(((WebApplicationException) exception).getResponse().getStatus())
-          .entity(exception.getMessage())
-          .build();
+          .entity(exception.getMessage()).build();
     }
     return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .entity(exception.getMessage())

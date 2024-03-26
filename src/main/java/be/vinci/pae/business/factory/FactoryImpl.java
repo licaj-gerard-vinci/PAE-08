@@ -58,6 +58,7 @@ public class FactoryImpl implements Factory {
    *
    * @return a new instance of ContactDTO.
    */
+  @Override
   public ContactDTO getContactDTO() {
     return new ContactImpl();
   }

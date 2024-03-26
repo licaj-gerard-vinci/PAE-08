@@ -182,16 +182,4 @@ public class ContactImpl implements ContactDTO {
     this.annee = annee;
   }
 
-
-  /**
-   * Returns a string representation of the object.
-   *
-   * @return a string representation of the object.
-   */
-  @Override
-  public String toString() {
-    return "ContactImpl [id=" + id + ", entreprise=" + entreprise + ", utilisateur=" + utilisateur
-        + ", etatContact=" + etatContact + ", lieuxRencontre=" + lieuxRencontre + ", raisonRefus="
-        + raisonRefus + ", annee=" + annee + "]";
-  }
 }
