@@ -22,6 +22,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+import java.text.Normalizer;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -103,8 +104,10 @@ public class AuthResource {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
 
-    String lastname = user.getLastname().toLowerCase();
-    String firstname = user.getFirstname().toLowerCase();
+    String lastname = Normalizer.normalize(user.getLastname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
+    String firstname = Normalizer.normalize(user.getFirstname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
     String emailPattern = firstname + "." + lastname;
     String email = user.getEmail().toLowerCase();
 
