@@ -231,20 +231,4 @@ public class EntrepriseImpl implements EntrepriseDTO {
   public void setVersion(int version) {
     this.version = version;
   }
-
-  /**
-   * toString method.
-   *
-   * @return String
-   */
-  @Override
-  public String toString() {
-    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation
-        + ", adresse=" + adresse
-        + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
-        + ", motivation_blacklist="
-        + motivation + "]";
-  }
-
-
 }

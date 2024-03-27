@@ -19,7 +19,9 @@ dev.properties
 .settings/
 .loadpath
 .recommenders
-
+requests
+*.http
+init.sql
 
 # External tool builders
 .externalToolBuilders/

@@ -5,6 +5,7 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.presentation.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -70,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -82,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT u.*, sy.school_year_id, sy.year FROM pae.users u "
+    String query = "SELECT u.*, sy.* FROM pae.users u "
         + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
@@ -92,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return users;
   }
@@ -125,7 +126,7 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }

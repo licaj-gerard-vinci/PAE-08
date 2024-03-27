@@ -205,16 +205,4 @@ public class ContactImpl implements ContactDTO {
   public void setVersion(int version) {
     this.version = version;
   }
-
-  /**
-   * Returns a string representation of the object.
-   *
-   * @return a string representation of the object.
-   */
-  @Override
-  public String toString() {
-    return "ContactImpl [id=" + id + ", entreprise=" + entreprise + ", utilisateur=" + utilisateur
-        + ", etatContact=" + etatContact + ", lieuxRencontre=" + lieuxRencontre + ", raisonRefus="
-        + raisonRefus + ", annee=" + annee + "]";
-  }
 }

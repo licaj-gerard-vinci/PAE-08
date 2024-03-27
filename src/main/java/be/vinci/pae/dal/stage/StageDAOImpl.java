@@ -8,6 +8,7 @@ import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.presentation.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +55,7 @@ public class StageDAOImpl implements StageDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return stages;
   }
@@ -87,7 +88,7 @@ public class StageDAOImpl implements StageDAO {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return stage;
   }

@@ -10,13 +10,14 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * The {@code EntrepriseResource} class
- * represents a resource for managing entreprise-related operations.
- * It is annotated with {@code Singleton} and {@code Path("ent")}.
+ * The {@code EntrepriseResource} class represents a resource for managing entreprise-related
+ * operations. It is annotated with {@code Singleton} and {@code Path("ent")}.
  */
 @Singleton
 @Path("entreprise")
@@ -50,7 +51,7 @@ public class EntrepriseResource {
   @Authorize
   public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
     if (id <= 0) {
-      return null; //Il faut retourner une exception ici, pas null
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
     return myEntrepriseUcc.getEntreprise(id);
   }

@@ -2,6 +2,8 @@ package be.vinci.pae.business.stage;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.presentation.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -27,9 +29,12 @@ public class StageUCCImpl implements StageUCC {
     try {
       dalServices.startTransaction();
       StageDTO stage = stageDAO.getStageById(idUser);
+      if (stage == null) {
+        throw new NotFoundException("No stage found for this user");
+      }
       dalServices.commitTransaction();
       return stage;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
     } finally {
@@ -48,9 +53,12 @@ public class StageUCCImpl implements StageUCC {
     try {
       dalServices.startTransaction();
       List<StageDTO> stages = stageDAO.getStages();
+      if (stages == null) {
+        throw new NotFoundException("No stages found");
+      }
       dalServices.commitTransaction();
       return stages;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
     } finally {

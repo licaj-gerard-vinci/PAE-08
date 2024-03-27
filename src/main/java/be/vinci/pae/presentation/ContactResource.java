@@ -14,6 +14,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -29,6 +30,7 @@ import java.util.List;
 @Singleton
 @Path("contacts")
 public class ContactResource {
+
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
   @Inject
@@ -37,24 +39,17 @@ public class ContactResource {
   /**
    * Retrieves the contacts of the authenticated user from the request context.
    *
-   * @param requestContext the request context.
    * @return the contacts of the authenticated user.
    */
   @GET
-  @Path("/detailed")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcs(@Context ContainerRequestContext requestContext) {
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
-    }
-
+  public List<ContactDTO> getContatcs() {
     List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts();
     if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Response.Status.NOT_FOUND);
     }
-    return contactDetailledDTOs; // Retourne la liste des contacts détaillés
+    return contactDetailledDTOs;
   }
 
   /**
@@ -65,15 +60,17 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @GET
+  @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext) {
+  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext,
+  @PathParam("id") int id) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(authenticatedUser.getId());
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(id);
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }
@@ -83,7 +80,7 @@ public class ContactResource {
   /**
    * Inserts a new contact for the authenticated user.
    *
-   * @param contact The contact to insert.
+   * @param contact        The contact to insert.
    * @param requestContext The context of the container request.
    * @return A JSON object containing a success message.
    * @throws WebApplicationException If the user is not authenticated.
@@ -94,7 +91,7 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ObjectNode insertContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext) {
+      @Context ContainerRequestContext requestContext) {
     System.out.println(contact);
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
@@ -111,7 +108,7 @@ public class ContactResource {
   /**
    * Updates a contact for the authenticated user.
    *
-   * @param contact The contact to update.
+   * @param contact        The contact to update.
    * @param requestContext The context of the container request.
    * @return A JSON object containing a success message.
    * @throws WebApplicationException If the user is not authenticated.
@@ -123,7 +120,7 @@ public class ContactResource {
   @Authorize
   @Log
   public ObjectNode updateContact(ContactDTO contact,
-                                  @Context ContainerRequestContext requestContext) {
+      @Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);

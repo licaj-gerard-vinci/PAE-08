@@ -18,8 +18,8 @@ Content-Type: application/json
 {
   "email": "nadir.ahdid@student.vinci.be",
   "password": "a",
-  "lastname": "nadir",
-  "firstname": "ahdid",
+  "lastname": "ahdid",
+  "firstname": "nadir",
   "phone": "0485367792",
   "registrationDate": "23-03-24 11:00:00",
   "role": "E"
