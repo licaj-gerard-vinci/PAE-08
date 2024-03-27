@@ -13,7 +13,6 @@ import be.vinci.pae.presentation.exceptions.BusinessException;
 import be.vinci.pae.presentation.exceptions.ConflictException;
 import be.vinci.pae.presentation.exceptions.FatalException;
 import be.vinci.pae.presentation.exceptions.NotFoundException;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;

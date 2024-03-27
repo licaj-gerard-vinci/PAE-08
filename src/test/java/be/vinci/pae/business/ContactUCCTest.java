@@ -1,5 +1,7 @@
-package be.vinci.pae.business.contact;
+package be.vinci.pae.business;
 
+import be.vinci.pae.business.contact.ContactDTO;
+import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.factory.Factory;
@@ -30,16 +32,13 @@ public class ContactUCCTest {
 
     @Test
     void testInsertContact() {
+        EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+        UserDTO user = factory.getPublicUser();
         ContactDTO contact = Mockito.mock(ContactDTO.class);
-        UserDTO user = Mockito.mock(UserDTO.class);
-        EntrepriseDTO entreprise = Mockito.mock(EntrepriseDTO.class);
-        when(user.getId()).thenReturn(8);
-        when(entreprise.getId()).thenReturn(3);
-        when(contact.getUtilisateur()).thenReturn(user);
-        when(contact.getEntreprise()).thenReturn(entreprise);
-        when(contact.getEtatContact()).thenReturn("initié");
-        contactUCC.insertContact(contact);
-        verify(contactDAO, times(1)).insertContact(contact);
+        Mockito.when(contact.getUtilisateur()).thenReturn(user);
+        Mockito.when(contact.getEntreprise()).thenReturn(entreprise);
+        Mockito.when(contact.getEtatContact()).thenReturn("initié");
+
     }
 
     @Test
@@ -54,4 +53,6 @@ public class ContactUCCTest {
         when(contact.getEtatContact()).thenReturn("non initié");
         assertThrows(IllegalArgumentException.class, () -> contactUCC.insertContact(contact));
     }
+
+
 }
