@@ -110,14 +110,14 @@ function renderLoginForm() {
   `;
 
 
-  document.getElementById('togglePassword').addEventListener('click', (e) => {
-    e.preventDefault();
+  document.getElementById('togglePassword').addEventListener('click', () => {
     const passwordInput = document.getElementById('password');
-    const togglePasswordImage = document.getElementById('togglePassword');
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-
-    togglePasswordImage.src = type === 'text' ? eyeOpen : eyeClose;
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const togglePasswordImage = togglePasswordButton.querySelector('img'); 
+    const isPassword = passwordInput.getAttribute('type') === 'password';
+    
+    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    togglePasswordImage.src = isPassword ? eyeClose : eyeOpen; 
   });
 
   const rememberme = document.querySelector('#rememberme');
