@@ -64,7 +64,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user.
    * @return A list of contact information.
-   * @throws RuntimeException If an SQL exception occurs.
+   * @throws FatalException If an SQL exception occurs.
    */
   public List<ContactDTO> getContactsAllInfo(int id) {
 
@@ -159,7 +159,7 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
     String query = "SELECT * FROM pae.contacts WHERE contact_student_id = ? "
-            + "AND contact_company_id = ?";
+        + "AND contact_company_id = ?";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
@@ -209,9 +209,9 @@ public class ContactDAOImpl implements ContactDAO {
   @Log
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_company_id = ?, "
-            + "contact_student_id = ? , contact_school_year_id = ?,  "
-            + "contact_status = ?, contact_meeting_place = ?, contact_refusal_reason = ?, "
-            + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ?";
+        + "contact_student_id = ? , contact_school_year_id = ?,  "
+        + "contact_status = ?, contact_meeting_place = ?, contact_refusal_reason = ?, "
+        + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise().getId());
       statement.setInt(2, contact.getUtilisateur().getId());

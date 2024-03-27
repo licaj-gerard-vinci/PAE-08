@@ -43,6 +43,4 @@ public class UserResource {
     }
     return myUserUcc.getAll();
   }
-
-
 }

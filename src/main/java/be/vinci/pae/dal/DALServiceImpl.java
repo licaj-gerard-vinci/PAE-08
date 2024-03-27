@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.presentation.exceptions.FatalException;
 import be.vinci.pae.utils.Config;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,7 +41,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     try {
       return getConnection().prepareStatement(query);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -56,7 +57,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
         conn = dataSource.getConnection();
         connection.set(conn);
       } catch (SQLException e) {
-        throw new RuntimeException(e);
+        throw new FatalException(e);
       }
     }
     return conn;
@@ -71,7 +72,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
       }
       transactionCounter.set(transactionCounter.get() + 1);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -85,7 +86,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
         getConnection().setAutoCommit(true);
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -99,7 +100,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
         getConnection().setAutoCommit(true);
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -115,7 +116,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
 
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 

@@ -101,9 +101,6 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
-    if (!userDTO.getEmail().matches("^[a-zA-Z]+\\.[a-zA-Z]+@.*")) {
-      throw new BusinessException("Invalid email");
-    }
     if (userDTO.getEmail().endsWith("@student.vinci.be")) {
       userDTO.setRole("E");
     } else if (userDTO.getEmail().endsWith("@vinci.be")) {
