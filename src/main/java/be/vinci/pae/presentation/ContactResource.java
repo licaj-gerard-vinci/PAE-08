@@ -45,11 +45,11 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcs() {
-    List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts();
-    if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
+    List<ContactDTO> contactDTOs = myContactUcc.getContacts();
+    if (contactDTOs == null || contactDTOs.isEmpty()) {
       throw new WebApplicationException("Contacts not found for user", Response.Status.NOT_FOUND);
     }
-    return contactDetailledDTOs;
+    return contactDTOs;
   }
 
   /**
@@ -63,8 +63,8 @@ public class ContactResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext,
-  @PathParam("id") int id) {
+  public List<ContactDTO> getContactsAllInfo(@Context ContainerRequestContext requestContext,
+                                             @PathParam("id") int id) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);

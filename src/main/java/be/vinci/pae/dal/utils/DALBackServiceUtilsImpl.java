@@ -1,9 +1,9 @@
 package be.vinci.pae.dal.utils;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import jakarta.inject.Inject;
@@ -56,9 +56,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
   public ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException {
     ContactDTO contact = (ContactDTO) factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
-    contact.setEtatContact(rs.getString("contact_status"));
-    contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
-    contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    contact.setContactState(rs.getString("contact_status"));
+    contact.setMeetingPlace(rs.getString("contact_meeting_place"));
+    contact.setRefusalReason(rs.getString("contact_refusal_reason"));
     if (method.equals("update")) {
       contact.setVersion(rs.getInt("contact_version") + 1);
     } else {
@@ -68,52 +68,52 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
   }
 
   /**
-   * Fills a ResponsableDTO with data from a ResultSet.
+   * Fills a ManagerDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing manager data.
-   * @return ResponsableDTO filled with data from the ResultSet.
+   * @return ManagerDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
-    ResponsableDTO responsable = (ResponsableDTO) factory.getResponsableDTO();
-    responsable.setId(rs.getInt("manager_id"));
-    responsable.setNom(rs.getString("manager_lastname"));
-    responsable.setPrenom(rs.getString("manager_firstname"));
-    responsable.setNumTel(rs.getString("manager_phone_number"));
-    responsable.setEmail(rs.getString("manager_email"));
-    responsable.setIdEntreprise(rs.getInt("manager_company_id"));
+  public ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
+    ManagerDTO manager = (ManagerDTO) factory.getManagerDTO();
+    manager.setId(rs.getInt("manager_id"));
+    manager.setLastname(rs.getString("manager_lastname"));
+    manager.setFirstname(rs.getString("manager_firstname"));
+    manager.setPhoneNumber(rs.getString("manager_phone_number"));
+    manager.setEmail(rs.getString("manager_email"));
+    manager.setCompanyId(rs.getInt("manager_company_id"));
     if (method.equals("update")) {
-      responsable.setVersion(rs.getInt("manager_version") + 1);
+      manager.setVersion(rs.getInt("manager_version") + 1);
     } else {
-      responsable.setVersion(rs.getInt("manager_version"));
+      manager.setVersion(rs.getInt("manager_version"));
     }
-    return responsable;
+    return manager;
   }
 
   /**
-   * Fills an EntrepriseDTO with data from a ResultSet.
+   * Fills an CompanyDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing company data.
-   * @return EntrepriseDTO filled with data from the ResultSet.
+   * @return CompanyDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException {
-    EntrepriseDTO entreprise = (EntrepriseDTO) factory.getEntrepriseDTO();
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("company_name"));
-    entreprise.setAppellation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setNumTel(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
+  public CompanyDTO fillCompanyDTO(ResultSet rs, String method) throws SQLException {
+    CompanyDTO company = (CompanyDTO) factory.getCompanyDTO();
+    company.setId(rs.getInt("company_id"));
+    company.setName(rs.getString("company_name"));
+    company.setDesignation(rs.getString("company_designation"));
+    company.setAddress(rs.getString("company_address"));
+    company.setCity(rs.getString("company_city"));
+    company.setPhoneNumber(rs.getString("company_phone_number"));
+    company.setEmail(rs.getString("company_email"));
+    company.setBlackListed(rs.getBoolean("company_is_blacklisted"));
+    company.setBlacklistReason(rs.getString("company_blacklist_reason"));
     if (method.equals("update")) {
-      entreprise.setVersion(rs.getInt("company_version") + 1);
+      company.setVersion(rs.getInt("company_version") + 1);
     } else {
-      entreprise.setVersion(rs.getInt("company_version"));
+      company.setVersion(rs.getInt("company_version"));
     }
-    return entreprise;
+    return company;
   }
 
 }

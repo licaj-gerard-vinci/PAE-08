@@ -6,7 +6,7 @@ package be.vinci.pae.business.year;
 public class YearImpl implements YearDTO {
 
   private int id;
-  private String annee;
+  private String year;
   private int version;
 
   /**
@@ -35,18 +35,18 @@ public class YearImpl implements YearDTO {
    * @return the year.
    */
   @Override
-  public String getAnnee() {
-    return annee;
+  public String getYear() {
+    return year;
   }
 
   /**
    * Sets the year.
    *
-   * @param annee the new year.
+   * @param year the new year.
    */
   @Override
-  public void setAnnee(String annee) {
-    this.annee = annee;
+  public void setYear(String year) {
+    this.year = year;
   }
 
   /**

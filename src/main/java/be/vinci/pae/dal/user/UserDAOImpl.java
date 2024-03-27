@@ -141,7 +141,7 @@ public class UserDAOImpl implements UserDAO {
   private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
     YearDTO year = factory.getYearDTO();
     year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
+    year.setYear(rs.getString("year"));
     year.setVersion(rs.getInt("school_year_version"));
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     user.setYear(year);

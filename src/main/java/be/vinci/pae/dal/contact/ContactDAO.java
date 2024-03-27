@@ -20,33 +20,33 @@ public interface ContactDAO {
   /**
    * Fetches all contact information for a specific user.
    *
-   * @param idUser the user ID.
+   * @param userId the user ID.
    * @return A list of contact information.
    */
-  List<ContactDTO> getContactsAllInfo(int idUser);
+  List<ContactDTO> getContactsAllInfo(int userId);
 
   /**
    * Get a contact by its ID.
    *
-   * @param idContact The ID of the contact to fetch.
+   * @param contactId The ID of the contact to fetch.
    * @return A ContactDTO object containing the contact information.
    */
-  ContactDTO getContactById(int idContact);
+  ContactDTO getContactById(int contactId);
 
   /**
    * Check if a contact exists.
    *
-   * @param idUser The user ID.
-   * @param idEntreprise The entreprise ID.
+   * @param userId The user ID.
+   * @param companyId The company ID.
    * @return A ContactDTO object containing the contact information.
    */
-  ContactDTO checkContactExists(int idUser, int idEntreprise);
+  ContactDTO checkContactExists(int userId, int companyId);
 
   /**
    * Check if a contact can be updated to the 'taken' state.
    *
    * @param idUser The user ID.
-   * @param idEntreprise The entreprise ID.
+   * @param idEntreprise The company ID.
    * @param expectedState The expected state of the contact.
    * @return true if the contact can be updated, false otherwise.
    */

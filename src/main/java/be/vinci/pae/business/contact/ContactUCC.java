@@ -20,18 +20,18 @@ public interface ContactUCC {
   /**
    * Fetches all contact information for a specific user.
    *
-   * @param idUser The ID of the user whose contacts are to be fetched.
+   * @param userId The ID of the user whose contacts are to be fetched.
    * @return A list of ContactDTO objects containing all contact information for the user.
    */
-  List<ContactDTO> getContactsAllInfo(int idUser);
+  List<ContactDTO> getContactsAllInfo(int userId);
 
   /**
    * Get a contact by its ID.
    *
-   * @param idContact The ID of the contact to fetch.
+   * @param contactId The ID of the contact to fetch.
    * @return A ContactDTO object containing the contact information.
    */
-  ContactDTO getContactById(int idContact);
+  ContactDTO getContactById(int contactId);
 
   /**
    * Inserts a new contact into the database.

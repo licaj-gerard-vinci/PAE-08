@@ -1,6 +1,6 @@
-package be.vinci.pae.dal.entreprise;
+package be.vinci.pae.dal.company;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.presentation.exceptions.FatalException;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Entreprise interface represents a business entity. It extends the EntrepriseDTO interface and
- * provides methods to get and set the properties of an entreprise.
+ * The Company interface represents a business entity. It extends the CompanyDTO interface and
+ * provides methods to get and set the properties of an company.
  */
-public class EntrepriseDAOImpl implements EntrepriseDAO {
+public class CompanyDAOImpl implements CompanyDAO {
 
   @Inject
   private DALBackService dalBackService;
@@ -24,13 +24,13 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   private DALBackServiceUtils dalBackServiceUtils;
 
   /**
-   * Retrieves an entreprise from the database.
+   * Retrieves an company from the database.
    *
-   * @param id the id of the entreprise to retrieve.
-   * @return the entreprise with the specified id.
+   * @param id the id of the company to retrieve.
+   * @return the company with the specified id.
    */
   @Override
-  public EntrepriseDTO getEntreprise(int id) {
+  public CompanyDTO getCompany(int id) {
     String query = "SELECT * FROM pae.companies "
         + "WHERE company_id = ? AND company_is_blacklisted = false";
 
@@ -38,7 +38,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToEntreprises(rs, "get");
+          return rsToCompanies(rs, "get");
         }
       }
     } catch (SQLException e) {
@@ -48,30 +48,30 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   }
 
   /**
-   * Retrieves all entreprises from the database.
+   * Retrieves all companies from the database.
    *
-   * @return a list of all entreprises.
+   * @return a list of all companies.
    */
   @Override
-  public List<EntrepriseDTO> getEntreprises() {
+  public List<CompanyDTO> getCompanies() {
 
     String query = "SELECT * FROM pae.companies "
         + "WHERE company_is_blacklisted = false";
 
-    List<EntrepriseDTO> entreprises = new ArrayList<>();
+    List<CompanyDTO> companies = new ArrayList<>();
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
         ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
-        entreprises.add(rsToEntreprises(rs, "get"));
+        companies.add(rsToCompanies(rs, "get"));
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return entreprises;
+    return companies;
   }
 
-  private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
-    return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
+  private CompanyDTO rsToCompanies(ResultSet rs, String method) throws SQLException {
+    return dalBackServiceUtils.fillCompanyDTO(rs, method);
   }
 }

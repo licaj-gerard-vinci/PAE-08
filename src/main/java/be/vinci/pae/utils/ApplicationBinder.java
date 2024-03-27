@@ -2,12 +2,12 @@ package be.vinci.pae.utils;
 
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.contact.ContactUCCImpl;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
-import be.vinci.pae.business.entreprise.EntrepriseUCCImpl;
+import be.vinci.pae.business.company.CompanyUCC;
+import be.vinci.pae.business.company.CompanyUCCImpl;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.factory.FactoryImpl;
-import be.vinci.pae.business.stage.StageUCC;
-import be.vinci.pae.business.stage.StageUCCImpl;
+import be.vinci.pae.business.internship.InternshipUCC;
+import be.vinci.pae.business.internship.InternshipUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
 import be.vinci.pae.dal.DALBackService;
@@ -15,10 +15,10 @@ import be.vinci.pae.dal.DALServiceImpl;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.contact.ContactDAOImpl;
-import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-import be.vinci.pae.dal.entreprise.EntrepriseDAOImpl;
-import be.vinci.pae.dal.stage.StageDAO;
-import be.vinci.pae.dal.stage.StageDAOImpl;
+import be.vinci.pae.dal.company.CompanyDAO;
+import be.vinci.pae.dal.company.CompanyDAOImpl;
+import be.vinci.pae.dal.internship.InternshipDAO;
+import be.vinci.pae.dal.internship.InternshipDAOImpl;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -45,11 +45,11 @@ public class ApplicationBinder extends AbstractBinder {
     bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
     bind(DALServiceImpl.class).to(DALBackService.class).to(DALServices.class).in(Singleton.class);
     bind(DALBackServiceUtilsImpl.class).to(DALBackServiceUtils.class).in(Singleton.class);
-    bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
-    bind(StageDAOImpl.class).to(StageDAO.class).in(Singleton.class);
+    bind(InternshipUCCImpl.class).to(InternshipUCC.class).in(Singleton.class);
+    bind(InternshipDAOImpl.class).to(InternshipDAO.class).in(Singleton.class);
     bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
     bind(ContactDAOImpl.class).to(ContactDAO.class).to(Singleton.class);
-    bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
-    bind(EntrepriseDAOImpl.class).to(EntrepriseDAO.class).in(Singleton.class);
+    bind(CompanyUCCImpl.class).to(CompanyUCC.class).in(Singleton.class);
+    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
   }
 }

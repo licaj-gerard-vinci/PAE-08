@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
@@ -19,15 +19,15 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * StageResource.
+ * InternshipResource.
  */
 @Singleton
-@Path("stages")
+@Path("internships")
 @Log
-public class StageResource {
+public class InternshipResource {
 
   @Inject
-  private StageUCC myStageUcc;
+  private InternshipUCC myInternshipUcc;
 
   /**
    * Retrieves the stage of the authenticated user from the request context.
@@ -40,8 +40,8 @@ public class StageResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public StageDTO getUserStage(@Context ContainerRequestContext requestContext,
-      @PathParam("id") int id) {
+  public InternshipDTO getUserInternship(@Context ContainerRequestContext requestContext,
+                                         @PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
@@ -49,22 +49,22 @@ public class StageResource {
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
-    StageDTO userStage = myStageUcc.getStageUser(id);
-    if (userStage == null) {
-      throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
+    InternshipDTO userInternship = myInternshipUcc.getInternshipUser(id);
+    if (userInternship == null) {
+      throw new WebApplicationException("Internship not found for user", Response.Status.NOT_FOUND);
     }
 
-    return userStage;
+    return userInternship;
   }
 
   /**
-   * Retrieves all stages.
+   * Retrieves all internships.
    *
-   * @return all stages.
+   * @return all internships.
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<StageDTO> getStages() {
-    return myStageUcc.getStages();
+  public List<InternshipDTO> getStages() {
+    return myInternshipUcc.getInternships();
   }
 }

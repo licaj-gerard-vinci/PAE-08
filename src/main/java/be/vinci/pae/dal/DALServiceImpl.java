@@ -108,11 +108,11 @@ public class DALServiceImpl implements DALBackService, DALServices {
   public void close() {
     try {
       if (connection.get() != null) {
-        System.out.println("avant le close " + dataSource.getNumActive());
+        System.out.println("before the close " + dataSource.getNumActive());
         connection.get().close();
         connection.remove();
         transactionCounter.remove();
-        System.out.println("apres le close " + dataSource.getNumActive());
+        System.out.println("after the close " + dataSource.getNumActive());
 
       }
     } catch (SQLException e) {

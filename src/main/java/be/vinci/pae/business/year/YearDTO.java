@@ -27,14 +27,14 @@ public interface YearDTO {
    *
    * @return the year.
    */
-  String getAnnee();
+  String getYear();
 
   /**
    * Sets the year.
    *
-   * @param annee the new year.
+   * @param year the new year.
    */
-  void setAnnee(String annee);
+  void setYear(String year);
 
   /**
    * Gets the version.

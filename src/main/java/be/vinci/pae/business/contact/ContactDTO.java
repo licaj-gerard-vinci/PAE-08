@@ -1,6 +1,6 @@
 package be.vinci.pae.business.contact;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,116 +27,116 @@ public interface ContactDTO {
   void setId(int id);
 
   /**
-   * Gets the associated enterprise ID.
+   * Gets the associated company ID.
    *
-   * @return the enterprise ID.
+   * @return the company ID.
    */
-  EntrepriseDTO getEntreprise();
+  CompanyDTO getCompany();
 
   /**
-   * Sets the associated enterprise ID.
+   * Sets the associated company ID.
    *
-   * @param entreprise the new enterprise ID.
+   * @param company the new company ID.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setCompany(CompanyDTO company);
 
   /**
-   * Gets the associated enterprise ID.
+   * Gets the associated company ID.
    *
-   * @return the enterprise ID.
+   * @return the company ID.
    */
-  int getIdEntreprise();
+  int getCompanyId();
 
   /**
-   * Sets the associated enterprise ID.
+   * Sets the associated company ID.
    *
-   * @param idEntreprise the new enterprise ID.
+   * @param companyId the new company ID.
    */
-  void setIdEntreprise(int idEntreprise);
-
-  /**
-   * Gets the associated user ID.
-   *
-   * @return the user ID.
-   */
-  UserDTO getUtilisateur();
-
-  /**
-   * Sets the associated user ID.
-   *
-   * @param utilisateur the new user ID.
-   */
-  void setUtilisateur(UserDTO utilisateur);
+  void setCompanyId(int companyId);
 
   /**
    * Gets the associated user ID.
    *
    * @return the user ID.
    */
-  int getIdUtilisateur();
+  UserDTO getUser();
 
   /**
    * Sets the associated user ID.
    *
-   * @param idUtilisateur the new user ID.
+   * @param user the new user ID.
    */
-  void setIdUtilisateur(int idUtilisateur);
+  void setUser(UserDTO user);
+
+  /**
+   * Gets the associated user ID.
+   *
+   * @return the user ID.
+   */
+  int getUserId();
+
+  /**
+   * Sets the associated user ID.
+   *
+   * @param userId the new user ID.
+   */
+  void setUserId(int userId);
 
   /**
    * Gets the contact state.
    *
    * @return the contact state.
    */
-  String getEtatContact();
+  String getContactState();
 
   /**
    * Sets the contact state.
    *
-   * @param etatContact the new contact state.
+   * @param contactState the new contact state.
    */
-  void setEtatContact(String etatContact);
+  void setContactState(String contactState);
 
   /**
    * Gets the meeting place.
    *
    * @return the meeting place.
    */
-  String getLieuxRencontre();
+  String getMeetingPlace();
 
   /**
    * Sets the meeting place.
    *
-   * @param lieuxRencontre the new meeting place.
+   * @param meetingPlace the new meeting place.
    */
-  void setLieuxRencontre(String lieuxRencontre);
+  void setMeetingPlace(String meetingPlace);
 
   /**
-   * Gets the raison of refuse.
+   * Gets the refusal reason.
    *
-   * @return the raison of refuse.
+   * @return the refusal reason.
    */
-  String getRaisonRefus();
+  String getRefusalReason();
 
   /**
-   * Sets the raison of refuse.
+   * Sets the refusal reason.
    *
-   * @param raisonRefus the new raison of refuse.
+   * @param refusalReason the new refusal reason.
    */
-  void setRaisonRefus(String raisonRefus);
+  void setRefusalReason(String refusalReason);
 
   /**
    * Gets the meeting date.
    *
    * @return the meeting date.
    */
-  YearDTO getAnnee();
+  YearDTO getYear();
 
   /**
    * Sets the meeting date.
    *
-   * @param annee the new meeting date.
+   * @param year the new meeting date.
    */
-  void setAnnee(YearDTO annee);
+  void setYear(YearDTO year);
 
   /**
    * Gets the version.

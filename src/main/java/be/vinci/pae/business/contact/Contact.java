@@ -41,19 +41,19 @@ public interface Contact {
    * Checks if a contact exists between a user and a company.
    *
    * @param idUser       the ID of the user
-   * @param idEntreprise the ID of the company
-   * @return true if the contact exists, false otherwise
+   * @param idCompany the ID of the company
+   * @return the contactDTO of the contact if it exists, null otherwise
    */
-  ContactDTO checkContact(int idUser, int idEntreprise);
+  ContactDTO checkContact(int idUser, int idCompany);
 
   /**
    * Checks if a contact exists between a user and a company and if the contact is in a specific
    * state.
    *
    * @param idUser       the ID of the user
-   * @param idEntreprise the ID of the company
-   * @param etat         the state of the contact
+   * @param idCompany the ID of the company
+   * @param state         the state of the contact
    * @return true if the contact exists and is in the specified state, false otherwise
    */
-  boolean checkContactAndState(int idUser, int idEntreprise, String etat);
+  boolean checkContactAndState(int idUser, int idCompany, String state);
 }

@@ -20,7 +20,7 @@ async function getContacts(){
       const response = await fetch(`http://localhost:8080/contacts/${idUser}`, options);
 
     if (!response.ok) {
-      return "Aucun contact n'as été passé";
+      return "Error getting contacts";
     }
 
     contacts = await response.json();
@@ -33,15 +33,15 @@ async function getContacts(){
 
 
 
-  async function insertContact(entrepriseObject, userObject, etat) {
+  async function insertContact(companyObject, userObject, state) {
     const token = getToken();
     if(token) {
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          entreprise : entrepriseObject,
-          utilisateur: userObject,
-          etatContact: etat
+          company : companyObject,
+          user: userObject,
+          contactState: state
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -64,20 +64,20 @@ async function getContacts(){
   }
 
 
-  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
+  async function updateContact(companyObject, userObject, state, refusalReason, meetingPlace, contactVersion) {
     const token = getToken();
     if(token) {
-      console.log('entrepriseObject: ', entrepriseObject, ', userObject: ', userObject, ', etat:', etat)
+      console.log('companyObject: ', companyObject, ', userObject: ', userObject, ', state:', state)
       console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
       console.log('contact version: ', contactVersion)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
-          entreprise: entrepriseObject,
-          utilisateur: userObject,
-          etatContact: etat,
-          raisonRefus: refusalReason,
-          lieuxRencontre: meetingPlace,
+          company: companyObject,
+          user: userObject,
+          contactState: state,
+          refusalReason: refusalReason,
+          meetingPlace: meetingPlace,
           version: contactVersion
         }),
         headers: {
