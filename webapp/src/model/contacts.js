@@ -76,8 +76,8 @@ async function getContacts(){
           company: companyObject,
           user: userObject,
           contactState: state,
-          refusalReason: refusalReason,
-          meetingPlace: meetingPlace,
+          refusalReason,
+          meetingPlace,
           version: contactVersion
         }),
         headers: {
