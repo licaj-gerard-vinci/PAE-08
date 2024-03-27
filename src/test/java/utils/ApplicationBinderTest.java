@@ -1,14 +1,21 @@
 package utils;
 
+import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.contact.ContactUCCImpl;
+import be.vinci.pae.business.entreprise.EntrepriseUCC;
+import be.vinci.pae.business.entreprise.EntrepriseUCCImpl;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.factory.FactoryImpl;
+import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.stage.StageUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
-import be.vinci.pae.dal.DALServiceImpl;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.contact.ContactDAOImpl;
+import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.stage.StageDAOImpl;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import jakarta.inject.Singleton;
@@ -26,14 +33,22 @@ public class ApplicationBinderTest extends AbstractBinder {
   @Override
   protected void configure() {
     bind(UserUCCImpl.class).to(UserUCC.class).in(Singleton.class);
-    UserDAO userDAO = Mockito.mock(UserDAOImpl.class);
-    bind(userDAO).to(UserDAO.class);
-    bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
-    bind(ContactUCCImpl.class).to(ContactUCCImpl.class).in(Singleton.class);
-    bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
-    bind(Mockito.mock(DALServiceImpl.class)).to(DALServices.class);
 
+    bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
+
+    bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
+    bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
+    ContactDAO contactDAOMock = Mockito.mock(ContactDAOImpl.class);
+    bind(contactDAOMock).to(ContactDAO.class);
+
+    bind(Mockito.mock(DALServices.class)).to(DALServices.class);
+
+    bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
+    bind(Mockito.mock(EntrepriseDAO.class)).to(EntrepriseDAO.class);
+
+    bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
+    bind(Mockito.mock(StageDAOImpl.class)).to(StageDAO.class);
   }
 }
   
