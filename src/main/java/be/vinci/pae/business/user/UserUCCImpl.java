@@ -43,7 +43,7 @@ public class UserUCCImpl implements UserUCC {
       return user;
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
-      throw new RuntimeException(e);
+      throw e;
     } finally {
       dalServices.close();
     }
@@ -67,7 +67,7 @@ public class UserUCCImpl implements UserUCC {
       return user;
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
-      throw new RuntimeException(e);
+      throw e;
     } finally {
       dalServices.close();
     }
@@ -88,7 +88,7 @@ public class UserUCCImpl implements UserUCC {
       return users;
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
-      throw new RuntimeException(e);
+      throw e;
     } finally {
       dalServices.close();
     }
@@ -101,6 +101,10 @@ public class UserUCCImpl implements UserUCC {
    */
   @Override
   public UserDTO register(UserDTO userDTO) {
+    if (userDTO.getEmail().isBlank() || userDTO.getPassword().isBlank() || userDTO.getFirstname()
+        .isBlank() || userDTO.getLastname().isBlank() || userDTO.getPhone().isBlank()) {
+      throw new BusinessException("email and password required");
+    }
     if (userDTO.getEmail().endsWith("@student.vinci.be")) {
       userDTO.setRole("E");
     } else if (userDTO.getEmail().endsWith("@vinci.be")) {
