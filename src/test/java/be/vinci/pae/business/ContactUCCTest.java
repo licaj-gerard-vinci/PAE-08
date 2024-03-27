@@ -8,6 +8,9 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import utils.ApplicationBinderTest;
 
+/**
+ * The {@code ContactUCCTest} class tests the {@code ContactUCC} class.
+ */
 public class ContactUCCTest {
 
   private ContactUCC contactUCC;

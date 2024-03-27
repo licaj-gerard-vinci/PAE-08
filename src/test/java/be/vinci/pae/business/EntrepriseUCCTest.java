@@ -16,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
+/**
+ * The {@code EntrepriseUCCTest} class tests the {@code EntrepriseUCC} class.
+ */
 public class EntrepriseUCCTest {
 
   private static EntrepriseUCC entrepriseUCC;

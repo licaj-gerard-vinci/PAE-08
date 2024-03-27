@@ -20,6 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
+/**
+ * The {@code StageUCCTest} class tests the {@code StageUCC} class.
+ */
 public class StageUCCTest {
 
   private StageUCC stageUCC;
@@ -42,7 +45,7 @@ public class StageUCCTest {
     StageDTO stage1 = factory.getStageDTO();
     StageDTO stage2 = factory.getStageDTO();
 
-    Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1,stage2));
+    Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
     List<StageDTO> stage = stageUCC.getStages();
     assertEquals(2, stage.size());
   }
@@ -65,7 +68,6 @@ public class StageUCCTest {
   }
 
 
-
   @Test
   @DisplayName("Succes get stage by user")
   void getStageByUser() {
@@ -74,12 +76,11 @@ public class StageUCCTest {
     StageDTO mockStage = factory.getStageDTO();
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(mockStage);
 
-
     StageDTO resultStage = stageUCC.getStageUser(userId);
 
-
     assertNotNull(resultStage, "The result stage should not be null.");
-    assertEquals(mockStage, resultStage, "The result stage should match the mock stage returned by DAO.");
+    assertEquals(mockStage, resultStage,
+        "The result stage should match the mock stage returned by DAO.");
   }
 
 
@@ -90,11 +91,9 @@ public class StageUCCTest {
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
 
-
     assertThrows(NotFoundException.class, () -> stageUCC.getStageUser(userId),
         "NotFoundException should be thrown when no stage is found for the user.");
   }
-
 
 
   @Test
@@ -107,11 +106,6 @@ public class StageUCCTest {
     assertThrows(FatalException.class, () -> stageUCC.getStageUser(userId),
         "FatalException should be thrown when there is a database error.");
   }
-
-
-
-
-
 
 
 }
