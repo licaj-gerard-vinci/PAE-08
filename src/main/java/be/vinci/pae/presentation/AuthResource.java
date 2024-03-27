@@ -10,6 +10,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.text.Normalizer;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -103,8 +104,10 @@ public class AuthResource {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
 
-    String lastname = user.getLastname().toLowerCase();
-    String firstname = user.getFirstname().toLowerCase();
+    String lastname = Normalizer.normalize(user.getLastname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
+    String firstname = Normalizer.normalize(user.getFirstname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
     String emailPattern = firstname + "." + lastname;
     String email = user.getEmail().toLowerCase();
 

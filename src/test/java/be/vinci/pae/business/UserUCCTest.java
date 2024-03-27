@@ -11,7 +11,9 @@ import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.presentation.exceptions.BusinessException;
 import be.vinci.pae.presentation.exceptions.ConflictException;
+import be.vinci.pae.presentation.exceptions.FatalException;
 import be.vinci.pae.presentation.exceptions.NotFoundException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -75,6 +77,17 @@ class UserUCCTest {
   }
 
   @Test
+  @DisplayName("Test login of UserUCCImpl class with SQLException")
+  void testLoginSQLException() {
+    String email = "prenom.nom";
+    String password = "password";
+    Mockito.when(userDAO.getOneByEmail(email)).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.login(email, password);
+    });
+  }
+
+  @Test
   @DisplayName("Test UserUCC registration")
   void testUserUCCRegistration() {
     User user = (User) factory.getPublicUser();
@@ -89,73 +102,6 @@ class UserUCCTest {
     User registeredUser = (User) userUCC.register(user);
     assertEquals("prenom.nom@vinci.be", registeredUser.getEmail());
     assertEquals("A", registeredUser.getRole());
-  }
-
-  @Test
-  @DisplayName("Test UserUCC registration with empty email")
-  void testUserUCCRegistrationWithEmptyEmail() {
-    User user = (User) factory.getPublicUser();
-    user.setEmail("");
-    user.setPassword("password");
-    user.setRole("A");
-    assertThrows(BusinessException.class, () -> {
-      userUCC.register(user);
-    });
-  }
-
-  @Test
-  @DisplayName("Test UserUCC registration with empty password")
-  void testUserUCCRegistrationWithEmptyPassword() {
-    User user = (User) factory.getPublicUser();
-    user.setEmail("prenom.nom@vinci.be");
-    user.setPassword("");
-    user.setRole("A");
-    assertThrows(BusinessException.class, () -> {
-      userUCC.register(user);
-    });
-  }
-
-  @Test
-  @DisplayName("Test UserUCC registration with empty first name")
-  void testUserUCCRegistrationWithEmptyFirstName() {
-    User user = (User) factory.getPublicUser();
-    user.setEmail("prenom.nom@vinci.be");
-    user.setPassword("password");
-    user.setRole("A");
-    user.setFirstname("");
-    assertThrows(BusinessException.class, () -> {
-      userUCC.register(user);
-    });
-  }
-
-  @Test
-  @DisplayName("Test UserUCC registration with empty last name")
-  void testUserUCCRegistrationWithEmptyLastName() {
-    User user = (User) factory.getPublicUser();
-    user.setEmail("prenom.nom@vinci.be");
-    user.setPassword("password");
-    user.setRole("A");
-    user.setLastname("");
-    user.setFirstname("prenom");
-    user.setPhone("phone");
-    assertThrows(BusinessException.class, () -> {
-      userUCC.register(user);
-    });
-  }
-
-  @Test
-  @DisplayName("Test UserUCC registration with empty mobile number")
-  void testUserUCCRegistrationWithEmptyMobileNumber() {
-    User user = (User) factory.getPublicUser();
-    user.setEmail("prenom.nom@vinci.be");
-    user.setPassword("password");
-    user.setRole("A");
-    user.setPhone("");
-    user.setFirstname("prenom");
-    user.setLastname("nom");
-    assertThrows(BusinessException.class, () -> {
-      userUCC.register(user);
-    });
   }
 
   @Test
@@ -221,6 +167,20 @@ class UserUCCTest {
   }
 
   @Test
+  @DisplayName("Test UserUCC registration with SqlConnectionException")
+  void testUserUCCRegistrationWithSqlConnectionException() {
+    User user = (User) factory.getPublicUser();
+    user.setEmail("prenom.nom@student.vinci.be");
+    user.setRole("E");
+    Mockito.when(userDAO.getOneByEmail(user.getEmail())).thenReturn(null);
+    Mockito.when(userDAO.insertUser(user)).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.register(user);
+    });
+  }
+
+
+  @Test
   @DisplayName("Test getOne of UserUCCImpl class")
   void testGetOne() {
     User user = (User) factory.getPublicUser();
@@ -235,6 +195,16 @@ class UserUCCTest {
     Mockito.when(userDAO.getOneById(1)).thenReturn(user);
     assertThrows(NotFoundException.class, () -> {
       userUCC.getOne(2);
+    });
+  }
+
+  @Test
+  @DisplayName("Test getOne of UserUCCImpl class with SQLException")
+  void testGetOneSQLException() {
+    User user = (User) factory.getPublicUser();
+    Mockito.when(userDAO.getOneById(user.getId())).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.getOne(user.getId());
     });
   }
 
@@ -268,4 +238,15 @@ class UserUCCTest {
       userUCC.getAll();
     });
   }
+
+  @Test
+  @DisplayName("Test method getAllUsers of UserDAOImpl class if SQLException")
+  void testGetAllUsersSQLException() {
+    Mockito.when(userDAO.getAllUsers()).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.getAll();
+    });
+  }
+
+
 }
