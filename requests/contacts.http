@@ -84,7 +84,7 @@ Content-Type: application/json
         "version": 1
       }
     },
-  "etatContact": "non suivi",
+  "etatContact": "pris",
   "raisonRefus": null,
   "lieuxRencontre": null,
   "version": 1

@@ -11,6 +11,7 @@ import {getAuthenticatedUser} from "../../utils/auths";
 let entreprises;
 let searchResult = []
 
+
 async function renderEntreprises(){
   entreprises = await getEntreprises();
   searchResult = entreprises;

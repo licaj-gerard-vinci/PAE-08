@@ -67,3 +67,11 @@
 .w-80 {
   width: 80% !important;
 }
+
+
+.custom-header {
+  background-color: #00609D !important;
+  color: #fff; /* Ensures text is readable on the dark background */
+}
+
+

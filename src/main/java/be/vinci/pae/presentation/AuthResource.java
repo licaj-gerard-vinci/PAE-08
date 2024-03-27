@@ -105,7 +105,7 @@ public class AuthResource {
 
     String lastname = user.getLastname().toLowerCase();
     String firstname = user.getFirstname().toLowerCase();
-    String emailPattern = firstname + "\\." + lastname;
+    String emailPattern = firstname + "." + lastname;
     String email = user.getEmail().toLowerCase();
 
     if (!(email.startsWith(emailPattern) && (email.endsWith("@student.vinci.be") || email.endsWith(

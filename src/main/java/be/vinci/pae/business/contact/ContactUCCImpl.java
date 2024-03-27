@@ -149,13 +149,13 @@ public class ContactUCCImpl implements ContactUCC {
 
     try {
       dalServices.startTransaction();
-      if (contactToUpdate.getEtatContact().equals("taken")) {
+      if (contactToUpdate.getEtatContact().equals("pris")) {
         checkContactTaken(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("accepted")) {
+      } else if (contactToUpdate.getEtatContact().equals("accepté")) {
         checkContactAccepted(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("refused")) {
+      } else if (contactToUpdate.getEtatContact().equals("refusé")) {
         checkContactRefused(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("unsupervised")) {
+      } else if (contactToUpdate.getEtatContact().equals("non suivi")) {
         checkContactUnsupervised(contactToUpdate);
       } else {
         throw new BusinessException("Invalid state");

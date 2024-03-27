@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT u.*, sy.school_year_id, sy.year FROM pae.users u "
+    String query = "SELECT u.*, sy.* FROM pae.users u "
         + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {

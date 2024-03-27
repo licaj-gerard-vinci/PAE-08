@@ -14,6 +14,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -59,16 +60,17 @@ public class ContactResource {
    * @throws WebApplicationException If the user is not authenticated.
    */
   @GET
-  @Path("/detailed")
+  @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext) {
+  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext,
+  @PathParam("id") int id) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
 
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(authenticatedUser.getId());
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(id);
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }

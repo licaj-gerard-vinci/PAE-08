@@ -108,7 +108,7 @@ function checkUser(){
     const lastnameValue = lastname.value;
     const firstnameValue = firstname.value;
   
-    const expectedEmail = `${lastnameValue.toLowerCase()}.${firstnameValue.toLowerCase()}@`;
+    const expectedEmail = `${firstnameValue.toLowerCase()}.${lastnameValue.toLowerCase()}@`;
   
     if (emailValue.startsWith(expectedEmail)) {
       if (emailValue.endsWith('@student.vinci.be')) {
@@ -142,6 +142,7 @@ function checkUser(){
       passwordErrorMessage.textContent = '';
     }
   }
+  
 
   registerSubmit.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -169,5 +170,7 @@ function checkUser(){
       }
   });
 }
+
+
 
 export default RegisterPage;
