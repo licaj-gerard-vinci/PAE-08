@@ -33,8 +33,6 @@ public class ApplicationBinderTest extends AbstractBinder {
   @Override
   protected void configure() {
     bind(UserUCCImpl.class).to(UserUCC.class).in(Singleton.class);
-    UserDAO userDAO = Mockito.mock(UserDAOImpl.class);
-    bind(userDAO).to(UserDAO.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
 
     bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
