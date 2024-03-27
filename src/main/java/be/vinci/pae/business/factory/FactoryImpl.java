@@ -4,10 +4,10 @@ import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.company.CompanyImpl;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactImpl;
-import be.vinci.pae.business.manager.ManagerDTO;
-import be.vinci.pae.business.manager.ManagerImpl;
 import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.internship.InternshipImpl;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.manager.ManagerImpl;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserImpl;
 import be.vinci.pae.business.year.YearDTO;
@@ -74,7 +74,7 @@ public class FactoryImpl implements Factory {
   }
 
   /**
-   * Create a new ManagerDTO
+   * Create a new ManagerDTO.
    *
    * @return a new instance of managerDTO.
    */
