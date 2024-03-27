@@ -56,6 +56,7 @@ public class ContactResource {
    * Retrieves all contact information for the authenticated user.
    *
    * @param requestContext The context of the container request.
+   * @param id             The id of the contact.
    * @return A list of all contact information.
    * @throws WebApplicationException If the user is not authenticated.
    */
