@@ -33,7 +33,7 @@ public class ConflictException extends WebApplicationException {
   /**
    * Constructs a new exception with the specified detail message and cause.
    *
-   * @param cause
+   * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).
    */
   public ConflictException(Throwable cause) {
     super(Response.status(Status.CONFLICT).entity(cause.getMessage())

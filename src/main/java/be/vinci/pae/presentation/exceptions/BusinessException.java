@@ -13,7 +13,7 @@ public class BusinessException extends WebApplicationException {
    * Constructs a new exception with the specified detail message. The cause is not initialized, and
    * may subsequently be initialized by a call to {@link #initCause}.
    *
-   * @param message
+   * @param message the detail message. The detail message is saved for later retrieval by the
    */
   public BusinessException(String message) {
     super(Response.status(Response.Status.BAD_REQUEST)
@@ -25,7 +25,7 @@ public class BusinessException extends WebApplicationException {
   /**
    * Constructs a new exception with the specified detail message and cause.
    *
-   * @param cause
+   * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).
    */
   public BusinessException(Throwable cause) {
     super(Response.status(Response.Status.BAD_REQUEST)
