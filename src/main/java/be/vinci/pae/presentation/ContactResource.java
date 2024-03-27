@@ -64,7 +64,7 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext,
-  @PathParam("id") int id) {
+      @PathParam("id") int id) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (authenticatedUser == null) {
       throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);

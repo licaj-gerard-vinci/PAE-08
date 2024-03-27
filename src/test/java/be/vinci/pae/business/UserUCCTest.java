@@ -81,7 +81,8 @@ class UserUCCTest {
   void testLoginSQLException() {
     String email = "prenom.nom";
     String password = "password";
-    Mockito.when(userDAO.getOneByEmail(email)).thenThrow(new FatalException("SQL Connection Error"));
+    Mockito.when(userDAO.getOneByEmail(email))
+        .thenThrow(new FatalException("SQL Connection Error"));
     assertThrows(FatalException.class, () -> {
       userUCC.login(email, password);
     });
@@ -202,7 +203,8 @@ class UserUCCTest {
   @DisplayName("Test getOne of UserUCCImpl class with SQLException")
   void testGetOneSQLException() {
     User user = (User) factory.getPublicUser();
-    Mockito.when(userDAO.getOneById(user.getId())).thenThrow(new FatalException("SQL Connection Error"));
+    Mockito.when(userDAO.getOneById(user.getId()))
+            .thenThrow(new FatalException("SQL Connection Error"));
     assertThrows(FatalException.class, () -> {
       userUCC.getOne(user.getId());
     });
