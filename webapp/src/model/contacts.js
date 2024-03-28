@@ -64,15 +64,16 @@ async function getContacts(){
   }
 
 
-  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
+  async function updateContact(contactId, entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
     const token = getToken();
     if(token) {
       console.log('entrepriseObject: ', entrepriseObject, ', userObject: ', userObject, ', etat:', etat)
       console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
-      console.log('contact version: ', contactVersion)
+      console.log('contact version: ', contactVersion, ', contact id: ', contactId)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
+          id: contactId,
           entreprise: entrepriseObject,
           utilisateur: userObject,
           etatContact: etat,
