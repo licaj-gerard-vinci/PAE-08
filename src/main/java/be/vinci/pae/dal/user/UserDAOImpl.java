@@ -152,20 +152,34 @@ public class UserDAOImpl implements UserDAO {
   /**
    * Update info of a user.
    *
-   * @param user
-   * @return
+   * @param user the user to update.
+   * @return true if the user was updated successfully, false otherwise.
    */
   public boolean updateUser(UserDTO user) {
     List<String> fieldsToUpdate = new ArrayList<>();
-    if (user.getEmail() != null) fieldsToUpdate.add("user_email = ?");
-    if (user.getLastname() != null) fieldsToUpdate.add("user_lastname = ?");
-    if (user.getFirstname() != null) fieldsToUpdate.add("user_firstname = ?");
-    if (user.getPhone() != null) fieldsToUpdate.add("user_phone_number = ?");
-    if (user.getRole() != null) fieldsToUpdate.add("user_role = ?");
+    if (user.getEmail() != null) {
+      fieldsToUpdate.add("user_email = ?");
+    }
+    if (user.getLastname() != null) {
+      fieldsToUpdate.add("user_lastname = ?");
+    }
+    if (user.getFirstname() != null) {
+      fieldsToUpdate.add("user_firstname = ?");
+    }
+    if (user.getPhone() != null) {
+      fieldsToUpdate.add("user_phone_number = ?");
+    }
+    if (user.getRole() != null) {
+      fieldsToUpdate.add("user_role = ?");
+    }
     // Vérifie si le mot de passe est fourni et non vide
-    if (user.getPassword() != null && !user.getPassword().isEmpty()) fieldsToUpdate.add("user_password = ?");
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      fieldsToUpdate.add("user_password = ?");
+    }
 
-    if (fieldsToUpdate.isEmpty()) return false;
+    if (fieldsToUpdate.isEmpty()) {
+      return false;
+    }
 
     String query = String.format("UPDATE pae.users SET %s WHERE user_id = ?",
             String.join(", ", fieldsToUpdate));
