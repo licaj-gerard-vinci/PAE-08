@@ -213,12 +213,12 @@ public class ContactImpl implements Contact {
       return false;
     }
 
-    if(acutalState.equals("initié") && !expectedState.equals("pris")
+    if (acutalState.equals("initié") && !expectedState.equals("pris")
         && !expectedState.equals("non suivi")) {
       return false;
     }
 
-    if(acutalState.equals("non suivi") || acutalState.equals("refusé")
+    if (acutalState.equals("non suivi") || acutalState.equals("refusé")
         || acutalState.equals("accepté") || acutalState.equals("suspendu")) {
       return false;
     }

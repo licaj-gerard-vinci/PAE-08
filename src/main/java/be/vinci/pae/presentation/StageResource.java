@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.stage.StageUCC;
-import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
@@ -12,8 +11,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;

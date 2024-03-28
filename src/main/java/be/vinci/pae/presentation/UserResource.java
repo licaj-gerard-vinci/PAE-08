@@ -14,6 +14,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.apache.logging.log4j.core.util.internal.Status;
 import org.mindrot.jbcrypt.BCrypt;
@@ -55,12 +56,9 @@ public class UserResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-
     user.setId(id);
-
-    if (user.getPassword() != null || !user.getPassword().isBlank()) {
-      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-      user.setPassword(passwordHashed);
+    if (user.getPassword() == null || user.getPassword().isBlank()) {
+      throw new WebApplicationException("Password is required", Response.Status.BAD_REQUEST);
     }
 
     boolean updateResult = myUserUcc.update(user);

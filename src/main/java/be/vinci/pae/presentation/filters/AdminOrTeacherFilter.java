@@ -48,13 +48,13 @@ public class AdminOrTeacherFilter implements ContainerResponseFilter {
           throw new TokenDecodingException("Token expired");
         }
       } catch (Exception e) {
-          throw new TokenDecodingException(e.getMessage());
+        throw new TokenDecodingException(e.getMessage());
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
         throw new NotFoundException("User not found");
       }
-      if(!authenticatedUser.getRole().equals("A") || !authenticatedUser.getRole().equals("P")){
+      if (!authenticatedUser.getRole().equals("A") || !authenticatedUser.getRole().equals("P")){
         throw new UnhautorizedException("Vous n'êtes pas professeur ou "
             + "admin FAUT METTRE LA BONNE EXCEPTION");
       }

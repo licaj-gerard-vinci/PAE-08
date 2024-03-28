@@ -129,7 +129,8 @@ public class ContactUCCImpl implements ContactUCC {
       throw new NotFoundException("Contact not found");
     }
 
-    if (!contactToVerif.checkState(contactToVerif.getEtatContact(), contactToUpdate.getEtatContact())) {
+    if (!contactToVerif.checkState(contactToVerif.getEtatContact(),
+        contactToUpdate.getEtatContact())) {
       throw new BusinessException("Invalid state");
     }
 

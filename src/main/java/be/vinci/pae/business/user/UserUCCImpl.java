@@ -9,6 +9,7 @@ import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.Date;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * The {@code UserUCCImpl} class provides methods for managing user-related operations, such as
@@ -131,14 +132,16 @@ public class UserUCCImpl implements UserUCC {
    * @return the updated user.
    */
   public boolean update(UserDTO user) {
+    String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+    user.setPassword(passwordHashed);
     try {
       dalServices.startTransaction();
       boolean result = userDAO.updateUser(user);
       dalServices.commitTransaction();
       return result;
-    } catch (Exception e) {
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
-      throw new RuntimeException(e);
+      throw e;
     } finally {
       dalServices.close();
     }
