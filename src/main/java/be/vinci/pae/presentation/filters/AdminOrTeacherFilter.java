@@ -36,28 +36,28 @@ public class AdminOrTeacherFilter implements ContainerResponseFilter {
    */
   @Override
   public void filter(ContainerRequestContext requestContext,
-    ContainerResponseContext containerResponseContext) throws IOException {
+      ContainerResponseContext containerResponseContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
-        throw new TokenDecodingException("Missing token");
+      throw new TokenDecodingException("Missing token");
     } else {
-        DecodedJWT decodedToken = null;
-        try {
-            decodedToken = this.jwtVerifier.verify(token);
-            if (decodedToken.getExpiresAt().before(new Date())) {
-                throw new TokenDecodingException("Token expired");
-            }
-        } catch (Exception e) {
-            throw new TokenDecodingException(e.getMessage());
-        }
-        UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
-        if (authenticatedUser == null) {
-            throw new NotFoundException("User not found");
-        }
-        if(!authenticatedUser.getRole().equals("A") || !authenticatedUser.getRole().equals("P")){
-            throw new UnhautorizedException("Vous n'êtes pas professeur ou admin FAUT METTRE LA BONNE EXCEPTION");
-        }
-        requestContext.setProperty("user", authenticatedUser);
+      DecodedJWT decodedToken = null;
+      try {
+          decodedToken = this.jwtVerifier.verify(token);
+          if (decodedToken.getExpiresAt().before(new Date())) {
+              throw new TokenDecodingException("Token expired");
+          }
+      } catch (Exception e) {
+          throw new TokenDecodingException(e.getMessage());
+      }
+      UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
+      if (authenticatedUser == null) {
+          throw new NotFoundException("User not found");
+      }
+      if(!authenticatedUser.getRole().equals("A") || !authenticatedUser.getRole().equals("P")){
+          throw new UnhautorizedException("Vous n'êtes pas professeur ou admin FAUT METTRE LA BONNE EXCEPTION");
+      }
+      requestContext.setProperty("user", authenticatedUser);
     }
   }
 }

@@ -41,23 +41,23 @@ public class StudentFilter implements ContainerResponseFilter {
     if (token == null) {
       throw new TokenDecodingException("Missing token");
     } else {
-    DecodedJWT decodedToken = null;
-    try {
+      DecodedJWT decodedToken = null;
+      try {
         decodedToken = this.jwtVerifier.verify(token);
         if (decodedToken.getExpiresAt().before(new Date())) {
-            throw new TokenDecodingException("Token expired");
+          throw new TokenDecodingException("Token expired");
         }
     } catch (Exception e) {
         throw new TokenDecodingException(e.getMessage());
     }
-    UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
-    if (authenticatedUser == null) {
+      UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
+      if (authenticatedUser == null) {
         throw new NotFoundException("User not found");
-    }
-    if(!authenticatedUser.getRole().equals("E")){
+      }
+      if (!authenticatedUser.getRole().equals("E")) {
         throw new UnhautorizedException("Vous n'êtes pas étudiant FAUT METTRE LA BONNE EXCEPTION");
-    }
-    requestContext.setProperty("user", authenticatedUser);
+      }
+      requestContext.setProperty("user", authenticatedUser);
     }
   }
 }
