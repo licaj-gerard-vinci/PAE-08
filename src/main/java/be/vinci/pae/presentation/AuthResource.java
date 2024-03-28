@@ -131,21 +131,7 @@ public class AuthResource {
     return myUserUcc.getOne(authenticatedUser.getId());
   }
 
-  @PUT
-  @Path("/{id}")
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-    user.setId(id);
-    boolean updateResult = myUserUcc.update(user);
-    if (updateResult) {
 
-      return myUserUcc.getOne(id);
-    } else {
-
-      throw new WebApplicationException("User not found or update failed", Status.NOT_FOUND);
-    }
-  }
 
 
 
