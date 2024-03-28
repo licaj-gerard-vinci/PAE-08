@@ -43,19 +43,20 @@ public class AdminOrTeacherFilter implements ContainerResponseFilter {
     } else {
       DecodedJWT decodedToken = null;
       try {
-          decodedToken = this.jwtVerifier.verify(token);
-          if (decodedToken.getExpiresAt().before(new Date())) {
-              throw new TokenDecodingException("Token expired");
-          }
+        decodedToken = this.jwtVerifier.verify(token);
+        if (decodedToken.getExpiresAt().before(new Date())) {
+          throw new TokenDecodingException("Token expired");
+        }
       } catch (Exception e) {
           throw new TokenDecodingException(e.getMessage());
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
-          throw new NotFoundException("User not found");
+        throw new NotFoundException("User not found");
       }
       if(!authenticatedUser.getRole().equals("A") || !authenticatedUser.getRole().equals("P")){
-          throw new UnhautorizedException("Vous n'êtes pas professeur ou admin FAUT METTRE LA BONNE EXCEPTION");
+        throw new UnhautorizedException("Vous n'êtes pas professeur ou "
+            + "admin FAUT METTRE LA BONNE EXCEPTION");
       }
       requestContext.setProperty("user", authenticatedUser);
     }

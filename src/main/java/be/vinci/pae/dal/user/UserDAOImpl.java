@@ -186,15 +186,26 @@ public class UserDAOImpl implements UserDAO {
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       int index = 1;
-      if (user.getEmail() != null) statement.setString(index++, user.getEmail());
-      if (user.getLastname() != null) statement.setString(index++, user.getLastname());
-      if (user.getFirstname() != null) statement.setString(index++, user.getFirstname());
-      if (user.getPhone() != null) statement.setString(index++, user.getPhone());
-      if (user.getRole() != null) statement.setString(index++, user.getRole());
+      if (user.getEmail() != null) {
+        statement.setString(index++, user.getEmail());
+      }
+      if (user.getLastname() != null) {
+        statement.setString(index++, user.getLastname());
+      }
+      if (user.getFirstname() != null) {
+        statement.setString(index++, user.getFirstname());
+      }
+      if (user.getPhone() != null) {
+        statement.setString(index++, user.getPhone());
+      }
+      if (user.getRole() != null) {
+        statement.setString(index++, user.getRole());
+      }
       // Assigne le mot de passe hashé à la requête si présent
-      if (user.getPassword() != null && !user.getPassword().isEmpty()) statement.setString(index++, user.getPassword());
+      if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+        statement.setString(index++, user.getPassword());
+      }
       statement.setInt(index, user.getId());
-
       int rowsUpdated = statement.executeUpdate();
       return rowsUpdated > 0;
     } catch (SQLException e) {

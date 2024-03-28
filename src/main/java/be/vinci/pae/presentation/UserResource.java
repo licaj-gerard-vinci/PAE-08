@@ -6,12 +6,18 @@ import be.vinci.pae.presentation.filters.AdminOrTeacher;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 import org.apache.logging.log4j.core.util.internal.Status;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.List;
 
 /**
  * UserResource.
@@ -52,7 +58,7 @@ public class UserResource {
 
     user.setId(id);
 
-    if (user.getPassword() != null || !user.getPassword().isBlank()){
+    if (user.getPassword() != null || !user.getPassword().isBlank()) {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(passwordHashed);
     }
@@ -64,7 +70,8 @@ public class UserResource {
 
       return userone;
     } else {
-      throw new WebApplicationException("User not found or update failed", Status.NOT_FOUND.ordinal());
+      throw new WebApplicationException("User not found or "
+          + "update failed", Status.NOT_FOUND.ordinal());
     }
 
   }
