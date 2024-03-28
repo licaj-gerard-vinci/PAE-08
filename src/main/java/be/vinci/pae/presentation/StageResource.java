@@ -33,27 +33,20 @@ public class StageResource {
    * Retrieves the stage of the authenticated user from the request context.
    *
    * @param id             the id of the user.
-   * @param requestContext the request context.
    * @return the stage of the authenticated user.
    */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public StageDTO getUserStage(@Context ContainerRequestContext requestContext,
-      @PathParam("id") int id) {
+  public StageDTO getUserStage(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
-    }
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
     }
     StageDTO userStage = myStageUcc.getStageUser(id);
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
     }
-
     return userStage;
   }
 
@@ -64,6 +57,7 @@ public class StageResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
   public List<StageDTO> getStages() {
     return myStageUcc.getStages();
   }

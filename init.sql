@@ -19,17 +19,17 @@ INSERT INTO pae.school_years VALUES (DEFAULT,'2020-2021',1);
 DROP TABLE IF EXISTS pae.users;
 CREATE TABLE pae.users
 (
-    user_id                SERIAL PRIMARY KEY,
+    user_id                     SERIAL PRIMARY KEY,
     user_email                  TEXT NOT NULL,
     user_password               TEXT NOT NULL,
     user_lastname               TEXT NOT NULL,
-    user_firstname             TEXT NOT NULL,
+    user_firstname              TEXT NOT NULL,
     user_phone_number           TEXT NOT NULL,
     user_registration_date      DATE NOT NULL,
-    user_role              CHAR(1) NOT NULL,
-    user_school_year_id       INTEGER REFERENCES pae.school_years(school_year_id),
-    user_has_internship        BOOLEAN NOT NULL,
-    user_version                            INTEGER
+    user_role                   CHAR(1) NOT NULL,
+    user_school_year_id         INTEGER REFERENCES pae.school_years(school_year_id),
+    user_has_internship         BOOLEAN NOT NULL,
+    user_version                INTEGER NOT NULL
 );
 
 
@@ -120,7 +120,7 @@ INSERT INTO pae.managers (manager_lastname,manager_firstname,manager_phone_numbe
 DROP TABLE IF EXISTS pae.internships;
 CREATE TABLE pae.internships
 (
-    internship_id           SERIAL PRIMARY KEY,
+    internship_id                      SERIAL PRIMARY KEY,
     internship_manager_id              INTEGER REFERENCES pae.managers(manager_id),
     internship_student_id              INTEGER REFERENCES pae.users(user_id),
     internship_contact_id              INTEGER REFERENCES pae.contacts(contact_id),
@@ -128,9 +128,25 @@ CREATE TABLE pae.internships
     internship_school_year_id          INTEGER REFERENCES pae.school_years(school_year_id) NOT NULL,
     internship_topic                   TEXT,
     internship_date_of_signature       DATE,
-    internship_version                            INTEGER
+    internship_version                 INTEGER
 );
 
 INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (1, 9, 1, 2, 1, 'Un ERP : Odoo', '10-10-23',1);
 INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (2, 6, 2, 4, 1, 'sBMS project - a complex environment', '23-11-23',1);
 INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (3, 7, 4, 1, 1, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23',1);
+
+
+SELECT COUNT(*) as nb_of_usrs FROM pae.users;
+
+SELECT COUNT(*) as nb_of_companies FROM pae.companies;
+
+SELECT con.contact_status, COUNT(*) as nb_of_contact_status FROM pae.contacts con GROUP BY con.contact_status;
+
+SELECT sy.year , COALESCE(COUNT(int.internship_id), 0) as nb_of_internship FROM pae.school_years sy
+                                                                                    LEFT JOIN pae.internships int ON sy.school_year_id = int.internship_school_year_id
+GROUP BY sy.year;
+
+SELECT sy.year , COALESCE(COUNT(con.contact_id), 0) as nb_of_contact FROM pae.school_years sy
+                                                                              LEFT JOIN pae.contacts con ON sy.school_year_id = con.contact_school_year_id
+GROUP BY sy.year;
+

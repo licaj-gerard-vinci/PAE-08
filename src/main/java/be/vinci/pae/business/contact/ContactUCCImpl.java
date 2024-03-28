@@ -42,8 +42,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -66,8 +64,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -90,8 +86,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -119,8 +113,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -166,8 +158,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 

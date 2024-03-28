@@ -38,8 +38,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -61,8 +59,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 

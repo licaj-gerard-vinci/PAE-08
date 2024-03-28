@@ -37,8 +37,6 @@ public class StageUCCImpl implements StageUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -61,8 +59,6 @@ public class StageUCCImpl implements StageUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 }
