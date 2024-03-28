@@ -18,3 +18,18 @@ Authorization: {{token}}
 ### Get user by id
 GET {{baseUrl}}/users
 Authorization: {{token}}
+
+###
+PUT {{baseUrl}}/users/4
+Content-Type: application/json
+Authorization : {{token}}
+
+
+{
+  "email": "annouck.lancaster@vinci.be",
+  "lastname": "Lancaster",
+  "firstname": "Annouck",
+  "phone": "444444444",
+  "role": "E",
+  "password": "aaaaaaaa"
+}

@@ -26,6 +26,10 @@ public class ContactImpl implements ContactDTO {
 
   private YearDTO annee;
 
+  private int version;
+
+
+
   @Override
   public int getIdEntreprise() {
     return idEntreprise;
@@ -182,16 +186,23 @@ public class ContactImpl implements ContactDTO {
     this.annee = annee;
   }
 
-
   /**
-   * Returns a string representation of the object.
+   * Gets the version.
    *
-   * @return a string representation of the object.
+   * @return the version.
    */
   @Override
-  public String toString() {
-    return "ContactImpl [id=" + id + ", entreprise=" + entreprise + ", utilisateur=" + utilisateur
-        + ", etatContact=" + etatContact + ", lieuxRencontre=" + lieuxRencontre + ", raisonRefus="
-        + raisonRefus + ", annee=" + annee + "]";
+  public int getVersion() {
+    return version;
+  }
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
   }
 }

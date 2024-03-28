@@ -9,11 +9,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.Date;
@@ -39,22 +38,21 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   public void filter(@Context ContainerRequestContext requestContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
-      throw new WebApplicationException("login or password required", Status.UNAUTHORIZED);
+      throw new TokenDecodingException("Missing token");
     } else {
       DecodedJWT decodedToken = null;
       try {
         decodedToken = this.jwtVerifier.verify(token);
         if (decodedToken.getExpiresAt().before(new Date())) {
-          throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
+          throw new TokenDecodingException("Token expired");
         }
       } catch (Exception e) {
-        throw new WebApplicationException("token expired", Status.UNAUTHORIZED);
+        throw new TokenDecodingException(e.getMessage());
       }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
-        throw new WebApplicationException("tozzzzzzzzzzzz", Status.UNAUTHORIZED);
+        throw new NotFoundException("User not found");
       }
-
       requestContext.setProperty("user", authenticatedUser);
     }
   }

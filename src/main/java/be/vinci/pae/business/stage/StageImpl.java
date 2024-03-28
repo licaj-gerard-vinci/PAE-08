@@ -32,6 +32,8 @@ public class StageImpl implements StageDTO {
 
   private String dateSignature;
 
+  private int version;
+
   @Override
   public int getId() {
     return id;
@@ -150,6 +152,26 @@ public class StageImpl implements StageDTO {
   @Override
   public void setdateSignature(String dateSignature) {
     this.dateSignature = dateSignature;
+  }
+
+  /**
+   * Gets the version.
+   *
+   * @return the version.
+   */
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  /**
+   * Sets the version.
+   *
+   * @param version the new version.
+   */
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
   }
 
 }

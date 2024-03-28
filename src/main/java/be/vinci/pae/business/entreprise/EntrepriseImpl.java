@@ -24,6 +24,8 @@ public class EntrepriseImpl implements EntrepriseDTO {
 
   private String city;
 
+  private int version;
+
 
   /**
    * Gets the ID of the entreprise.
@@ -210,19 +212,23 @@ public class EntrepriseImpl implements EntrepriseDTO {
     this.motivation = motivation;
   }
 
-  /**
-   * toString method.
-   *
-   * @return String
-   */
   @Override
-  public String toString() {
-    return "EntrepriseImpl [id=" + id + ", nom=" + nom + ", appellation=" + appellation
-        + ", adresse=" + adresse
-        + ", numTel=" + numTel + ", email=" + email + ", blackListed=" + blackListed
-        + ", motivation_blacklist="
-        + motivation + "]";
+  public String getMotivation() {
+    return motivation;
   }
 
+  @Override
+  public void setMotivation(String motivation) {
+    this.motivation = motivation;
+  }
 
+  @Override
+  public int getVersion() {
+    return version;
+  }
+
+  @Override
+  public void setVersion(int version) {
+    this.version = version;
+  }
 }

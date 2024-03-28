@@ -17,11 +17,12 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "email": "zeub.humide@student.vinci.be",
+  "email": "nadir.ahdid@student.vinci.be",
   "password": "a",
-  "lastname": "zeub",
-  "firstname": "humide",
-  "phone": "123456789",
+  "lastname": "ahdid",
+  "firstname": "nadir",
+  "phone": "0485367792",
+  "registrationDate": "23-03-24 11:00:00",
   "role": "E"
 }
 
@@ -30,16 +31,3 @@ client.global.set("token", response.body.token);
 %}
 
 ###
-PUT {{baseUrl}}/auth/4
-Content-Type: application/json
-Authorization : {{token}}
-
-
-
-{
-  "email": "annouck.lancaster@vinci.be",
-  "lastname": "Lancaster",
-  "firstname": "Annouck",
-  "phone": "444444444",
-  "role": "E"
-}

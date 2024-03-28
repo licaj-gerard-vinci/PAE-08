@@ -2,13 +2,17 @@ package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.presentation.exceptions.BusinessException;
+import be.vinci.pae.presentation.exceptions.ConflictException;
+import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.presentation.exceptions.NotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -53,7 +57,9 @@ class UserUCCTest {
     User user = (User) factory.getPublicUser();
     user.setPassword(user.hashPassword(password));
     Mockito.when(userDAO.getOneByEmail(email)).thenReturn(null);
-    assertNull(userUCC.login(email, password));
+    assertThrows(NotFoundException.class, () -> {
+      userUCC.login(email, password);
+    });
   }
 
   @Test
@@ -64,7 +70,21 @@ class UserUCCTest {
     User user = (User) factory.getPublicUser();
     user.setPassword(user.hashPassword("test"));
     Mockito.when(userDAO.getOneByEmail(email)).thenReturn(user);
-    assertNull(userUCC.login(email, password));
+    assertThrows(BusinessException.class, () -> {
+      userUCC.login(email, password);
+    });
+  }
+
+  @Test
+  @DisplayName("Test login of UserUCCImpl class with SQLException")
+  void testLoginSQLException() {
+    String email = "prenom.nom";
+    String password = "password";
+    Mockito.when(userDAO.getOneByEmail(email))
+        .thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.login(email, password);
+    });
   }
 
   @Test
@@ -74,6 +94,9 @@ class UserUCCTest {
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");
     user.setRole("A");
+    user.setFirstname("prenom");
+    user.setLastname("nom");
+    user.setPhone("phone");
     Mockito.when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(null);
     Mockito.when(userDAO.insertUser(user)).thenReturn(user);
     User registeredUser = (User) userUCC.register(user);
@@ -88,9 +111,13 @@ class UserUCCTest {
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");
     user.setRole("A");
+    user.setFirstname("prenom");
+    user.setLastname("nom");
+    user.setPhone("phone");
     Mockito.when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(user);
-    User registeredUser = (User) userUCC.register(user);
-    assertNull(registeredUser);
+    assertThrows(ConflictException.class, () -> {
+      userUCC.register(user);
+    });
   }
 
   @Test
@@ -98,6 +125,9 @@ class UserUCCTest {
   void testUserUCCRegistrationWithStudentEmail() {
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@student.vinci.be");
+    user.setFirstname("prenom");
+    user.setLastname("nom");
+    user.setPhone("phone");
     user.setPassword("password");
     Mockito.when(userDAO.getOneByEmail("prenom.nom@student.vinci.be")).thenReturn(null);
     Mockito.when(userDAO.insertUser(user)).thenReturn(user);
@@ -112,9 +142,13 @@ class UserUCCTest {
     User user = (User) factory.getPublicUser();
     user.setEmail("invalidEmail");
     user.setPassword("password");
+    user.setFirstname("prenom");
+    user.setLastname("nom");
+    user.setPhone("phone");
     user.setRole("E");
-    User registeredUser = (User) userUCC.register(user);
-    assertNull(registeredUser);
+    assertThrows(BusinessException.class, () -> {
+      userUCC.register(user);
+    });
   }
 
   @Test
@@ -123,10 +157,28 @@ class UserUCCTest {
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");
+    user.setFirstname("prenom");
+    user.setLastname("nom");
+    user.setPhone("phone");
     user.setRole("InvalidRole");
-    User registeredUser = (User) userUCC.register(user);
-    assertNull(registeredUser);
+    assertThrows(BusinessException.class, () -> {
+      userUCC.register(user);
+    });
   }
+
+  @Test
+  @DisplayName("Test UserUCC registration with SqlConnectionException")
+  void testUserUCCRegistrationWithSqlConnectionException() {
+    User user = (User) factory.getPublicUser();
+    user.setEmail("prenom.nom@student.vinci.be");
+    user.setRole("E");
+    Mockito.when(userDAO.getOneByEmail(user.getEmail())).thenReturn(null);
+    Mockito.when(userDAO.insertUser(user)).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.register(user);
+    });
+  }
+
 
   @Test
   @DisplayName("Test getOne of UserUCCImpl class")
@@ -141,7 +193,20 @@ class UserUCCTest {
   void testGetOneWrongId() {
     User user = (User) factory.getPublicUser();
     Mockito.when(userDAO.getOneById(1)).thenReturn(user);
-    assertNull(userUCC.getOne(2));
+    assertThrows(NotFoundException.class, () -> {
+      userUCC.getOne(2);
+    });
+  }
+
+  @Test
+  @DisplayName("Test getOne of UserUCCImpl class with SQLException")
+  void testGetOneSQLException() {
+    User user = (User) factory.getPublicUser();
+    Mockito.when(userDAO.getOneById(user.getId()))
+            .thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.getOne(user.getId());
+    });
   }
 
   @Test
@@ -165,5 +230,24 @@ class UserUCCTest {
     List<UserDTO> result = userUCC.getAll();
     assertEquals(2, result.size());
   }
+
+  @Test
+  @DisplayName("Test method getAllUsers of UserDAOImpl class if null")
+  void testGetAllUsersNull() {
+    Mockito.when(userDAO.getAllUsers()).thenReturn(null);
+    assertThrows(NotFoundException.class, () -> {
+      userUCC.getAll();
+    });
+  }
+
+  @Test
+  @DisplayName("Test method getAllUsers of UserDAOImpl class if SQLException")
+  void testGetAllUsersSQLException() {
+    Mockito.when(userDAO.getAllUsers()).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.getAll();
+    });
+  }
+
 
 }

@@ -4,6 +4,8 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
+import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.presentation.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,9 @@ public class UserDAOImpl implements UserDAO {
 
   @Inject
   private DALBackService dalService;
+
+  @Inject
+  private DALBackServiceUtils dalBackServiceUtils;
 
   @Inject
   private Factory factory;
@@ -39,11 +44,11 @@ public class UserDAOImpl implements UserDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          return rsToUser(rs, "get");
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -62,11 +67,11 @@ public class UserDAOImpl implements UserDAO {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToUser(rs);
+          return rsToUser(rs, "get");
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -78,17 +83,17 @@ public class UserDAOImpl implements UserDAO {
    */
   @Override
   public List<UserDTO> getAllUsers() {
-    String query = "SELECT u.*, sy.school_year_id, sy.year FROM pae.users u "
+    String query = "SELECT u.*, sy.* FROM pae.users u "
         + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id";
     List<UserDTO> users = new ArrayList<>();
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          users.add(rsToUser(rs));
+          users.add(rsToUser(rs, "get"));
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return users;
   }
@@ -103,8 +108,8 @@ public class UserDAOImpl implements UserDAO {
     String query =
         "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname, "
             + "user_school_year_id, user_phone_number, user_role, user_registration_date, "
-            + "user_has_internship) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE) RETURNING user_id;";
+            + "user_has_internship, user_version) "
+            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE, 1) RETURNING user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
       statement.setString(2, user.getPassword());
@@ -116,11 +121,12 @@ public class UserDAOImpl implements UserDAO {
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
           user.setId(rs.getInt("user_id"));
+          user.setVersion(1);
           return user;
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -132,23 +138,13 @@ public class UserDAOImpl implements UserDAO {
    * @return a UserDTO object populated with user data from the ResultSet row.
    * @throws SQLException if an error occurs while accessing the ResultSet.
    */
-  private UserDTO rsToUser(ResultSet rs) throws SQLException {
-    UserDTO user = factory.getPublicUser();
+  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
     YearDTO year = factory.getYearDTO();
-
     year.setId(rs.getInt("school_year_id"));
     year.setAnnee(rs.getString("year"));
-
-    user.setId(rs.getInt("user_id"));
-    user.setEmail(rs.getString("user_email"));
-    user.setPassword(rs.getString("user_password"));
-    user.setLastname(rs.getString("user_lastname"));
-    user.setFirstname(rs.getString("user_firstname"));
-    user.setPhone(rs.getString("user_phone_number"));
-    user.setRegistrationDate(rs.getDate("user_registration_date"));
-    user.setRole(rs.getString("user_role"));
+    year.setVersion(rs.getInt("school_year_version"));
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     user.setYear(year);
-    user.setHasInternship(rs.getBoolean("user_has_internship"));
     return user;
   }
 
@@ -160,6 +156,8 @@ public class UserDAOImpl implements UserDAO {
     if (user.getFirstname() != null) fieldsToUpdate.add("user_firstname = ?");
     if (user.getPhone() != null) fieldsToUpdate.add("user_phone_number = ?");
     if (user.getRole() != null) fieldsToUpdate.add("user_role = ?");
+    // Vérifie si le mot de passe est fourni et non vide
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) fieldsToUpdate.add("user_password = ?");
 
     if (fieldsToUpdate.isEmpty()) return false;
 
@@ -173,6 +171,8 @@ public class UserDAOImpl implements UserDAO {
       if (user.getFirstname() != null) statement.setString(index++, user.getFirstname());
       if (user.getPhone() != null) statement.setString(index++, user.getPhone());
       if (user.getRole() != null) statement.setString(index++, user.getRole());
+      // Assigne le mot de passe hashé à la requête si présent
+      if (user.getPassword() != null && !user.getPassword().isEmpty()) statement.setString(index++, user.getPassword());
       statement.setInt(index, user.getId());
 
       int rowsUpdated = statement.executeUpdate();

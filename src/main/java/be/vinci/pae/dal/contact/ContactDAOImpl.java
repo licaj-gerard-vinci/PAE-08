@@ -7,6 +7,8 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,11 +50,11 @@ public class ContactDAOImpl implements ContactDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          contacts.add(rsToContact(rs));
+          contacts.add(rsToContact(rs, "get"));
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
     return contacts;
   }
@@ -62,7 +64,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user.
    * @return A list of contact information.
-   * @throws RuntimeException If an SQL exception occurs.
+   * @throws FatalException If an SQL exception occurs.
    */
   public List<ContactDTO> getContactsAllInfo(int id) {
 
@@ -80,11 +82,11 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          contacts.add(rsToContact(rs));
+          contacts.add(rsToContact(rs, "get"));
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     return contacts;
@@ -97,7 +99,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @return the contact.
    */
   public ContactDTO getContactById(int idContact) {
-    System.out.println("enter DAO getContactById");
     String query =
         "SELECT c.*, u.*, comp.*, sy.* "
             + "FROM pae.contacts c "
@@ -110,12 +111,12 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setInt(1, idContact);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToContact(rs);
+          return rsToContact(rs, "checkGet");
         }
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     return null;
@@ -124,57 +125,57 @@ public class ContactDAOImpl implements ContactDAO {
   /**
    * Check if a contact exists.
    *
-   * @param idUser The ID of the user.
+   * @param idUser       The ID of the user.
    * @param idEntreprise The ID of the company.
    * @return The contact if it exists, null otherwise.
    */
   public ContactDTO checkContactExists(int idUser, int idEntreprise) {
     System.out.println("enter check");
-    String query = "SELECT * FROM pae.contacts, pae.school_years, pae.companies, "
-            + "pae.users WHERE contact_student_id = ? AND contact_company_id = ?";
+    String query = "SELECT DISTINCT con.*, sy.*, com.*, u.* FROM pae.contacts con, "
+        + "pae.school_years sy, pae.companies com, pae.users u, "
+        + "pae.users WHERE contact_student_id = ? AND contact_company_id = ? "
+        + "AND con.contact_company_id = com.company_id AND u.user_id = con.contact_student_id "
+        + "AND sy.school_year_id = con.contact_school_year_id;";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
       if (rs.next()) {
-        return rsToContact(rs);
+        return rsToContact(rs, "checkGet");
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      throw new RuntimeException();
+      throw new FatalException();
     }
-    System.out.println("nothing found");
     return null;
   }
 
   /**
    * Check if a contact can be updated to the 'taken' state.
    *
-   * @param idUser The ID of the user.
+   * @param idUser       The ID of the user.
    * @param idEntreprise The ID of the company.
    * @return true if the contact can be updated, false otherwise.
    */
   public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
-    String query = "SELECT contact_status FROM pae.contacts WHERE contact_student_id = ? "
-            + "AND contact_company_id = ?";
+    String query = "SELECT * FROM pae.contacts WHERE contact_student_id = ? "
+        + "AND contact_company_id = ?";
+
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idUser);
       statement.setInt(2, idEntreprise);
       ResultSet rs = statement.executeQuery();
-      System.out.println("expectedState: " + expectedState);
       if (rs.next()) {
         String currentState = rs.getString("contact_status");
-        System.out.println("receivedState: " + currentState);
         return currentState.equals(expectedState);
       } else {
         return false;
       }
     } catch (SQLException e) {
       e.printStackTrace();
-      throw new RuntimeException();
+      throw new FatalException();
     }
   }
-
 
 
   /**
@@ -185,8 +186,9 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public void insertContact(ContactDTO contact) {
     String query = "INSERT INTO pae.contacts "
-        + "(contact_school_year_id, contact_company_id, contact_student_id, contact_status) "
-        + "VALUES (1, ?, ?, ?)";
+        + "(contact_school_year_id, contact_company_id, contact_student_id, "
+        + "contact_status, contact_version) "
+        + "VALUES (1, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise().getId());
       statement.setInt(2, contact.getUtilisateur().getId());
@@ -194,7 +196,7 @@ public class ContactDAOImpl implements ContactDAO {
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -204,21 +206,28 @@ public class ContactDAOImpl implements ContactDAO {
    * @param contact The contact information to update.
    * @throws RuntimeException If an SQL exception occurs.
    */
+  @Log
   public void updateContact(ContactDTO contact) {
-    String query = "UPDATE pae.contacts SET contact_status = ?, contact_meeting_place = ?, "
-            + "contact_refusal_reason = ? WHERE contact_company_id = ? AND contact_student_id = ?;";
+    String query = "UPDATE pae.contacts SET contact_company_id = ?, "
+        + "contact_student_id = ? , contact_school_year_id = ?,  "
+        + "contact_status = ?, contact_meeting_place = ?, contact_refusal_reason = ?, "
+        + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, contact.getEtatContact());
-      statement.setString(2, contact.getLieuxRencontre());
-      statement.setString(3, contact.getRaisonRefus());
-      statement.setInt(4,
-          contact.getEntreprise().getId()); // Utilisez getId() pour obtenir l'ID de l'entreprise
-      statement.setInt(5,
-          contact.getUtilisateur().getId()); // Utilisez getId() pour obtenir l'ID de l'utilisateur
-      statement.executeUpdate();
+      statement.setInt(1, contact.getEntreprise().getId());
+      statement.setInt(2, contact.getUtilisateur().getId());
+      statement.setInt(3, contact.getAnnee().getId());
+      statement.setString(4, contact.getEtatContact());
+      statement.setString(5, contact.getLieuxRencontre());
+      statement.setString(6, contact.getRaisonRefus());
+      statement.setInt(7, contact.getId());
+      statement.setInt(8, contact.getVersion());
+      int rows = statement.executeUpdate();
+      if (rows == 0) {
+        throw new RuntimeException("Contact not found");
+      }
     } catch (SQLException e) {
       e.printStackTrace();
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -229,26 +238,22 @@ public class ContactDAOImpl implements ContactDAO {
    * @return the contact detailled DTO
    * @throws SQLException the SQL exception
    */
-  private ContactDTO rsToContact(ResultSet rs) throws SQLException {
-    YearDTO year = factory.getYearDTO();
-    year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
+  private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException {
+    ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
 
-    ContactDTO contact = factory.getContactDTO();
-
-    contact.setId(rs.getInt("contact_id"));
-    contact.setEtatContact(rs.getString("contact_status"));
-    contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
-    contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
-
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs);
+    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
     contact.setEntreprise(entreprise);
     contact.setIdEntreprise(entreprise.getId());
-    UserDTO user = dalBackServiceUtils.fillUserDTO(rs);
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
-    contact.setAnnee(year);
-
+    if (method.equals("checkGet")) {
+      YearDTO year = factory.getYearDTO();
+      year.setId(rs.getInt("school_year_id"));
+      year.setAnnee(rs.getString("year"));
+      year.setVersion(rs.getInt("school_year_version"));
+      contact.setAnnee(year);
+    }
     return contact;
   }
 }

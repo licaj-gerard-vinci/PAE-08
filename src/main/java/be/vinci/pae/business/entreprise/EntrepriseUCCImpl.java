@@ -2,12 +2,14 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.presentation.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
 /**
- * This class implements the EntrepriseUCC interface.
- * It provides methods to interact with the EntrepriseDAO to perform operations on the entreprises.
+ * This class implements the EntrepriseUCC interface. It provides methods to interact with the
+ * EntrepriseDAO to perform operations on the entreprises.
  */
 public class EntrepriseUCCImpl implements EntrepriseUCC {
 
@@ -25,14 +27,20 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    */
   @Override
   public EntrepriseDTO getEntreprise(int id) {
-    if (id <= 0) {
-      return null; //Il faut retourner une exception ici, pas null
+    try {
+      dalServices.startTransaction();
+      EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
+      if (entreprise == null) {
+        throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
+      }
+      dalServices.commitTransaction();
+      return entreprise;
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    } finally {
+      dalServices.close();
     }
-    EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
-    if (entreprise == null) {
-      return null; //Il faut retourner une exception ici, pas null
-    }
-    return entreprise;
   }
 
   /**
@@ -46,12 +54,11 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       dalServices.startTransaction();
       List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
       if (entreprises == null) {
-        return null; //Il faut retourner une exception ici, pas null
+        throw new NotFoundException("Aucune entreprise n'a été trouvée.");
       }
       dalServices.commitTransaction();
       return entreprises;
-    } catch (Exception e) {
-      System.out.println("Erreur lors de la récupération des entreprises : " + e.getMessage());
+    } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
     } finally {

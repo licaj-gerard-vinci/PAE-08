@@ -46,5 +46,4 @@ public interface ContactUCC {
    * @param contact A ContactDTO object containing the updated information of the contact.
    */
   void updateContact(ContactDTO contact);
-
 }

@@ -1,10 +1,14 @@
 import {
+    getAuthenticatedUser,
     getToken,
   } from '../utils/auths';
+
 
 async function getContacts(){
     let contacts = null;
     const token = getToken();
+    const id = getAuthenticatedUser();
+    const idUser = id.user.id;
     if(token) {
       const options = {
         method: 'GET',
@@ -13,11 +17,12 @@ async function getContacts(){
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/contacts`, options);
+      const response = await fetch(`http://localhost:8080/contacts/${idUser}`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";
     }
+
     contacts = await response.json();
   }
 
@@ -25,10 +30,12 @@ async function getContacts(){
   }
 
 
+
+
+
   async function insertContact(entrepriseObject, userObject, etat) {
     const token = getToken();
     if(token) {
-      console.log('entreprise: ', entrepriseObject, ', user: ', userObject, ', etat:', etat)
       const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -44,7 +51,6 @@ async function getContacts(){
 
       try {
         const response = await fetch(`http://localhost:8080/contacts/insert`, options);
-        console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
         }
@@ -58,11 +64,12 @@ async function getContacts(){
   }
 
 
-  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace) {
+  async function updateContact(entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
     const token = getToken();
     if(token) {
       console.log('entrepriseObject: ', entrepriseObject, ', userObject: ', userObject, ', etat:', etat)
       console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
+      console.log('contact version: ', contactVersion)
       const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -70,7 +77,8 @@ async function getContacts(){
           utilisateur: userObject,
           etatContact: etat,
           raisonRefus: refusalReason,
-          lieuxRencontre: meetingPlace
+          lieuxRencontre: meetingPlace,
+          version: contactVersion
         }),
         headers: {
           'Content-Type': 'application/json',

@@ -19,6 +19,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * UserResource.
@@ -48,13 +49,29 @@ public class UserResource {
     return myUserUcc.getAll();
   }
 
-
+  /**
+   * Retrieves a single user by their ID.
+   *
+   * @param id the user's ID.
+   * @return the user with the specified ID or null if not found.
+   */
   @PUT
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
+
+
+
     user.setId(id);
+
+    if (user.getPassword() != null || !user.getPassword().isBlank()){
+      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      user.setPassword(passwordHashed);
+    }
+
+
+
     boolean updateResult = myUserUcc.update(user);
     if (updateResult) {
 

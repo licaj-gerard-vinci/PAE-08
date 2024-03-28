@@ -25,6 +25,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import java.text.Normalizer;
 
 /**
  * The {@code AuthResource} class provides RESTful web resources using JAX-RS annotations to handle
@@ -57,8 +58,10 @@ public class AuthResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
-    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      throw new WebApplicationException("email or password required", Status.NOT_FOUND);
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")
+        || json.get("email").asText().isBlank() || json.get("password").asText().isBlank()
+        || !json.get("email").asText().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+      throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
     String email = json.get("email").asText();
     String password = json.get("password").asText();
@@ -103,8 +106,16 @@ public class AuthResource {
     ) {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
-    if (!user.getEmail().endsWith("@student.vinci.be") && !user.getEmail().endsWith("@vinci.be")) {
 
+    String lastname = Normalizer.normalize(user.getLastname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
+    String firstname = Normalizer.normalize(user.getFirstname().toLowerCase(), Normalizer.Form.NFD)
+        .replaceAll("[^\\p{ASCII}]", "");
+    String emailPattern = firstname + "." + lastname;
+    String email = user.getEmail().toLowerCase();
+
+    if (!(email.startsWith(emailPattern) && (email.endsWith("@student.vinci.be") || email.endsWith(
+        "@vinci.be")))) {
       throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
     }
 
