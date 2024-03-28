@@ -17,12 +17,19 @@ Content-Type: application/json
 
 {
   "email": "nadir.ahdid@student.vinci.be",
-  "password": "a",
   "lastname": "ahdid",
   "firstname": "nadir",
+  "password": "a",
   "phone": "0485367792",
   "registrationDate": "23-03-24 11:00:00",
-  "role": "E"
+  "role": "E",
+  "hasInternship": false,
+  "version": 1,
+  "year": {
+    "id": 1,
+    "annee": "2023-2024",
+    "version": 1
+  }
 }
 
 > {%

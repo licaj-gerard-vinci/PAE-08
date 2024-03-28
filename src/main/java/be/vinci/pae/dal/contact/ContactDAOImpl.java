@@ -123,62 +123,6 @@ public class ContactDAOImpl implements ContactDAO {
   }
 
   /**
-   * Check if a contact exists.
-   *
-   * @param idUser       The ID of the user.
-   * @param idEntreprise The ID of the company.
-   * @return The contact if it exists, null otherwise.
-   */
-  public ContactDTO checkContactExists(int idUser, int idEntreprise) {
-    System.out.println("enter check");
-    String query = "SELECT DISTINCT con.*, sy.*, com.*, u.* FROM pae.contacts con, "
-        + "pae.school_years sy, pae.companies com, pae.users u, "
-        + "pae.users WHERE contact_student_id = ? AND contact_company_id = ? "
-        + "AND con.contact_company_id = com.company_id AND u.user_id = con.contact_student_id "
-        + "AND sy.school_year_id = con.contact_school_year_id;";
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, idUser);
-      statement.setInt(2, idEntreprise);
-      ResultSet rs = statement.executeQuery();
-      if (rs.next()) {
-        return rsToContact(rs, "checkGet");
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw new FatalException();
-    }
-    return null;
-  }
-
-  /**
-   * Check if a contact can be updated to the 'taken' state.
-   *
-   * @param idUser       The ID of the user.
-   * @param idEntreprise The ID of the company.
-   * @return true if the contact can be updated, false otherwise.
-   */
-  public boolean checkContactAndState(int idUser, int idEntreprise, String expectedState) {
-    String query = "SELECT * FROM pae.contacts WHERE contact_student_id = ? "
-        + "AND contact_company_id = ?";
-
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, idUser);
-      statement.setInt(2, idEntreprise);
-      ResultSet rs = statement.executeQuery();
-      if (rs.next()) {
-        String currentState = rs.getString("contact_status");
-        return currentState.equals(expectedState);
-      } else {
-        return false;
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-      throw new FatalException();
-    }
-  }
-
-
-  /**
    * Inserts a new contact into the database.
    *
    * @param contact The contact information to insert.

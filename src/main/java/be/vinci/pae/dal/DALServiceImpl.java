@@ -34,7 +34,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     dataSource.setUrl(url);
     dataSource.setUsername(user);
     dataSource.setPassword(password);
-    dataSource.setMaxTotal(10);
+    dataSource.setMaxTotal(5);
   }
 
   @Override
