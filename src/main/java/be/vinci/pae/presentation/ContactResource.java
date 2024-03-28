@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import be.vinci.pae.presentation.filters.Student;
@@ -18,8 +17,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -87,7 +84,8 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Student
   public ObjectNode insertContact(ContactDTO contact) {
-    if (contact.getEntreprise() == null || contact.getUtilisateur() == null || contact.getEtatContact() == null) {
+    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
+        || contact.getEtatContact() == null) {
         throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
     myContactUcc.insertContact(contact);
@@ -109,7 +107,8 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Student
   public ObjectNode updateContact(ContactDTO contact) {
-    if(contact.getEntreprise() == null || contact.getUtilisateur() == null || contact.getEtatContact() == null || contact.getVersion() == 0) {
+    if(contact.getEntreprise() == null || contact.getUtilisateur() == null
+        || contact.getEtatContact() == null || contact.getVersion() == 0) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
     myContactUcc.updateContact(contact);
