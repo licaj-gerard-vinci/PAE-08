@@ -125,6 +125,11 @@ public class UserUCCImpl implements UserUCC {
   }
 
 
+  /**
+   * Updates a user.
+   *
+   * @return the updated user.
+   */
   public boolean update(UserDTO user) {
     try {
       dalServices.startTransaction();

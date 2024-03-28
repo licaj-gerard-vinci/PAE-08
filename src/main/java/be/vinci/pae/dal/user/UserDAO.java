@@ -44,8 +44,8 @@ public interface UserDAO {
   /**
    * Update a user info.
    *
-   * @param user
-   * @return
+   * @param user The user to update.
+   * @return true if the user is updated, false otherwise
    */
   boolean updateUser(UserDTO user);
 

@@ -18,10 +18,10 @@ public class UnhautorizedException extends WebApplicationException {
    *                {@link #getMessage()} method.
    */
   public UnhautorizedException(String message) {
-      super(Response.status(Status.UNAUTHORIZED)
-          .entity(message)
-          .type("text/plain")
-          .build());
+    super(Response.status(Status.UNAUTHORIZED)
+        .entity(message)
+        .type("text/plain")
+        .build());
   }
 
   /**
@@ -30,10 +30,10 @@ public class UnhautorizedException extends WebApplicationException {
    * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).
    */
   public UnhautorizedException(Throwable cause) {
-      super(Response.status(Status.UNAUTHORIZED)
-          .entity(cause.getMessage())
-          .type("text/plain")
-          .build());
+    super(Response.status(Status.UNAUTHORIZED)
+        .entity(cause.getMessage())
+        .type("text/plain")
+        .build());
   }
 
   /**
@@ -41,7 +41,7 @@ public class UnhautorizedException extends WebApplicationException {
    * initialized, and may subsequently be initialized by a call to {@link #initCause}.
    */
   public UnhautorizedException() {
-      super(Response.status(Status.UNAUTHORIZED)
-          .build());
+    super(Response.status(Status.UNAUTHORIZED)
+        .build());
   }
 }

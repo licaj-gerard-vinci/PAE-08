@@ -86,7 +86,7 @@ public class ContactResource {
   public ObjectNode insertContact(ContactDTO contact) {
     if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null) {
-        throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
     myContactUcc.insertContact(contact);
     ObjectNode responseNode = jsonMapper.createObjectNode();
@@ -107,7 +107,7 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Student
   public ObjectNode updateContact(ContactDTO contact) {
-    if(contact.getEntreprise() == null || contact.getUtilisateur() == null
+    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null || contact.getVersion() == 0) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }

@@ -47,9 +47,9 @@ public class StudentFilter implements ContainerResponseFilter {
         if (decodedToken.getExpiresAt().before(new Date())) {
           throw new TokenDecodingException("Token expired");
         }
-    } catch (Exception e) {
+      } catch (Exception e) {
         throw new TokenDecodingException(e.getMessage());
-    }
+      }
       UserDTO authenticatedUser = myUserUCC.getOne(decodedToken.getClaim("user").asInt());
       if (authenticatedUser == null) {
         throw new NotFoundException("User not found");
