@@ -2,10 +2,10 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
-import be.vinci.pae.presentation.exceptions.BusinessException;
-import be.vinci.pae.presentation.exceptions.ConflictException;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
+import be.vinci.pae.exceptions.BusinessException;
+import be.vinci.pae.exceptions.ConflictException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.Date;
 import java.util.List;

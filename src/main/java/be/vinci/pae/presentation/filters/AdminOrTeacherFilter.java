@@ -2,7 +2,7 @@ package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
-import be.vinci.pae.presentation.exceptions.UnhautorizedException;
+import be.vinci.pae.exceptions.UnhautorizedException;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

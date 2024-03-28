@@ -7,7 +7,8 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
-import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -155,7 +156,8 @@ public class ContactDAOImpl implements ContactDAO {
     String query = "UPDATE pae.contacts SET contact_company_id = ?, "
         + "contact_student_id = ? , contact_school_year_id = ?,  "
         + "contact_status = ?, contact_meeting_place = ?, contact_refusal_reason = ?, "
-        + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ?";
+        + "contact_version = contact_version + 1 WHERE contact_id = ? AND contact_version = ? "
+        + "AND contact_school_year_id = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, contact.getEntreprise().getId());
       statement.setInt(2, contact.getUtilisateur().getId());
@@ -165,9 +167,10 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setString(6, contact.getRaisonRefus());
       statement.setInt(7, contact.getId());
       statement.setInt(8, contact.getVersion());
+      statement.setInt(9, contact.getAnnee().getId());
       int rows = statement.executeUpdate();
       if (rows == 0) {
-        throw new RuntimeException("Contact not found");
+        throw new NotFoundException("Contact not found");
       }
     } catch (SQLException e) {
       e.printStackTrace();

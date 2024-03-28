@@ -6,7 +6,7 @@ import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.exceptions.FatalException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeAll;
