@@ -36,11 +36,13 @@ async function renderUserList() {
     </div>`;
 
   const userList = await getAllUsers();
+  console.log(userList + "userList")
 
   // Get current users
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = userList.slice(indexOfFirstUser, indexOfLastUser);
+  console.log(currentUsers + "currentUsers")
 
   if (!currentUsers || currentUsers.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `

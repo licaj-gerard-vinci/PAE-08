@@ -57,6 +57,7 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
+    "id": 12,
     "entreprise": {
       "id": 1,
       "nom": "Assyst Europe",
@@ -84,7 +85,7 @@ Content-Type: application/json
         "version": 1
       }
     },
-  "etatContact": "pris",
+  "etatContact": "accepté",
   "raisonRefus": null,
   "lieuxRencontre": null,
   "version": 1

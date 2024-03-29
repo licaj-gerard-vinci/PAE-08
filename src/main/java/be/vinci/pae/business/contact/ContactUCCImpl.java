@@ -4,9 +4,10 @@ import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
-import be.vinci.pae.presentation.exceptions.BusinessException;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
+import be.vinci.pae.exceptions.BusinessException;
+import be.vinci.pae.exceptions.ConflictException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -42,8 +43,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -66,8 +65,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -90,8 +87,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -111,16 +106,14 @@ public class ContactUCCImpl implements ContactUCC {
 
     try {
       dalServices.startTransaction();
-      if (checkContact(contact.getUtilisateur().getId(), contact.getEntreprise().getId()) != null) {
-        throw new BusinessException("Contact already exists");
+      if (contactDAO.getContactById(contact.getId()) != null) {
+        throw new ConflictException("Contact already exists");
       }
       contactDAO.insertContact(contact);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -130,11 +123,15 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contactToUpdate the contact to update
    */
   public void updateContact(ContactDTO contactToUpdate) {
-    ContactDTO contactToVerif = checkContact(contactToUpdate.getUtilisateur()
-        .getId(), contactToUpdate.getEntreprise().getId());
+    Contact contactToVerif = (Contact) contactDAO.getContactById(contactToUpdate.getId());
 
     if (contactToVerif == null) {
       throw new NotFoundException("Contact not found");
+    }
+
+    if (!contactToVerif.checkState(contactToVerif.getEtatContact(),
+        contactToUpdate.getEtatContact())) {
+      throw new BusinessException("Invalid state");
     }
 
     contactToUpdate.setId(contactToVerif.getId());
@@ -149,99 +146,12 @@ public class ContactUCCImpl implements ContactUCC {
 
     try {
       dalServices.startTransaction();
-      if (contactToUpdate.getEtatContact().equals("pris")) {
-        checkContactTaken(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("accepté")) {
-        checkContactAccepted(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("refusé")) {
-        checkContactRefused(contactToUpdate);
-      } else if (contactToUpdate.getEtatContact().equals("non suivi")) {
-        checkContactUnsupervised(contactToUpdate);
-      } else {
-        throw new BusinessException("Invalid state");
-      }
       contactToUpdate.setAnnee(contactToVerif.getAnnee());
       contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
-
-  /**
-   * Updates a contact to the 'taken' state.
-   *
-   * @param contact the contact to update
-   * @return true if the contact can be updated, false otherwise
-   */
-  public boolean checkContactTaken(ContactDTO contact) {
-    return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "initié");
-  }
-
-  /**
-   * Updates a contact to the 'accepted' state.
-   *
-   * @param contact the contact to update
-   * @return true if the contact can be updated, false otherwise
-   */
-  public boolean checkContactAccepted(ContactDTO contact) {
-    return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "pris");
-  }
-
-  /**
-   * Updates a contact to the 'refused' state.
-   *
-   * @param contact the contact to update
-   * @return true if the contact can be updated, false otherwise
-   */
-  public boolean checkContactRefused(ContactDTO contact) {
-    return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "pris")
-        && contact.getRaisonRefus() != null;
-  }
-
-  /**
-   * Updates a contact to the 'unsupervised' state.
-   *
-   * @param contact the contact to update
-   * @return true if the contact can be updated, false otherwise
-   */
-  public boolean checkContactUnsupervised(ContactDTO contact) {
-    return checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "initié")
-        || checkContactAndState(contact.getUtilisateur().getId(),
-        contact.getEntreprise().getId(), "pris");
-  }
-
-  /**
-   * Checks if a contact exists between a user and a company.
-   *
-   * @param idUser       the ID of the user
-   * @param idEntreprise the ID of the company
-   * @return true if the contact exists, false otherwise
-   */
-  public ContactDTO checkContact(int idUser, int idEntreprise) {
-    return contactDAO.checkContactExists(idUser, idEntreprise);
-  }
-
-
-  /**
-   * Checks if a contact exists between a user and a company and if the contact is in a specific
-   * state.
-   *
-   * @param idUser       the ID of the user
-   * @param idEntreprise the ID of the company
-   * @param etat         the state of the contact
-   * @return true if the contact exists and is in the specified state, false otherwise
-   */
-  public boolean checkContactAndState(int idUser, int idEntreprise, String etat) {
-    return contactDAO.checkContactAndState(idUser, idEntreprise, etat);
-  }
-
-
 }
