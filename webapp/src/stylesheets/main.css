@@ -74,4 +74,9 @@
   color: #fff; /* Ensures text is readable on the dark background */
 }
 
+#errorFiter {
+  background-color: darkgray !important;
+  color: #fff; /* Ensures text is readable on the dark background */
+}
+
 

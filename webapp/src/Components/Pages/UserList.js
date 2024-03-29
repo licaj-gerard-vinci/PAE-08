@@ -80,7 +80,7 @@ async function renderUserList() {
               <td>${user.lastname}</td>
               <td>${user.firstname}</td>
               <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
-              <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
+              <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>
               <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
             </tr>
           `).join('')}
@@ -111,6 +111,15 @@ async function renderUserList() {
     searchBtn.addEventListener('click', () => {
         const search = document.getElementById('search').value;
         const searchResults = userList.filter(user => user.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()) || user.firstname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
+        if (searchResults.length === 0) {
+            const tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = `
+            <tr>
+                <td colspan="5" id="errorFiter" class="text-center" >Aucun résultat trouvé</td>
+            </tr>
+            `;
+            return;
+        }
         const tableBody = document.querySelector('tbody');
         tableBody.innerHTML = searchResults.map(user => `
           <tr class="${user.hasInternship ? 'table-success' : ''}">
