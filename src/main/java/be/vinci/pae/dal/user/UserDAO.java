@@ -41,4 +41,13 @@ public interface UserDAO {
   UserDTO insertUser(UserDTO user);
 
 
+  /**
+   * Update a user info.
+   *
+   * @param user The user to update.
+   * @return true if the user is updated, false otherwise
+   */
+  boolean updateUser(UserDTO user);
+
+
 }

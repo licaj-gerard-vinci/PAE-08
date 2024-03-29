@@ -217,7 +217,7 @@ async function renderHomePage(){
             const contactVersion = contactFound.version;
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContact(entreprise, user.user, "pris", null, textInputValue, contactVersion);
+              await updateContact(contactFound.id, entreprise, user.user, "pris", null, textInputValue, contactVersion);
               await renderHomePage();
             }
 
@@ -230,7 +230,7 @@ async function renderHomePage(){
             const contactVersion = contactFound.version;
             acceptedButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user.user)
-            await updateContact(entreprise, user.user, "accepté", null, null, contactVersion);
+            await updateContact(contactFound.id, entreprise, user.user, "accepté", null, null, contactVersion);
             console.log('after update')
             await renderHomePage();
             acceptedButton.disabled = false;
@@ -244,7 +244,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
             console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user.user)
-            await updateContact(entreprise, user.user, "non suivi", null, null, contactVersion);
+            await updateContact(contactFound.id, entreprise, user.user, "non suivi", null, null, contactVersion);
             console.log('after update')
             await renderHomePage();
             unsupervisedButton.disabled = false;
@@ -263,7 +263,7 @@ async function renderHomePage(){
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             const contactVersion = contactFound.version;
             if(textInputValue){
-              await updateContact(entreprise, user.user, "refusé", textInputValue, null, contactVersion);
+              await updateContact(contactFound.id, entreprise, user.user, "refusé", textInputValue, null, contactVersion);
               await renderHomePage();
             }
           });

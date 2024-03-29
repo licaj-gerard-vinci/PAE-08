@@ -2,8 +2,8 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -38,8 +38,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -61,8 +59,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 

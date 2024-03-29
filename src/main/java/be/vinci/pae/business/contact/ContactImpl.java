@@ -8,7 +8,7 @@ import be.vinci.pae.business.year.YearDTO;
 /**
  * Represents the ContactImpl class.
  */
-public class ContactImpl implements ContactDTO {
+public class ContactImpl implements Contact {
 
   private int id;
 
@@ -204,5 +204,25 @@ public class ContactImpl implements ContactDTO {
   @Override
   public void setVersion(int version) {
     this.version = version;
+  }
+
+  @Override
+  public boolean checkState(String acutalState, String expectedState) {
+    if (acutalState.equals("pris") && !expectedState.equals("accepté")
+        && !expectedState.equals("refusé") && !expectedState.equals("non suivi")) {
+      return false;
+    }
+
+    if (acutalState.equals("initié") && !expectedState.equals("pris")
+        && !expectedState.equals("non suivi")) {
+      return false;
+    }
+
+    if (acutalState.equals("non suivi") || acutalState.equals("refusé")
+        || acutalState.equals("accepté") || acutalState.equals("suspendu")) {
+      return false;
+    }
+
+    return !expectedState.equals("initié");
   }
 }

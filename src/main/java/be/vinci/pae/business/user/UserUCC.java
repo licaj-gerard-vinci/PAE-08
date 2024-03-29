@@ -40,4 +40,13 @@ public interface UserUCC {
    */
   UserDTO register(UserDTO userDTO);
 
+
+  /**
+   * Updates a user.
+   *
+   * @param userDTO the user to update.
+   * @return the updated user.
+   */
+  boolean update(UserDTO userDTO);
+
 }
