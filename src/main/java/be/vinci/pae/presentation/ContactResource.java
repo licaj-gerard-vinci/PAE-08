@@ -4,7 +4,6 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
-import be.vinci.pae.presentation.filters.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -82,7 +81,6 @@ public class ContactResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Student
   public ObjectNode insertContact(ContactDTO contact) {
     if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null) {
@@ -105,7 +103,6 @@ public class ContactResource {
   @Path("/update")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Student
   public ObjectNode updateContact(ContactDTO contact) {
     if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null || contact.getVersion() == 0) {

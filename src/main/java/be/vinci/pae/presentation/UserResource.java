@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
-import be.vinci.pae.presentation.filters.AdminOrTeacher;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -17,7 +16,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import org.apache.logging.log4j.core.util.internal.Status;
-import org.mindrot.jbcrypt.BCrypt;
 
 
 /**
@@ -38,7 +36,6 @@ public class UserResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @AdminOrTeacher
   public List<UserDTO> getUsers() {
     return myUserUcc.getAll();
   }

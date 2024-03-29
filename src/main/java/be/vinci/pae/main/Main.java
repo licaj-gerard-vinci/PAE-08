@@ -13,7 +13,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 /**
  * Main class.
  */
-public class Main {
+m public class Main {
 
   // Base URI the Grizzly HTTP server will listen on
   /**
