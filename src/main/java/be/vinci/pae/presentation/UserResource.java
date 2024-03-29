@@ -2,6 +2,7 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -35,6 +36,7 @@ public class UserResource {
    * @return the authenticated user.
    */
   @GET
+  @Authorize
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getUsers() {
     return myUserUcc.getAll();
@@ -52,6 +54,7 @@ public class UserResource {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
     user.setId(id);
     if (user.getPassword() == null || user.getPassword().isBlank()) {

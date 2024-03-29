@@ -81,6 +81,7 @@ public class ContactResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
   public ObjectNode insertContact(ContactDTO contact) {
     if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null) {
@@ -101,6 +102,7 @@ public class ContactResource {
    */
   @PUT
   @Path("/update")
+  @Authorize
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode updateContact(ContactDTO contact) {
