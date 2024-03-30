@@ -10,41 +10,36 @@ const UserList = () => {
   if (!authenticatedUser) {
     Navigate('/');
     return;
-    
+
   }
   if (authenticatedUser.user.role === 'E') {
     Navigate('/');
+    return;
   }
 
-}
-let currentPage = 1;
-const usersPerPage = 15;
 
+  renderUserList();
+}
 async function renderUserList() {
   const main = document.querySelector('main');
+
 
   main.innerHTML = `
     <div class="container my-5">
       <h1 class="text-center mb-3">Recherche Utilisateurs</h1>
       <div class="row">
         <div class="col-12">
-          <div id="user-list-table-container" class="table-responsive">
+          <div id="user-list-table-container" class="table-responsive"> 
             <!-- Table will be inserted here -->
           </div>
         </div>
       </div>
     </div>`;
 
+
   const userList = await getAllUsers();
-  console.log(userList + "userList")
 
-  // Get current users
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = userList.slice(indexOfFirstUser, indexOfLastUser);
-  console.log(currentUsers + "currentUsers")
-
-  if (!currentUsers || currentUsers.length === 0) {
+  if (!userList || userList.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `
       <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment ou vous n'avez pas les droits pour accéder à la page.</p>
     `;
@@ -64,10 +59,10 @@ async function renderUserList() {
                     <option value="E">Étudiant</option>
                     <option value="P">Professeur</option>
                     <option value="A">Administratif</option>
-                </select>
-            </div>
+                </select>              
+            </div>         
        </div>
-    </div>
+    </div> 
 </div>
       <table class="table table-hover shadow-sm">
         <thead class="table-dark">
@@ -80,7 +75,7 @@ async function renderUserList() {
           </tr>
         </thead>
         <tbody>
-          ${currentUsers.map(user => `
+          ${userList.map(user => `
             <tr class="${user.hasInternship ? 'table-success' : ''}">
               <td>${user.lastname}</td>
               <td>${user.firstname}</td>
@@ -93,8 +88,6 @@ async function renderUserList() {
       </table>`;
     document.getElementById('user-list-table-container').innerHTML = tableHtml;
   }
-
-  renderPagination(userList.length, usersPerPage);
 
   // Filter by role
   const filter = document.getElementById('filter');
@@ -140,24 +133,4 @@ async function renderUserList() {
 
   });
 }
-
-function paginate(pageNumber) {
-  currentPage = pageNumber;
-  renderUserList();
-}
-
-function renderPagination(totalUsers) {
-  const paginationContainer = document.createElement('div');
-
-  for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage); i+1) {
-    const pageLink = document.createElement('a');
-    pageLink.textContent = i;
-    pageLink.addEventListener('click', () => paginate(i));
-    paginationContainer.appendChild(pageLink);
-  }
-
-  document.body.appendChild(paginationContainer);
-}
-
-renderUserList();
 export default UserList;
