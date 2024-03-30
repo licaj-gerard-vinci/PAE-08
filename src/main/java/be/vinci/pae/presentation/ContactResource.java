@@ -2,6 +2,7 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -114,5 +115,21 @@ public class ContactResource {
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact updated successfully");
     return responseNode;
+  }
+
+  /**
+   * Retrieves the contacts of the authenticated user from the request context.
+   *
+   * @return the contacts of the authenticated user.
+   */
+  @GET
+  @Path("/{id}/company")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) {
+    if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    return myContactUcc.getContactsByCompanyId(id);
   }
 }

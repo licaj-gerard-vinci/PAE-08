@@ -1,6 +1,8 @@
 package be.vinci.pae.business.entreprise;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.dal.DALServices;
+import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -15,6 +17,9 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
   @Inject
   private EntrepriseDAO entrepriseDAO;
+
+  @Inject
+  private ContactDAO contactDAO;
 
   @Inject
   private DALServices dalServices;
@@ -61,5 +66,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       throw e;
     }
   }
+
+
 
 }
