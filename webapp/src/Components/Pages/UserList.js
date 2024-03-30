@@ -3,8 +3,6 @@ import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 
-
-
 const UserList = () => {
   const authenticatedUser = getAuthenticatedUser();
   if (!authenticatedUser) {
@@ -87,7 +85,7 @@ async function renderUserList() {
         <tbody>
           ${userList.map(user => `
             <tr class="${user.hasInternship ? 'table-success' : ''}">
-              <td>${user.lastname}</td>
+              <td><a href="/profile/${user.id}" class="profile-link">${user.lastname}</td>
               <td>${user.firstname}</td>
               <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P'
         ? 'Professeur' : 'Administratif'}</td>

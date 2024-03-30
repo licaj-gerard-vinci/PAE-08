@@ -95,3 +95,16 @@
   margin-top: 10px;
   width: 120px;
 }
+
+.input-group-text {
+  background-color: transparent;
+  border: none;
+}
+
+.profile-link {
+  color: black;
+}
+
+.profile-link:visited {
+  color: black;
+}
