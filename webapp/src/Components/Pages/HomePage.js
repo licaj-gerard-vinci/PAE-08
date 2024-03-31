@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import Chart from 'chart.js/auto';
 import {
   getContacts,
   insertContact,
@@ -6,13 +7,15 @@ import {
 } from "../../model/contacts";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
-import {getAuthenticatedUser} from "../../utils/auths";
+import { getAuthenticatedUser } from "../../utils/auths";
+import { getAllUsers } from "../../model/users";
 
 let entreprises;
-let searchResult = []
+let searchResult = [];
+const totalStudents = await getAllUsers();
+console.log('totalStudents: ', totalStudents);
 
-
-async function renderEntreprises(){
+async function renderEntreprises() {
   entreprises = await getEntreprises();
   searchResult = entreprises;
 }
@@ -22,17 +25,40 @@ const HomePage = async () => {
   await renderHomePage();
 };
 
-async function renderHomePage(){
+async function renderHomePage() {
   const main = document.querySelector('main');
   const user = getAuthenticatedUser();
   console.log(user.user);
 
-  if(user.user.role === "A" || user.user.role === "P"){
+  if (user.user.role === "A" || user.user.role === "P") {
     main.innerHTML = `
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-      <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
-    </div>
+     <canvas id="myChart"></canvas>
   `;
+
+    // Render the chart
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['With Internships', 'Without Internships'],
+        datasets: [{
+          data: [totalStudents.filter(student => student.role === 'E' && student.hasInternship === true).length, totalStudents.filter(student => student.role === 'E' && student.hasInternship === false).length], backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        width: 400,
+        height: 400,
+        title: {
+          display: true,
+          text: 'Chart Title',
+          position: 'top' // the position of the title
+        }
+      }
+    });
   } else if (user.user.role === "E") {
     const contacts = await getContacts();
     console.log('contactssasas: ', contacts);
