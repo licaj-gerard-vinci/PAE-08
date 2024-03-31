@@ -32,7 +32,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     String query = "SELECT * FROM pae.companies "
-        + "WHERE company_id = ? AND company_is_blacklisted = false";
+        + "WHERE company_id = ?";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
