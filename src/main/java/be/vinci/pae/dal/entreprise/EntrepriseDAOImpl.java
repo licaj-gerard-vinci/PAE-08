@@ -71,6 +71,8 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     return entreprises;
   }
 
+
+
   private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
     return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
   }
