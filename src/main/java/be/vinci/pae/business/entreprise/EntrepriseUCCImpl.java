@@ -61,5 +61,4 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       throw e;
     }
   }
-
 }

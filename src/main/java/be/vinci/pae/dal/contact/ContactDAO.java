@@ -46,4 +46,11 @@ public interface ContactDAO {
    * @param contact The contact information to update.
    */
   void updateContact(ContactDTO contact);
+
+  /**
+   * Gets the all contacts with the idCompagny.
+   *
+   * @param idCompany The ID of the contact to be deleted.
+   */
+  List<ContactDTO> getContactsByCompanyId(int idCompany);
 }

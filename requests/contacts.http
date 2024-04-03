@@ -91,3 +91,8 @@ Content-Type: application/json
   "version": 1
 }
 
+### Get all contacts with idCompany
+GET {{baseUrl}}/contacts/1/company
+Authorization: {{token}}
+Content-Type: application/json
+

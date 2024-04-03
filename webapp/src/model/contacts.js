@@ -101,9 +101,33 @@ async function getContacts(){
     }
   }
 
+  async function getContactByCompanyId(idCompany){
+    let contact = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/contacts/${idCompany}/company`, options);
+
+      if (!response.ok) {
+        return "Aucun contact n'as été passé";
+      }
+
+      contact = await response.json();
+    }
+
+    return contact;
+  }
+
 
   export {
     getContacts,
     insertContact,
-    updateContact
+    updateContact,
+    getContactByCompanyId
   }
