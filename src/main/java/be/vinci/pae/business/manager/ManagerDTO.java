@@ -1,4 +1,4 @@
-package be.vinci.pae.business.responsable;
+package be.vinci.pae.business.manager;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 /**
  * Represents the ResponsableDTO interface.
  */
-@JsonDeserialize(as = ResponsableImpl.class)
-public interface ResponsableDTO {
+@JsonDeserialize(as = ManagerImpl.class)
+public interface ManagerDTO {
 
   /**
    * Gets the responsable ID.

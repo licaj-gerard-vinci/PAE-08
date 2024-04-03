@@ -2,8 +2,8 @@ package be.vinci.pae.business.factory;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 
@@ -25,7 +25,7 @@ public interface Factory {
    *
    * @return a new instance of ContactDTO.
    */
-  StageDTO getStageDTO();
+  InternshipDTO getStageDTO();
 
 
   /**
@@ -54,5 +54,5 @@ public interface Factory {
    *
    * @return a new instance of ResponsableDTO.
    */
-  ResponsableDTO getResponsableDTO();
+  ManagerDTO getManagerDTO();
 }

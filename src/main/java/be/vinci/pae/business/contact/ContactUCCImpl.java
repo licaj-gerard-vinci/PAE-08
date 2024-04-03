@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactUCCImpl implements ContactUCC {
 
   @Inject
-  ContactDAO contactDAO;
+  private ContactDAO contactDAO;
 
   @Inject
   private DALServices dalServices;

@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -25,7 +25,7 @@ import utils.ApplicationBinderTest;
  */
 public class StageUCCTest {
 
-  private StageUCC stageUCC;
+  private InternshipUCC stageUCC;
 
   private StageDAO stageDAO;
 
@@ -34,7 +34,7 @@ public class StageUCCTest {
   @BeforeEach
   void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
-    stageUCC = locator.getService(StageUCC.class);
+    stageUCC = locator.getService(InternshipUCC.class);
     factory = locator.getService(Factory.class);
     stageDAO = locator.getService(StageDAO.class);
   }
@@ -42,11 +42,11 @@ public class StageUCCTest {
   @Test
   @DisplayName("test get all stage succes")
   void testgetALL() {
-    StageDTO stage1 = factory.getStageDTO();
-    StageDTO stage2 = factory.getStageDTO();
+    InternshipDTO stage1 = factory.getStageDTO();
+    InternshipDTO stage2 = factory.getStageDTO();
 
     Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
-    List<StageDTO> stage = stageUCC.getStages();
+    List<InternshipDTO> stage = stageUCC.getStages();
     assertEquals(2, stage.size());
   }
 
@@ -73,10 +73,10 @@ public class StageUCCTest {
   void getStageByUser() {
 
     int userId = 7;
-    StageDTO mockStage = factory.getStageDTO();
+    InternshipDTO mockStage = factory.getStageDTO();
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(mockStage);
 
-    StageDTO resultStage = stageUCC.getStageUser(userId);
+    InternshipDTO resultStage = stageUCC.getStageUser(userId);
 
     assertNotNull(resultStage, "The result stage should not be null.");
     assertEquals(mockStage, resultStage,

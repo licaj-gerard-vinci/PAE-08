@@ -53,9 +53,8 @@ public class ContactResource {
   /**
    * Retrieves all contact information for the authenticated user.
    *
-   * @param id             The id of the contact.
+   * @param id The id of the user.
    * @return A list of all contact information.
-   * @throws WebApplicationException If the user is not authenticated.
    */
   @GET
   @Path("/{id}")
@@ -68,6 +67,21 @@ public class ContactResource {
       contactDTOs = new ArrayList<>();
     }
     return contactDTOs;
+  }
+
+  /**
+   * Retrieves all contact information for the authenticated user.
+   *
+   * @param contactId The id of the contact.
+   * @return A list of all contact information.
+   */
+  @GET
+  @Path("/getOne/{contactId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO getContactById(
+          @PathParam("contactId") int contactId) {
+    return myContactUcc.getContactById(contactId);
   }
 
   /**
@@ -98,7 +112,7 @@ public class ContactResource {
    *
    * @param contact        The contact to update.
    * @return A JSON object containing a success message.
-   * @throws WebApplicationException If the user is not authenticated.
+   * @throws WebApplicationException If missing information.
    */
   @PUT
   @Path("/update")

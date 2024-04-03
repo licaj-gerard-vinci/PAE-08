@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import {getAuthenticatedUser} from "../../utils/auths";
 import {
   getContacts,
   insertContact,
@@ -6,10 +7,10 @@ import {
 } from "../../model/contacts";
 import getEntreprises from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
-import {getAuthenticatedUser} from "../../utils/auths";
+import Navigate from '../Router/Navigate';
 
 let entreprises;
-let searchResult = []
+let searchResult = [];
 
 
 async function renderEntreprises(){
@@ -60,8 +61,7 @@ async function renderHomePage(){
           <div class="col-10 col-md-8 col-lg-6">
           ${searchResult.map(entreprise => {
             let button;
-            if(contacts){
-              
+            if(contacts){   
               const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
                 console.log('contactFound: ', contactFound);
               if(!contactFound){
@@ -108,15 +108,6 @@ async function renderHomePage(){
                   <input class="w-80" type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus: '>
                   <button type='button' id='saveRefusalReasonButton${entreprise.id}'>Save</button>
                 </div>`;
-              } else if(contactFound.etatContact === 'accepté') {
-                button = `
-                <div class="row">
-                  <div class="col"></div>
-                  <div class="col d-flex justify-content-center">
-                    <p>Contact accepté</p>
-                  </div>
-                  <div class="col"></div>
-                </div>`;
               } else if(contactFound.etatContact === 'refusé'){
                 button = `
                 <div class="row">
@@ -126,8 +117,7 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              }
-              else if (contactFound.etatContact === 'non suivi'){
+              } else if (contactFound.etatContact === 'non suivi'){
                 button = `
                 <div class="row">
                   <div class="col"></div>
@@ -136,8 +126,7 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              }
-              else if (contactFound.etatContact === 'suspendu'){
+              } else if (contactFound.etatContact === 'suspendu'){
                 button = `
                 <div class="row">
                   <div class="col"></div>
@@ -147,7 +136,6 @@ async function renderHomePage(){
                   <div class="col"></div>
                 </div>`;
               }
-
             } else {
               button = `
               <div class="row">
@@ -192,7 +180,6 @@ async function renderHomePage(){
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
         const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
 
-
         if (startedButton) {
           console.log('startedButton: ', startedButton)
           startedButton.addEventListener('click', async () => {
@@ -227,12 +214,11 @@ async function renderHomePage(){
         if (acceptedButton) {
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
-            const contactVersion = contactFound.version;
             acceptedButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user.user)
-            await updateContact(contactFound.id, entreprise, user.user, "accepté", null, null, contactVersion);
-            console.log('after update')
-            await renderHomePage();
+            // Stock the contactId inside a sessionStorage 
+            sessionStorage.setItem('contactId', contactFound.id); 
+            Navigate('/internship');
             acceptedButton.disabled = false;
           });
         }

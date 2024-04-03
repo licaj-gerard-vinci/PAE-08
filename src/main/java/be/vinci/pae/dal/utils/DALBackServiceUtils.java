@@ -2,7 +2,7 @@ package be.vinci.pae.dal.utils;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public interface DALBackServiceUtils {
    * @return ResponsableDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException;
+  ManagerDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a EntrepriseDTO with data from a ResultSet.
@@ -53,4 +53,6 @@ public interface DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException;
+
+  ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException;
 }

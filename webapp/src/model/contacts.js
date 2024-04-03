@@ -4,7 +4,7 @@ import {
   } from '../utils/auths';
 
 
-async function getContacts(){
+async function getContacts() {
     let contacts = null;
     const token = getToken();
     const id = getAuthenticatedUser();
@@ -30,7 +30,26 @@ async function getContacts(){
   }
 
 
+  async function getContact(contactId){
+    let contact = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch(`http://localhost:8080/contacts/getOne/${contactId}`, options);
 
+    if (!response.ok) {
+      return "Le contact n'a pas été trouvé";
+    }
+    contact = await response.json();
+  }
+    return contact;
+  }
 
 
   async function insertContact(entrepriseObject, userObject, etat) {
@@ -103,6 +122,7 @@ async function getContacts(){
 
 
   export {
+    getContact,
     getContacts,
     insertContact,
     updateContact

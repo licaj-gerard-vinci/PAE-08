@@ -3,8 +3,8 @@ package be.vinci.pae.dal.stage;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -38,8 +38,8 @@ public class StageDAOImpl implements StageDAO {
    * @return all stages
    */
   @Override
-  public List<StageDTO> getStages() {
-    List<StageDTO> stages = new ArrayList<>();
+  public List<InternshipDTO> getStages() {
+    List<InternshipDTO> stages = new ArrayList<>();
     String query = "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
         + "FROM pae.internships int "
         + "INNER JOIN pae.managers man ON int.internship_manager_id = man.manager_id "
@@ -67,7 +67,7 @@ public class StageDAOImpl implements StageDAO {
    * @return the stage by id
    */
   @Override
-  public StageDTO getStageById(int userId) {
+  public InternshipDTO getStageById(int userId) {
     String query =
         "SELECT int.*, man.*, use.*, con.*, com.*, sch.*"
             + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, "
@@ -79,7 +79,7 @@ public class StageDAOImpl implements StageDAO {
             + "AND use.user_school_year_id = sch.school_year_id "
             + "AND use.user_id = ?";
 
-    StageDTO stage = null;
+    InternshipDTO stage = null;
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, userId);
       try (ResultSet rs = statement.executeQuery()) {
@@ -93,6 +93,30 @@ public class StageDAOImpl implements StageDAO {
     return stage;
   }
 
+  /**
+   * Inserts a new internship into the database.
+   *
+   * @param internship the contact to insert
+   */
+  @Override
+  public void insertInternship(InternshipDTO internship) {
+    String query = "INSERT INTO pae.internships "
+            + "(internship_manager_id, internship_student_id, internship_company_id, "
+            + "internship_school_year_id, internship_topic, internship_date_of_signature, "
+            + "internship_version) "
+            + "VALUES (?, ?, ?, 1, ?, ?, 1)";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setInt(1, internship.getIdResponsable());
+      statement.setInt(2, internship.getEtudiant().getId());
+      statement.setInt(3, internship.getEntreprise().getId());
+      statement.setString(4, internship.getSujet());
+      statement.setString(5, internship.getdateSignature());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new FatalException(e);
+    }
+  }
 
   /**
    * Rs to stage.
@@ -103,11 +127,11 @@ public class StageDAOImpl implements StageDAO {
    * @throws SQLException the SQL exception
    */
 
-  public StageDTO rsToStage(ResultSet rs, String method) throws SQLException {
-    StageDTO stage = factory.getStageDTO();
+  public InternshipDTO rsToStage(ResultSet rs, String method) throws SQLException {
+    InternshipDTO stage = factory.getStageDTO();
 
     // Fill DTOs using methods from DALBackServiceUtils
-    ResponsableDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
+    ManagerDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
     UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);

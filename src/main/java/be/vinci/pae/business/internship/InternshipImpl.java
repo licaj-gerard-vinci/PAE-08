@@ -1,18 +1,18 @@
-package be.vinci.pae.business.stage;
+package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 
 /**
  * Represents the StageImpl class.
  */
-public class StageImpl implements StageDTO {
+public class InternshipImpl implements InternshipDTO {
 
   private int id;
 
-  private ResponsableDTO responsable;
+  private ManagerDTO responsable;
 
   private int idResponsable;
 
@@ -45,12 +45,12 @@ public class StageImpl implements StageDTO {
   }
 
   @Override
-  public ResponsableDTO getResponsable() {
+  public ManagerDTO getResponsable() {
     return responsable;
   }
 
   @Override
-  public void setResponsable(ResponsableDTO responsable) {
+  public void setResponsable(ManagerDTO responsable) {
     this.responsable = responsable;
   }
 

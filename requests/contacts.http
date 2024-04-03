@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Get all contacts
-GET {{baseUrl}}/contacts/9
+GET {{baseUrl}}/managers/1
 Authorization: {{token}}
 
 ### Update a contact

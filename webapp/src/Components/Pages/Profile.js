@@ -4,7 +4,8 @@
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 // eslint-disable-next-line import/no-cycle
-import { getStagePresent, refreshUser, updateUser } from '../../model/users';
+import { refreshUser, updateUser } from '../../model/users';
+import { getStagePresent } from '../../model/internships';
 import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
