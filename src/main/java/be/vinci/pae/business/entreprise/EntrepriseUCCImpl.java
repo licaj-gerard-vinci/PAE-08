@@ -19,9 +19,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   private EntrepriseDAO entrepriseDAO;
 
   @Inject
-  private ContactDAO contactDAO;
-
-  @Inject
   private DALServices dalServices;
 
   /**
