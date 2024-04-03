@@ -1,7 +1,10 @@
 package be.vinci.pae.business.entreprise;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.dal.DALServices;
+import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
@@ -15,6 +18,9 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
   @Inject
   private EntrepriseDAO entrepriseDAO;
+
+  @Inject
+  private ContactDAO contactDAO;
 
   @Inject
   private DALServices dalServices;
@@ -56,6 +62,33 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       }
       dalServices.commitTransaction();
       return entreprises;
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    }
+  }
+
+  /**
+   * Updates an entreprise.
+   *
+   * @param idCompany the entreprise to update.
+   * @return the updated entreprise.
+   */
+  @Override
+  public void blackListCompany(int idCompany) {
+    try {
+      dalServices.startTransaction();
+      EntrepriseDTO company = getEntreprise(idCompany);
+      if (company == null) {
+        throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
+      }
+      if(company.isBlackListed()) {
+        throw new ConflictException("L'entreprise est blacklistée.");
+      }
+      company.setBlackListed(true);
+      entrepriseDAO.updateEntreprise(company);
+      contactDAO.blackListContacts(idCompany);
+      dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;

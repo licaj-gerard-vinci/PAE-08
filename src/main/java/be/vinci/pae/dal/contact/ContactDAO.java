@@ -45,5 +45,9 @@ public interface ContactDAO {
    *
    * @param contact The contact information to update.
    */
-  void updateContact(ContactDTO contact);
+  void updateOneContact(ContactDTO contact);
+
+  /**
+   * Upadate all contact by blacklisting the company.
+   */
 }

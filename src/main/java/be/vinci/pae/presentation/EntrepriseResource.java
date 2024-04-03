@@ -7,6 +7,7 @@ import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -50,6 +51,23 @@ public class EntrepriseResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
+    if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    return myEntrepriseUcc.getEntreprise(id);
+  }
+
+  /**
+   * BlackList an company with the specified id.
+   *
+   * @param id The id of the company to update.
+   * @return The updated company.
+   */
+  @PUT
+  @Path("/{id}/blacklist")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public EntrepriseDTO blackListCompany(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
