@@ -2,10 +2,8 @@ package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
-import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.stage.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -18,19 +16,13 @@ import java.util.List;
 public class InternshipUCCImpl implements InternshipUCC {
 
   @Inject
-  private StageDAO internshipDAO;
+  private InternshipDAO internshipDAO;
 
   @Inject
   private DALServices dalServices;
 
   @Inject
-  private UserUCC myUser;
-
-  @Inject
   private ContactUCC myContact;
-
-  @Inject
-  private EntrepriseUCC myCompany;
 
   /**
    * Gets the stage user.

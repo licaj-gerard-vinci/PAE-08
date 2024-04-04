@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.internship.InternshipUCC;
-import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.stage.InternshipDAO;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import java.util.Arrays;
@@ -21,14 +21,12 @@ import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
 /**
- * The {@code StageUCCTest} class tests the {@code StageUCC} class.
+ * The {@code InternshipUCCTest} class tests the {@code InternshipUCC} class.
  */
-public class StageUCCTest {
+public class InternshipUCCTest {
 
   private InternshipUCC stageUCC;
-
-  private StageDAO stageDAO;
-
+  private InternshipDAO stageDAO;
   private Factory factory;
 
   @BeforeEach
@@ -36,7 +34,7 @@ public class StageUCCTest {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
     stageUCC = locator.getService(InternshipUCC.class);
     factory = locator.getService(Factory.class);
-    stageDAO = locator.getService(StageDAO.class);
+    stageDAO = locator.getService(InternshipDAO.class);
   }
 
   @Test

@@ -28,6 +28,11 @@ async function renderHomePage(){
   const user = getAuthenticatedUser();
   console.log(user.user);
 
+  if(user.user.hasInternship === true) {
+    Navigate('/profile')
+    return;
+  }
+
   if(user.user.role === "A" || user.user.role === "P"){
     main.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">

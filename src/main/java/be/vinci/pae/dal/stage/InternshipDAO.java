@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * The Interface StageDAO.
  */
-public interface StageDAO {
+public interface InternshipDAO {
 
 
   /**

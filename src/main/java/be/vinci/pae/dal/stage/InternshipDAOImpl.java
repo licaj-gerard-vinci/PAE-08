@@ -11,7 +11,6 @@ import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
 import jakarta.inject.Inject;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * The Class StageDAOImpl.
  */
-public class StageDAOImpl implements StageDAO {
+public class InternshipDAOImpl implements InternshipDAO {
 
 
   @Inject
