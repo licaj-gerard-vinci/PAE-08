@@ -32,10 +32,6 @@ public class ManagerResource {
    * @param companyId the ID of the company for which to retrieve managers
    * @return a list of ManagerDTO objects representing the managers of the company
    * If no managers are found, an empty list is returned.
-   *
-   * This method is a GET request and can be accessed at the "/{companyId}" path.
-   * It produces JSON.
-   * The method is protected with the @Authorize annotation, meaning the client must be authenticated to access this endpoint.
    */
   @GET
   @Path("/{companyId}")
