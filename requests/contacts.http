@@ -71,7 +71,7 @@ Content-Type: application/json
     },
     "utilisateur": {
       "id": 10,
-      "email": "nadir.ahdid@student.vinci.be",
+      "email": "toz.toz@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
       "phone": "0485367792",

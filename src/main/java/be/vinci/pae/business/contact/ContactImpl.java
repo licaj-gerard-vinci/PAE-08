@@ -209,7 +209,8 @@ public class ContactImpl implements Contact {
   @Override
   public boolean checkState(String acutalState, String expectedState) {
     if (acutalState.equals("pris") && !expectedState.equals("accepté")
-        && !expectedState.equals("refusé") && !expectedState.equals("non suivi")) {
+        && !expectedState.equals("refusé") && !expectedState.equals("non suivi")
+        && !expectedState.equals("blacklisté")) {
       return false;
     }
 

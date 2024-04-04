@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Carole.skile@student.vinci.be",
+  "email": "nadir.ahdid@student.vinci.be",
   "password": "a"
 }
 
