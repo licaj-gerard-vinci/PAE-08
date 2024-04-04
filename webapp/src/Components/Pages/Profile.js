@@ -181,7 +181,6 @@ function renderProfile(user) {
   }
     console.log('updatedUser', updatedUser);
 
-
     if (updatedUser.oldPassword) {
       const check = await checkPassword(updatedUser);
      if (check === "Les mots de passe ne correspondent pas") {

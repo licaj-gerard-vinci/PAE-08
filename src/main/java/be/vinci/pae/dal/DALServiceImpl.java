@@ -68,7 +68,6 @@ public class DALServiceImpl implements DALBackService, DALServices {
   public void startTransaction() {
     try {
       if (transactionCounter.get() == 0) {
-
         getConnection().setAutoCommit(false);
       }
       transactionCounter.set(transactionCounter.get() + 1);
@@ -85,11 +84,10 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().commit();
         getConnection().setAutoCommit(true);
+        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);
-    } finally {
-      close();
     }
   }
 
@@ -101,11 +99,10 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().rollback();
         getConnection().setAutoCommit(true);
+        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);
-    } finally {
-      close();
     }
   }
 

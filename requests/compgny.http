@@ -15,3 +15,13 @@ Content-Type: application/json
 GET {{baseUrl}}/entreprise
 Content-Type: application/json
 Authorization: {{token}}
+
+### Blacklist a company
+PUT {{baseUrl}}/entreprise/1/blacklist
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id": 1,
+  "motivation": "This company is a scam"
+}

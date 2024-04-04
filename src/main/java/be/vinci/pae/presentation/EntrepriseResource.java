@@ -67,10 +67,15 @@ public class EntrepriseResource {
   @Path("/{id}/blacklist")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public EntrepriseDTO blackListCompany(@PathParam("id") int id) {
+  public EntrepriseDTO blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    return myEntrepriseUcc.getEntreprise(id);
+    if (entreprise.getMotivation_blacklist() == null) {
+      throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
+    }
+    System.out.println("toz " + entreprise.getMotivation_blacklist());
+    myEntrepriseUcc.blackListCompany(entreprise);
+    return entreprise;
   }
 }

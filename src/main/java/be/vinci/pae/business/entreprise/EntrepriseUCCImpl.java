@@ -71,23 +71,23 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   /**
    * Updates an entreprise.
    *
-   * @param idCompany the entreprise to update.
+   * @param entreprise the entreprise to update.
    * @return the updated entreprise.
    */
   @Override
-  public void blackListCompany(int idCompany) {
+  public void blackListCompany(EntrepriseDTO entreprise) {
     try {
       dalServices.startTransaction();
-      EntrepriseDTO company = getEntreprise(idCompany);
+      EntrepriseDTO company = getEntreprise(entreprise.getId());
       if (company == null) {
         throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
       }
       if(company.isBlackListed()) {
-        throw new ConflictException("L'entreprise est blacklistée.");
+        throw new ConflictException("L'entreprise est déjà blacklistée.");
       }
       company.setBlackListed(true);
+      company.setMotivation_blacklist(entreprise.getMotivation_blacklist());
       entrepriseDAO.updateEntreprise(company);
-      contactDAO.blackListContacts(idCompany);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();

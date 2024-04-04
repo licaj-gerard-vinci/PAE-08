@@ -26,8 +26,8 @@ public interface EntrepriseUCC {
   /**
    * Updates the entreprise.
    *
-   * @param idCompany the entreprise to update.
+   * @param entreprise the entreprise to update.
    * @return the updated entreprise.
    */
-  void blackListCompany(int idCompany);
+  void blackListCompany(EntrepriseDTO entreprise);
 }
