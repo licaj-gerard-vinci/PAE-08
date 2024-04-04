@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import Chart from 'chart.js/auto';
 import {
   getContacts,
   insertContact,
@@ -9,8 +8,6 @@ import {getEntreprises} from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 import Navigate from '../Router/Navigate';
 import { refreshUser } from "../../model/users";
-import { getAuthenticatedUser } from "../../utils/auths";
-import { getAllUsers } from "../../model/users";
 
 let entreprises;
 let searchResult = [];
