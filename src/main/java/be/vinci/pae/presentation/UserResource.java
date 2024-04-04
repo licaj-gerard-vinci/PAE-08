@@ -51,6 +51,7 @@ public class UserResource {
    * Retrieves a single user by their ID.
    *
    * @param id the user's ID.
+   * @param user the user.
    * @return the user with the specified ID or null if not found.
    */
   @PUT
@@ -76,6 +77,7 @@ public class UserResource {
    * verify password of a user.
    *
    * @param id the user to register.
+   * @param passwordWrapper the String map for passwords.
    * @return the registered user.
    */
   @POST

@@ -215,7 +215,7 @@ public class ContactDAOImpl implements ContactDAO {
    * Rs to detailed contact.
    *
    * @param rs the rs
-   * @return the contact detailled DTO
+   * @return the contact DTO
    * @throws SQLException the SQL exception
    */
   private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException {

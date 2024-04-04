@@ -133,6 +133,7 @@ public class ContactResource {
   /**
    * Retrieves the contacts of the authenticated user from the request context.
    *
+   * @param id the company id.
    * @return the contacts of the authenticated user.
    */
   @GET

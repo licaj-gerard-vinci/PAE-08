@@ -29,9 +29,8 @@ public class ManagerResource {
   /**
    * Retrieves a list of managers for a specific company.
    *
-   * @param companyId the ID of the company for which to retrieve managers
-   * @return a list of ManagerDTO objects representing the managers of the company
-   * If no managers are found, an empty list is returned.
+   * @param companyId the ID of the company for which to retrieve managers.
+   * @return a list of ManagerDTO objects representing the managers of the company.
    */
   @GET
   @Path("/{companyId}")
