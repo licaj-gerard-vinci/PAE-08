@@ -116,6 +116,13 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     return entreprise;
   }
 
+  /**
+   * Fills a ManagerDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing contact data.
+   * @return ContactDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   public ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
     ManagerDTO manager = (ManagerDTO) factory.getManagerDTO();
     manager.setId(rs.getInt("manager_id"));

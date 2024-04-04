@@ -54,5 +54,13 @@ public interface DALBackServiceUtils {
    */
   EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException;
 
+  /**
+   * Fills a ManagerDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing manager data.
+   * @param method the method to call
+   * @return ManagerDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException;
 }

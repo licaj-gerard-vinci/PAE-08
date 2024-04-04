@@ -94,7 +94,7 @@ public class InternshipUCCImpl implements InternshipUCC {
     myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
       dalServices.startTransaction();
-      if(internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
+      if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
         throw new ConflictException("internship for the student already exists");
       }
       internshipDAO.insertInternship(internship);

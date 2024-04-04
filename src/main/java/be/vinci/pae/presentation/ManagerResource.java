@@ -11,7 +11,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +19,20 @@ import java.util.List;
 @Log
 public class ManagerResource {
 
-    @Inject
-    private ManagerUCC myManagerUCC;
+  @Inject
+  private ManagerUCC myManagerUCC;
 
-    @GET
-    @Path("/{companyId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Authorize
-    public List<ManagerDTO> getManagers(
-            @PathParam("companyId") int companyId) {
-        List<ManagerDTO> managerDTOs = myManagerUCC.getManagers(companyId);
+  @GET
+  @Path("/{companyId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ManagerDTO> getManagers(
+    @PathParam("companyId") int companyId) {
+    List<ManagerDTO> managerDTOs = myManagerUCC.getManagers(companyId);
 
-        if (managerDTOs == null || managerDTOs.isEmpty()) {
-            managerDTOs = new ArrayList<>();
-        }
-        return managerDTOs;
+    if (managerDTOs == null || managerDTOs.isEmpty()) {
+      managerDTOs = new ArrayList<>();
     }
+    return managerDTOs;
+  }
 }

@@ -58,6 +58,17 @@ public class StageResource {
     return myStageUcc.getStages();
   }
 
+  /**
+   * Inserts a new internship into the system.
+   *
+   * @param internship the InternshipDTO object representing the internship to be inserted
+   * @return a JSON object containing a success message
+   * @throws WebApplicationException if any required information is missing from the InternshipDTO object
+   *
+   * This method is a POST request and can be accessed at the "/insert" path.
+   * It consumes and produces JSON.
+   * The method is protected with the @Authorize annotation, meaning the client must be authenticated to access this endpoint.
+   */
   @POST
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
