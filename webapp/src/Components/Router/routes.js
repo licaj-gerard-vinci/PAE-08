@@ -12,6 +12,7 @@ const routes = {
   '/logout': Logout,
   '/register': RegisterPage,
   '/profile': ProfilePage,
+  '/profile/:id': ProfilePage,
   '/users': UserList,
   '/company': CompanyPage,
 };

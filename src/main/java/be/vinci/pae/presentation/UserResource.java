@@ -97,11 +97,23 @@ public class UserResource {
           .build();
     }
 
-
-
-
     return Response.ok().build();
   }
+
+    /**
+     * Retrieves a single user by their ID.
+     *
+     * @param id the user's ID.
+     * @return the user with the specified ID or null if not found.
+     */
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Authorize
+    public UserDTO getUser(@PathParam("id") int id) {
+      UserDTO user = myUserUcc.getOne(id);
+      return user;
+    }
 }
 
 

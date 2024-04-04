@@ -12,8 +12,7 @@ import { getAllUsers } from "../../model/users";
 
 let entreprises;
 let searchResult = [];
-const totalStudents = await getAllUsers();
-console.log('totalStudents: ', totalStudents);
+
 
 async function renderEntreprises() {
   entreprises = await getEntreprises();
@@ -26,6 +25,7 @@ const HomePage = async () => {
 };
 
 async function renderHomePage() {
+  const totalStudents = await getAllUsers();
   const main = document.querySelector('main');
   const user = getAuthenticatedUser();
   console.log(user.user);
