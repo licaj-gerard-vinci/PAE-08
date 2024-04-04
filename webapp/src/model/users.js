@@ -148,7 +148,7 @@ async function updateUser(user){
     body: JSON.stringify({
       lastname: user.lastname,
       firstname: user.firstname,
-      password: user.password,
+      password: user.newPassword,
       email: user.email,
       phone: user.phone,
       role: user.role
@@ -161,6 +161,7 @@ async function updateUser(user){
 
   try {
     const response = await fetch(`http://localhost:8080/users/${idUser}`, options);
+    console.log("responnse",response);
     if (!response.ok) {
       throw new Error(`Error updating user: ${response.statusText}`);
     }
@@ -178,12 +179,44 @@ async function updateUser(user){
     // Mettre à jour le stockage local
     setAuthenticatedUser(updatedUser);
 
-    // Si vous avez besoin de rafraîchir la page ou l'état de l'application après la mise à jour, faites-le ici
-    // par exemple en rechargeant les informations de l'utilisateur ou en re-rendering les composants concernés.
-    await refreshUser();
+  } catch (error) {
+    console.error('Error updating user', error);
+  }
+}
+
+async function checkPassword(user){
+  const id = getAuthenticatedUser();
+  const idUser = id.user.id;
+  const token = getToken();
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+      Password: user.oldPassword,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+
+  try {
+    const response = await fetch(`http://localhost:8080/users/${idUser}/verify`, options);
+    console.log("responnse",response);
+    if (!response.ok) {
+      return "Les mots de passe ne correspondent pas"
+    }
+    console.log("response.ok",response.ok);
+   if(response.ok === true){
+     return true;
+    }
+      return false;
+    
+    
+
 
   } catch (error) {
     console.error('Error updating user', error);
+    return false;
   }
 }
 
@@ -196,4 +229,5 @@ export {loginUser,
   getAllUsers,
   registerUser,
   updateUser,
+  checkPassword,
 };
