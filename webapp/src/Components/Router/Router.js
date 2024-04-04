@@ -65,5 +65,3 @@ async function onFrontendLoad() {
 }
 
 export default Router;
-
-﻿
