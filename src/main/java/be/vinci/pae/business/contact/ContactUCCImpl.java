@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactUCCImpl implements ContactUCC {
 
   @Inject
-  ContactDAO contactDAO;
+  private ContactDAO contactDAO;
 
   @Inject
   private DALServices dalServices;
@@ -155,6 +155,12 @@ public class ContactUCCImpl implements ContactUCC {
     }
   }
 
+  /**
+   * Retrieves a contact by the company ID.
+   *
+   * @param idCompany the ID of the contact.
+   * @return the contact.
+   */
   public List<ContactDTO> getContactsByCompanyId(int idCompany) {
     if (myCompany.getEntreprise(idCompany) == null) {
       throw new NotFoundException("Company not found");

@@ -54,5 +54,5 @@ public interface Factory {
    *
    * @return a new instance of ResponsableDTO.
    */
-  ResponsableDTO getResponsableDTO();
+  ResponsableDTO getManagerDTO();
 }

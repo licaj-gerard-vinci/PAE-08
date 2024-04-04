@@ -25,6 +25,11 @@ public interface StageDAO {
    */
   StageDTO getStageById(int id);
 
-
+  /**
+   * Inserts a new internship into the database.
+   *
+   * @param internship the contact to insert
+   */
+  void insertInternship(StageDTO internship);
 
 }

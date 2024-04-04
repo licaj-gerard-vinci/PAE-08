@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Get all contacts
-GET {{baseUrl}}/contacts/9
+GET {{baseUrl}}/contacts/5
 Authorization: {{token}}
 
 ### Update a contact
@@ -95,4 +95,3 @@ Content-Type: application/json
 GET {{baseUrl}}/contacts/1/company
 Authorization: {{token}}
 Content-Type: application/json
-

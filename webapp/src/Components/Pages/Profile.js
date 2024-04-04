@@ -1,10 +1,11 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-template */
+// eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
-// eslint-disable-next-line import/no-cycle
-import { checkPassword, getStagePresent, refreshUser, updateUser } from '../../model/users';
+import { getStagePresent } from '../../model/internships';
+import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
