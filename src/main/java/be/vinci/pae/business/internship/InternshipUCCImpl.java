@@ -2,6 +2,8 @@ package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
@@ -23,6 +25,9 @@ public class InternshipUCCImpl implements InternshipUCC {
 
   @Inject
   private ContactUCC myContact;
+
+  @Inject
+  private UserUCC myUser;
 
   /**
    * Gets the stage user.
@@ -75,6 +80,7 @@ public class InternshipUCCImpl implements InternshipUCC {
    */
   @Override
   public void insertInternship(InternshipDTO internship) {
+    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
     if (myContact.getContactById(myContactDTO.getId()) == null
             || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
@@ -84,6 +90,8 @@ public class InternshipUCCImpl implements InternshipUCC {
     // are the same for the contact and internship, if one of them are different, "return;".
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
+    myUserDTO.setHasInternship(true);
+    System.out.println("before transaction");
     try {
       dalServices.startTransaction();
       if(internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
@@ -92,6 +100,8 @@ public class InternshipUCCImpl implements InternshipUCC {
       internshipDAO.insertInternship(internship);
       // verification for (if company/user exists) were already done here, in updateContact.
       myContact.updateContact(myContactDTO);
+      System.out.println("before update user");
+      myUser.update(myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
