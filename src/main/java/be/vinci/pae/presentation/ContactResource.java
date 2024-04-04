@@ -115,4 +115,20 @@ public class ContactResource {
     responseNode.put("message", "Contact updated successfully");
     return responseNode;
   }
+
+  /**
+   * Retrieves the contacts of the authenticated user from the request context.
+   *
+   * @return the contacts of the authenticated user.
+   */
+  @GET
+  @Path("/{id}/company")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) {
+    if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    return myContactUcc.getContactsByCompanyId(id);
+  }
 }
