@@ -3,14 +3,13 @@ package be.vinci.pae.dal.stage;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
 import jakarta.inject.Inject;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

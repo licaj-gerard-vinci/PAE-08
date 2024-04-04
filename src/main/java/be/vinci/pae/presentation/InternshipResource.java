@@ -8,7 +8,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
@@ -19,7 +25,7 @@ import java.util.List;
 @Singleton
 @Path("stages")
 @Log
-public class StageResource {
+public class InternshipResource {
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
@@ -63,11 +69,7 @@ public class StageResource {
    *
    * @param internship the InternshipDTO object representing the internship to be inserted
    * @return a JSON object containing a success message
-   * @throws WebApplicationException if any required information is missing from the InternshipDTO object
-   *
-   * This method is a POST request and can be accessed at the "/insert" path.
-   * It consumes and produces JSON.
-   * The method is protected with the @Authorize annotation, meaning the client must be authenticated to access this endpoint.
+   * @throws WebApplicationException if any required information is missing from the InternshipDTO
    */
   @POST
   @Path("/insert")

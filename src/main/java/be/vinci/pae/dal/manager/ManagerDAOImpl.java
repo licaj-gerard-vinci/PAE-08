@@ -38,9 +38,9 @@ public class ManagerDAOImpl implements ManagerDAO {
   @Override
   public List<ManagerDTO> getManagers(int companyId) {
     String query =
-      "SELECT m.*,c.*"
-      + " FROM pae.managers m, pae.companies c "
-      + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
+        "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
 
     List<ManagerDTO> managers = new ArrayList<>();
