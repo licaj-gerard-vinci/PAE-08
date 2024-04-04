@@ -89,7 +89,9 @@ public class DALServiceImpl implements DALBackService, DALServices {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-      close();
+      if(transactionCounter.get() == 0) {
+        close();
+      }
     }
   }
 
@@ -105,7 +107,9 @@ public class DALServiceImpl implements DALBackService, DALServices {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-      close();
+      if(transactionCounter.get() == 0) {
+        close();
+      }
     }
   }
 

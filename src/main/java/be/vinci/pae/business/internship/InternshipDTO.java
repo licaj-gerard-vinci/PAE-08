@@ -5,6 +5,7 @@ import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.sql.Date;
 
 /**
  * Represents the StageDTO interface.
@@ -159,14 +160,14 @@ public interface InternshipDTO {
    *
    * @return the stage date.
    */
-  String getdateSignature();
+  Date getdateSignature();
 
   /**
    * Sets the stage date.
    *
    * @param dateSignature the new stage date.
    */
-  void setdateSignature(String dateSignature);
+  void setdateSignature(Date dateSignature);
 
   /**
    * Gets the version.

@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Get all contacts
-GET {{baseUrl}}/managers/1
+GET {{baseUrl}}/contacts/5
 Authorization: {{token}}
 
 ### Update a contact
@@ -90,4 +90,3 @@ Content-Type: application/json
   "lieuxRencontre": null,
   "version": 1
 }
-

@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import {
-    getContact,
-    updateContact
+    getContact
   } from "../../model/contacts";
 import getManagers from "../../model/managers";
 import { insertInternship } from "../../model/internships";
+import Navigate from '../Router/Navigate';
 
 let managers = [];
 
@@ -41,10 +41,11 @@ const Internship = async () => {
     const topic = document.getElementById("topic").value;
     const signatureDate = document.getElementById("signatureDate").value;
 
-    await insertInternship(managerId, contact.user, contact, contact.entreprise, topic, signatureDate);
-    await updateContact(contact.id, contact.entreprise, contact.user, "accepté", null, null, contact.version);
+    console.log("managerId: ", managerId)
+    await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
+    console.log("contactId: ", contact.id, ", contactEntreprise: ", contact.entreprise,", contactEtudiant: ", contact.utilisateur, ", contactVersion: ", contact.version)
     console.log('Form submitted');
-    sessionStorage.removeItem('contactId');
+    Navigate('/')
     });
 
     // When the page is about to be unloaded

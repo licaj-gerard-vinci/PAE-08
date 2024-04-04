@@ -4,6 +4,7 @@ import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -20,6 +21,7 @@ import java.util.List;
 @Log
 public class StageResource {
 
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private InternshipUCC myStageUcc;
 
@@ -63,10 +65,13 @@ public class StageResource {
   @Authorize
   public ObjectNode insertInternship(InternshipDTO internship) {
     if (internship.getEntreprise() == null || internship.getEtudiant() == null
-            || internship.getResponsable() == null) {
+            || internship.getIdResponsable() <= 0 || internship.getContact() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
 
-    return null;
+    myStageUcc.insertInternship(internship);
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Internship created successfully");
+    return responseNode;
   }
 }

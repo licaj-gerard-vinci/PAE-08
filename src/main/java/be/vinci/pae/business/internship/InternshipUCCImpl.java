@@ -1,5 +1,6 @@
 package be.vinci.pae.business.internship;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.user.UserUCC;
@@ -82,27 +83,30 @@ public class InternshipUCCImpl implements InternshipUCC {
    */
   @Override
   public void insertInternship(InternshipDTO internship) {
-    if (myContact.getContactById(internship.getContact().getId()) == null) {
+    ContactDTO myContactDTO = internship.getContact();
+    if (myContact.getContactById(myContactDTO.getId()) == null
+            || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
+            || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;
-    }
-
-    if (myUser.getOne(internship.getEtudiant().getId()) == null) {
-      return;
-    }
-
-    if (myCompany.getEntreprise(internship.getEntreprise().getId()) == null) {
-      return;
-    }
-
+    } // verify either if contact exists and if the userId and companyId.
+    // are the same for the contact and internship, if one of them are different, "return;".
+    myContactDTO.setEtatContact("accepté");
+    // since it comes from "insertInternship", the state I want wasn't updated previously.
+    System.out.println("at the very start of insert transaction");
     try {
       dalServices.startTransaction();
-      if(getStageUser(internship.getEtudiant().getId()) != null) {
+      if(internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
         throw new ConflictException("internship for the student already exists");
       }
-
+      System.out.println("before insert");
       internshipDAO.insertInternship(internship);
+      System.out.println("after insert before update");
+      // verification for (if company/user exists) were already done here, in updateContact.
+      myContact.updateContact(myContactDTO);
+      System.out.println("after update");
       dalServices.commitTransaction();
     } catch (FatalException e) {
+      System.out.println("for real it crashed in internship");
       dalServices.rollbackTransaction();
       throw e;
     }

@@ -29,10 +29,11 @@ import {
     return stagePresent;
   }
 
-async function insertInternship(managerId, student, contactObject, company, topic, signatureDate) {
-    let internship = null;
+  async function insertInternship(managerId, student, contactObject, company, topic, signatureDate) {
     const token = getToken();
     if(token) {
+      console.log("managerId: ", managerId, ", student: ", student, ", contactObject: ", contactObject)
+      console.log("company: ", company, ", topic: ", topic, ", signatureDate: ", signatureDate)
       const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -48,14 +49,19 @@ async function insertInternship(managerId, student, contactObject, company, topi
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/contacts/getOne/${contactObject.id}`, options);
-
-    if (!response.ok) {
-      return "Le contact n'a pas été trouvé";
+      console.log("options: ", options)
+      try {
+        const response = await fetch(`http://localhost:8080/stages/insert`, options);
+        if (!response.ok) {
+          throw new Error(`Error inserting contact: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error('Error inserting internship');
+      }
     }
-    internship = await response.json();
-  }
-    return internship;
   }
 
   export {

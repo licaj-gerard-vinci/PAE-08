@@ -10,6 +10,8 @@ import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
 import jakarta.inject.Inject;
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -101,16 +103,17 @@ public class StageDAOImpl implements StageDAO {
   @Override
   public void insertInternship(InternshipDTO internship) {
     String query = "INSERT INTO pae.internships "
-            + "(internship_manager_id, internship_student_id, internship_company_id, "
-            + "internship_school_year_id, internship_topic, internship_date_of_signature, "
-            + "internship_version) "
-            + "VALUES (?, ?, ?, 1, ?, ?, 1)";
+            + "(internship_manager_id, internship_student_id, internship_contact_id, "
+            + "internship_company_id, internship_school_year_id, internship_topic, "
+            + "internship_date_of_signature, internship_version) "
+            + "VALUES (?, ?, ?, ?, 1, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, internship.getIdResponsable());
       statement.setInt(2, internship.getEtudiant().getId());
-      statement.setInt(3, internship.getEntreprise().getId());
-      statement.setString(4, internship.getSujet());
-      statement.setString(5, internship.getdateSignature());
+      statement.setInt(3, internship.getContact().getId());
+      statement.setInt(4, internship.getEntreprise().getId());
+      statement.setString(5, internship.getSujet());
+      statement.setDate(6, internship.getdateSignature());
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -139,7 +142,7 @@ public class StageDAOImpl implements StageDAO {
     // Add stage info
     stage.setId(rs.getInt("internship_id"));
     stage.setSujet(rs.getString("internship_topic"));
-    stage.setdateSignature(rs.getString("internship_date_of_signature"));
+    stage.setdateSignature(rs.getDate("internship_date_of_signature"));
 
     // Set filled DTOs to stage
     stage.setResponsable(responsable);
