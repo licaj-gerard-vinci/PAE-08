@@ -91,7 +91,7 @@ public class InternshipUCCImpl implements InternshipUCC {
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
     myUserDTO.setHasInternship(true);
-    System.out.println("before transaction");
+    myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
       dalServices.startTransaction();
       if(internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
@@ -100,8 +100,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       internshipDAO.insertInternship(internship);
       // verification for (if company/user exists) were already done here, in updateContact.
       myContact.updateContact(myContactDTO);
-      System.out.println("before update user");
-      myUser.update(myUserDTO);
+      myUser.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();

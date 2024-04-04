@@ -156,60 +156,35 @@ public class UserDAOImpl implements UserDAO {
    * @return true if the user was updated successfully, false otherwise.
    */
   public boolean updateUser(UserDTO user) {
-    List<String> fieldsToUpdate = new ArrayList<>();
-    if (user.getEmail() != null) {
-      fieldsToUpdate.add("user_email = ?");
-    }
-    if (user.getLastname() != null) {
-      fieldsToUpdate.add("user_lastname = ?");
-    }
-    if (user.getFirstname() != null) {
-      fieldsToUpdate.add("user_firstname = ?");
-    }
-    if (user.getPhone() != null) {
-      fieldsToUpdate.add("user_phone_number = ?");
-    }
-    if (user.getRole() != null) {
-      fieldsToUpdate.add("user_role = ?");
-    }
-    // Vérifie si le mot de passe est fourni et non vide
+    String query = "UPDATE pae.users SET "
+        + "user_email = ?, user_lastname = ?, user_firstname = ?, "
+        + "user_phone_number = ?, user_has_internship = ?";
+
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      fieldsToUpdate.add("user_password = ?");
+      query += ", user_password = ?";
     }
-
-    if (fieldsToUpdate.isEmpty()) {
-      return false;
-    }
-
-    String query = String.format("UPDATE pae.users SET %s WHERE user_id = ?",
-            String.join(", ", fieldsToUpdate));
+    query += " WHERE user_id = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      int index = 1;
-      if (user.getEmail() != null) {
-        statement.setString(index++, user.getEmail());
-      }
-      if (user.getLastname() != null) {
-        statement.setString(index++, user.getLastname());
-      }
-      if (user.getFirstname() != null) {
-        statement.setString(index++, user.getFirstname());
-      }
-      if (user.getPhone() != null) {
-        statement.setString(index++, user.getPhone());
-      }
-      if (user.getRole() != null) {
-        statement.setString(index++, user.getRole());
-      }
-      // Assigne le mot de passe hashé à la requête si présent
+      statement.setString(1, user.getEmail());
+      statement.setString(2, user.getLastname());
+      statement.setString(3, user.getFirstname());
+      statement.setString(4, user.getPhone());
+      statement.setBoolean(5, user.getHasInternship());
+      // L'index du paramètre pour user_id dépend de la présence du mot de passe.
+      int parameterIndex = 6;
+
       if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-        statement.setString(index++, user.getPassword());
+        statement.setString(parameterIndex++, user.getPassword());
       }
-      statement.setInt(index, user.getId());
+
+      statement.setInt(parameterIndex, user.getId());
+
       int rowsUpdated = statement.executeUpdate();
       return rowsUpdated > 0;
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
+      throw new FatalException(e);
     }
   }
 

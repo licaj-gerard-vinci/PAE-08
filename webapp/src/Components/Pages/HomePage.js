@@ -5,7 +5,7 @@ import {
   insertContact,
   updateContact
 } from "../../model/contacts";
-import getEntreprises from "../../model/entreprises";
+import {getEntreprises} from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 import Navigate from '../Router/Navigate';
 

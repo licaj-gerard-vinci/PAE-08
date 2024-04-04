@@ -112,15 +112,47 @@ public class ContactDAOImpl implements ContactDAO {
       statement.setInt(1, idContact);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          return rsToContact(rs, "checkGet");
+          return rsToContact(rs, "get");
         }
       }
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException(e);
     }
-
     return null;
+  }
+
+
+
+  /**
+   * Gets the all contacts with the idCompagny.
+   *
+   * @param idCompany The ID of the contact to be deleted.
+   * @return the list of contacts.
+   */
+  public List<ContactDTO> getContactsByCompanyId(int idCompany) {
+    String query =
+        "SELECT c.*, u.*, comp.*, sy.* "
+            + "FROM pae.contacts c "
+            + "JOIN pae.users u ON c.contact_student_id = u.user_id "
+            + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
+            + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
+            + "WHERE c.contact_company_id = ?";
+
+    List<ContactDTO> contacts = new ArrayList<>();
+
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setInt(1, idCompany);
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          contacts.add(rsToContact(rs, "get"));
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+
+    return contacts;
   }
 
   /**
@@ -178,6 +210,7 @@ public class ContactDAOImpl implements ContactDAO {
     }
   }
 
+
   /**
    * Rs to detailed contact.
    *
@@ -194,7 +227,7 @@ public class ContactDAOImpl implements ContactDAO {
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
-    if (method.equals("checkGet")) {
+    if (method.equals("get")) {
       YearDTO year = factory.getYearDTO();
       year.setId(rs.getInt("school_year_id"));
       year.setAnnee(rs.getString("year"));

@@ -5,6 +5,7 @@ import ProfilePage from '../Pages/Profile';
 import UserList from '../Pages/UserList';
 import RegisterPage from "../Pages/RegisterPage";
 import Internship from "../Pages/Internship";
+import CompanyPage from "../Pages/CompanyPage";
 
 const routes = {
   '/': HomePage,
@@ -14,6 +15,7 @@ const routes = {
   '/profile': ProfilePage,
   '/users': UserList,
   '/internship': Internship,
+  '/company': CompanyPage,
 };
 
 export default routes;

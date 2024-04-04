@@ -131,9 +131,15 @@ public class UserUCCImpl implements UserUCC {
    *
    * @return the updated user.
    */
-  public boolean update(UserDTO user) {
-    String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-    user.setPassword(passwordHashed);
+  public boolean update(int id, UserDTO user) {
+    // Assign the ID to the user object
+    user.setId(id);
+
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      user.setPassword(passwordHashed);
+    }
+
     try {
       dalServices.startTransaction();
       boolean result = userDAO.updateUser(user);
@@ -142,8 +148,27 @@ public class UserUCCImpl implements UserUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
+    }
+  }
+
+  /**
+   * Verifies a user.
+   *
+   * @return the verified user.
+   */
+  public boolean checkPassword(int id, String password) {
+    try {
+      dalServices.startTransaction();
+      User user = (User) userDAO.getOneById(id);
+      if (user == null) {
+        throw new NotFoundException("User not found");
+      }
+      boolean result = user.checkPassword(password);
+      dalServices.commitTransaction();
+      return result;
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
     }
   }
 

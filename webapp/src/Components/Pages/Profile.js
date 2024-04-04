@@ -1,16 +1,16 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-template */
-import { getAuthenticatedUser } from '../../utils/auths';
-import { clearPage, renderPageTitle } from '../../utils/render';
 // eslint-disable-next-line import/no-cycle
-import { refreshUser, updateUser } from '../../model/users';
+import { getAuthenticatedUser } from '../../utils/auths';
+import { clearPage } from '../../utils/render';
 import { getStagePresent } from '../../model/internships';
+import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
-  renderPageTitle('Profile');
+  
 
   const main = document.querySelector('main');
 
@@ -59,24 +59,90 @@ function renderRole(user) {
 function renderProfile(user) {
   const profileDiv = document.createElement('div');
   profileDiv.className = 'profile-div';
-  profileDiv.style =
-      'background-color: #f2f2f2; padding: 20px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
+  
+  profileDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
+
   profileDiv.innerHTML = `
-    <h2>Bonjour, ${user.user.firstname}</h2>
-    <p>Email : ${user.user.email}</p>
-    <p>Nom : ${user.user.lastname}</p>
-    <p>Prénom : ${user.user.firstname}</p>
-    <p>Numéro de téléphone : ${user.user.phone}</p>
-    <p>Rôle : ${renderRole(user.user.role)}</p>
+
+  <div class="container mt-4">
+  
+ 
+  <h2 class="mb-4">Bonjour, ${user.user.firstname}</h2>
+
+  <div class="row mb-3">
+          <strong>Email :</strong>
+          <p>${user.user.email}</p>
+  </div>
+  <div class="row mb-3">
+          <strong>Nom :</strong>
+          <p>${user.user.lastname}</p>
+  </div>
+  <div class="row mb-3">
+          <strong>Prénom :</strong>
+          <p>${user.user.firstname}</p>
+  </div>
+  <div class="row mb-3">
+    
+          <strong>Numéro de téléphone :</strong>
+          <p>${user.user.phone}</p>
+  
+  </div>
+  <div class="row mb-4">
+
+          <strong>Rôle :</strong>
+          <p>${renderRole(user.user)}</p>
+      
+     
+  
     <button id="edit-profile" class="styled-button">Modifier les informations</button>
-    <div id="edit-form" style="display: none;">
-      <input type="text" id="firstname" placeholder="Prénom" value="${user.user.firstname}">
-      <input type="text" id="lastname" placeholder="Nom" value="${user.user.lastname}">
-      <input type="email" id="email" placeholder="Email" value="${user.user.email}">
-      <input type="tel" id="phone" placeholder="Numéro de téléphone" value="${user.user.phone}">
-      <button id="save-changes" class="styled-button">Sauvegarder les changements</button>
     </div>
-    <button id="change-password" class="styled-button">Changer le mot de passe</button>
+      </div>
+    <div id="edit-form" style="display: none;">
+
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+      
+        <div class="col-12 col-md-13">
+          <h2 class="mb-1">Modifier les informations</h2>
+          
+
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="lastname" value="${user.user.lastname}">
+          </div>
+
+            <div class="mb-3">
+              <label for="firstname" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="firstname" value="${user.user.firstname}">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse email</label>
+              <input type="email" class="form-control" id="email" value="${user.user.email}">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Numéro de téléphone</label>
+              <input type="tel" class="form-control" id="phone" value="${user.user.phone}" autocomplete="tel">
+            </div>
+            <div class="mb-3">
+              <label for="old-password" class="form-label">Ancien mot de passe</label>
+              <input type="password" class="form-control" id="old-password" autocomplete="current-password">
+            </div>
+            <div class="mb-3">
+              <label for="new-password" class="form-label">Nouveau mot de passe</label>
+              <input type="password" class="form-control" id="new-password" autocomplete="new-password">
+            </div>
+            <div class="mb-3">
+              <label for="confirm-password" class="form-label">Confirmer votre mot de passe</label>
+              <input type="password" class="form-control" id="confirm-password" autocomplete="new-password">
+            </div>
+              <div class="mb-3" id="password-error" style="color: red; font-size: large;"></div>
+              <div class="mb-3" id="new-password-error" style="color: red; font-size: large;"></div>        
+            <button id="save-changes" class="btn btn-primary">Sauvegarder les changements</button>
+         
+        </div>
+      </div>
+    </div>
   `;
 
   const styledButtons = profileDiv.querySelectorAll('.styled-button');
@@ -93,6 +159,8 @@ function renderProfile(user) {
     document.getElementById('edit-form').style.display = 'block';
   });
 
+ 
+
   // add event listener for the save changes button
   profileDiv.querySelector('#save-changes').addEventListener('click', async () => {
     const updatedUser = {
@@ -100,9 +168,29 @@ function renderProfile(user) {
       lastname: document.getElementById('lastname').value,
       email: document.getElementById('email').value,
       phone: document.getElementById('phone').value,
-      // Ajoutez d'autres champs si nécessaire
+      oldPassword: document.getElementById('old-password').value,
+      newPassword: document.getElementById('new-password').value,
+      confirmPassword: document.getElementById('confirm-password').value,
+      
     };
+    document.getElementById('password-error').textContent = '';
+    document.getElementById('new-password-error').textContent = '';
+      // Vérification des mots de passe
+  if (updatedUser.newPassword !== updatedUser.confirmPassword) {
+    document.getElementById('new-password-error').textContent = 'Les mots de passe ne correspondent pas';
+    return;
+  }
     console.log('updatedUser', updatedUser);
+
+
+    if (updatedUser.oldPassword) {
+      const check = await checkPassword(updatedUser);
+     if (check === "Les mots de passe ne correspondent pas") {
+      document.getElementById('new-password-error').textContent = "L'ancien mots de passe est incorrect."
+      return;
+    }
+  }
+
 
 
     await updateUser(updatedUser);
@@ -111,10 +199,7 @@ function renderProfile(user) {
     ProfilePage();
   });
 
-  // add event listener for the change password button
-  profileDiv.querySelector('#change-password').addEventListener('click', () => {
 
-  });
 
   return profileDiv;
 }
