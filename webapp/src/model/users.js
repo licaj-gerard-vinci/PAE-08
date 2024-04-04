@@ -223,7 +223,8 @@ async function checkPassword(user){
 
 
 
-export {loginUser,
+export {
+  loginUser,
   refreshUser,
   getStagePresent,
   getAllUsers,

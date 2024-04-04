@@ -5,6 +5,7 @@ import ProfilePage from '../Pages/Profile';
 import UserList from '../Pages/UserList';
 import RegisterPage from "../Pages/RegisterPage";
 import CompanyPage from "../Pages/CompanyPage";
+import UserDetailsPage from "../Pages/UserDetailsPage";
 
 const routes = {
   '/': HomePage,
@@ -12,7 +13,7 @@ const routes = {
   '/logout': Logout,
   '/register': RegisterPage,
   '/profile': ProfilePage,
-  '/profile/:id': ProfilePage,
+  '/studentInfo': UserDetailsPage,
   '/users': UserList,
   '/company': CompanyPage,
 };

@@ -82,22 +82,30 @@ async function renderUserList() {
             <th scope="col">Année Académique</th>
           </tr>
         </thead>
-        <tbody>
-          ${userList.map(user => `
-            <tr class="${user.hasInternship ? 'table-success' : ''}">
-              <td><a href="/profile/id=${user.id}" class="profile-link">${user.lastname}</td>
-              <td>${user.firstname}</td>
-              <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P'
-        ? 'Professeur' : 'Administratif'}</td>
-              <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui'
-        : 'Non'}</td>
-              <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>`;
+      <tbody>
+        ${userList.map((user, index) => `
+          <tr id="dlas" class="${user.hasInternship ? 'table-success' : ''}">
+            <td class="profile-link" id="user-${index}">${user.lastname}</td>
+            <td>${user.firstname}</td>
+            <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
+            <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>
+            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+
+
     document.getElementById('user-list-table-container').innerHTML = tableHtml;
-  }
+
+    userList.forEach((user, index) => {
+      document.getElementById(`user-${index}`).addEventListener('click', () => {
+        if (user.role !== 'E') {
+            return;
+        }
+        Navigate('/studentInfo',user);
+      })});
+  };
 
   // Search by name
   const searchBtn = document.getElementById('search-btn');
@@ -165,7 +173,6 @@ async function renderUserList() {
             <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
             </tr>
         `).join('');
-
   });
 }
 
