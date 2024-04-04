@@ -73,9 +73,7 @@ function renderRegisterForm() {
         </div>
       </div>
     </div>
-  `;
-
-}
+  `;}
 
 function checkUser(){
   const email = document.getElementById('RegisterEmail');

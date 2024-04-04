@@ -36,7 +36,17 @@ async function renderHomePage(){
   } else if (user.user.role === "E") {
     const contacts = await getContacts();
     console.log('contactssasas: ', contacts);
-    const searchBar = `<div class="container-fluid">
+    const searchBar = `
+  
+  <div class="container-fluid mt-4">
+    <!-- Bouton "Ajouter l'entreprise" aligné à gauche avec du padding -->
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary px-4 py-2" id="button-addon3"> + Ajouter l'entreprise</button>
+    </div>
+  </div>
+  
+
+<div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-10 col-md-8 col-lg-6">
         <div class="input-group mb-3">
@@ -183,6 +193,8 @@ async function renderHomePage(){
       </div>
       `;
 
+
+
       entreprises.forEach(entreprise => {
         console.log('entreprise: ', entreprise)
         const startedButton = document.querySelector(`#startedButton${entreprise.id}`);
@@ -289,6 +301,14 @@ async function renderHomePage(){
   } else {
     console.log("Unknown user role");
   }
+
+  const addCompanie = document.getElementById('button-addon3');
+    addCompanie.addEventListener('click', () => {
+        console.log('addCompanie');
+        window.location.href = '/addCompany';
+    });
+
+
 }
 
 export default HomePage;
