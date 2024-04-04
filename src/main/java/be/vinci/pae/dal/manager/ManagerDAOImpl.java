@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The ManagerDAOImpl class implements the ManagerDAO interface.
- * It provides the data access logic for handling managers.
+ * The ManagerDAOImpl class implements the ManagerDAO interface. It provides the data access logic
+ * for handling managers.
  */
 public class ManagerDAOImpl implements ManagerDAO {
 
@@ -39,9 +39,8 @@ public class ManagerDAOImpl implements ManagerDAO {
   public List<ResponsableDTO> getManagers(int companyId) {
     String query =
         "SELECT m.*,c.*"
-        + " FROM pae.managers m, pae.companies c "
-        + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
-
+            + " FROM pae.managers m, pae.companies c "
+            + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();
 
@@ -62,14 +61,14 @@ public class ManagerDAOImpl implements ManagerDAO {
   /**
    * Converts a ResultSet to a ManagerDTO object.
    *
-   * @param rs the ResultSet to convert
+   * @param rs     the ResultSet to convert
    * @param method the method that called this function
    * @return a ManagerDTO object representing the manager
    * @throws SQLException if an error occurs during the operation
    */
   private ResponsableDTO rsToManager(ResultSet rs, String method) throws SQLException {
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
-    ResponsableDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
+    ResponsableDTO manager = dalBackServiceUtils.fillResponsableDTO(rs, method);
 
     manager.setEntreprise(entreprise);
     manager.setIdEntreprise(entreprise.getId());

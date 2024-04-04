@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import Chart from 'chart.js/auto';
 import {
   getContacts,
   insertContact,
