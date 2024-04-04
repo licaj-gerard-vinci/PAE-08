@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
+import java.sql.Date;
 
 /**
  * Represents the StageImpl class.
@@ -30,7 +31,7 @@ public class StageImpl implements StageDTO {
 
   private String sujet;
 
-  private String dateSignature;
+  private Date dateSignature;
 
   private int version;
 
@@ -140,7 +141,7 @@ public class StageImpl implements StageDTO {
    * @return the stage date.
    */
   @Override
-  public String getdateSignature() {
+  public Date getdateSignature() {
     return dateSignature;
   }
 
@@ -150,7 +151,7 @@ public class StageImpl implements StageDTO {
    * @param dateSignature the new stage date.
    */
   @Override
-  public void setdateSignature(String dateSignature) {
+  public void setdateSignature(Date dateSignature) {
     this.dateSignature = dateSignature;
   }
 

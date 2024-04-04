@@ -4,6 +4,7 @@ import Logout from '../Logout/Logout';
 import ProfilePage from '../Pages/Profile';
 import UserList from '../Pages/UserList';
 import RegisterPage from "../Pages/RegisterPage";
+import Internship from "../Pages/Internship";
 import CompanyPage from "../Pages/CompanyPage";
 
 const routes = {
@@ -13,6 +14,7 @@ const routes = {
   '/register': RegisterPage,
   '/profile': ProfilePage,
   '/users': UserList,
+  '/internship': Internship,
   '/company': CompanyPage,
 };
 

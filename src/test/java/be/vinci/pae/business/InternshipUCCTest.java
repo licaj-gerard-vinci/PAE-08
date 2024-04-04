@@ -21,14 +21,12 @@ import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
 /**
- * The {@code StageUCCTest} class tests the {@code StageUCC} class.
+ * The {@code InternshipUCCTest} class tests the {@code InternshipUCC} class.
  */
-public class StageUCCTest {
+public class InternshipUCCTest {
 
   private StageUCC stageUCC;
-
   private StageDAO stageDAO;
-
   private Factory factory;
 
   @BeforeEach
