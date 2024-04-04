@@ -92,21 +92,16 @@ public class InternshipUCCImpl implements InternshipUCC {
     // are the same for the contact and internship, if one of them are different, "return;".
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
-    System.out.println("at the very start of insert transaction");
     try {
       dalServices.startTransaction();
       if(internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
         throw new ConflictException("internship for the student already exists");
       }
-      System.out.println("before insert");
       internshipDAO.insertInternship(internship);
-      System.out.println("after insert before update");
       // verification for (if company/user exists) were already done here, in updateContact.
       myContact.updateContact(myContactDTO);
-      System.out.println("after update");
       dalServices.commitTransaction();
     } catch (FatalException e) {
-      System.out.println("for real it crashed in internship");
       dalServices.rollbackTransaction();
       throw e;
     }

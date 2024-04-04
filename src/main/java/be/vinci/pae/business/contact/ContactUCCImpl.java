@@ -124,7 +124,6 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public void updateContact(ContactDTO contactToUpdate) {
     Contact contactToVerif = (Contact) contactDAO.getContactById(contactToUpdate.getId());
-    System.out.println("entered here");
 
     if (contactToVerif == null) {
       throw new NotFoundException("Contact not found");
@@ -144,16 +143,13 @@ public class ContactUCCImpl implements ContactUCC {
     if (contactToVerif.getRaisonRefus() != null) {
       contactToUpdate.setRaisonRefus(contactToVerif.getRaisonRefus());
     }
-    System.out.println("everything was fine, at the very start of update transaction");
 
     try {
       dalServices.startTransaction();
       contactToUpdate.setAnnee(contactToVerif.getAnnee());
       contactDAO.updateContact(contactToUpdate);
-      System.out.println("update worked");
       dalServices.commitTransaction();
     } catch (FatalException e) {
-      System.out.println("for real it crashed in update");
       dalServices.rollbackTransaction();
       throw e;
     }
