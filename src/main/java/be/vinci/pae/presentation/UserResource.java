@@ -6,8 +6,12 @@ import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -16,6 +20,7 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 import org.apache.logging.log4j.core.util.internal.Status;
 
 
@@ -56,22 +61,40 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-    user.setId(id);
-    if (user.getPassword() == null || user.getPassword().isBlank()) {
-      throw new WebApplicationException("Password is required", Response.Status.BAD_REQUEST);
-    }
 
-    boolean updateResult = myUserUcc.update(user);
+
+    boolean updateResult = myUserUcc.update(id, user);
     if (updateResult) {
 
-      UserDTO userone = myUserUcc.getOne(id);
-
-      return userone;
+      return myUserUcc.getOne(id);
     } else {
-      throw new WebApplicationException("User not found or "
-          + "update failed", Status.NOT_FOUND.ordinal());
+      throw new WebApplicationException("User not found or update failed",
+          Status.NOT_FOUND.ordinal());
     }
 
+  }
+
+  @POST
+  @Path("/{id}/verify")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public Response verifyUser(@PathParam("id") int id, Map<String, String> passwordWrapper) {
+    String oldPassword = passwordWrapper.get("Password");
+    if (oldPassword == null || oldPassword.trim().isEmpty()) {
+      throw new BadRequestException("Old password must be provided");
+    }
+
+
+     if(!myUserUcc.checkPassword(id, oldPassword)){
+       return Response.status(Response.Status.UNAUTHORIZED)
+           .entity("Old password verification failed. Please ensure you've entered the correct password.")
+           .build();
+     }
+
+
+
+    return Response.ok().build();
   }
 }
 
