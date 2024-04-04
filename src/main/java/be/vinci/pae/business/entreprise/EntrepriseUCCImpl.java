@@ -19,10 +19,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
   @Inject
   private EntrepriseDAO entrepriseDAO;
-
-  @Inject
-  private ContactUCC contactUCC;
-
   @Inject
   private DALServices dalServices;
 
@@ -89,7 +85,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       company.setBlackListed(true);
       company.setMotivation_blacklist(entreprise.getMotivation_blacklist());
       entrepriseDAO.updateEntreprise(company);
-      contactUCC.blackListContact(entreprise.getId());
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();

@@ -1,9 +1,12 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -27,6 +30,11 @@ public class EntrepriseResource {
 
   @Inject
   private EntrepriseUCC myEntrepriseUcc;
+
+  @Inject
+  private ContactUCC myContactUcc;
+
+  private final ObjectMapper jsonMapper = new ObjectMapper();
 
   /**
    * Retrieves all entreprises.
@@ -67,15 +75,17 @@ public class EntrepriseResource {
   @Path("/{id}/blacklist")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public EntrepriseDTO blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
+  public ObjectNode blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
     if (entreprise.getMotivation_blacklist() == null) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
-    System.out.println("toz " + entreprise.getMotivation_blacklist());
     myEntrepriseUcc.blackListCompany(entreprise);
-    return entreprise;
+    myContactUcc.blackListContact(entreprise.getId());
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Contact created successfully");
+    return responseNode;
   }
 }
