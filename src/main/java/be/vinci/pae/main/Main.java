@@ -21,6 +21,7 @@ public class Main {
    */
   public static String BASE_URI;
 
+
   static {
     Config.load("dev.properties");
     BASE_URI = Config.getProperty("BaseUri");
