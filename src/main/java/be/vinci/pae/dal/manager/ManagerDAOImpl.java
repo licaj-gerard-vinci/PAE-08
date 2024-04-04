@@ -2,7 +2,7 @@ package be.vinci.pae.dal.manager;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
@@ -36,14 +36,14 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public List<ManagerDTO> getManagers(int companyId) {
+  public List<ResponsableDTO> getManagers(int companyId) {
     String query =
         "SELECT m.*,c.*"
         + " FROM pae.managers m, pae.companies c "
         + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
 
-    List<ManagerDTO> managers = new ArrayList<>();
+    List<ResponsableDTO> managers = new ArrayList<>();
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, companyId);
@@ -67,9 +67,9 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @return a ManagerDTO object representing the manager
    * @throws SQLException if an error occurs during the operation
    */
-  private ManagerDTO rsToManager(ResultSet rs, String method) throws SQLException {
+  private ResponsableDTO rsToManager(ResultSet rs, String method) throws SQLException {
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
-    ManagerDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
+    ResponsableDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
 
     manager.setEntreprise(entreprise);
     manager.setIdEntreprise(entreprise.getId());

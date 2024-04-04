@@ -1,11 +1,11 @@
-package be.vinci.pae.business.internship;
+package be.vinci.pae.business.stage;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.stage.InternshipDAO;
+import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * The Class StageUCCImpl.
  */
-public class InternshipUCCImpl implements InternshipUCC {
+public class StageUCCImpl implements StageUCC {
 
   @Inject
-  private InternshipDAO internshipDAO;
+  private StageDAO internshipDAO;
 
   @Inject
   private DALServices dalServices;
@@ -36,10 +36,10 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @return the stage user
    */
 
-  public InternshipDTO getStageUser(int idUser) {
+  public StageDTO getStageUser(int idUser) {
     try {
       dalServices.startTransaction();
-      InternshipDTO stage = internshipDAO.getStageById(idUser);
+      StageDTO stage = internshipDAO.getStageById(idUser);
       if (stage == null) {
         throw new NotFoundException("No internship found for this user");
       }
@@ -58,10 +58,10 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @return all stages
    */
   @Override
-  public List<InternshipDTO> getStages() {
+  public List<StageDTO> getStages() {
     try {
       dalServices.startTransaction();
-      List<InternshipDTO> stages = internshipDAO.getStages();
+      List<StageDTO> stages = internshipDAO.getStages();
       if (stages == null) {
         throw new NotFoundException("No stages found");
       }
@@ -79,7 +79,7 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @param internship the contact to insert
    */
   @Override
-  public void insertInternship(InternshipDTO internship) {
+  public void insertInternship(StageDTO internship) {
     UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
     if (myContact.getContactById(myContactDTO.getId()) == null

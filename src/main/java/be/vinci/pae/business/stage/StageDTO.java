@@ -1,8 +1,8 @@
-package be.vinci.pae.business.internship;
+package be.vinci.pae.business.stage;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.sql.Date;
@@ -10,8 +10,8 @@ import java.sql.Date;
 /**
  * Represents the StageDTO interface.
  */
-@JsonDeserialize(as = InternshipImpl.class)
-public interface InternshipDTO {
+@JsonDeserialize(as = StageImpl.class)
+public interface StageDTO {
 
   /**
    * Gets the stage ID.
@@ -32,14 +32,14 @@ public interface InternshipDTO {
    *
    * @return the stage Responsable.
    */
-  ManagerDTO getResponsable();
+  ResponsableDTO getResponsable();
 
   /**
    * Sets the stage Responsable.
    *
    * @param responsable the new stage Responsable.
    */
-  void setResponsable(ManagerDTO responsable);
+  void setResponsable(ResponsableDTO responsable);
 
   /**
    * Gets the stage Responsable ID.

@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.internship.InternshipDTO;
-import be.vinci.pae.business.internship.InternshipUCC;
+import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,11 +25,11 @@ import java.util.List;
 @Singleton
 @Path("stages")
 @Log
-public class InternshipResource {
+public class StageResource {
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
-  private InternshipUCC myStageUcc;
+  private StageUCC myStageUcc;
 
   /**
    * Retrieves the stage of the authenticated user from the request context.
@@ -41,11 +41,11 @@ public class InternshipResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public InternshipDTO getUserStage(@PathParam("id") int id) {
+  public StageDTO getUserStage(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    InternshipDTO userStage = myStageUcc.getStageUser(id);
+    StageDTO userStage = myStageUcc.getStageUser(id);
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
     }
@@ -60,7 +60,7 @@ public class InternshipResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<InternshipDTO> getStages() {
+  public List<StageDTO> getStages() {
     return myStageUcc.getStages();
   }
 
@@ -76,7 +76,7 @@ public class InternshipResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode insertInternship(InternshipDTO internship) {
+  public ObjectNode insertInternship(StageDTO internship) {
     if (internship.getEntreprise() == null || internship.getEtudiant() == null
             || internship.getIdResponsable() <= 0 || internship.getContact() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);

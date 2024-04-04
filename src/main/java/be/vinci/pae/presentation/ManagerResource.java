@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.manager.ManagerDTO;
-import be.vinci.pae.business.manager.ManagerUCC;
+import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.responsable.ResponsableUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ManagerResource {
 
   @Inject
-  private ManagerUCC myManagerUCC;
+  private ResponsableUCC myManagerUCC;
 
   /**
    * Retrieves a list of managers for a specific company.
@@ -36,9 +36,9 @@ public class ManagerResource {
   @Path("/{companyId}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ManagerDTO> getManagers(
+  public List<ResponsableDTO> getManagers(
       @PathParam("companyId") int companyId) {
-    List<ManagerDTO> managerDTOs = myManagerUCC.getManagers(companyId);
+    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagers(companyId);
 
     if (managerDTOs == null || managerDTOs.isEmpty()) {
       managerDTOs = new ArrayList<>();

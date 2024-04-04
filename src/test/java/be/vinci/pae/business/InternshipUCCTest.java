@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.internship.InternshipDTO;
-import be.vinci.pae.business.internship.InternshipUCC;
-import be.vinci.pae.dal.stage.InternshipDAO;
+import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import java.util.Arrays;
@@ -25,26 +25,26 @@ import utils.ApplicationBinderTest;
  */
 public class InternshipUCCTest {
 
-  private InternshipUCC stageUCC;
-  private InternshipDAO stageDAO;
+  private StageUCC stageUCC;
+  private StageDAO stageDAO;
   private Factory factory;
 
   @BeforeEach
   void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
-    stageUCC = locator.getService(InternshipUCC.class);
+    stageUCC = locator.getService(StageUCC.class);
     factory = locator.getService(Factory.class);
-    stageDAO = locator.getService(InternshipDAO.class);
+    stageDAO = locator.getService(StageDAO.class);
   }
 
   @Test
   @DisplayName("test get all stage succes")
   void testgetALL() {
-    InternshipDTO stage1 = factory.getStageDTO();
-    InternshipDTO stage2 = factory.getStageDTO();
+    StageDTO stage1 = factory.getStageDTO();
+    StageDTO stage2 = factory.getStageDTO();
 
     Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
-    List<InternshipDTO> stage = stageUCC.getStages();
+    List<StageDTO> stage = stageUCC.getStages();
     assertEquals(2, stage.size());
   }
 
@@ -71,10 +71,10 @@ public class InternshipUCCTest {
   void getStageByUser() {
 
     int userId = 7;
-    InternshipDTO mockStage = factory.getStageDTO();
+    StageDTO mockStage = factory.getStageDTO();
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(mockStage);
 
-    InternshipDTO resultStage = stageUCC.getStageUser(userId);
+    StageDTO resultStage = stageUCC.getStageUser(userId);
 
     assertNotNull(resultStage, "The result stage should not be null.");
     assertEquals(mockStage, resultStage,

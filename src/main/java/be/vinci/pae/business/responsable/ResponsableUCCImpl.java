@@ -1,4 +1,4 @@
-package be.vinci.pae.business.manager;
+package be.vinci.pae.business.responsable;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.manager.ManagerDAO;
@@ -11,7 +11,7 @@ import java.util.List;
  * The ManagerUCCImpl class implements the ManagerUCC interface.
  * It provides the business logic for handling managers.
  */
-public class ManagerUCCImpl implements ManagerUCC {
+public class ResponsableUCCImpl implements ResponsableUCC {
 
   @Inject
   private DALServices dalServices;
@@ -27,10 +27,10 @@ public class ManagerUCCImpl implements ManagerUCC {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public List<ManagerDTO> getManagers(int companyId) {
+  public List<ResponsableDTO> getManagers(int companyId) {
     try {
       dalServices.startTransaction();
-      List<ManagerDTO> manager = managerDAO.getManagers(companyId);
+      List<ResponsableDTO> manager = managerDAO.getManagers(companyId);
       if (manager == null) {
         throw new NotFoundException("Manager not found");
       }

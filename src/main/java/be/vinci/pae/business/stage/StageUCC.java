@@ -1,11 +1,11 @@
-package be.vinci.pae.business.internship;
+package be.vinci.pae.business.stage;
 
 import java.util.List;
 
 /**
  * The Interface StageUCC.
  */
-public interface InternshipUCC {
+public interface StageUCC {
 
   /**
    * Gets the stage user.
@@ -14,19 +14,19 @@ public interface InternshipUCC {
    * @return the stage user
    */
 
-  InternshipDTO getStageUser(int idUser);
+  StageDTO getStageUser(int idUser);
 
   /**
    * Gets all stages.
    *
    * @return all stages
    */
-  List<InternshipDTO> getStages();
+  List<StageDTO> getStages();
 
   /**
    * Inserts a new internship into the database.
    *
    * @param internship the contact to insert
    */
-  void insertInternship(InternshipDTO internship);
+  void insertInternship(StageDTO internship);
 }

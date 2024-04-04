@@ -1,11 +1,11 @@
-package be.vinci.pae.business.manager;
+package be.vinci.pae.business.responsable;
 
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 
 /**
  * Represents the ResponsableImpl class.
  */
-public class ManagerImpl implements ManagerDTO {
+public class ResponsableImpl implements ResponsableDTO {
 
   private int id;
   private String nom;

@@ -3,7 +3,7 @@ package be.vinci.pae.dal.utils;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import jakarta.inject.Inject;
@@ -74,8 +74,8 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return ResponsableDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ManagerDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
-    ManagerDTO responsable = (ManagerDTO) factory.getManagerDTO();
+  public ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
+    ResponsableDTO responsable = (ResponsableDTO) factory.getManagerDTO();
     responsable.setId(rs.getInt("manager_id"));
     responsable.setNom(rs.getString("manager_lastname"));
     responsable.setPrenom(rs.getString("manager_firstname"));
@@ -123,8 +123,8 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return ContactDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
-    ManagerDTO manager = (ManagerDTO) factory.getManagerDTO();
+  public ResponsableDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
+    ResponsableDTO manager = (ResponsableDTO) factory.getManagerDTO();
     manager.setId(rs.getInt("manager_id"));
     manager.setPrenom(rs.getString("manager_firstname"));
     manager.setNom(rs.getString("manager_lastname"));
