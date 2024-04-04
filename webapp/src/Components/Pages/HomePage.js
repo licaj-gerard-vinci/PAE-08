@@ -7,8 +7,8 @@ import {
 } from "../../model/contacts";
 import {getEntreprises} from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
-import { getAuthenticatedUser } from "../../utils/auths";
-import { getAllUsers } from "../../model/users";
+import Navigate from '../Router/Navigate';
+import { refreshUser } from "../../model/users";
 
 let entreprises;
 let searchResult = [];
@@ -24,42 +24,23 @@ const HomePage = async () => {
   await renderHomePage();
 };
 
-async function renderHomePage() {
-  const totalStudents = await getAllUsers();
+async function renderHomePage(){
   const main = document.querySelector('main');
-  const user = getAuthenticatedUser();
-  console.log(user.user);
+  const user = await refreshUser();
+  console.log("user: ", user);
 
-  if (user.user.role === "A" || user.user.role === "P") {
+  if(user.hasInternship === true) {
+    Navigate('/profile')
+    return;
+  }
+
+  if(user.role === "A" || user.role === "P"){
     main.innerHTML = `
-     <canvas id="myChart"></canvas>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+      <h1 style="font-size: 3em;">Welcome to the Home Page for professors and administratifs only!</h1>
+    </div>
   `;
-
-    // Render the chart
-    const ctx = document.getElementById('myChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['With Internships', 'Without Internships'],
-        datasets: [{
-          data: [totalStudents.filter(student => student.role === 'E' && student.hasInternship === true).length, totalStudents.filter(student => student.role === 'E' && student.hasInternship === false).length], backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        width: 400,
-        height: 400,
-        title: {
-          display: true,
-          text: 'Chart Title',
-          position: 'top' // the position of the title
-        }
-      }
-    });
-  } else if (user.user.role === "E") {
+  } else if (user.role === "E") {
     const contacts = await getContacts();
     console.log('contactssasas: ', contacts);
     const searchBar = `<div class="container-fluid">
@@ -86,8 +67,7 @@ async function renderHomePage() {
           <div class="col-10 col-md-8 col-lg-6">
           ${searchResult.map(entreprise => {
             let button;
-            if(contacts){
-              
+            if(contacts){   
               const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
                 console.log('contactFound: ', contactFound);
               if(!contactFound){
@@ -134,15 +114,6 @@ async function renderHomePage() {
                   <input class="w-80" type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus: '>
                   <button type='button' id='saveRefusalReasonButton${entreprise.id}'>Save</button>
                 </div>`;
-              } else if(contactFound.etatContact === 'accepté') {
-                button = `
-                <div class="row">
-                  <div class="col"></div>
-                  <div class="col d-flex justify-content-center">
-                    <p>Contact accepté</p>
-                  </div>
-                  <div class="col"></div>
-                </div>`;
               } else if(contactFound.etatContact === 'refusé'){
                 button = `
                 <div class="row">
@@ -152,8 +123,7 @@ async function renderHomePage() {
                   </div>
                   <div class="col"></div>
                 </div>`;
-              }
-              else if (contactFound.etatContact === 'non suivi'){
+              } else if (contactFound.etatContact === 'non suivi'){
                 button = `
                 <div class="row">
                   <div class="col"></div>
@@ -162,8 +132,7 @@ async function renderHomePage() {
                   </div>
                   <div class="col"></div>
                 </div>`;
-              }
-              else if (contactFound.etatContact === 'suspendu'){
+              } else if (contactFound.etatContact === 'suspendu'){
                 button = `
                 <div class="row">
                   <div class="col"></div>
@@ -173,7 +142,6 @@ async function renderHomePage() {
                   <div class="col"></div>
                 </div>`;
               }
-
             } else {
               button = `
               <div class="row">
@@ -218,14 +186,13 @@ async function renderHomePage() {
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
         const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
 
-
         if (startedButton) {
           console.log('startedButton: ', startedButton)
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
-            console.log('before insert informations: entreprise: ', entreprise, ', user: ', user.user)
-            await insertContact(entreprise, user.user, "initié");
+            console.log('before insert informations: entreprise: ', entreprise, ', user: ', user)
+            await insertContact(entreprise, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;
           });
@@ -243,7 +210,7 @@ async function renderHomePage() {
             const contactVersion = contactFound.version;
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             if(textInputValue){
-              await updateContact(contactFound.id, entreprise, user.user, "pris", null, textInputValue, contactVersion);
+              await updateContact(contactFound.id, entreprise, user, "pris", null, textInputValue, contactVersion);
               await renderHomePage();
             }
 
@@ -253,12 +220,11 @@ async function renderHomePage() {
         if (acceptedButton) {
           console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
-            const contactVersion = contactFound.version;
             acceptedButton.disabled = true;
-            console.log('before update informations: entreprise: ', entreprise, ', user: ', user.user)
-            await updateContact(contactFound.id, entreprise, user.user, "accepté", null, null, contactVersion);
-            console.log('after update')
-            await renderHomePage();
+            console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
+            // Stock the contactId inside a sessionStorage
+            sessionStorage.setItem('contactId', contactFound.id);
+            Navigate('/internship');
             acceptedButton.disabled = false;
           });
         }
@@ -269,8 +235,8 @@ async function renderHomePage() {
             const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user.user)
-            await updateContact(contactFound.id, entreprise, user.user, "non suivi", null, null, contactVersion);
+            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
+            await updateContact(contactFound.id, entreprise, user, "non suivi", null, null, contactVersion);
             console.log('after update')
             await renderHomePage();
             unsupervisedButton.disabled = false;
@@ -289,7 +255,7 @@ async function renderHomePage() {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
             const contactVersion = contactFound.version;
             if(textInputValue){
-              await updateContact(contactFound.id, entreprise, user.user, "refusé", textInputValue, null, contactVersion);
+              await updateContact(contactFound.id, entreprise, user, "refusé", textInputValue, null, contactVersion);
               await renderHomePage();
             }
           });
