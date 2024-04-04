@@ -22,4 +22,11 @@ public interface StageUCC {
    * @return all stages
    */
   List<StageDTO> getStages();
+
+  /**
+   * Inserts a new internship into the database.
+   *
+   * @param internship the contact to insert
+   */
+  void insertInternship(StageDTO internship);
 }

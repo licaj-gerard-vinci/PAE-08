@@ -57,32 +57,6 @@ async function refreshUser(){
   return authenticatedUser;
 }
 
-async function getStagePresent(){
-  let stagePresent = null;
-  const token = getToken();
-  const id = getAuthenticatedUser();
-  const idUser = id.user.id;
-  if(token) {
-    const options = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-    };
-    const response = await fetch(`http://localhost:8080/stages/${idUser}`, options);
-
-    if (!response.ok) {
-      const nonPresent = "Aucun stage n'est en cours"
-
-      return nonPresent;
-    }
-    stagePresent = await response.json();
-  }
-
-  return stagePresent;
-}
-
 
 async function getAllUsers() {
   let users = null;
@@ -226,7 +200,6 @@ async function checkPassword(user){
 export {
   loginUser,
   refreshUser,
-  getStagePresent,
   getAllUsers,
   registerUser,
   updateUser,

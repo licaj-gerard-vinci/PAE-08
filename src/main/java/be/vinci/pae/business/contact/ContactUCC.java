@@ -51,6 +51,7 @@ public interface ContactUCC {
    * Gets the all contacts with the idCompagny.
    *
    * @param idCompany The ID of the contact to be deleted.
+   * @return the contact
    */
   List<ContactDTO> getContactsByCompanyId(int idCompany);
 }

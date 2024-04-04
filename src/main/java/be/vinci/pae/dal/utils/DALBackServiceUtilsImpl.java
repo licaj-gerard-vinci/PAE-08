@@ -75,7 +75,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
-    ResponsableDTO responsable = (ResponsableDTO) factory.getResponsableDTO();
+    ResponsableDTO responsable = (ResponsableDTO) factory.getManagerDTO();
     responsable.setId(rs.getInt("manager_id"));
     responsable.setNom(rs.getString("manager_lastname"));
     responsable.setPrenom(rs.getString("manager_firstname"));
@@ -114,6 +114,26 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
       entreprise.setVersion(rs.getInt("company_version"));
     }
     return entreprise;
+  }
+
+  /**
+   * Fills a ManagerDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing contact data.
+   * @return ContactDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
+  public ResponsableDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
+    ResponsableDTO manager = (ResponsableDTO) factory.getManagerDTO();
+    manager.setId(rs.getInt("manager_id"));
+    manager.setPrenom(rs.getString("manager_firstname"));
+    manager.setNom(rs.getString("manager_lastname"));
+    manager.setNumTel(rs.getString("manager_phone_number"));
+    manager.setEmail(rs.getString("manager_email"));
+    manager.setIdEntreprise(rs.getInt("manager_company_id"));
+    manager.setVersion(rs.getInt("manager_version"));
+
+    return manager;
   }
 
 }

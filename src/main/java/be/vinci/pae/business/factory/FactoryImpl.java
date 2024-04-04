@@ -77,7 +77,7 @@ public class FactoryImpl implements Factory {
    * Create a new ResponsableDTO.
    */
   @Override
-  public ResponsableDTO getResponsableDTO() {
+  public ResponsableDTO getManagerDTO() {
     return new ResponsableImpl();
   }
 }

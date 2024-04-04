@@ -17,7 +17,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Basile.Ile@student.vinci.be",
+  "email": "Carole.skile@student.vinci.be",
   "password": "a"
 }
 
@@ -35,3 +35,80 @@ Authorization: {{token}}
 @id =7
 GET {{baseUrl}}/stages/{{id}}
 Authorization: {{token}}
+
+
+
+### Insert a new internship
+POST {{baseUrl}}/stages/insert
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "idResponsable": "3",
+  "etudiant": {
+    "id": 9,
+    "email": "Carole.skile@student.vinci.be",
+    "lastname": "skile",
+    "firstname": "Carole",
+    "phone": "0489 00 00 01",
+    "registrationDate": "17-09-23 10:00:00",
+    "role": "E",
+    "hasInternship": true,
+    "version": 1,
+    "year": null
+  },
+  "contact": {
+    "id": 12,
+    "entreprise": {
+      "id": 1,
+      "nom": "Assyst Europe",
+      "appellation": "",
+      "adresse": "Avenue du Japon, 1/B9",
+      "numTel": "02.609.25.00",
+      "email": null,
+      "blackListed": false,
+      "motivation": null,
+      "city": "1420 Braine-l'Alleud",
+      "version": 1,
+      "motivation_blacklist": null
+    },
+    "idEntreprise": 1,
+    "utilisateur": {
+      "id": 9,
+      "email": "Carole.skile@student.vinci.be",
+      "lastname": "skile",
+      "firstname": "Carole",
+      "phone": "0489 00 00 01",
+      "registrationDate": "17-09-23 10:00:00",
+      "role": "E",
+      "hasInternship": true,
+      "version": 1,
+      "year": null
+    },
+    "idUtilisateur": 9,
+    "etatContact": "pris",
+    "lieuxRencontre": "distance",
+    "raisonRefus": null,
+    "annee": {
+      "id": 1,
+      "annee": "2023-2024",
+      "version": 1
+    },
+    "version": 2
+  },
+  "entreprise": {
+    "id": 1,
+    "nom": "Assyst Europe",
+    "appellation": "",
+    "adresse": "Avenue du Japon, 1/B9",
+    "numTel": "02.609.25.00",
+    "email": null,
+    "blackListed": false,
+    "motivation": null,
+    "city": "1420 Braine-l'Alleud",
+    "version": 1,
+    "motivation_blacklist": null
+  },
+  "sujet": "zfefeef",
+  "dateSignature": "2024-04-01"
+}

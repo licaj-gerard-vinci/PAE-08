@@ -45,6 +45,7 @@ public interface UserUCC {
    * Updates a user.
    *
    * @param userDTO the user to update.
+   * @param id the userDTO id.
    * @return the updated user.
    */
   boolean update(int id, UserDTO userDTO);

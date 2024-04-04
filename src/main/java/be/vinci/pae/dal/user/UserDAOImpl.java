@@ -158,7 +158,7 @@ public class UserDAOImpl implements UserDAO {
   public boolean updateUser(UserDTO user) {
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
-        + "user_phone_number = ?";
+        + "user_phone_number = ?, user_has_internship = ?";
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       query += ", user_password = ?";
@@ -170,9 +170,9 @@ public class UserDAOImpl implements UserDAO {
       statement.setString(2, user.getLastname());
       statement.setString(3, user.getFirstname());
       statement.setString(4, user.getPhone());
-
+      statement.setBoolean(5, user.getHasInternship());
       // L'index du paramètre pour user_id dépend de la présence du mot de passe.
-      int parameterIndex = 5;
+      int parameterIndex = 6;
 
       if (user.getPassword() != null && !user.getPassword().isEmpty()) {
         statement.setString(parameterIndex++, user.getPassword());
