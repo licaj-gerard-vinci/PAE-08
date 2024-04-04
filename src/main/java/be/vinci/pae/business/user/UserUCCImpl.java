@@ -151,6 +151,11 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
+  /**
+   * Verifies a user.
+   *
+   * @return the verified user.
+   */
   public boolean checkPassword(int id, String password) {
     try {
       dalServices.startTransaction();

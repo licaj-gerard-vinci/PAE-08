@@ -9,8 +9,6 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -74,6 +72,12 @@ public class UserResource {
 
   }
 
+  /**
+   * verify password of a user.
+   *
+   * @param id the user to register.
+   * @return the registered user.
+   */
   @POST
   @Path("/{id}/verify")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -86,11 +90,12 @@ public class UserResource {
     }
 
 
-     if(!myUserUcc.checkPassword(id, oldPassword)){
-       return Response.status(Response.Status.UNAUTHORIZED)
-           .entity("Old password verification failed. Please ensure you've entered the correct password.")
-           .build();
-     }
+    if (!myUserUcc.checkPassword(id, oldPassword)) {
+      return Response.status(Response.Status.UNAUTHORIZED)
+          .entity("Old password verification failed. Please ensure you've entered the correct "
+              + "password.")
+          .build();
+    }
 
 
 
