@@ -215,7 +215,7 @@ public class ContactImpl implements Contact {
     }
 
     if (acutalState.equals("initié") && !expectedState.equals("pris")
-        && !expectedState.equals("non suivi")) {
+        && !expectedState.equals("non suivi") && !expectedState.equals("blacklisté")) {
       return false;
     }
 

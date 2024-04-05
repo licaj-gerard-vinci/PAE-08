@@ -79,13 +79,13 @@ public class EntrepriseResource {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (entreprise.getMotivation_blacklist() == null) {
+    if (entreprise.getMotivation_blacklist() == null || entreprise.getMotivation_blacklist().isEmpty()) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myEntrepriseUcc.blackListCompany(entreprise);
     myContactUcc.blackListContact(entreprise.getId());
     ObjectNode responseNode = jsonMapper.createObjectNode();
-    responseNode.put("message", "Contact created successfully");
+    responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;
   }
 }
