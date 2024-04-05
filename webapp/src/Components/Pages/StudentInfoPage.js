@@ -127,10 +127,10 @@ async function displayContacts() {
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">Nom</th>
-                        <th scope="col">Prénom</th>
-                        <th scope="col">Entreprise</th>
-                        <th scope="col">État</th>
+                        <th scope="col">Entreprises</th>
+                        <th scope="col">État contact</th>
+                        <th scope="col">Lieu rencontre</th>
+                        <th scope="col">Raison refus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,10 +138,10 @@ async function displayContacts() {
         contacts.forEach((contact) => {
             contactsHTML += `
                 <tr>
-                    <td>${contact.utilisateur.nom}</td>
-                    <td>${contact.utilisateur.prenom}</td>
                     <td>${contact.entreprise.nom}</td>
                     <td>${contact.etatContact}</td>
+                    <td>${contact.lieuxRencontre}</td>
+                    <td>${contact.raisonRefus}</td>
                 </tr>
             `;
         });
