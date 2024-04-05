@@ -3,7 +3,7 @@ import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 
-const UserList = () => {
+const UserList = async () => {
   const authenticatedUser = getAuthenticatedUser();
   if (!authenticatedUser) {
     Navigate('/');
@@ -15,10 +15,10 @@ const UserList = () => {
     return;
   }
 
-
-  renderUserList();
+  await renderUserList();
 }
-async function renderUserList() {
+
+async function renderUserList(users) {
   const main = document.querySelector('main');
 
   main.innerHTML = `
@@ -33,7 +33,7 @@ async function renderUserList() {
       </div>
     </div>`;
 
-  const userList = await getAllUsers();
+  const userList = users ? users : await getAllUsers();
 
   if (!userList || userList.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `
@@ -125,18 +125,8 @@ async function renderUserList() {
             `;
       return;
     }
-    const tableBody = document.querySelector('tbody');
-    tableBody.innerHTML = searchResults.map(user => `
-          <tr class="${user.hasInternship ? 'table-success' : ''}">
-            <td>${user.lastname}</td>
-            <td>${user.firstname}</td>
-            <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P'
-        ? 'Professeur' : 'Administratif'}</td>
-            <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
-            </tr>
-        `).join('');
 
+    renderUserList(searchResults);
   });
 
   // Filter by role
@@ -145,16 +135,7 @@ async function renderUserList() {
     const selectedRole = filter.value;
     const filteredUsers = userList.filter(
         user => selectedRole === 'all' ? true : user.role === selectedRole);
-    const tableBody = document.querySelector('tbody');
-    tableBody.innerHTML = filteredUsers.map(user => `
-          <tr class="${user.hasInternship ? 'table-success' : ''}">
-            <td>${user.lastname}</td>
-            <td>${user.firstname}</td>
-            <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
-            <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
-            </tr>
-        `).join('');
+    renderUserList(filteredUsers);
   });
 
   // Filter by year
@@ -163,16 +144,7 @@ async function renderUserList() {
     const selectedYear = year.value;
     const filteredUsers = userList.filter(
         user => selectedYear === 'all' ? true : user.year.annee === selectedYear);
-    const tableBody = document.querySelector('tbody');
-    tableBody.innerHTML = filteredUsers.map(user => `
-        <tr class="${user.hasInternship ? 'table-success' : ''}">
-          <td>${user.lastname}</td>
-            <td>${user.firstname}</td>
-            <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
-            <td>${user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
-            </tr>
-        `).join('');
+    renderUserList(filteredUsers);
   });
 }
 
