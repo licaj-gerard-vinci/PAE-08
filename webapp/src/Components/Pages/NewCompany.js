@@ -80,13 +80,22 @@ async function checkCompany() {
     const city = document.getElementById('RegisterCity');
 
     const  NameError = document.createElement('p');
+    const PhoneError = document.createElement('p');
     const AdresseError = document.createElement('p');
+    const SubmitError = document.createElement('p');
+    const CityError = document.createElement('p');
     NameError.style.color = 'red';
     AdresseError.style.color = 'red';
+    SubmitError.style.color = 'red';
+    PhoneError.style.color = 'red';
+    CityError.style.color = 'red';
 
 
     name.parentNode.insertBefore(NameError, name.nextSibling);
+    submitButton.parentNode.insertBefore(SubmitError, submitButton.nextSibling);
     adresse.parentNode.insertBefore(AdresseError, adresse.nextSibling);
+    phone.parentNode.insertBefore(PhoneError, phone.nextSibling);
+    city.parentNode.insertBefore(CityError, city.nextSibling);
 
     submitButton.addEventListener('click', async (e) => {
         e.preventDefault(); // prevent the form from being submitted
@@ -95,10 +104,10 @@ async function checkCompany() {
         const phoneValue = phone.value;
         const emailValue = email.value;
         const cityValue = city.value;
-
-
         const appelationValue = appelation.value;
 
+
+        NameError.textContent = '';
         if(nameValue === '') {
             NameError.textContent = 'Le nom de l\'entreprise est obligatoire';
             return;
@@ -108,7 +117,18 @@ async function checkCompany() {
             AdresseError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
             return;
         }
-        AdresseError.textContent = '';
+        if(phoneValue !== '') {
+            if(phoneValue.length < 10) {
+                PhoneError.textContent = 'Le numéro de téléphone doit avoir au moins 10 chiffres';
+                return;
+            }
+        }
+        PhoneError.textContent = '';
+        if(cityValue === '') {
+            CityError.textContent = 'La ville de l\'entreprise est obligatoire';
+            return;
+        }
+        CityError.textContent = '';
         const entreprise = {
             name: nameValue,
             appelation: appelationValue,
@@ -120,15 +140,15 @@ async function checkCompany() {
 
         }
         const entrepriseList = await getEntreprises();
-        if(entrepriseList) {
-            const existingCompany = entrepriseList.find((company) => company.name === entreprise.name);
-            if(existingCompany) {
-                NameError.textContent = 'Cette entreprise existe déjà';
-                return;
-            }
+        const entrepriseExist = entrepriseList.find(entreprises => entreprises.nom === nameValue && entreprises.appellation === appelationValue);
+        if(entrepriseExist) {
+            SubmitError.textContent = 'Cette entreprise existe déjà';
+            return;
         }
+        SubmitError.textContent = '';
         await insertEntreprises(entreprise);
         Navigate('/');
+
     });
 }
 
