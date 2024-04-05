@@ -4,7 +4,7 @@ import {
   insertContact,
   updateContact
 } from "../../model/contacts";
-import getEntreprises from "../../model/entreprises";
+import {getEntreprises} from "../../model/entreprises";
 import logo from '../../img/HELOGO.png';
 import {getAuthenticatedUser} from "../../utils/auths";
 
@@ -14,6 +14,7 @@ let searchResult = []
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
+
   searchResult = entreprises;
 }
 

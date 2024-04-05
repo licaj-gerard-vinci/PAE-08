@@ -1,7 +1,7 @@
 import Navigate from '../Router/Navigate';
 import {clearPage} from "../../utils/render";
 import {getAuthenticatedUser} from "../../utils/auths";
-import {insertEntreprises} from "../../model/entreprises";
+import {getEntreprises, insertEntreprises} from "../../model/entreprises";
 
 
 
@@ -65,6 +65,9 @@ function renderNewCompanyForm ()  {
 async function checkCompany() {
     const submitButton = document.getElementById('EntrepriseSubmit');
     const name = document.getElementById('RegisterName');
+    const appelation = document.getElementById('RegisterAppelation');
+    const phone = document.getElementById('RegisterPhone');
+    const email = document.getElementById('RegisterEmail');
     const adresse = document.getElementById('RegisterAdresse');
 
     const  NameError = document.createElement('p');
@@ -80,6 +83,11 @@ async function checkCompany() {
         e.preventDefault(); // prevent the form from being submitted
         const nameValue = name.value;
         const adresseValue = adresse.value;
+        const phoneValue = phone.value;
+        const emailValue = email.value;
+
+
+        const appelationValue = appelation.value;
 
         if(nameValue === '') {
             NameError.textContent = 'Le nom de l\'entreprise est obligatoire';
@@ -93,15 +101,23 @@ async function checkCompany() {
         AdresseError.textContent = '';
         const entreprise = {
             name: nameValue,
+            appelation: appelationValue,
+            phone: phoneValue,
+            email: emailValue,
             adresse: adresseValue,
+            city: '',
+            motivation: '',
+        }
+        const entrepriseList = await getEntreprises();
+        if(entrepriseList) {
+            const existingCompany = entrepriseList.find((company) => company.name === entreprise.name);
+            if(existingCompany) {
+                NameError.textContent = 'Cette entreprise existe déjà';
+                return;
+            }
         }
         await insertEntreprises(entreprise);
-
-
-
-
-
-
+        Navigate('/');
     });
 }
 
