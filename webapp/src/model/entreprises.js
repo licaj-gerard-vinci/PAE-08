@@ -42,7 +42,7 @@ const insertEntreprises = async (entreprise) => {
         numTel: entreprise.phone,
         email: entreprise.email,
         appellation: entreprise.appelation,
-        city: '',
+        city: entreprise.city,
         motivation: '',
       }),
     };

@@ -41,11 +41,19 @@ function renderNewCompanyForm ()  {
                     <label for="adresse">Adresse<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="RegisterAdresse" placeholder="Adresse Entreprise">
                   </div>
+                   <div class="mb-3 form-group">
+                    <label for="city">Ville</label>
+                    <input type="text" class="form-control" id="RegisterCity" placeholder="Ville Entreprise">
+                  </div>
+                  
                   
                   <div class="mb-3 form-group">
                     <label for="phone">Numéro de téléphone</label>
                     <input type="number" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
                   </div>
+                  
+                  
+                  
                   
                   <div class="mb-3 form-group">
                     <label for="email">Email de l'entreprise</label>
@@ -69,6 +77,7 @@ async function checkCompany() {
     const phone = document.getElementById('RegisterPhone');
     const email = document.getElementById('RegisterEmail');
     const adresse = document.getElementById('RegisterAdresse');
+    const city = document.getElementById('RegisterCity');
 
     const  NameError = document.createElement('p');
     const AdresseError = document.createElement('p');
@@ -85,6 +94,7 @@ async function checkCompany() {
         const adresseValue = adresse.value;
         const phoneValue = phone.value;
         const emailValue = email.value;
+        const cityValue = city.value;
 
 
         const appelationValue = appelation.value;
@@ -105,8 +115,9 @@ async function checkCompany() {
             phone: phoneValue,
             email: emailValue,
             adresse: adresseValue,
-            city: '',
+            city: cityValue,
             motivation: '',
+
         }
         const entrepriseList = await getEntreprises();
         if(entrepriseList) {
@@ -120,6 +131,5 @@ async function checkCompany() {
         Navigate('/');
     });
 }
-
 
 export default NewCompany;
