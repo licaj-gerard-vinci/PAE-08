@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import {
     getContact
-  } from "../../model/contacts";
+} from "../../model/contacts";
 import getManagers from "../../model/managers";
 import { insertInternship } from "../../model/internships";
 import Navigate from '../Router/Navigate';
@@ -9,50 +9,131 @@ import Navigate from '../Router/Navigate';
 let managers = [];
 
 const Internship = async () => {
-    const main = document.querySelector('main');
-    const contactId = sessionStorage.getItem('contactId');
-    const contact = await getContact(contactId);
-    console.log('contactId: ', contactId, ', contact: ', contact, ', companyId: ', contact.entreprise.id)
-    managers = await getManagers(contact.entreprise.id);
-    console.log('managers: ', managers);
-    let managerOptions = [];
-    
-    managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.prenom} ${manager.nom}</option>`).join('');
-    console.log('manager options: ', managerOptions);
+  const main = document.querySelector('main');
+  const contactId = sessionStorage.getItem('contactId');
+  const contact = await getContact(contactId);
+  console.log('contactId: ', contactId, ', contact: ', contact, ', companyId: ', contact.entreprise.id)
+  managers = await getManagers(contact.entreprise.id);
+  console.log('managers: ', managers);
+  let managerOptions = [];
+  let managerNotFound = ``;
 
+  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.prenom} ${manager.nom}</option>`).join('');
+  console.log('manager options: ', managerOptions);
 
-    main.innerHTML = `
-    <form id="internshipForm">
-        <label for="managerId">Manager ID:</label>
-        <select id="managerId" name="managerId">
-        ${managerOptions}
-        </select>
-        <label for="topic">Topic:</label>
-        <input type="text" id="topic" name="topic">
-        <label for="signatureDate">Signature Date:</label>
-        <input type="date" id="signatureDate" name="signatureDate">
-        <input type="submit" value="Submit">
-    </form>
+  if (managerOptions.length === 0) {
+    managerNotFound = `<p class="text-danger">Pas de manager trouvé</p>`
+  }
+
+  main.innerHTML =  `
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <form id="internshipForm" class="form-horizontal">
+        <div class="form-group">
+          <label for="managerId" class="col-sm-2 control-label">Manager ID:</label>
+          <div class="col-sm-10">
+            <select id="managerId" name="managerId" class="form-control">
+              ${managerOptions}
+            </select>
+            <div>
+              <button type='button' class='btn btn-primary' id='insertNewManager'>Ajouter un responsable</button>
+            </div>
+            ${managerNotFound}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="topic" class="col-sm-2 control-label">Topic:</label>
+          <div class="col-sm-10">
+            <input type="text" id="topic" name="topic" class="form-control" placeholder="topic" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="signatureDate" class="col-sm-2 control-label">Signature Date:</label>
+          <div class="col-sm-10">
+            <input type="date" id="signatureDate" name="signatureDate" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Submit" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6" id="managerForm" style="display: none;">
+      <form id="addManagerForm" class="form-horizontal">
+        <div class="form-group">
+          <label for="lastname" class="col-sm-2 control-label">Last Name:</label>
+          <div class="col-sm-10">
+            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="lastname" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">First Name:</label>
+            <div class="col-sm-10">
+              <input type="text" id="firstname" name="firstname" class="form-control" placeholder="firstname" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber" class="col-sm-2 control-label">Phone Number:</label>
+            <div class="col-sm-10">
+              <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email:</label>
+            <div class="col-sm-10">
+              <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <input type="submit" value="Add Manager" class="btn btn-primary">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
     `;
 
-    document.getElementById('internshipForm').addEventListener('submit', async (event) => {
+  const insertNewManager = document.querySelector(`#insertNewManager`);
+  if (insertNewManager) {
+    insertNewManager.addEventListener('click', async () => {
+      document.getElementById('managerForm').style.display = 'block';
+    });
+  }
+
+  if(document.querySelector(`#managerForm`)) {
+    document.querySelector(`#managerForm`).addEventListener('click', async () => {
+      // await insertManager();
+    
+    });
+  }
+
+  document.getElementById('internshipForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const managerId = document.getElementById("managerId").value;
     const topic = document.getElementById("topic").value;
     const signatureDate = document.getElementById("signatureDate").value;
 
-    console.log("managerId: ", managerId)
-    await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
-    console.log("contactId: ", contact.id, ", contactEntreprise: ", contact.entreprise,", contactEtudiant: ", contact.utilisateur, ", contactVersion: ", contact.version)
-    console.log('Form submitted');
-    Navigate('/')
+    if(!managerId) {
+        document.getElementById('managerForm').style.display = 'block';
+    } else {
+        console.log("managerId: ", managerId)
+        await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
+        console.log("contactId: ", contact.id, ", contactEntreprise: ", contact.entreprise,", contactEtudiant: ", contact.utilisateur, ", contactVersion: ", contact.version)
+        console.log('Form submitted');
+        Navigate('/')
+    }
     });
 
-    // When the page is about to be unloaded
-    window.addEventListener('beforeunload', () => {
+  // When the page is about to be unloaded
+  window.addEventListener('beforeunload', () => {
     // Clear the contact ID from sessionStorage
     sessionStorage.removeItem('contactId');
-    });
+  });
 };
 
 export default Internship;
