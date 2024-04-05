@@ -1,157 +1,121 @@
+/* eslint-disable no-nested-ternary */
 import Navigate from "../Router/Navigate";
-import {getStagePresent} from "../../model/internships";
-import {getContactsById} from "../../model/contacts";
+import { getStagePresent } from "../../model/internships";
+import { getContactsById } from "../../model/contacts";
 
 const StudentInfoPage = async (user) => {
-  // Check if user data is available
   if (!user) {
     Navigate('/users');
     return;
   }
 
-  // Clear the main element
   const main = document.querySelector('main');
   main.innerHTML = '';
 
-  // Create the container for student info
-  const container = document.createElement('div');
-  container.className = 'container';
-  container.style = 'display: flex; flex-direction: column; align-items: center;';
+  const topRow = document.createElement('div');
+  topRow.className = 'row justify-content-center mt-4';
 
-  // Create the profile div
-  const profileDiv = document.createElement('div');
-  profileDiv.className = 'profile-div';
-  profileDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
+  const studentInfoCol = document.createElement('div');
+  studentInfoCol.className = 'col-md-4';
 
-  // Determine role text based on user's role
-  let roleText;
-  if (user.role === 'E') {
-    roleText = 'Etudiant';
-  } else if (user.role === 'P') {
-    roleText = 'Professeur';
-  } else {
-    roleText = 'Admin';
-  }
+  studentInfoCol.innerHTML = `
+    <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Information sur l'étudiant(e)</h5>
+      <p class="card-text"><strong>Email:</strong> ${user.email}</p>
+      <p class="card-text"><strong>Nom:</strong> ${user.lastname}</p>
+      <p class="card-text"><strong>Prénom:</strong> ${user.firstname}</p>
+      <p class="card-text"><strong>Numéro de téléphone:</strong> ${user.phone}</p>
+      <p class="card-text"><strong>Rôle:</strong> ${user.role === 'E' ? 'Etudiant' : user.role === 'P' ? 'Professeur' : 'Admin'}</p>
+    </div>
+  </div>
+  `;
 
-  // Populate the profile div with user information
-  profileDiv.innerHTML = `
-    <div class="container mt-4">
-      <h2 class="mb-4">Informations sur l'étudiant</h2>
-      <div class="row mb-3">
-        <strong>Email :</strong>
-        <p>${user.email}</p>
-      </div>
-      <div class="row mb-3">
-        <strong>Nom :</strong>
-        <p>${user.lastname}</p>
-      </div>
-      <div class="row mb-3">
-        <strong>Prénom :</strong>
-        <p>${user.firstname}</p>
-      </div>
-      <div class="row mb-3">
-        <strong>Numéro de téléphone :</strong>
-        <p>${user.phone}</p>
-      </div>
-      <div class="row mb-4">
-        <strong>Rôle :</strong>
-        <p>${roleText}</p>
+  topRow.appendChild(studentInfoCol);
+
+  const internshipCol = document.createElement('div');
+  internshipCol.className = 'col-md-4';
+
+  const stage = await getStagePresent(user.id);
+  internshipCol.innerHTML = `
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">${stage !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
+        ${
+          stage !== "Aucun stage n'est en cours" ?
+          `<p class="card-text"><strong>Responsable:</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
+          <p class="card-text"><strong>Entreprise:</strong> ${stage.entreprise.nom}</p>
+          <p class="card-text"><strong>Date signature:</strong> ${stage.dateSignature}</p>
+          <p class="card-text"><strong>Sujet:</strong> ${stage.sujet || 'Pas de sujet'}</p>`
+          :
+          `<p class="card-text">Vous n'avez pas de stage en cours.</p>`
+        }
       </div>
     </div>
   `;
 
-  // Append the profile div to the container
-  container.appendChild(profileDiv);
+  topRow.appendChild(internshipCol);
 
-  // Append the container to the main element
-  main.appendChild(container);
+  main.appendChild(topRow);
 
-  // Add a back button into the user info div
-    const backButton = document.createElement('button');
-    backButton.className = 'btn btn-primary';
-    backButton.textContent = 'Retour';
-    backButton.style = 'margin-top: 20px;';
-    backButton.addEventListener('click', () => {
-        Navigate('/users');
-    });
-    container.appendChild(backButton);
-
-  // Display internship information if user is a student
-    if (user.role === 'E') {
-        // Create the internship div
-        const internshipDiv = document.createElement('div');
-        internshipDiv.className = 'internship-div';
-        internshipDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); margin-top: 20px;';
-
-        // Fetch user's internship information
-        const stage = await getStagePresent(user.id);
-
-        // Populate the internship div with internship information
-        if (stage) {
-            internshipDiv.innerHTML = `
-                 <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
-      <p><strong>Entreprise :</strong> ${stage.entreprise.nom}, ${stage.entreprise.appellation}</p>
-      <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
-      <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
-    `;
-        } else {
-            internshipDiv.innerHTML = `
-                <div class="container mt-4">
-                    <h2 class="mb-4">Informations sur le stage</h2>
-                    <div class="row mb-3">
-                        <strong>Vous n'avez pas de stage en cours.</strong>
-                    </div>
-                </div>
-            `;
-        }
-        // Append the internship div to the container
-        container.appendChild(internshipDiv);
-        // Append the contacts div to the container
-        container.appendChild(await displayContacts());
-    }
-
-    // Display all contacts of a student
-async function displayContacts() {
-    const contacts = await getContactsById(user.id);
-    const contactsDiv = document.createElement('div');
-    contactsDiv.classList.add('contacts-container', 'shadow', 'p-4', 'bg-white', 'rounded');
-    contactsDiv.style = 'width: 90%; margin-top: 20px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
-
-    let contactsHTML = '<h2 style="text-align: center; margin-bottom: 30px;">Liste des contacts</h2>';
-
-    if (contacts.length === 0) {
-        contactsHTML += '<p style="text-align: center;">Aucun contact n\'a été passé.</p>';
-    } else {
-        contactsHTML += `
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Entreprises</th>
-                        <th scope="col">État contact</th>
-                        <th scope="col">Lieu rencontre</th>
-                        <th scope="col">Raison refus</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-        contacts.forEach((contact) => {
-            contactsHTML += `
-                <tr>
-                    <td>${contact.entreprise.nom}</td>
-                    <td>${contact.etatContact}</td>
-                    <td>${contact.lieuxRencontre}</td>
-                    <td>${contact.raisonRefus}</td>
-                </tr>
-            `;
-        });
-        contactsHTML += '</tbody></table>';
-    }
-
-
-    contactsDiv.innerHTML = contactsHTML;
-    return contactsDiv;
-}
+  const contactsDiv = await displayContacts(user);
+  main.appendChild(contactsDiv);
 };
+
+async function displayContacts(user) {
+  const contacts = await getContactsById(user.id);
+  const contactsDiv = document.createElement('div');
+  contactsDiv.className = 'container mt-5 shadow-sm p-3 mb-5 bg-white rounded';
+  
+  let contactsHTML = '<div class="row"><div class="col-lg-12 mx-auto">';
+  contactsHTML += '<h2 class="text-center mb-4">Liste des contacts</h2>';
+
+  if (!Array.isArray(contacts) || contacts.length === 0) {
+    contactsHTML += '<p class="text-center">Aucun contact disponible.</p>';
+  } else {
+    contactsHTML += `
+    
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Entreprise</th>
+              <th scope="col">État contact</th>
+              <th scope="col">Lieu rencontre</th>
+              <th scope="col">Raison refus</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    contacts.forEach((contact) => {
+      contactsHTML += `
+        <tr>
+          <td>${contact.entreprise.nom || 'N/A'}</td>
+          <td>${contact.etatContact || 'N/A'}</td>
+          <td>${contact.lieuxRencontre || 'N/A'}</td>
+          <td>${contact.raisonRefus || 'N/A'}</td>
+        </tr>
+      `;
+    });
+
+    contactsHTML += '</tbody></table></div>';
+  }
+
+  contactsHTML += '</div></div>';
+  contactsDiv.innerHTML = contactsHTML;
+
+  const contactButton = document.createElement('button');
+  contactButton.className = 'btn btn-primary';
+  contactButton.textContent = 'Retours aux utilisateurs';
+  contactButton.style = 'margin-top: 20px;';
+  contactButton.addEventListener('click', () => {
+    Navigate('/users'); 
+  });
+  
+  contactsDiv.appendChild(contactButton);
+  
+  return contactsDiv;
+}
 
 export default StudentInfoPage;
