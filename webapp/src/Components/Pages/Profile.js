@@ -210,7 +210,8 @@ async function displayStage() {
 
   stageDiv.style =
       'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
-  const stage = await getStagePresent();
+  const id = getAuthenticatedUser();
+  const stage = await getStagePresent(id.user.id);
 
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {

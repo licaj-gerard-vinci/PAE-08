@@ -84,8 +84,8 @@ async function renderUserList() {
         </thead>
       <tbody>
         ${userList.map((user, index) => `
-          <tr id="dlas" class="${user.hasInternship ? 'table-success' : ''}">
-            <td class="profile-link" id="user-${index}">${user.lastname}</td>
+          <tr id="user-${index}" class="${user.role === 'E' ? 'cursor-pointer' : ''} ${user.hasInternship ? 'table-success' : ''}">
+            <td class="profile-link">${user.lastname}</td>
             <td>${user.firstname}</td>
             <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
             <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>

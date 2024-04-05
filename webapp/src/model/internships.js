@@ -1,13 +1,10 @@
 import {
     getToken,
-    getAuthenticatedUser
   } from '../utils/auths';
 
-  async function getStagePresent(){
+  async function getStagePresent(idUser) {
     let stagePresent = null;
     const token = getToken();
-    const id = getAuthenticatedUser();
-    const idUser = id.user.id;
     if(token) {
       const options = {
         method: 'GET',
