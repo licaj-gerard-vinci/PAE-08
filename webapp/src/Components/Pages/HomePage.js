@@ -223,7 +223,7 @@ async function renderHomePage(){
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
             // Stock the contactId inside a sessionStorage 
             sessionStorage.setItem('contactId', contactFound.id); 
-            Navigate('/internship');
+            Navigate('/internship', contactFound.id);
             acceptedButton.disabled = false;
           });
         }

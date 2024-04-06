@@ -59,9 +59,6 @@ public class ManagerResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public void addManager(ResponsableDTO manager) {
-    if (manager == null) {
-      throw new IllegalArgumentException("Manager cannot be null");
-    }
     myManagerUCC.addManager(manager);
   }
 }
