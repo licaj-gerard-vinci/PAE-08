@@ -2,7 +2,7 @@
 import {
     getContact
 } from "../../model/contacts";
-import getManagers from "../../model/managers";
+import { getManagers, addManager} from "../../model/managers";
 import { insertInternship } from "../../model/internships";
 import Navigate from '../Router/Navigate';
 
@@ -107,7 +107,7 @@ const Internship = async () => {
 
   if(document.querySelector(`#managerForm`)) {
     document.querySelector(`#managerForm`).addEventListener('click', async () => {
-      // await insertManager();
+      await addManager();
     
     });
   }

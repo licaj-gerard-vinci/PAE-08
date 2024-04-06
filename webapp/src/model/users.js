@@ -194,9 +194,6 @@ async function checkPassword(user){
   }
 }
 
-
-
-
 export {loginUser,
   refreshUser,
   getAllUsers,
