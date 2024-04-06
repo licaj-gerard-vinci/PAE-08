@@ -123,10 +123,8 @@ const Internship = async (contactFound) => {
         prenom: firstname,
         numTel: phoneNumber,
         email: emailManager,
-        entrepriseId: contact.entreprise.id,
+        idEntreprise: contact.entreprise.id,
       };
-      console.log("dsfffffffffffffffffffffffffffffffffffffffffffff");
-      console.log(manager);
       await addManager(manager);
       // Show success message
       document.getElementById('managerForm').style.display = 'none';
