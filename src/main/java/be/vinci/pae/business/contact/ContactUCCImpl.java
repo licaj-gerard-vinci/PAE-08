@@ -104,6 +104,10 @@ public class ContactUCCImpl implements ContactUCC {
       return;
     }
 
+    if (myUser.getOne(contact.getUtilisateur().getId()).getHasInternship()) {
+      throw new BusinessException("User has already an internship, contacts cannot be inserted");
+    }
+
     try {
       dalServices.startTransaction();
       if (contactDAO.getContactById(contact.getId()) != null) {
@@ -124,6 +128,10 @@ public class ContactUCCImpl implements ContactUCC {
    */
   public void updateContact(ContactDTO contactToUpdate) {
     Contact contactToVerif = (Contact) contactDAO.getContactById(contactToUpdate.getId());
+
+    if (myUser.getOne(contactToUpdate.getUtilisateur().getId()).getHasInternship()) {
+      throw new BusinessException("User has already an internship, contacts cannot be updated");
+    }
 
     if (contactToVerif == null) {
       throw new NotFoundException("Contact not found");
@@ -148,8 +156,19 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       contactToUpdate.setAnnee(contactToVerif.getAnnee());
       contactDAO.updateContact(contactToUpdate);
+      if (contactToUpdate.getEtatContact().equals("accepté")) {
+        for (ContactDTO contactDTO : contactDAO.getContactsAllInfo(
+                contactToUpdate.getUtilisateur().getId())) {
+          Contact contact = (Contact) contactDTO;
+          if (contact.checkState(contact.getEtatContact(), "suspendu")) {
+            contactDTO.setEtatContact("suspendu");
+            contactDAO.updateContact(contactDTO);
+          }
+        }
+      }
       dalServices.commitTransaction();
     } catch (FatalException e) {
+      e.printStackTrace();
       dalServices.rollbackTransaction();
       throw e;
     }
