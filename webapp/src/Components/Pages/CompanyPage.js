@@ -2,9 +2,9 @@ import { getEntrepriseById }  from '../../model/entreprises';
 import { clearPage } from '../../utils/render';
 import {getContactByCompanyId} from "../../model/contacts";
 
-const CompanyPage = async () => {
+const CompanyPage = async (companyId) => {
   clearPage();
-  const entreprise = await getEntrepriseById(1);
+  const entreprise = await getEntrepriseById(companyId);
   const contacts = await getContactByCompanyId(entreprise.id);
   console.log(entreprise);
   const main = document.querySelector('main');

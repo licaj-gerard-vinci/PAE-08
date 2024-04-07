@@ -62,7 +62,8 @@ async function renderCompaniesList() {
         document.querySelectorAll('.company-row').forEach(row => {
             row.addEventListener('click', (event) => {
                 const companyId = event.currentTarget.getAttribute('data-id');
-                Navigate('/company', { id: companyId });
+                console.log(companyId);
+                Navigate('/company', companyId);
             });
         });
     }

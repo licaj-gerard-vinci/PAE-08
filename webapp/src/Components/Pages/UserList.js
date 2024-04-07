@@ -33,7 +33,7 @@ async function renderUserList(users) {
       </div>
     </div>`;
 
-  const userList = users ? users : await getAllUsers();
+  const userList = users ? null : await getAllUsers();
 
   if (!userList || userList.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `
