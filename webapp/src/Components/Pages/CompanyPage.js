@@ -1,12 +1,24 @@
 import {blackListEntreprise, getEntrepriseById} from '../../model/entreprises';
 import { clearPage } from '../../utils/render';
 import {getContactByCompanyId} from "../../model/contacts";
+import Navigate from "../Router/Navigate";
+import {getAuthenticatedUser} from "../../utils/auths";
 
 const CompanyPage = async (companyId) => {
+  if (!companyId) {
+    Navigate('/dashboard');
+    return;
+  }
   clearPage();
+  const authenticatedUser = getAuthenticatedUser();
+  if (!authenticatedUser) {
+    Navigate('/');
+    return;
+  }
   const entreprise = await getEntrepriseById(companyId);
-  const contacts = await getContactByCompanyId(entreprise.id);
   console.log(entreprise);
+  const contacts = await getContactByCompanyId(entreprise.id);
+  console.log(contacts);
   const main = document.querySelector('main');
 
   // Création du tableau de contacts
