@@ -71,7 +71,7 @@ Content-Type: application/json
     },
     "utilisateur": {
       "id": 10,
-      "email": "nadir.ahdid@student.vinci.be",
+      "email": "toz.toz@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
       "phone": "0485367792",
@@ -85,7 +85,7 @@ Content-Type: application/json
         "version": 1
       }
     },
-  "etatContact": "accepté",
+  "etatContact": "pris",
   "raisonRefus": null,
   "lieuxRencontre": null,
   "version": 1

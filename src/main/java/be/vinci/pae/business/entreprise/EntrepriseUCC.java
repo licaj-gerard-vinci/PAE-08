@@ -22,4 +22,12 @@ public interface EntrepriseUCC {
    * @return the list containing all entreprises.
    */
   List<EntrepriseDTO> getEntreprises();
+
+  /**
+   * Updates the entreprise.
+   *
+   * @param entreprise the entreprise to update.
+   * @return the updated entreprise.
+   */
+  void blackListCompany(EntrepriseDTO entreprise);
 }

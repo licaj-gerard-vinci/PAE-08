@@ -183,7 +183,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @param contact The contact information to update.
    * @throws RuntimeException If an SQL exception occurs.
    */
-  @Log
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_company_id = ?, "
         + "contact_student_id = ? , contact_school_year_id = ?,  "

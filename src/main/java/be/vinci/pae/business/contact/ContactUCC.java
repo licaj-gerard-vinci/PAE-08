@@ -54,4 +54,11 @@ public interface ContactUCC {
    * @return the contact
    */
   List<ContactDTO> getContactsByCompanyId(int idCompany);
+
+  /**
+   * Blacklist a contact.
+   *
+   * @param idCompany The contact to be blacklisted.
+   */
+    void blackListContact(int idCompany);
 }

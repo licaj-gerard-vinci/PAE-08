@@ -1,4 +1,4 @@
-import { getEntrepriseById }  from '../../model/entreprises';
+import {blackListEntreprise, getEntrepriseById} from '../../model/entreprises';
 import { clearPage } from '../../utils/render';
 import {getContactByCompanyId} from "../../model/contacts";
 
@@ -26,19 +26,19 @@ const CompanyPage = async (companyId) => {
   contactsTable += '</tbody></table>';
 
   let formOrMessage = '';
-  if (entreprise.blackListed) {
-    formOrMessage = '<p>L\'entreprise est blacklistée</p>';
-  } else {
-    formOrMessage = `
-      <form class="d-flex flex-column">
+    if (!entreprise.blackListed) {
+        formOrMessage = `
+      <form id="blacklistForm" class="d-flex flex-column">
           <div class="form-group flex-grow-1">
               <label for="blacklistReason">Raison de la blacklist</label>
               <input type="text" class="form-control" id="blacklistReason" placeholder="Entrez la raison">
           </div>
-          <button type="submit" class="btn mt-2 align-self-end" style="background-color: blue; color: white;">Ajouter à la blacklist</button>
+          <button id="blacklistFormSubmit" type="submit" class="btn mt-2 align-self-end" style="background-color: blue; color: white;">Ajouter à la blacklist</button>
       </form>
     `;
-  }
+    } else {
+        formOrMessage = '<p>Cette entreprise est déjà blacklistée</p>';
+    }
 
   main.innerHTML = `
   <div class="container">
@@ -60,5 +60,16 @@ const CompanyPage = async (companyId) => {
       </div>
   </div>
 `;
+
+    const blacklistForm = document.getElementById('blacklistForm');
+    if (blacklistForm) {
+        blacklistForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const reason = document.getElementById('blacklistReason').value;
+            await blackListEntreprise(entreprise, reason);
+            await CompanyPage(); // Call CompanyPage after blacklisting the company
+        });
+    }
+
 }
 export default CompanyPage;

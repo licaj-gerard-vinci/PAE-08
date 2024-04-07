@@ -24,4 +24,12 @@ public interface EntrepriseDAO {
    */
   List<EntrepriseDTO> getEntreprises();
 
+  /**
+   * Updates the entreprise in the database.
+   *
+   * @param entreprise The entreprise to update.
+   * @return The updated entreprise.
+   */
+  void updateEntreprise(EntrepriseDTO entreprise);
+
 }
