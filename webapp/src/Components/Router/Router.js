@@ -27,11 +27,11 @@ function onNavBarClick() {
 }
 
 function onHistoryChange() {
-  window.addEventListener('popstate', () => {
+  window.addEventListener('popstate', (e) => {
     const uri = window.location.pathname;
     const componentToRender = routes[uri];
     if (!componentToRender) throw Error(`The ${uri} resource does not exist.`);
-    componentToRender();
+    componentToRender(e.state);
   });
 }
 

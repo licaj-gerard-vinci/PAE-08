@@ -29,6 +29,29 @@ async function getContacts() {
     return contacts;
   }
 
+async function getContactsById(idUser) {
+  let contacts = null;
+  const token = getToken();
+  if(token) {
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+    const response = await fetch(`http://localhost:8080/contacts/${idUser}`, options);
+
+    if (!response.ok) {
+      return "Aucun contact n'as été passé";
+    }
+
+    contacts = await response.json();
+  }
+
+  return contacts;
+}
+
 
   async function getContact(contactId){
     let contact = null;
@@ -149,5 +172,6 @@ async function getContacts() {
     getContacts,
     insertContact,
     updateContact,
-    getContactByCompanyId
+    getContactByCompanyId,
+    getContactsById
   }
