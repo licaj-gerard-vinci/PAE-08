@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +16,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -29,6 +26,7 @@ import java.util.List;
  */
 @Singleton
 @Path("contacts")
+@Log
 public class ContactResource {
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
@@ -55,22 +53,15 @@ public class ContactResource {
   /**
    * Retrieves all contact information for the authenticated user.
    *
-   * @param requestContext The context of the container request.
-   * @param id             The id of the contact.
+   * @param id The id of the user.
    * @return A list of all contact information.
-   * @throws WebApplicationException If the user is not authenticated.
    */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public List<ContactDTO> getContatcsAllInfo(@Context ContainerRequestContext requestContext,
+  public List<ContactDTO> getContatcsAllInfo(
       @PathParam("id") int id) {
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
-    }
-
     List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(id);
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
@@ -79,10 +70,24 @@ public class ContactResource {
   }
 
   /**
+   * Retrieves all contact information for the authenticated user.
+   *
+   * @param contactId The id of the contact.
+   * @return A list of all contact information.
+   */
+  @GET
+  @Path("/getOne/{contactId}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO getContactById(
+          @PathParam("contactId") int contactId) {
+    return myContactUcc.getContactById(contactId);
+  }
+
+  /**
    * Inserts a new contact for the authenticated user.
    *
    * @param contact        The contact to insert.
-   * @param requestContext The context of the container request.
    * @return A JSON object containing a success message.
    * @throws WebApplicationException If the user is not authenticated.
    */
@@ -91,16 +96,12 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ObjectNode insertContact(ContactDTO contact,
-      @Context ContainerRequestContext requestContext) {
-    System.out.println(contact);
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
+  public ObjectNode insertContact(ContactDTO contact) {
+    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
+        || contact.getEtatContact() == null) {
+      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
-
     myContactUcc.insertContact(contact);
-
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact created successfully");
     return responseNode;
@@ -110,27 +111,39 @@ public class ContactResource {
    * Updates a contact for the authenticated user.
    *
    * @param contact        The contact to update.
-   * @param requestContext The context of the container request.
    * @return A JSON object containing a success message.
-   * @throws WebApplicationException If the user is not authenticated.
+   * @throws WebApplicationException If missing information.
    */
   @PUT
   @Path("/update")
+  @Authorize
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  @Log
-  public ObjectNode updateContact(ContactDTO contact,
-      @Context ContainerRequestContext requestContext) {
-    UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (authenticatedUser == null) {
-      throw new WebApplicationException("User not found", Response.Status.UNAUTHORIZED);
+  public ObjectNode updateContact(ContactDTO contact) {
+    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
+        || contact.getEtatContact() == null || contact.getVersion() == 0) {
+      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
-
     myContactUcc.updateContact(contact);
-
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact updated successfully");
     return responseNode;
+  }
+
+  /**
+   * Retrieves the contacts of the authenticated user from the request context.
+   *
+   * @param id the company id.
+   * @return the contacts of the authenticated user.
+   */
+  @GET
+  @Path("/{id}/company")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public List<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) {
+    if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    return myContactUcc.getContactsByCompanyId(id);
   }
 }

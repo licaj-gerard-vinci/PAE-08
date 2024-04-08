@@ -40,4 +40,23 @@ public interface UserUCC {
    */
   UserDTO register(UserDTO userDTO);
 
+
+  /**
+   * Updates a user.
+   *
+   * @param userDTO the user to update.
+   * @param id the userDTO id.
+   * @return the updated user.
+   */
+  boolean update(int id, UserDTO userDTO);
+
+  /**
+   * Verifies a user.
+   *
+   * @param id the user's ID.
+   * @param password the user's password.
+   * @return the verified user.
+   */
+  boolean checkPassword(int id, String password);
+
 }

@@ -74,4 +74,8 @@
   color: #fff; /* Ensures text is readable on the dark background */
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}
+
 

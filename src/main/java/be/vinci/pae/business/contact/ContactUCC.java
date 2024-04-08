@@ -46,4 +46,12 @@ public interface ContactUCC {
    * @param contact A ContactDTO object containing the updated information of the contact.
    */
   void updateContact(ContactDTO contact);
+
+  /**
+   * Gets the all contacts with the idCompagny.
+   *
+   * @param idCompany The ID of the contact to be deleted.
+   * @return the contact
+   */
+  List<ContactDTO> getContactsByCompanyId(int idCompany);
 }

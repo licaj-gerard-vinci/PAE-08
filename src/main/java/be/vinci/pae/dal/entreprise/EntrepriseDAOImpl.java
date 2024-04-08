@@ -3,7 +3,7 @@ package be.vinci.pae.dal.entreprise;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
-import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +32,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     String query = "SELECT * FROM pae.companies "
-        + "WHERE company_id = ? AND company_is_blacklisted = false";
+        + "WHERE company_id = ?";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, id);
@@ -97,7 +97,6 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     }
     return entreprises;
   }
-
   /**
    * Enregister a new entreprise in the database
    * @param entreprise the entreprise to add
@@ -128,6 +127,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         }
 
     }
+    
   private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
     return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
   }

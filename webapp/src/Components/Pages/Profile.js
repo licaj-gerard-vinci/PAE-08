@@ -1,34 +1,52 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
 /* eslint-disable prefer-template */
+// eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
-import { clearPage, renderPageTitle } from '../../utils/render';
-import { getStagePresent } from '../../model/users';
+import { clearPage } from '../../utils/render';
+import { getStagePresent } from '../../model/internships';
+import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
-  renderPageTitle('Profile');
+  
 
   const main = document.querySelector('main');
 
-  main.innerHTML = '<div class="container" style="display: flex; flex-direction: column; align-items: center;"></div>';
+  // Create the container for the profile and stage info
+  const container = document.createElement('div');
+  container.className = 'container';
+  container.style = 'display: flex; flex-direction: column; align-items: center;';
 
-  const container = document.querySelector('.container');
-
+  // Create the top container which will hold the profile greeting and the stage info
   const topContainer = document.createElement('div');
-  topContainer.style = "display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;";
+  topContainer.style =
+      'display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;';
+
+  // Add the profile greeting to the top container
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
 
+  // Add the stage info to the top container if the user is a student
   const user = getAuthenticatedUser();
-  if(user.user.role === 'E') {
+  if (user.user.role === 'E') {
     topContainer.appendChild(await displayStage());
+  }
+
+  // Append the top container to the main container
+  container.appendChild(topContainer);
+
+  // Append the contacts list below the top container if the user is a student
+  if (user.user.role === 'E') {
     container.appendChild(await displayContacts());
   }
 
-  container.appendChild(topContainer);
+  // Append the main container to the main element
+  main.appendChild(container);
 };
 
 function renderRole(user) {
-  switch(user.role) {
+  switch (user.role) {
     case 'E':
       return 'Etudiant';
     case 'P':
@@ -40,23 +58,149 @@ function renderRole(user) {
 
 function renderProfile(user) {
   const profileDiv = document.createElement('div');
-  profileDiv.classList.add('profile-container');
-  profileDiv.style = "flex: 1; min-width: 450px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 10px;";
+  profileDiv.className = 'profile-div';
+  
+  profileDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
 
-  const profileHTML = `
-    <h2 style="text-align: center; margin-bottom: 30px;">Bonjour</h2>
-    <p><strong>Email :</strong> ${user.user.email}</p>
-    <p><strong>Nom :</strong> ${user.user.lastname}</p>
-    <p><strong>Prénom :</strong> ${user.user.firstname}</p>
-    <p><strong>Nr de téléphone :</strong> ${user.user.phone}</p>
-    ${user.user.role && user.user.role !== 'E' ? `<p><strong>Rôle :</strong> ${renderRole(user.user)}</p>` : ''}
-    <div style="text-align: center; margin-top: 30px;">
-      <button class="btn btn-primary">Modifier informations</button>
-      <button class="btn btn-secondary">Se déconnecter</button>
+  profileDiv.innerHTML = `
+
+  <div class="container mt-4">
+  
+ 
+  <h2 class="mb-4">Bonjour, ${user.user.firstname}</h2>
+
+  <div class="row mb-3">
+          <strong>Email :</strong>
+          <p>${user.user.email}</p>
+  </div>
+  <div class="row mb-3">
+          <strong>Nom :</strong>
+          <p>${user.user.lastname}</p>
+  </div>
+  <div class="row mb-3">
+          <strong>Prénom :</strong>
+          <p>${user.user.firstname}</p>
+  </div>
+  <div class="row mb-3">
+    
+          <strong>Numéro de téléphone :</strong>
+          <p>${user.user.phone}</p>
+  
+  </div>
+  <div class="row mb-4">
+
+          <strong>Rôle :</strong>
+          <p>${renderRole(user.user)}</p>
+      
+     
+  
+    <button id="edit-profile" class="styled-button">Modifier les informations</button>
+    </div>
+      </div>
+    <div id="edit-form" style="display: none;">
+
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+      
+        <div class="col-12 col-md-13">
+          <h2 class="mb-1">Modifier les informations</h2>
+          
+
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="lastname" value="${user.user.lastname}">
+          </div>
+
+            <div class="mb-3">
+              <label for="firstname" class="form-label">Prénom</label>
+              <input type="text" class="form-control" id="firstname" value="${user.user.firstname}">
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse email</label>
+              <input type="email" class="form-control" id="email" value="${user.user.email}">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">Numéro de téléphone</label>
+              <input type="tel" class="form-control" id="phone" value="${user.user.phone}" autocomplete="tel">
+            </div>
+            <div class="mb-3">
+              <label for="old-password" class="form-label">Ancien mot de passe</label>
+              <input type="password" class="form-control" id="old-password" autocomplete="current-password">
+            </div>
+            <div class="mb-3">
+              <label for="new-password" class="form-label">Nouveau mot de passe</label>
+              <input type="password" class="form-control" id="new-password" autocomplete="new-password">
+            </div>
+            <div class="mb-3">
+              <label for="confirm-password" class="form-label">Confirmer votre mot de passe</label>
+              <input type="password" class="form-control" id="confirm-password" autocomplete="new-password">
+            </div>
+              <div class="mb-3" id="password-error" style="color: red; font-size: large;"></div>
+              <div class="mb-3" id="new-password-error" style="color: red; font-size: large;"></div>        
+            <button id="save-changes" class="btn btn-primary">Sauvegarder les changements</button>
+         
+        </div>
+      </div>
     </div>
   `;
 
-  profileDiv.innerHTML = profileHTML;
+  const styledButtons = profileDiv.querySelectorAll('.styled-button');
+  styledButtons.forEach((button) => {
+    button.style =
+        'background-color: #0056b3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px;';
+    // Add hover effect
+    button.onmouseover = () => (button.style.backgroundColor = '#003d82');
+    button.onmouseout = () => (button.style.backgroundColor = '#0056b3');
+  });
+
+  // add event listener for the edit profile button
+  profileDiv.querySelector('#edit-profile').addEventListener('click', () => {
+    document.getElementById('edit-form').style.display = 'block';
+  });
+
+ 
+
+  // add event listener for the save changes button
+  profileDiv.querySelector('#save-changes').addEventListener('click', async () => {
+    const updatedUser = {
+      firstname: document.getElementById('firstname').value,
+      lastname: document.getElementById('lastname').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      oldPassword: document.getElementById('old-password').value,
+      newPassword: document.getElementById('new-password').value,
+      confirmPassword: document.getElementById('confirm-password').value,
+      
+    };
+    document.getElementById('password-error').textContent = '';
+    document.getElementById('new-password-error').textContent = '';
+      // Vérification des mots de passe
+  if (updatedUser.newPassword !== updatedUser.confirmPassword) {
+    document.getElementById('new-password-error').textContent = 'Les mots de passe ne correspondent pas';
+    return;
+  }
+    console.log('updatedUser', updatedUser);
+
+
+    if (updatedUser.oldPassword) {
+      const check = await checkPassword(updatedUser);
+     if (check === "Les mots de passe ne correspondent pas") {
+      document.getElementById('new-password-error').textContent = "L'ancien mots de passe est incorrect."
+      return;
+    }
+  }
+
+
+
+    await updateUser(updatedUser);
+    await refreshUser();
+    alert('Les informations ont été mises à jour.');
+    ProfilePage();
+  });
+
+
+
   return profileDiv;
 }
 
@@ -64,15 +208,17 @@ async function displayStage() {
   const stageDiv = document.createElement('div');
   stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
 
-  stageDiv.style = "flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
-const stage = await getStagePresent();
+  stageDiv.style =
+      'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
+  const id = getAuthenticatedUser();
+  const stage = await getStagePresent(id.user.id);
 
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
       <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.responsableNom} ${stage.responsablePrenom}</p>
-      <p><strong>Entreprise :</strong> ${stage.entrepriseNom}, ${stage.entrepriseAppellation}</p>
+      <p><strong>Responsable :</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
+      <p><strong>Entreprise :</strong> ${stage.entreprise.nom}, ${stage.entreprise.appellation}</p>
       <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
       <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
@@ -84,15 +230,12 @@ const stage = await getStagePresent();
   stageDiv.innerHTML = stageHTML;
   document.body.appendChild(stageDiv);
 
-
   const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
   const sujetText = stageDiv.querySelector('#sujet-text');
-
 
   if (modifierSujetButton) {
     modifierSujetButton.addEventListener('click', () => {
       const isEditing = modifierSujetButton.getAttribute('data-editing');
-
 
       if (isEditing) {
         const sujetInput = stageDiv.querySelector('#sujet-input');
@@ -128,7 +271,8 @@ async function displayContacts() {
   const contacts = await getContacts();
   const contactsDiv = document.createElement('div');
   contactsDiv.classList.add('contacts-container', 'shadow', 'p-4', 'bg-white', 'rounded');
-  contactsDiv.style = "width: 90%; margin-top: 20px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);";
+  contactsDiv.style =
+      'width: 90%; margin-top: 20px; padding: 20px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
 
   let contactsHTML = '<h2 style="text-align: center; margin-bottom: 30px;">Liste des contacts</h2>';
 
@@ -146,7 +290,7 @@ async function displayContacts() {
           </thead>
           <tbody>`;
 
-    contacts.forEach(contact => {
+    contacts.forEach((contact) => {
       contactsHTML += `
         <tr style="border-bottom: 1px solid #eee;">
           <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.entreprise.nom} ${contact.appellation ? contact.appellation : ''}</td>
@@ -166,6 +310,6 @@ async function displayContacts() {
   return contactsDiv;
 }
 
-
-
 export default ProfilePage;
+
+

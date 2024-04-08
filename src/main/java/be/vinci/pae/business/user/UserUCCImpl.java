@@ -2,13 +2,14 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
-import be.vinci.pae.presentation.exceptions.BusinessException;
-import be.vinci.pae.presentation.exceptions.ConflictException;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
+import be.vinci.pae.exceptions.BusinessException;
+import be.vinci.pae.exceptions.ConflictException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.Date;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * The {@code UserUCCImpl} class provides methods for managing user-related operations, such as
@@ -45,8 +46,6 @@ public class UserUCCImpl implements UserUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -69,8 +68,6 @@ public class UserUCCImpl implements UserUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -90,8 +87,6 @@ public class UserUCCImpl implements UserUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 
@@ -127,8 +122,55 @@ public class UserUCCImpl implements UserUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
+
+
+  /**
+   * Updates a user.
+   *
+   * @return the updated user.
+   */
+  public boolean update(int id, UserDTO user) {
+    // Assign the ID to the user object
+    user.setId(id);
+
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      user.setPassword(passwordHashed);
+    }
+
+    try {
+      dalServices.startTransaction();
+      boolean result = userDAO.updateUser(user);
+      dalServices.commitTransaction();
+      return result;
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    }
+  }
+
+  /**
+   * Verifies a user.
+   *
+   * @return the verified user.
+   */
+  public boolean checkPassword(int id, String password) {
+    try {
+      dalServices.startTransaction();
+      User user = (User) userDAO.getOneById(id);
+      if (user == null) {
+        throw new NotFoundException("User not found");
+      }
+      boolean result = user.checkPassword(password);
+      dalServices.commitTransaction();
+      return result;
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    }
+  }
+
+
 }

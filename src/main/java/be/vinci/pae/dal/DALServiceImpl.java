@@ -1,6 +1,6 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.utils.Config;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,6 +34,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
     dataSource.setUrl(url);
     dataSource.setUsername(user);
     dataSource.setPassword(password);
+    dataSource.setMaxTotal(5);
   }
 
   @Override
@@ -84,6 +85,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().commit();
         getConnection().setAutoCommit(true);
+        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);
@@ -98,6 +100,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().rollback();
         getConnection().setAutoCommit(true);
+        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);

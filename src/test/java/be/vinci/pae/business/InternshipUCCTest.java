@@ -2,14 +2,15 @@ package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.dal.stage.StageDAO;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -21,14 +22,12 @@ import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
 /**
- * The {@code StageUCCTest} class tests the {@code StageUCC} class.
+ * The {@code InternshipUCCTest} class tests the {@code InternshipUCC} class.
  */
-public class StageUCCTest {
+public class InternshipUCCTest {
 
   private StageUCC stageUCC;
-
   private StageDAO stageDAO;
-
   private Factory factory;
 
   @BeforeEach
@@ -91,8 +90,8 @@ public class StageUCCTest {
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
 
-    assertThrows(NotFoundException.class, () -> stageUCC.getStageUser(userId),
-        "NotFoundException should be thrown when no stage is found for the user.");
+    assertNull(stageUCC.getStageUser(userId),
+        "The result stage should be null when no stage is found for the user.");
   }
 
 

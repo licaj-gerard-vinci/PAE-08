@@ -5,7 +5,7 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
-import be.vinci.pae.presentation.exceptions.FatalException;
+import be.vinci.pae.exceptions.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -147,4 +147,46 @@ public class UserDAOImpl implements UserDAO {
     user.setYear(year);
     return user;
   }
+
+
+  /**
+   * Update info of a user.
+   *
+   * @param user the user to update.
+   * @return true if the user was updated successfully, false otherwise.
+   */
+  public boolean updateUser(UserDTO user) {
+    String query = "UPDATE pae.users SET "
+        + "user_email = ?, user_lastname = ?, user_firstname = ?, "
+        + "user_phone_number = ?, user_has_internship = ?";
+
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      query += ", user_password = ?";
+    }
+    query += " WHERE user_id = ?";
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, user.getEmail());
+      statement.setString(2, user.getLastname());
+      statement.setString(3, user.getFirstname());
+      statement.setString(4, user.getPhone());
+      statement.setBoolean(5, user.getHasInternship());
+      // L'index du paramètre pour user_id dépend de la présence du mot de passe.
+      int parameterIndex = 6;
+
+      if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+        statement.setString(parameterIndex++, user.getPassword());
+      }
+
+      statement.setInt(parameterIndex, user.getId());
+
+      int rowsUpdated = statement.executeUpdate();
+      return rowsUpdated > 0;
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new FatalException(e);
+    }
+  }
+
+
 }
