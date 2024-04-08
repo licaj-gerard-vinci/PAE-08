@@ -61,28 +61,7 @@ import {
     }
   }
 
-  async function getInternshipByCompanyId(companyId) {
-    const token = getToken();
-    if(token) {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      };
-      const response = await fetch(`http://localhost:8080/stages/company/${companyId}`, options);
-
-      if (!response.ok) {
-        throw new Error(`Error getting number of students by company: ${response.statusText}`);
-      }
-      const result = await response.json();
-      console.log(result);
-    }
-  }
-
   export {
     getStagePresent,
     insertInternship,
-    getInternshipByCompanyId,
   }

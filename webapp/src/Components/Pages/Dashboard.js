@@ -2,22 +2,24 @@ import Chart from "chart.js/auto";
 import {clearPage} from "../../utils/render";
 import {getEntreprises} from "../../model/entreprises";
 import Navigate from "../Router/Navigate";
+import {getAllUsers} from "../../model/users";
 
-const Dashboard = () => {
+const Dashboard = async () => {
     clearPage();
     const main = document.querySelector('main');
     main.innerHTML = `
-        <h1>Home Page Admin</h1>
-        <p>Welcome to the admin dashboard</p>
+        <h1 class="centered-title title-with-line">Tableau de bord</h1>
+    <div id="chart-container"></div>
+    <div id="companies-container"></div>
     `;
-    renderStatistcs();
-    renderCompaniesList();
+    renderStatistics();
+    await renderCompaniesList();
 }
 
 async function renderCompaniesList() {
-    const main = document.querySelector('main');
+    const companiesContainer = document.querySelector('#companies-container');
 
-    main.innerHTML += `
+    companiesContainer.innerHTML = `
     <div class="container my-5">
         <h1 class="text-center mb-3">Liste des entreprises</h1>
         <div class="row">
@@ -36,7 +38,7 @@ async function renderCompaniesList() {
         <p class="text-center text-muted">Aucune entreprise n'est disponible pour le moment.</p>
     `;
     } else {
-        const tableHtml = `
+        document.getElementById('company-list-table-container').innerHTML = `
     <table class="table table-hover shadow-sm">
         <thead class="table-dark">
             <tr>
@@ -58,8 +60,6 @@ async function renderCompaniesList() {
       </tbody>
     </table>`;
 
-        document.getElementById('company-list-table-container').innerHTML = tableHtml;
-
 
         document.querySelectorAll('.company-row').forEach(row => {
             row.addEventListener('click', (event) => {
@@ -71,22 +71,57 @@ async function renderCompaniesList() {
     }
 }
 
-function renderStatistcs() {
-    const main = document.querySelector('main');
-    main.innerHTML +=
-        `<div><canvas id="myChart"></canvas></div>`
+
+async function renderStatistics() {
+    const totalStudents = await getAllUsers();
+    const chartContainer = document.querySelector('#chart-container');
+    chartContainer.innerHTML =
+        `<h3 class="chart-title centered-title">Internship Statistics</h3>
+        <div><canvas id="myChart"></canvas></div>`
     ;
-        const canvas = document.getElementById('myChart');
-        new Chart(canvas, {
-            type: 'pie',
-            data: {
-                labels: ['With Internships', 'Without Internships'],
-                datasets: [{
-                    label: 'Number of students',
-                    data: [100, 85],
-                    backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)'],
-                }]
+    const canvas = document.getElementById('myChart');
+    new Chart(canvas, {
+        type: 'pie',
+        data: {
+            labels: ['With Internships', 'Without Internships'],
+            datasets: [{
+                label: 'Number of students',
+                data: [totalStudents.filter(
+                    student => student.role === 'E' && student.hasInternship
+                        === true).length, totalStudents.filter(
+                    student => student.role === 'E' && student.hasInternship
+                        === false).length],
+                backgroundColor: ['#007bff', '#343a40'],
+                borderColor: ['#fff', '#fff'],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Internship Statistics',
+                fontColor: '#007bff',
+                fontSize: 20
             },
-        });
+            legend: {
+                display: true,
+                labels: {
+                    fontColor: '#007bff',
+                    fontSize: 16
+                }
+            },
+            tooltips: {
+                titleFontSize: 16,
+                bodyFontSize: 14,
+                backgroundColor: '#343a40',
+                titleFontColor: '#fff',
+                bodyFontColor: '#fff',
+                borderColor: '#007bff',
+                borderWidth: 1
+            }
+        }
+    });
 }
 export default Dashboard;
