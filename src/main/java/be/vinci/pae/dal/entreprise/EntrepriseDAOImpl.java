@@ -60,10 +60,10 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
-      ResultSet rs = statement.executeQuery()) {
-      while (rs.next()) {
-        entreprises.add(rsToEntreprises(rs, "get"));
-      }
+        ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          entreprises.add(rsToEntreprises(rs, "get"));
+        }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -74,7 +74,6 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
    * Updates the entreprise in the database.
    *
    * @param entreprise The entreprise to update.
-   * @return The updated entreprise.
    */
   @Override
   public void updateEntreprise(EntrepriseDTO entreprise) {

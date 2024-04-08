@@ -69,7 +69,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * Updates an entreprise.
    *
    * @param entreprise the entreprise to update.
-   * @return the updated entreprise.
    */
   @Override
   public void blackListCompany(EntrepriseDTO entreprise) {
@@ -79,7 +78,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       if (company == null) {
         throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
       }
-      if(company.isBlackListed()) {
+      if (company.isBlackListed()) {
         throw new ConflictException("L'entreprise est déjà blacklistée.");
       }
       company.setBlackListed(true);
