@@ -55,13 +55,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public List<EntrepriseDTO> getEntreprises() {
 
-    String query = "SELECT * FROM pae.companies "
-        + "WHERE company_is_blacklisted = false";
+    String query = "SELECT * FROM pae.companies";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
-        ResultSet rs = statement.executeQuery()) {
+      ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
         entreprises.add(rsToEntreprises(rs, "get"));
       }

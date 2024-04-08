@@ -4,7 +4,7 @@ import {getEntreprises} from "../../model/entreprises";
 import Navigate from "../Router/Navigate";
 
 const Dashboard = () => {
-    clearPage()
+    clearPage();
     const main = document.querySelector('main');
     main.innerHTML = `
         <h1>Home Page Admin</h1>
@@ -17,7 +17,7 @@ const Dashboard = () => {
 async function renderCompaniesList() {
     const main = document.querySelector('main');
 
-    main.innerHTML = `
+    main.innerHTML += `
     <div class="container my-5">
         <h1 class="text-center mb-3">Liste des entreprises</h1>
         <div class="row">
@@ -71,34 +71,22 @@ async function renderCompaniesList() {
     }
 }
 
-async function renderStatistcs() {
+function renderStatistcs() {
     const main = document.querySelector('main');
-    main.innerHTML =
-        `<canvas id="myChart"></canvas>`
+    main.innerHTML +=
+        `<div><canvas id="myChart"></canvas></div>`
     ;
-        const ctx = document.getElementById('myChart');
-        new Chart(ctx, {
+        const canvas = document.getElementById('myChart');
+        new Chart(canvas, {
             type: 'pie',
             data: {
                 labels: ['With Internships', 'Without Internships'],
                 datasets: [{
-                    data: [100, 85], backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
-                    borderWidth: 1
+                    label: 'Number of students',
+                    data: [100, 85],
+                    backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)'],
                 }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                width: 400,
-                height: 400,
-                title: {
-                    display: true,
-                    text: 'Chart Title',
-                    position: 'top' // the position of the title
-                }
-            }
         });
-
 }
 export default Dashboard;
