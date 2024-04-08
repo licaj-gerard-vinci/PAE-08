@@ -40,9 +40,6 @@ public class StageUCCImpl implements StageUCC {
     try {
       dalServices.startTransaction();
       StageDTO stage = internshipDAO.getStageById(idUser);
-      if (stage == null) {
-        throw new NotFoundException("No internship found for this user");
-      }
       dalServices.commitTransaction();
       return stage;
     } catch (FatalException e) {
@@ -83,8 +80,8 @@ public class StageUCCImpl implements StageUCC {
     UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
     if (myContact.getContactById(myContactDTO.getId()) == null
-            || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
-            || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
+        || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
+        || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;
     } // verify either if contact exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
