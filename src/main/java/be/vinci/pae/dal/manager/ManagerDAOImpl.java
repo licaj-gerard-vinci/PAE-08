@@ -59,6 +59,36 @@ public class ManagerDAOImpl implements ManagerDAO {
   }
 
   /**
+   * Retrieves a manager by its first name, last name and email.
+   *
+   * @param manager the manager to retrieve if exists
+   * @return a ManagerDTO object representing the manager
+   * @throws FatalException if an error occurs during the operation
+   */
+  @Override
+  public List<ResponsableDTO> getManager(ResponsableDTO manager) {
+    String query = "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE m.manager_lastname = ? AND m.manager_firstname = ?"
+        + "AND m.manager_company_id = c.company_id";
+
+    List<ResponsableDTO> managers = new ArrayList<>();
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, manager.getNom());
+      statement.setString(2, manager.getPrenom());
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          managers.add(rsToManager(rs, "get"));
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return managers;
+  }
+
+  /**
    * Adds a manager to the database.
    *
    * @param manager the manager to add

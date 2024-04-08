@@ -2,6 +2,7 @@ package be.vinci.pae.business.responsable;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.manager.ManagerDAO;
+import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
@@ -43,7 +44,8 @@ public class ResponsableUCCImpl implements ResponsableUCC {
   }
 
   /**
-   * Adds a manager to the database
+   * Adds a manager to the database, if it doesn't already exist or if he exists, but he doesn't
+   * have an email.
    *
    * @param manager the manager to add
    */
@@ -51,12 +53,16 @@ public class ResponsableUCCImpl implements ResponsableUCC {
   public void addManager(ResponsableDTO manager) {
     try {
       dalServices.startTransaction();
-      if (manager == null) {
-        throw new NotFoundException("Manager cannot be null");
-      }
-      if (manager.getNom() == null || manager.getPrenom() == null
-          || manager.getIdEntreprise() == 0) {
-        throw new NotFoundException("Manager information is incomplete");
+      List<ResponsableDTO> existingManagers = managerDAO.getManager(manager);
+      if (existingManagers != null) {
+        for (ResponsableDTO existingManager : existingManagers) {
+          if (existingManager.getEmail().isEmpty()) {
+            throw new ConflictException("A manager with the same name and email already exists");
+          }
+          if (existingManager.getEmail().equals(manager.getEmail())) {
+            throw new ConflictException("A manager with the same email already exists");
+          }
+        }
       }
       managerDAO.addManager(manager);
       dalServices.commitTransaction();

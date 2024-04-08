@@ -2,6 +2,7 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.responsable.ResponsableUCC;
+import be.vinci.pae.exceptions.NotFoundException;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
@@ -59,6 +60,13 @@ public class ManagerResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public void addManager(ResponsableDTO manager) {
+    if (manager == null) {
+      throw new NotFoundException("Manager cannot be null");
+    }
+    if (manager.getNom() == null || manager.getPrenom() == null
+        || manager.getIdEntreprise() == 0) {
+      throw new NotFoundException("Manager information is incomplete");
+    }
     myManagerUCC.addManager(manager);
   }
 }

@@ -23,4 +23,11 @@ public interface ManagerDAO {
    * @param manager the manager to add
    */
   void addManager(ResponsableDTO manager);
+
+  /**
+   * Retrieves the manager by its first name, last name and email.
+   *
+   * @param manager the manager to retrieve if exists
+   */
+  List<ResponsableDTO> getManager(ResponsableDTO manager);
 }
