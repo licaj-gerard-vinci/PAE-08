@@ -1,9 +1,6 @@
 package be.vinci.pae.business.entreprise;
 
-import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
