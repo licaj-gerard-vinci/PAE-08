@@ -12,14 +12,11 @@ const Internship = async () => {
   const main = document.querySelector('main');
   const contactId = sessionStorage.getItem('contactId');
   const contact = await getContact(contactId);
-  console.log('contactId: ', contactId, ', contact: ', contact, ', companyId: ', contact.entreprise.id)
   managers = await getManagers(contact.entreprise.id);
-  console.log('managers: ', managers);
   let managerOptions = [];
   let managerNotFound = ``;
 
   managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.prenom} ${manager.nom}</option>`).join('');
-  console.log('manager options: ', managerOptions);
 
   if (managerOptions.length === 0) {
     managerNotFound = `<p class="text-danger">Pas de manager trouvé</p>`
@@ -121,10 +118,7 @@ const Internship = async () => {
     if(!managerId) {
         document.getElementById('managerForm').style.display = 'block';
     } else {
-        console.log("managerId: ", managerId)
         await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
-        console.log("contactId: ", contact.id, ", contactEntreprise: ", contact.entreprise,", contactEtudiant: ", contact.utilisateur, ", contactVersion: ", contact.version)
-        console.log('Form submitted');
         Navigate('/')
     }
     });

@@ -15,6 +15,9 @@ let searchResult = [];
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
+  console.log('entreprises: ', entreprises);
+  entreprises = entreprises.filter(entreprise => entreprise.blackListed === false);
+  console.log('entreprises: ', entreprises);
   searchResult = entreprises;
 }
 
@@ -37,7 +40,6 @@ async function renderHomePage(){
     Navigate('/dashboard');
   } else if (user.role === "E") {
     const contacts = await getContacts();
-    console.log('contactssasas: ', contacts);
     const searchBar = `<div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-10 col-md-8 col-lg-6">
@@ -61,12 +63,11 @@ async function renderHomePage(){
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
           ${searchResult.map(entreprise => {
-            let button;
-            if(contacts){   
-              const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
-                console.log('contactFound: ', contactFound);
-              if(!contactFound){
-                button = `
+        let button;
+        if(contacts){
+          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+          if(!contactFound){
+            button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
@@ -74,8 +75,8 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              } else if (contactFound.etatContact === 'initié') {
-                button = `
+          } else if (contactFound.etatContact === 'initié') {
+            button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
@@ -92,8 +93,8 @@ async function renderHomePage(){
                 </select>
                 <button type='button' id='saveMeetingButton${entreprise.id}'>Save</button>
               </div>`;
-              } else if (contactFound.etatContact === 'pris'){
-                button = `
+          } else if (contactFound.etatContact === 'pris'){
+            button = `
                 <div class="row">
                   <div class="col d-flex justify-content-start">
                     <button type='button' class='btn btn-danger' id='turnedDownButton${entreprise.id}'>contact refusé</button>
@@ -109,8 +110,8 @@ async function renderHomePage(){
                   <input class="w-80" type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus: '>
                   <button type='button' id='saveRefusalReasonButton${entreprise.id}'>Save</button>
                 </div>`;
-              } else if(contactFound.etatContact === 'refusé'){
-                button = `
+          } else if(contactFound.etatContact === 'refusé'){
+            button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
@@ -118,8 +119,8 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              } else if (contactFound.etatContact === 'non suivi'){
-                button = `
+          } else if (contactFound.etatContact === 'non suivi'){
+            button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
@@ -127,8 +128,8 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              } else if (contactFound.etatContact === 'suspendu'){
-                button = `
+          } else if (contactFound.etatContact === 'suspendu'){
+            button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
@@ -136,9 +137,9 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-              }
-            } else {
-              button = `
+          }
+        } else {
+          button = `
               <div class="row">
                 <div class="col"></div>
                 <div class="col d-flex justify-content-center">
@@ -146,9 +147,9 @@ async function renderHomePage(){
                 </div>
                 <div class="col"></div>
               </div>`;
-            }
+        }
 
-            return `
+        return `
               <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
                   <div>
                       <div class="d-flex justify-content-between">
@@ -166,14 +167,13 @@ async function renderHomePage(){
                   ${button}
               </div>
             `;
-          }).join('')}
+      }).join('')}
           </div> 
         </div> 
       </div>
       `;
 
       entreprises.forEach(entreprise => {
-        console.log('entreprise: ', entreprise)
         const startedButton = document.querySelector(`#startedButton${entreprise.id}`);
         const admittedButton = document.querySelector(`#admittedButton${entreprise.id}`);
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
@@ -182,7 +182,6 @@ async function renderHomePage(){
         const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
 
         if (startedButton) {
-          console.log('startedButton: ', startedButton)
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
@@ -194,12 +193,11 @@ async function renderHomePage(){
         }
 
         if (admittedButton) {
-          console.log('admittedButton: ', admittedButton)
           admittedButton.addEventListener('click', async () => {
             document.querySelector(`#form${entreprise.id}`).style.display = 'block';
           });
         }
-        
+
         if (document.querySelector(`#saveMeetingButton${entreprise.id}`)) {
           document.querySelector(`#saveMeetingButton${entreprise.id}`).addEventListener('click', async () => {
             const contactVersion = contactFound.version;
@@ -213,19 +211,17 @@ async function renderHomePage(){
         }
 
         if (acceptedButton) {
-          console.log('acceptedButton: ', acceptedButton)
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
-            // Stock the contactId inside a sessionStorage 
-            sessionStorage.setItem('contactId', contactFound.id); 
+            // Stock the contactId inside a sessionStorage
+            sessionStorage.setItem('contactId', contactFound.id);
             Navigate('/internship');
             acceptedButton.disabled = false;
           });
         }
 
         if (unsupervisedButton) {
-          console.log('unsupervisedButton: ', unsupervisedButton)
           unsupervisedButton.addEventListener('click', async () => {
             const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
@@ -239,12 +235,11 @@ async function renderHomePage(){
         }
 
         if (turnedDownButton) {
-          console.log('turnedDownButton: ', turnedDownButton)
           turnedDownButton.addEventListener('click', () => {
             document.querySelector(`#form${entreprise.id}`).style.display = 'block';
           });
         }
-        
+
         if (document.querySelector(`#saveRefusalReasonButton${entreprise.id}`)) {
           document.querySelector(`#saveRefusalReasonButton${entreprise.id}`).addEventListener('click', async () => {
             const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
@@ -256,7 +251,7 @@ async function renderHomePage(){
           });
         }
       });
-      
+
     }
     const searchButton = document.getElementById('button-addon2');
 

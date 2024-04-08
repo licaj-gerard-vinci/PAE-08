@@ -96,9 +96,9 @@ async function getContactsById(idUser) {
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
         }
-  
-        const result = await response.json();
-        console.log(result);
+
+        await response.json();
+
       } catch (error) {
         console.error('Error inserting contact');
       }
@@ -109,9 +109,7 @@ async function getContactsById(idUser) {
   async function updateContact(idContact, entrepriseObject, userObject, etat, refusalReason, meetingPlace, contactVersion) {
     const token = getToken();
     if(token) {
-      console.log('entrepriseObject: ', entrepriseObject, ', userObject: ', userObject, ', etat:', etat)
-      console.log('refusal reason: ', refusalReason, ', meeting place: ', meetingPlace)
-      console.log('contact version: ', contactVersion)
+
       const options = {
         method: 'PUT',
         body: JSON.stringify({
@@ -130,13 +128,11 @@ async function getContactsById(idUser) {
       };
       try {
         const response = await fetch(`http://localhost:8080/contacts/update`, options);
-        console.log('response: ', response)
         if (!response.ok) {
           throw new Error(`Error updating contact: ${response.statusText}`);
         }
   
-        const result = await response.json();
-        console.log(result);
+        await response.json();
       } catch (error) {
         console.error('Error updating contact');
       }

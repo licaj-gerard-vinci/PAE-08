@@ -16,9 +16,8 @@ const CompanyPage = async (companyId) => {
     return;
   }
   const entreprise = await getEntrepriseById(companyId);
-  console.log(entreprise);
+    console.log(entreprise);
   const contacts = await getContactByCompanyId(entreprise.id);
-  console.log(contacts);
   const main = document.querySelector('main');
 
   // Création du tableau de contacts
@@ -49,7 +48,7 @@ const CompanyPage = async (companyId) => {
       </form>
     `;
     } else {
-        formOrMessage = '<p>Cette entreprise est déjà blacklistée</p>';
+        formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation_blacklist}</p>`;
     }
 
   main.innerHTML = `
