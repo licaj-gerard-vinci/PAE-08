@@ -61,9 +61,9 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
         ResultSet rs = statement.executeQuery()) {
-        while (rs.next()) {
-          entreprises.add(rsToEntreprises(rs, "get"));
-        }
+      while (rs.next()) {
+        entreprises.add(rsToEntreprises(rs, "get"));
+      }
     } catch (SQLException e) {
       throw new FatalException(e);
     }

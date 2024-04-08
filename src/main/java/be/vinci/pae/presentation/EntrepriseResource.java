@@ -69,6 +69,7 @@ public class EntrepriseResource {
    * BlackList an company with the specified id.
    *
    * @param id The id of the company to update.
+   * @param entreprise The company to update.
    * @return The updated company.
    */
   @PUT
