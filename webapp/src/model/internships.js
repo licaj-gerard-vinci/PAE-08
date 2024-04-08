@@ -63,5 +63,5 @@ import {
 
   export {
     getStagePresent,
-    insertInternship
+    insertInternship,
   }

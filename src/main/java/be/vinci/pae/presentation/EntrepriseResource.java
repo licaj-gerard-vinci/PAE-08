@@ -1,12 +1,16 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -26,6 +30,11 @@ public class EntrepriseResource {
 
   @Inject
   private EntrepriseUCC myEntrepriseUcc;
+
+  @Inject
+  private ContactUCC myContactUcc;
+
+  private final ObjectMapper jsonMapper = new ObjectMapper();
 
   /**
    * Retrieves all entreprises.
@@ -54,5 +63,31 @@ public class EntrepriseResource {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
     return myEntrepriseUcc.getEntreprise(id);
+  }
+
+  /**
+   * BlackList an company with the specified id.
+   *
+   * @param id The id of the company to update.
+   * @param entreprise The company to update.
+   * @return The updated company.
+   */
+  @PUT
+  @Path("/{id}/blacklist")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ObjectNode blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
+    if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    if (entreprise.getMotivation_blacklist() == null
+        || entreprise.getMotivation_blacklist().isEmpty()) {
+      throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
+    }
+    myEntrepriseUcc.blackListCompany(entreprise);
+    myContactUcc.blackListContact(entreprise.getId());
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Contact and company blacklisted successfully");
+    return responseNode;
   }
 }

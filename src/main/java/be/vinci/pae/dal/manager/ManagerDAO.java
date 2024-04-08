@@ -28,6 +28,7 @@ public interface ManagerDAO {
    * Retrieves the manager by its first name, last name and email.
    *
    * @param manager the manager to retrieve if exists
+   * @return a list of ManagerDTO objects representing the managers
    */
   List<ResponsableDTO> getManager(ResponsableDTO manager);
 }

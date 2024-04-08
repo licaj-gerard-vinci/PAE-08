@@ -86,7 +86,7 @@ const Internship = async (contactFound) => {
           <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email:</label>
             <div class="col-sm-10">
-              <input type="email" id="email" name="email" class="form-control" required>
+              <input type="email" id="email" name="email" class="form-control">
             </div>
           </div>
           <div class="form-group">

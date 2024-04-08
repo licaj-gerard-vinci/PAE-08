@@ -55,8 +55,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public List<EntrepriseDTO> getEntreprises() {
 
-    String query = "SELECT * FROM pae.companies "
-        + "WHERE company_is_blacklisted = false";
+    String query = "SELECT * FROM pae.companies";
 
     List<EntrepriseDTO> entreprises = new ArrayList<>();
 
@@ -69,6 +68,35 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
       throw new FatalException(e);
     }
     return entreprises;
+  }
+
+  /**
+   * Updates the entreprise in the database.
+   *
+   * @param entreprise The entreprise to update.
+   */
+  @Override
+  public void updateEntreprise(EntrepriseDTO entreprise) {
+    String query = "UPDATE pae.companies "
+        + "SET company_name = ?, company_address = ?, company_designation = ?, "
+        + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
+        + "company_email = ?, company_blacklist_reason = ?, "
+        + "company_version = company_version + 1 WHERE company_id = ? AND company_version = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setString(1, entreprise.getNom());
+      statement.setString(2, entreprise.getAdresse());
+      statement.setString(3, entreprise.getAppellation());
+      statement.setString(4, entreprise.getCity());
+      statement.setString(5, entreprise.getNumTel());
+      statement.setBoolean(6, entreprise.isBlackListed());
+      statement.setString(7, entreprise.getEmail());
+      statement.setString(8, entreprise.getMotivation_blacklist());
+      statement.setInt(9, entreprise.getId());
+      statement.setInt(10, entreprise.getVersion());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
   }
 
 
