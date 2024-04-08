@@ -117,6 +117,8 @@ async function checkCompany() {
             AdresseError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
             return;
         }
+        AdresseError.textContent='';
+
         if(phoneValue !== '') {
             if(phoneValue.length < 10) {
                 PhoneError.textContent = 'Le numéro de téléphone doit avoir au moins 10 chiffres';

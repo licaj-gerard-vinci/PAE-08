@@ -2,15 +2,13 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-<<<<<<< HEAD
-import be.vinci.pae.presentation.exceptions.BusinessException;
-import be.vinci.pae.presentation.exceptions.ConflictException;
-import be.vinci.pae.presentation.exceptions.FatalException;
-import be.vinci.pae.presentation.exceptions.NotFoundException;
-=======
+
+import be.vinci.pae.exceptions.BusinessException;
+import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
->>>>>>> ce8295515a4ce2be538523ff8e6c2f36b2e7022f
+import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -68,7 +66,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       throw e;
     }
   }
-<<<<<<< HEAD
+
 
   /**
    * Adds an entreprise.
@@ -92,8 +90,4 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       dalServices.close();
     }
   }
-
-
-=======
->>>>>>> ce8295515a4ce2be538523ff8e6c2f36b2e7022f
 }
