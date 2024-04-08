@@ -54,7 +54,7 @@ async function renderCompaniesList() {
               <td>${company.nom}</td>
               <td>${company.numTel}</td>
               <td>${company.nbEtudiant}</td>
-              <td>${company.blacklist ? 'Oui' : 'Non'}</td>
+              <td>${company.blackListed ? 'Oui' : 'Non'}</td>
             </tr>
           `).join('')}
       </tbody>
@@ -83,9 +83,9 @@ async function renderStatistics() {
     new Chart(canvas, {
         type: 'pie',
         data: {
-            labels: ['With Internships', 'Without Internships'],
+            labels: ['Avec Stage', 'Sans stage'],
             datasets: [{
-                label: 'Number of students',
+                label: 'Nombre d\'étudiants',
                 data: [totalStudents.filter(
                     student => student.role === 'E' && student.hasInternship
                         === true).length, totalStudents.filter(
