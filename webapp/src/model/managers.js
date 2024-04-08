@@ -27,4 +27,24 @@ async function getManagers(companyId) {
     return managers;
 }
 
-export default getManagers;
+async function addManager(manager) {
+  const token = getToken();
+  if(token) {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(manager),
+    };
+    const response = await fetch('http://localhost:8080/managers/insert', options);
+    if (!response.ok) {
+      return "Impossible d'ajouter le responsable";
+    }
+  }
+  return manager;
+}
+
+export { getManagers,
+  addManager }

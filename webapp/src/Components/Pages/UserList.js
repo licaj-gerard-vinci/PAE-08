@@ -101,7 +101,7 @@ async function renderUserList(users) {
     userList.forEach((user, index) => {
       document.getElementById(`user-${index}`).addEventListener('click', () => {
         if (user.role !== 'E') {
-            return;
+          return;
         }
         Navigate('/studentInfo',user);
       })});
@@ -147,5 +147,4 @@ async function renderUserList(users) {
     renderUserList(filteredUsers);
   });
 }
-
 export default UserList;
