@@ -147,5 +147,4 @@ async function renderUserList(users) {
     renderUserList(filteredUsers);
   });
 }
-
 export default UserList;
