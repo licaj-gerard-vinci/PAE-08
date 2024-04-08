@@ -2,13 +2,18 @@
 import {
     getContact
 } from "../../model/contacts";
-import getManagers from "../../model/managers";
+import { getManagers, addManager} from "../../model/managers";
 import { insertInternship } from "../../model/internships";
 import Navigate from '../Router/Navigate';
 
 let managers = [];
 
-const Internship = async () => {
+const Internship = async (contactFound) => {
+  if (!contactFound) {
+    Navigate('/');
+    return;
+  }
+
   const main = document.querySelector('main');
   const contactId = sessionStorage.getItem('contactId');
   const contact = await getContact(contactId);
@@ -102,12 +107,32 @@ const Internship = async () => {
     });
   }
 
-  if(document.querySelector(`#managerForm`)) {
-    document.querySelector(`#managerForm`).addEventListener('click', async () => {
-      // await insertManager();
-    
-    });
-  }
+  // Add a new manager
+  document.getElementById('managerForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const lastname = document.getElementById("lastname").value;
+    const firstname = document.getElementById("firstname").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const emailManager = document.getElementById("email").value;
+
+    // Check if contact and contact.entreprise are not undefined
+    if (contact && contact.entreprise) {
+      // Create a manager object
+      const manager = {
+        nom: lastname,
+        prenom: firstname,
+        numTel: phoneNumber,
+        email: emailManager,
+        idEntreprise: contact.entreprise.id,
+      };
+      await addManager(manager);
+      // Show success message
+      document.getElementById('managerForm').style.display = 'none';
+      Navigate('/internship')
+    } else {
+      console.error('contact or contact.entreprise is undefined');
+    }
+  });
 
   document.getElementById('internshipForm').addEventListener('submit', async (event) => {
     event.preventDefault();

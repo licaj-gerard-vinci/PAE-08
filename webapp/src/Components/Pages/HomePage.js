@@ -15,9 +15,7 @@ let searchResult = [];
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
-  console.log('entreprises: ', entreprises);
   entreprises = entreprises.filter(entreprise => entreprise.blackListed === false);
-  console.log('entreprises: ', entreprises);
   searchResult = entreprises;
 }
 
@@ -214,9 +212,9 @@ async function renderHomePage(){
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
             console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
-            // Stock the contactId inside a sessionStorage
-            sessionStorage.setItem('contactId', contactFound.id);
-            Navigate('/internship');
+            // Stock the contactId inside a sessionStorage 
+            sessionStorage.setItem('contactId', contactFound.id); 
+            Navigate('/internship', contactFound.id);
             acceptedButton.disabled = false;
           });
         }

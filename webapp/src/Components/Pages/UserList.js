@@ -3,6 +3,9 @@ import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 
+let originalUserList = [];
+let filtered = [];
+
 const UserList = async () => {
   const authenticatedUser = getAuthenticatedUser();
   if (!authenticatedUser) {
@@ -15,15 +18,12 @@ const UserList = async () => {
     return;
   }
 
-  await renderUserList();
-}
-
-async function renderUserList(users) {
   const main = document.querySelector('main');
 
   main.innerHTML = `
     <div class="container my-5">
       <h1 class="text-center mb-3">Recherche Utilisateurs</h1>
+      <div id="filters"></div>
       <div class="row">
         <div class="col-12">
           <div id="user-list-table-container" class="table-responsive"> 
@@ -33,45 +33,18 @@ async function renderUserList(users) {
       </div>
     </div>`;
 
-  const userList = users ? null : await getAllUsers();
+  originalUserList = await getAllUsers();
+  displayFilters();
+  await renderUserList(originalUserList);
+}
 
+async function renderUserList(userList) {
   if (!userList || userList.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `
-      <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment ou vous n'avez pas les droits pour accéder à la page.</p>
+      <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment.</p>
     `;
   } else {
     const tableHtml = `
-        <div class="container">
-        <div class="row-filter">
-            <div class="col-12">
-                <div class="form-group">
-                <label for="search">Rechercher :</label>
-                <input type="text" class="form-control" id="search" placeholder="Rechercher par nom ou prénom (nom.prenom / prenom.nom)">
-                <button class="btn btn-primary mt-2" id="search-btn">Rechercher</button>
-                </div>
-                
-                <div class="form-group2">
-                <label for="filter">Filtrer par rôle :</label>
-                <select class="form-control" id="filter">
-                    <option value="all">Tous</option>
-                    <option value="E">Étudiant</option>
-                    <option value="P">Professeur</option>
-                    <option value="A">Administratif</option>
-                </select> 
-                </div>
-                <div class="form-group3">                 
-                 <label for="year">Filtrer par année académique :</label>
-                  <select class="form-control" id="year">
-                  <option value="all">Toutes</option>
-                  <option value="2022-2023">2022/2023</option>
-                  <option value="2023-2024">2023/2024</option>
-                  <option value="2024-2025">2024/2025</option>    
-            </select>
-            </div>
-            </div>         
-       </div>
-    </div> 
-</div>
       <table class="table table-hover shadow-sm">
         <thead class="table-dark">
           <tr>
@@ -101,50 +74,109 @@ async function renderUserList(users) {
     userList.forEach((user, index) => {
       document.getElementById(`user-${index}`).addEventListener('click', () => {
         if (user.role !== 'E') {
-            return;
+          return;
         }
         Navigate('/studentInfo',user);
       })});
-  };
+  }
 
+  filterUsers(userList);
+}
+
+function displayFilters() {
+  const filterHtml = `
+    <div class="container">
+      <div class="row-filter">
+        <div class="col-12" style="display: flex; justify-content: space-around">
+        
+          <div class="form-group" style="width: 25%">
+            <label for="search">Rechercher :</label>
+            <input type="text" class="form-control" id="search" placeholder="Rechercher par nom ou prénom (nom.prenom / prenom.nom)">
+            <button class="btn btn-primary mt-2" id="search-btn">Rechercher</button>
+          </div>
+            
+          <div class="form-group2" style="width: 25%">
+            <label for="filter">Filtrer par rôle :</label>
+            <select class="form-control" id="filter">
+              <option value="all">Tous</option>
+              <option value="E">Étudiant</option>
+              <option value="P">Professeur</option>
+              <option value="A">Administratif</option>
+            </select> 
+          </div>
+          
+          <div class="form-group3" style="width: 25%">                 
+            <label for="year">Filtrer par année académique :</label>
+            <select class="form-control" id="year">
+              <option value="all">Toutes</option>
+              <option value="2022-2023">2022/2023</option>
+              <option value="2023-2024">2023/2024</option>
+              <option value="2024-2025">2024/2025</option>    
+            </select>
+          </div>
+          <div class="form-group2">
+            <button id="reset-filters" class="btn btn-primary mt-2">Reset</button>
+          </div>
+        </div>         
+      </div>
+    </div>
+  `;
+  document.getElementById("filters").innerHTML = filterHtml;
+  document.getElementById('reset-filters').addEventListener('click', async () => {
+    await renderUserList(originalUserList);
+    displayFilters();
+  });
+}
+
+function filterUsers() {
   // Search by name
   const searchBtn = document.getElementById('search-btn');
-  searchBtn.addEventListener('click', () => {
+  searchBtn.addEventListener('click', async () => {
     const search = document.getElementById('search').value;
-    const searchResults = userList.filter(
+    if(search.length === 0) {
+      return renderUserList(originalUserList);
+    }
+    filtered = filtered.length === 0 ?
+        originalUserList.filter(
         user => user.lastname.toLowerCase().normalize("NFD").replace(
                 /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
             || user.firstname.toLowerCase().normalize("NFD").replace(
-                /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
-    if (searchResults.length === 0) {
+                /[\u0300-\u036f]/g, "").includes(search.toLowerCase()))
+        : filtered.filter(
+            user => user.lastname.toLowerCase().normalize("NFD").replace(
+                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
+                || user.firstname.toLowerCase().normalize("NFD").replace(
+                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
+    if (filtered.length === 0) {
       const tableBody = document.querySelector('tbody');
       tableBody.innerHTML = `
             <tr>
                 <td colspan="5" id="errorFiter" class="text-center" >Aucun résultat trouvé</td>
             </tr>
             `;
-      return;
     }
 
-    renderUserList(searchResults);
+    return renderUserList(filtered);
   });
 
   // Filter by role
   const filter = document.getElementById('filter');
-  filter.addEventListener('change', () => {
+  filter.addEventListener('change', async () => {
     const selectedRole = filter.value;
-    const filteredUsers = userList.filter(
-        user => selectedRole === 'all' ? true : user.role === selectedRole);
-    renderUserList(filteredUsers);
+    const filteredUsers = filtered.length === 0 ?
+        originalUserList.filter(user => selectedRole === 'all' ? true : user.role === selectedRole)
+        : filtered.filter(user => selectedRole === 'all' ? true : user.role === selectedRole);
+    await renderUserList(filteredUsers);
   });
 
   // Filter by year
   const year = document.getElementById('year');
-  year.addEventListener('change', () => {
+  year.addEventListener('change', async () => {
     const selectedYear = year.value;
-    const filteredUsers = userList.filter(
-        user => selectedYear === 'all' ? true : user.year.annee === selectedYear);
-    renderUserList(filteredUsers);
+    const filteredUsers = originalUserList.filter(
+        user => selectedYear === 'all' ? true : user.year.annee
+            === selectedYear);
+    await renderUserList(filteredUsers);
   });
 }
 
