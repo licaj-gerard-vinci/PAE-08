@@ -2,6 +2,8 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.presentation.exceptions.BusinessException;
+import be.vinci.pae.presentation.exceptions.ConflictException;
 import be.vinci.pae.presentation.exceptions.FatalException;
 import be.vinci.pae.presentation.exceptions.NotFoundException;
 import jakarta.inject.Inject;
@@ -65,5 +67,29 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       dalServices.close();
     }
   }
+
+  /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   * @return the added entreprise.
+   */
+
+  public void addEntreprise(EntrepriseDTO entreprise) {
+    try {
+      dalServices.startTransaction();
+      List<EntrepriseDTO> entreprises = entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(), entreprise.getAppellation());
+      if (!entreprises.isEmpty()) {
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom() + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
+      }
+      entrepriseDAO.addEntreprise(entreprise);
+      dalServices.commitTransaction();
+    } catch (ConflictException e) {
+      System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
+    } finally {
+      dalServices.close();
+    }
+  }
+
 
 }

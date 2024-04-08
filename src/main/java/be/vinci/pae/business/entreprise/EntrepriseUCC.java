@@ -22,4 +22,6 @@ public interface EntrepriseUCC {
    * @return the list containing all entreprises.
    */
   List<EntrepriseDTO> getEntreprises();
+
+  void addEntreprise(EntrepriseDTO entreprise);
 }

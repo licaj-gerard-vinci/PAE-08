@@ -47,6 +47,33 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     return null;
   }
 
+    /**
+     * Retrieves an entreprise from the database.
+     *
+     * @paraam name and designation of the company to retrieve.
+     * @return the entreprise with the specified name and designation.
+     */
+    @Override
+    public List<EntrepriseDTO> getEntrepriseByNameDesignation(String name, String designation) {
+        String query = "SELECT * FROM pae.companies "
+            + "WHERE company_name = ? AND company_designation = ?";
+
+        List<EntrepriseDTO> entreprises = new ArrayList<>();
+
+        try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+            statement.setString(1, name);
+            statement.setString(2, designation);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    entreprises.add(rsToEntreprises(rs, "get"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new FatalException(e);
+        }
+        return entreprises;
+    }
+
   /**
    * Retrieves all entreprises from the database.
    *
@@ -71,6 +98,36 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     return entreprises;
   }
 
+  /**
+   * Enregister a new entreprise in the database
+   * @param entreprise the entreprise to add
+   * @return the id of the new entreprise
+   */
+
+    public void addEntreprise (EntrepriseDTO entreprise) {
+      String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,company_phone_number, company_email, company_is_blacklisted,company_blacklist_reason,company_version) "
+          + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
+
+        try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+            statement.setString(1, entreprise.getNom());
+            statement.setString(2, entreprise.getAppellation());
+            statement.setString(3, entreprise.getAdresse());
+            statement.setString(4, entreprise.getCity());
+            statement.setString(5, entreprise.getNumTel());
+            statement.setString(6, entreprise.getEmail());
+            statement.setString(7, entreprise.getMotivation());
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                entreprise.setId(rs.getInt(1));
+                }
+            }
+            } catch (SQLException e) {
+            throw new FatalException(e);
+
+        }
+
+    }
   private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
     return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
   }
