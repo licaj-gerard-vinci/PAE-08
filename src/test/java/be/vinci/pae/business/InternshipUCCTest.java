@@ -2,6 +2,7 @@ package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
@@ -88,9 +89,8 @@ public class InternshipUCCTest {
     // Arrange
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
-
-    assertThrows(NotFoundException.class, () -> stageUCC.getStageUser(userId),
-        "NotFoundException should be thrown when no stage is found for the user.");
+    assertNull(stageUCC.getStageUser(userId),
+        "The result stage should be null when no stage is found for the user.");
   }
 
 
