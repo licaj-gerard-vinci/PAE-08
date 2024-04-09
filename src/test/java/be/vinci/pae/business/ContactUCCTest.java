@@ -1,5 +1,10 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
@@ -18,9 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Arrays;
+import java.util.List;
 
 public class ContactUCCTest {
 
@@ -165,7 +169,7 @@ public class ContactUCCTest {
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
     Mockito.when(companyDAO.getEntreprise(contact.getEntreprise().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
-    Mockito.doThrow(new FatalException("SQL Connection Error"))
+    Mockito.doThrow(FatalException.class)
             .when(contactDAO).insertContact(contact);
 
     assertThrows(FatalException.class, () ->{
@@ -173,4 +177,102 @@ public class ContactUCCTest {
     });
   }
 
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class with valid information")
+  void testGetContactByIdDefault() {
+    // Create a dummy Contact
+    int idContact = 1;
+    ContactDTO contact = factory.getContactDTO();
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(idContact)).thenReturn(contact);
+    ContactDTO contactReceived = contactDAO.getContactById(idContact);
+
+    assertAll(
+        () -> assertNotNull(contactReceived),
+        () -> assertDoesNotThrow(() -> contactUCC.getContactById(idContact))
+    );
+  }
+
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class with non-existing contact")
+  void testGetContactByIdNotFound() {
+    // Create a dummy Contact
+    int idContact = 1;
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(idContact)).thenReturn(null);
+
+    assertThrows(NotFoundException.class,
+            () -> contactUCC.getContactById(idContact));
+
+  }
+
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class when the DAO failed")
+  void testGetContactByIdFatalException() {
+    // Create a dummy Contact
+    int idContact = 1;
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(idContact))
+            .thenThrow(FatalException.class);
+
+    assertThrows(FatalException.class, () -> {
+      contactUCC.getContactById(idContact);
+    });
+
+  }
+
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class when the DAO failed")
+  void testGetContactByCompanyIdDefault() {
+    // Create a dummy Contact
+    int idCompany = 1;
+    EntrepriseDTO company = factory.getEntrepriseDTO();
+    ContactDTO contact1 = factory.getContactDTO();
+    ContactDTO contact2 = factory.getContactDTO();
+
+    // Define the behavior of the mock
+    Mockito.when(companyDAO.getEntreprise(idCompany)).thenReturn(company);
+    Mockito.when(contactDAO.getContactsByCompanyId(idCompany))
+            .thenReturn(Arrays.asList(contact1, contact2));
+
+    List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
+
+    assertAll(
+        () -> assertNotNull(contacts),
+        () -> assertDoesNotThrow(() -> contactUCC.getContactsByCompanyId(idCompany))
+    );
+  }
+
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class when the DAO failed")
+  void testGetContactByCompanyIdNotFound() {
+    // Create a dummy Contact
+    int idCompany = 1;
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactsByCompanyId(idCompany)).thenReturn(null);
+
+    assertThrows(NotFoundException.class,
+            () -> contactUCC.getContactsByCompanyId(idCompany));
+  }
+
+  @Test
+  @DisplayName("Test getContactById of ContactUCC class when the DAO failed")
+  void testGetContactByCompanyIdFatalException() {
+    // Create a dummy Contact
+    int idCompany = 1;
+    EntrepriseDTO company = factory.getEntrepriseDTO();
+
+    // Define the behavior of the mock
+    Mockito.when(companyDAO.getEntreprise(idCompany)).thenReturn(company);
+    Mockito.when(contactDAO.getContactsByCompanyId(idCompany))
+            .thenThrow(FatalException.class);
+
+    assertThrows(FatalException.class, () -> {
+      contactUCC.getContactsByCompanyId(idCompany);
+    });
+  }
 }
