@@ -15,6 +15,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.contact.ContactDAOImpl;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.entreprise.EntrepriseDAOImpl;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.dal.stage.StageDAOImpl;
 import be.vinci.pae.dal.user.UserDAO;
@@ -40,7 +41,7 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
 
     bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
-    bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
+    bind(Mockito.mock(ContactDAOImpl.class)).to(ContactDAO.class);
 
     bind(Mockito.mock(DALServices.class)).to(DALServices.class);
 
@@ -48,7 +49,7 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(Mockito.mock(DALBackServiceUtils.class)).to(DALBackServiceUtils.class);
 
     bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
-    bind(Mockito.mock(EntrepriseDAO.class)).to(EntrepriseDAO.class);
+    bind(Mockito.mock(EntrepriseDAOImpl.class)).to(EntrepriseDAO.class);
 
     bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
     bind(Mockito.mock(StageDAOImpl.class)).to(StageDAO.class);

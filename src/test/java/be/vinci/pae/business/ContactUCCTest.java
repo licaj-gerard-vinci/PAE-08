@@ -45,6 +45,7 @@ public class ContactUCCTest {
     user.setId(1);
     company.setId(1);
 
+    contact.setId(1);
     contact.setUtilisateur(user); // Default user
     contact.setEntreprise(company); // Default company
     contact.setEtatContact("valid state"); // Default status
