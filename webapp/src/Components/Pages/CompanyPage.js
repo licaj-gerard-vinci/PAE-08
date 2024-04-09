@@ -6,16 +6,16 @@ import {getAuthenticatedUser} from "../../utils/auths";
 
 function generateContactsTable(contacts) {
   let contactsTable = '<table class="table table-hover shadow-sm">';
-  contactsTable += '<thead class="table-dark"><tr><th>Etudiant</th><th>Etat du contact</th><th>Lieu de rencontre</th><th>Raison du refus</th></tr></thead>';
+  contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
   contactsTable += '<tbody>';
   contacts.forEach(contact => {
-    contactsTable += `<tr>
-                          <td>${contact.utilisateur.lastname}
+    contactsTable += `<tr class="text-center">
+                          <td class="text-center">${contact.utilisateur.lastname}
                           ${contact.utilisateur.firstname} </br>
                           ${contact.utilisateur.email}</td>
-                          <td>${contact.etatContact}</td>
-                          <td>${contact.lieuRencontre || 'N/A'}</td>
-                          <td>${contact.raisonRefus || 'N/A'}</td>
+                          <td class="text-center">${contact.etatContact}</td>
+                          <td class="text-center">${contact.lieuRencontre || 'N/A'}</td>
+                          <td class="text-center">${contact.raisonRefus || 'N/A'}</td>
                       </tr>`;
       });
   contactsTable += '</tbody></table>';
