@@ -33,3 +33,14 @@ Authorization: {{token}}
   "motivation": "none",
   "version": "1"
 }
+
+
+### Blacklist a company
+PUT {{baseUrl}}/entreprise/1/blacklist
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id": 1,
+  "motivation": "This company is a scam"
+}

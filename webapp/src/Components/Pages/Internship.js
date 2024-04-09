@@ -2,24 +2,26 @@
 import {
     getContact
 } from "../../model/contacts";
-import getManagers from "../../model/managers";
+import { getManagers, addManager} from "../../model/managers";
 import { insertInternship } from "../../model/internships";
 import Navigate from '../Router/Navigate';
 
 let managers = [];
 
-const Internship = async () => {
+const Internship = async (contactFound) => {
+  if (!contactFound) {
+    Navigate('/');
+    return;
+  }
+
   const main = document.querySelector('main');
   const contactId = sessionStorage.getItem('contactId');
   const contact = await getContact(contactId);
-  console.log('contactId: ', contactId, ', contact: ', contact, ', companyId: ', contact.entreprise.id)
   managers = await getManagers(contact.entreprise.id);
-  console.log('managers: ', managers);
   let managerOptions = [];
   let managerNotFound = ``;
 
   managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.prenom} ${manager.nom}</option>`).join('');
-  console.log('manager options: ', managerOptions);
 
   if (managerOptions.length === 0) {
     managerNotFound = `<p class="text-danger">Pas de manager trouvé</p>`
@@ -84,7 +86,7 @@ const Internship = async () => {
           <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email:</label>
             <div class="col-sm-10">
-              <input type="email" id="email" name="email" class="form-control" required>
+              <input type="email" id="email" name="email" class="form-control">
             </div>
           </div>
           <div class="form-group">
@@ -105,12 +107,32 @@ const Internship = async () => {
     });
   }
 
-  if(document.querySelector(`#managerForm`)) {
-    document.querySelector(`#managerForm`).addEventListener('click', async () => {
-      // await insertManager();
-    
-    });
-  }
+  // Add a new manager
+  document.getElementById('managerForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const lastname = document.getElementById("lastname").value;
+    const firstname = document.getElementById("firstname").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const emailManager = document.getElementById("email").value;
+
+    // Check if contact and contact.entreprise are not undefined
+    if (contact && contact.entreprise) {
+      // Create a manager object
+      const manager = {
+        nom: lastname,
+        prenom: firstname,
+        numTel: phoneNumber,
+        email: emailManager,
+        idEntreprise: contact.entreprise.id,
+      };
+      await addManager(manager);
+      // Show success message
+      document.getElementById('managerForm').style.display = 'none';
+      Navigate('/internship')
+    } else {
+      console.error('contact or contact.entreprise is undefined');
+    }
+  });
 
   document.getElementById('internshipForm').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -121,10 +143,7 @@ const Internship = async () => {
     if(!managerId) {
         document.getElementById('managerForm').style.display = 'block';
     } else {
-        console.log("managerId: ", managerId)
         await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
-        console.log("contactId: ", contact.id, ", contactEntreprise: ", contact.entreprise,", contactEtudiant: ", contact.utilisateur, ", contactVersion: ", contact.version)
-        console.log('Form submitted');
         Navigate('/')
     }
     });

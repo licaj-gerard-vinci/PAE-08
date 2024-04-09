@@ -7,6 +7,7 @@ import RegisterPage from "../Pages/RegisterPage";
 import NewCompany from "../Pages/NewCompany";
 import Internship from "../Pages/Internship";
 import CompanyPage from "../Pages/CompanyPage";
+import Dashboard from "../Pages/Dashboard";
 import StudentInfoPage from "../Pages/StudentInfoPage";
 
 const routes = {
@@ -19,6 +20,7 @@ const routes = {
   '/addCompany': NewCompany,
   '/internship': Internship,
   '/company': CompanyPage,
+  '/dashboard': Dashboard,
   '/studentInfo': StudentInfoPage,
 };
 

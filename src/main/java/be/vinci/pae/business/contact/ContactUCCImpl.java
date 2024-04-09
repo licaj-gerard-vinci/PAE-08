@@ -176,4 +176,29 @@ public class ContactUCCImpl implements ContactUCC {
       throw e;
     }
   }
+
+  /**
+   * Blacklist a company.
+   *
+   * @param idCompany the ID of the company to blacklist
+   */
+  public void blackListContact(int idCompany) {
+    if (myCompany.getEntreprise(idCompany) == null) {
+      throw new NotFoundException("Company not found");
+    }
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
+      for (ContactDTO contact : contacts) {
+        if (contact.getEtatContact().equals("pris") || contact.getEtatContact().equals("initié")) {
+          contact.setEtatContact("blacklisté");
+          updateContact(contact);
+        }
+      }
+      dalServices.commitTransaction();
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    }
+  }
 }
