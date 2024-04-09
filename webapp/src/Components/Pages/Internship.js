@@ -80,7 +80,7 @@ const Internship = async (contactFound) => {
           <div class="form-group">
             <label for="phoneNumber" class="col-sm-2 control-label">Phone Number:</label>
             <div class="col-sm-10">
-              <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
+              <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
             </div>
           </div>
           <div class="form-group">
@@ -96,6 +96,12 @@ const Internship = async (contactFound) => {
           </div>
         </form>
       </div>
+    </div>
+  </div>
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Manager has been added successfully!</p>
     </div>
   </div>
     `;
@@ -125,10 +131,25 @@ const Internship = async (contactFound) => {
         email: emailManager,
         idEntreprise: contact.entreprise.id,
       };
-      await addManager(manager);
+      const newManager = await addManager(manager);
+      managers.push(newManager);
+
+      const updatedManagerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.prenom} ${managerItem.nom}</option>`).join('');
+      // Update the select element with the new options
+      document.getElementById('managerId').innerHTML = updatedManagerOptions;
+
+      // Show the success modal
+      const successModal = document.getElementById('successModal');
+      successModal.style.display = "block";
+
+      // Hide the success modal after 3 seconds
+      setTimeout(() => {
+        successModal.style.display = "none";
+      }, 3000);
+
       // Show success message
       document.getElementById('managerForm').style.display = 'none';
-      Navigate('/internship')
+      Navigate('/internship', contactFound);
     } else {
       console.error('contact or contact.entreprise is undefined');
     }
