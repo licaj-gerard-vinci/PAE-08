@@ -61,7 +61,29 @@ import {
     }
   }
 
+  async function getAllInternships() {
+    let internships = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch('http://localhost:8080/stages', options);
+
+      if (!response.ok) {
+        return internships;
+      }
+      internships = await response.json();
+    }
+    return internships;
+  }
+
   export {
     getStagePresent,
     insertInternship,
+    getAllInternships,
   }
