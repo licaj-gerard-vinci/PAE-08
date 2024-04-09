@@ -10,6 +10,7 @@ import { getContacts } from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
+  createUpdateModal(); 
   
 
   const main = document.querySelector('main');
@@ -56,6 +57,23 @@ function renderRole(user) {
   }
 }
 
+// Create the modal for the update success message
+function createUpdateModal() {
+  const modal = document.createElement('div');
+  modal.id = 'update-modal';
+  modal.style = 'position: fixed; bottom: 20px; right: 20px; background-color: green; color: white; padding: 20px; border-radius: 10px; display: none; z-index: 1000;';
+  modal.textContent = 'Les informations ont été mises à jour avec succès !';
+  document.body.appendChild(modal);
+}
+// Toggle the visibility of the modals for the password modification
+function toggleUpdateModal() {
+  const modal = document.getElementById('update-modal');
+  modal.style.display = 'block';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 5000);
+}
+
 function renderProfile(user) {
   const profileDiv = document.createElement('div');
   profileDiv.className = 'profile-div';
@@ -67,7 +85,7 @@ function renderProfile(user) {
   <div class="container mt-4">
   
  
-  <h2 class="mb-4">Bonjour, ${user.user.firstname}</h2>
+  <h2 class="mb-4">Bonjour ${user.user.firstname} ! 👋</h2>
 
   <div class="row mb-3">
           <strong>Email :</strong>
@@ -156,9 +174,9 @@ function renderProfile(user) {
 
   // add event listener for the edit profile button
   profileDiv.querySelector('#edit-profile').addEventListener('click', () => {
-    document.getElementById('edit-form').style.display = 'block';
+    const editForm = document.getElementById('edit-form');
+    editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
   });
-
  
 
   // add event listener for the save changes button
@@ -175,26 +193,42 @@ function renderProfile(user) {
     };
     document.getElementById('password-error').textContent = '';
     document.getElementById('new-password-error').textContent = '';
+
+
       // Vérification des mots de passe
   if (updatedUser.newPassword !== updatedUser.confirmPassword) {
     document.getElementById('new-password-error').textContent = 'Les mots de passe ne correspondent pas';
     return;
   }
-    console.log('updatedUser', updatedUser);
+
+
 
     if (updatedUser.oldPassword) {
-      const check = await checkPassword(updatedUser);
-     if (check === "Les mots de passe ne correspondent pas") {
-      document.getElementById('new-password-error').textContent = "L'ancien mots de passe est incorrect."
-      return;
+      if (!updatedUser.newPassword) {
+        document.getElementById('new-password-error').textContent = "Veuillez entrer un nouveau mot de passe."
+        return;
     }
-  }
+
+    const check = await checkPassword(updatedUser);
+      if (check === "Les mots de passe ne correspondent pas") {
+        document.getElementById('new-password-error').textContent = "L'ancien mots de passe est incorrect."
+        return;
+      }
+
+      
+
+} else if (updatedUser.newPassword && !updatedUser.oldPassword) {
+  document.getElementById('password-error').textContent = "Veuillez entrer votre ancien mot de passe."
+  return;
+}
+
+
 
 
 
     await updateUser(updatedUser);
     await refreshUser();
-    alert('Les informations ont été mises à jour.');
+    toggleUpdateModal();
     ProfilePage();
   });
 

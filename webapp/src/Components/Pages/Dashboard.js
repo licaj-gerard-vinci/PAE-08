@@ -26,13 +26,12 @@ async function renderCompaniesList() {
         <h1 class="text-center mb-3">Liste des entreprises</h1>
         <div class="row">
             <div class="col-12">
-                <div class="filter-container">
-                    <label for="academicYearFilter">Filtrer par année académique:</label>
-                    <select id="academicYearFilter">
+                <div class="filter-container d-flex align-items-center mb-3">
+                    <label for="academicYearFilter" class="me-2">Filtrer par année académique:</label>
+                    <select id="academicYearFilter" class="form-select" style="width: auto;">
                         <option value="">Toutes les années</option>
                         <option value="2023-2024">2023-2024</option>
                         <option value="2024-2025">2024-2025</option>
-                        <!-- Add more options as needed -->
                     </select>
                 </div>
                 <div id="company-list-table-container" class="table-responsive">
@@ -44,7 +43,6 @@ async function renderCompaniesList() {
 
     const companies = await getEntreprises();
     const internships = await getAllInternships();
-    console.log(internships);
 
     // Add event listener to the filter
     document.getElementById('academicYearFilter').addEventListener('change', (event) => {
@@ -65,10 +63,10 @@ function renderCompanies(companies, internships, selectedYear = '') {
     <table class="table table-hover shadow-sm rounded">
         <thead class="table-dark">
             <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Numéro de téléphone</th>
-                <th scope="col">Nombre d'étudiant</th>
-                <th scope="col">Est blacklisté</th>
+                <th scope="col" class="text-center">Nom</th>
+                <th scope="col" class="text-center">Numéro de téléphone</th>
+                <th scope="col" class="text-center">Nombre d'étudiant</th>
+                <th scope="col" class="text-center">Est blacklisté</th>
             </tr>
         </thead>
         <tbody>
@@ -92,11 +90,11 @@ function renderCompanies(companies, internships, selectedYear = '') {
                 studentCount = companyInternships.length;
             }
             return `
-            <tr data-id="${company.id}" class="company-row">
-              <td>${company.nom}</td>
-              <td>${company.numTel}</td>
-              <td>${studentCount}</td>
-              <td>${company.blackListed ? 'Oui' : 'Non'}</td>
+            <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
+              <td class="text-center">${company.nom}</td>
+              <td class="text-center">${company.numTel}</td>
+              <td class="text-center">${studentCount}</td>
+              <td class="text-center">${company.blackListed ? 'Oui' : 'Non'}</td>
             </tr>
           `;
         }).join('')}

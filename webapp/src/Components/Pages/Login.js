@@ -74,14 +74,14 @@ function renderLoginForm() {
               <form id="loginForm" class="my-4">
 
                 <div class="mb-3">
-                  <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                  <input type="email" id="email" name="email" class="form-control" placeholder="email" required>
+                  <label for="email" class="form-label">Email<span class="text-danger"> *</span></label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="email" autocomplete="username" required>
                 </div>
 
                 <div class="mb-3">
-                  <label for="password" class="form-label">Mot de passe<span class="text-danger">*</span></label>
+                  <label for="password" class="form-label">Mot de passe<span class="text-danger"> *</span></label>
                   <div class="input-group">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="mot de passe" required>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="mot de passe" autocomplete="current-password" required>
                     <button id="togglePassword" class="btn btn-outline-secondary" type="button">
                       <img src="${eyeOpen}" alt="toggle password visibility">
                     </button>
@@ -100,7 +100,7 @@ function renderLoginForm() {
 
               </form>
 
-              <p class="text-center">Pas de compte ? <a href="#" data_uri="/register" id="registerLink" class="text-primary">Enregistrez-vous !</a></p>
+              <p class="text-center">Pas de compte ? <a id="registerLink" class="text-primary" style="cursor:pointer;">Enregistrez-vous !</a></p>
               
             </div>
           </div>
@@ -108,6 +108,11 @@ function renderLoginForm() {
       </div>
     </div>
   `;
+
+  const registerLink = document.getElementById('registerLink');
+  registerLink.addEventListener('click', () => {
+    Navigate('/register');
+  });
 
 
   document.getElementById('togglePassword').addEventListener('click', (e) => {

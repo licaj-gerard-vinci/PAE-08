@@ -66,14 +66,19 @@ function renderRegisterForm() {
 
                 </form>
 
-                <p class="text-center">Déjà un compte ? <a href="#" data_uri="/login" id="loginLink" class="text-primary" data-uri="login">Connectez vous !</a></p>
+                <p class="text-center">Déjà un compte ? <span id="loginLink" class="text-primary" style="cursor:pointer;">Connectez-vous !</span></p>
               
             </div>
           </div>
         </div>
       </div>
     </div>
-  `;}
+  `;
+
+  const loginLink = document.getElementById('loginLink');
+  loginLink.addEventListener('click', () => Navigate('/login'));
+
+}
 
 function checkUser(){
   const email = document.getElementById('RegisterEmail');
