@@ -104,6 +104,12 @@ const Internship = async (contactFound) => {
       <p>Manager has been added successfully!</p>
     </div>
   </div>
+  <div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="errorMessage">An error occurred while adding a new manager.</p>
+    </div>
+  </div>
     `;
 
   const insertNewManager = document.querySelector(`#insertNewManager`);
@@ -132,6 +138,17 @@ const Internship = async (contactFound) => {
         idEntreprise: contact.entreprise.id,
       };
       const newManager = await addManager(manager);
+      if (newManager === null) {
+        // Display an error message
+        const errorModal = document.getElementById('errorModal');
+        errorModal.style.display = "block";
+
+        // Hide the error modal after 3 seconds
+        setTimeout(() => {
+          errorModal.style.display = "none";
+        }, 3000);
+        return;
+      }
       managers.push(newManager);
 
       const updatedManagerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.prenom} ${managerItem.nom}</option>`).join('');
