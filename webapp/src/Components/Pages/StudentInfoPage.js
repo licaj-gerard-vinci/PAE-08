@@ -37,22 +37,33 @@ const StudentInfoPage = async (user) => {
   internshipCol.className = 'col-md-4';
 
   const stage = await getStagePresent(user.id);
+  const date = new Date(stage.dateSignature);
+  const year = date.getFullYear();
+  let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
+  let day = date.getDate();
+
+// Ajoutez des zéros au début du mois et du jour si nécessaire
+  if (month < 10) month = month.toString().padStart(2, '0');
+  if (day < 10) day = day.toString().padStart(2, '0');
+
+  const formattedDate = `${year}-${month}-${day}`; // Utilisez les littéraux de modèle pour formater la date
+
   internshipCol.innerHTML = `
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">${stage !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
-        ${
-          stage !== "Aucun stage n'est en cours" ?
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">${stage !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
+      ${
+      stage !== "Aucun stage n'est en cours" ?
           `<p class="card-text"><strong>Responsable:</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
-          <p class="card-text"><strong>Entreprise:</strong> ${stage.entreprise.nom}</p>
-          <p class="card-text"><strong>Date signature:</strong> ${stage.dateSignature}</p>
-          <p class="card-text"><strong>Sujet:</strong> ${stage.sujet || 'Pas de sujet'}</p>`
+        <p class="card-text"><strong>Entreprise:</strong> ${stage.entreprise.nom}</p>
+        <p class="card-text"><strong>Date signature:</strong> ${formattedDate}</p>
+        <p class="card-text"><strong>Sujet:</strong> ${stage.sujet || 'Pas de sujet'}</p>`
           :
           `<p class="card-text">Vous n'avez pas de stage en cours.</p>`
-        }
-      </div>
+  }
     </div>
-  `;
+  </div>
+`;
 
   topRow.appendChild(internshipCol);
 

@@ -4,6 +4,61 @@ import {getContactByCompanyId} from "../../model/contacts";
 import Navigate from "../Router/Navigate";
 import {getAuthenticatedUser} from "../../utils/auths";
 
+function generateContactsTable(contacts) {
+  let contactsTable = '<table class="table table-hover shadow-sm">';
+  contactsTable += '<thead class="table-dark"><tr><th>Etudiant</th><th>Etat du contact</th><th>Lieu de rencontre</th><th>Raison du refus</th></tr></thead>';
+  contactsTable += '<tbody>';
+  contacts.forEach(contact => {
+    contactsTable += `<tr>
+                          <td>${contact.utilisateur.lastname}
+                          ${contact.utilisateur.firstname} </br>
+                          ${contact.utilisateur.email}</td>
+                          <td>${contact.etatContact}</td>
+                          <td>${contact.lieuRencontre || 'N/A'}</td>
+                          <td>${contact.raisonRefus || 'N/A'}</td>
+                      </tr>`;
+      });
+  contactsTable += '</tbody></table>';
+  return contactsTable;
+}
+
+function generateBlacklistFormOrMessage(entreprise) {
+  let formOrMessage = '';
+  if (!entreprise.blackListed) {
+    formOrMessage = `
+                <form id="blacklistForm" class="d-flex flex-column">
+                    <div class="form-group flex-grow-1">
+                        <label for="blacklistReason">Raison de la blacklist</label>
+                        <input type="text" class="form-control" id="blacklistReason" placeholder="Entrez la raison">
+                    </div>
+                    <button id="blacklistFormSubmit" type="submit" class="btn mt-2 align-self-end" style="background-color: blue; color: white;">Ajouter à la blacklist</button>
+                </form>
+    `;
+  } else {
+    formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation_blacklist}</p>`;
+  }
+  return formOrMessage;
+}
+
+function renderInfoCompany(entreprise) {
+  const formOrMessage = generateBlacklistFormOrMessage(entreprise);
+
+  return `
+          <div class="row">
+              <div class="col-md-8 mt-5 border p-2">
+                  <h3>${entreprise.nom} ${entreprise.appellation || ''}</h3>
+                  <p><strong>Adresse:</strong> ${entreprise.adresse}</p>
+                  <p><strong>numéro de téléphone:</strong> ${entreprise.numTel}</p>
+                  <p><strong>email: </strong>${entreprise.email || '/'}</p>
+                  <p><strong>Est blacklisté: </strong> ${entreprise.blackListed ? 'Oui' : 'Non'}</p>
+              </div>
+              <div class="col-md-4 mt-5">
+                ${formOrMessage}
+              </div>
+          </div>
+   `;
+}
+
 const CompanyPage = async (companyId) => {
   if (!companyId) {
     Navigate('/dashboard');
@@ -16,72 +71,39 @@ const CompanyPage = async (companyId) => {
     return;
   }
   const entreprise = await getEntrepriseById(companyId);
-    console.log(entreprise);
   const contacts = await getContactByCompanyId(entreprise.id);
   const main = document.querySelector('main');
 
-  // Création du tableau de contacts
-  let contactsTable = '<table class="table table-hover shadow-sm">';
-  contactsTable += '<thead class="table-dark"><tr><th>Etudiant</th><th>Etat du contact</th><th>Lieu de rencontre</th><th>Raison du refus</th></tr></thead>';
-  contactsTable += '<tbody>';
-  contacts.forEach(contact => {
-    contactsTable += `<tr>
-    <td>${contact.utilisateur.lastname}
-        ${contact.utilisateur.firstname} </br>
-        ${contact.utilisateur.email}</td>
-    <td>${contact.etatContact}</td>
-    <td>${contact.lieuRencontre || 'N/A'}</td>
-    <td>${contact.raisonRefus || 'N/A'}</td>
-  </tr>`;
-  });
-  contactsTable += '</tbody></table>';
-
-  let formOrMessage = '';
-    if (!entreprise.blackListed) {
-        formOrMessage = `
-      <form id="blacklistForm" class="d-flex flex-column">
-          <div class="form-group flex-grow-1">
-              <label for="blacklistReason">Raison de la blacklist</label>
-              <input type="text" class="form-control" id="blacklistReason" placeholder="Entrez la raison">
-          </div>
-          <button id="blacklistFormSubmit" type="submit" class="btn mt-2 align-self-end" style="background-color: blue; color: white;">Ajouter à la blacklist</button>
-      </form>
-    `;
-    } else {
-        formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation_blacklist}</p>`;
-    }
+  const contactsTable = generateContactsTable(contacts);
+  const infoCompany = renderInfoCompany(entreprise);
 
   main.innerHTML = `
   <div class="container">
-  
-      <div class="row">
-          <div class="col-md-8 mt-5 border p-2">
-              <h3>${entreprise.nom} ${entreprise.appellation || ''}</h3>
-              <p><strong>Adresse:</strong> ${entreprise.adresse}</p>
-              <p><strong>numéro de téléphone:</strong> ${entreprise.numTel}</p>
-              <p><strong>email: </strong>${entreprise.email || '/'}</p>
-              <p><strong>Est blacklisté: </strong> ${entreprise.blackListed ? 'Oui' : 'Non'}</p>
-          </div>
-          <div class="col-md-4 mt-5">
-              ${formOrMessage}
-          </div>
-          <div class="col-md-12 mt-5">
-              <h3>Contacts</h3>
-              ${contactsTable}
-          </div>
+      ${infoCompany}
+      <div class="col-md-12 mt-5">
+          <h3>Contacts</h3>
+          ${contactsTable}
+          <button id="backButton" class="btn btn-primary mt-5">Retour</button>
       </div>
   </div>
-`;
+  `;
 
-    const blacklistForm = document.getElementById('blacklistForm');
-    if (blacklistForm) {
-        blacklistForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const reason = document.getElementById('blacklistReason').value;
-            await blackListEntreprise(entreprise, reason);
-            await CompanyPage(); // Call CompanyPage after blacklisting the company
-        });
-    }
+  const blacklistForm = document.getElementById('blacklistForm');
+  if (blacklistForm) {
+    blacklistForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const reason = document.getElementById('blacklistReason').value;
+      await blackListEntreprise(entreprise, reason);
+      await CompanyPage(); // Call CompanyPage after blacklisting the company
+    });
+  }
 
+  const backButton = document.getElementById('backButton');
+  backButton.addEventListener('click', () => {
+    Navigate('/dashboard');
+  });
 }
+
 export default CompanyPage;
+
+
