@@ -84,47 +84,63 @@ async function renderUserList(userList) {
 }
 
 function displayFilters() {
+  // Adjusted sizes for select elements and added dropdown indicators
   const filterHtml = `
     <div class="container">
-      <div class="row-filter">
-        <div class="col-12" style="display: flex; justify-content: space-around">
-        
-          <div class="form-group" style="width: 25%">
-            <label for="search">Rechercher :</label>
-            <input type="text" class="form-control" id="search" placeholder="Rechercher par nom ou prénom (nom.prenom / prenom.nom)">
-            <button class="btn btn-primary mt-2" id="search-btn">Rechercher</button>
+      <div class="row align-items-end">
+        <div class="col-md">
+          <div class="form-group mb-3">
+            <label for="search">Recherche d'utilisateur :</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="search" placeholder="nom ou prénom">
+              <button class="btn btn-primary" id="search-btn">Rechercher</button>
+            </div>
           </div>
-            
-          <div class="form-group2" style="width: 25%">
+        </div>
+        <div class="col-md">
+          <div class="form-group mb-3">
             <label for="filter">Filtrer par rôle :</label>
-            <select class="form-control" id="filter">
-              <option value="all">Tous</option>
-              <option value="E">Étudiant</option>
-              <option value="P">Professeur</option>
-              <option value="A">Administratif</option>
-            </select> 
+            <div class="input-group">
+              <select class="form-control" id="filter">
+                <option value="all">Tous</option>
+                <option value="E">Étudiant</option>
+                <option value="P">Professeur</option>
+                <option value="A">Administratif</option>
+              </select>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-chevron-down"></i></span>
+              </div>
+            </div>
           </div>
-          
-          <div class="form-group3" style="width: 25%">                 
+        </div>
+        <div class="col-md">
+          <div class="form-group mb-3">                 
             <label for="year">Filtrer par année académique :</label>
-            <select class="form-control" id="year">
-              <option value="all">Toutes</option>
-              <option value="2022-2023">2022/2023</option>
-              <option value="2023-2024">2023/2024</option>
-              <option value="2024-2025">2024/2025</option>    
-            </select>
+            <div class="input-group">
+              <select class="form-control" id="year">
+                <option value="all">Toutes</option>
+                <option value="2022-2023">2022/2023</option>
+                <option value="2023-2024">2023/2024</option>
+                <option value="2024-2025">2024/2025</option>    
+              </select>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-chevron-down"></i></span>
+              </div>
+            </div>
           </div>
-          <div class="form-group2">
-            <button id="reset-filters" class="btn btn-primary mt-2">Reset</button>
-          </div>
-        </div>         
+        </div>
+        <div class="col-md-auto mb-3 d-flex align-items-center">
+          <button id="reset-filters" class="btn btn-primary mt-3 ms-2">Tous les utilisateurs</button>
+        </div>
       </div>
     </div>
   `;
   document.getElementById("filters").innerHTML = filterHtml;
   document.getElementById('reset-filters').addEventListener('click', async () => {
+    document.getElementById('search').value = '';
+    document.getElementById('filter').value = 'all';
+    document.getElementById('year').value = 'all';
     await renderUserList(originalUserList);
-    displayFilters();
   });
 }
 
