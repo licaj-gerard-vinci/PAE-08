@@ -37,7 +37,7 @@ public interface EntrepriseDAO {
      * @param designation the designation of the company to retrieve.
      * @return Entreprise with the specified name and designation.
      */
-  List<EntrepriseDTO> getEntrepriseByNameDesignation(String name, String designation);
+    EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation);
 
 /**
    * Inserts a new entreprise into the database.

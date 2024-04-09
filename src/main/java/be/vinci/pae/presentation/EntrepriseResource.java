@@ -108,6 +108,10 @@ public class EntrepriseResource {
         if (entreprise.getCity() == null || entreprise.getCity().isEmpty()) {
             throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
         }
+
+
+
+
         myEntrepriseUcc.addEntreprise(entreprise);
 
         ObjectNode responseNode = jsonMapper.createObjectNode();

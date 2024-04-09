@@ -54,24 +54,21 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
      * @return the entreprise with the specified name and designation.
      */
     @Override
-    public List<EntrepriseDTO> getEntrepriseByNameDesignation(String name, String designation) {
+    public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
         String query = "SELECT * FROM pae.companies "
-            + "WHERE company_name = ? AND company_designation = ?";
-
-        List<EntrepriseDTO> entreprises = new ArrayList<>();
-
+                + "WHERE LOWER(company_name) LIKE LOWER(?) AND LOWER(company_designation) LIKE LOWER(?)";
         try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
             statement.setString(1, name);
             statement.setString(2, designation);
             try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    entreprises.add(rsToEntreprises(rs, "get"));
+                if (rs.next()) {
+                    return rsToEntreprises(rs, "get");
                 }
             }
         } catch (SQLException e) {
             throw new FatalException(e);
         }
-        return entreprises;
+        return null;
     }
 
   /**
@@ -103,7 +100,8 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
    */
 
     public void addEntreprise (EntrepriseDTO entreprise) {
-      String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,company_phone_number, company_email, company_is_blacklisted,company_blacklist_reason,company_version) "
+      String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,"
+          + "company_phone_number, company_email, company_is_blacklisted,company_blacklist_reason,company_version) "
           + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
 
         try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
@@ -155,7 +153,6 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
             throw new FatalException(e);
         }
     }
-
 
     private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
     return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
