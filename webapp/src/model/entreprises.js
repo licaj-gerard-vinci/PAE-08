@@ -109,5 +109,5 @@ async function blackListEntreprise(entreprise, raisonBlacklist){
   return entrepriseToreturn;
 }
 
-export { getEntrepriseById, getEntreprises, blackListEntreprise };
+export { getEntrepriseById, getEntreprises, blackListEntreprise,insertEntreprises };
 

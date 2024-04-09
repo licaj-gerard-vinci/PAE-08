@@ -277,14 +277,14 @@ async function renderHomePage(){
   } else {
     console.log("Unknown user role");
   }
+if(user.role === "E"){
+const addCompanie = document.getElementById('button-addon3');
+  addCompanie.addEventListener('click', () => {
+    console.log('addCompanie');
+    window.location.href = '/addCompany';
+  });
 
-  const addCompanie = document.getElementById('button-addon3');
-    addCompanie.addEventListener('click', () => {
-        console.log('addCompanie');
-        window.location.href = '/addCompany';
-    });
-
-
+}
 }
 
 export default HomePage;

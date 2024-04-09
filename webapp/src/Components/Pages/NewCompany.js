@@ -1,7 +1,7 @@
 import Navigate from '../Router/Navigate';
 import {clearPage} from "../../utils/render";
 import {getAuthenticatedUser} from "../../utils/auths";
-import {getEntreprises, insertEntreprises} from "../../model/entreprises";
+import {getEntreprises,insertEntreprises} from "../../model/entreprises";
 
 
 

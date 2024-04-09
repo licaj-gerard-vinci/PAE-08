@@ -211,6 +211,16 @@ async function displayStage() {
       'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
   const id = getAuthenticatedUser();
   const stage = await getStagePresent(id.user.id);
+  const date = new Date(stage.dateSignature);
+  const year = date.getFullYear();
+  let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
+  let day = date.getDate();
+
+// Ajoutez des zéros au début du mois et du jour si nécessaire
+  if (month < 10) month = month.toString().padStart(2, '0');
+  if (day < 10) day = day.toString().padStart(2, '0');
+
+  const formattedDate = `${year}-${month}-${day}`; // Utilisez les littéraux de modèle pour formater la date
 
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
@@ -218,7 +228,7 @@ async function displayStage() {
       <h2>Stage actuel</h2>
       <p><strong>Responsable :</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
       <p><strong>Entreprise :</strong> ${stage.entreprise.nom}, ${stage.entreprise.appellation}</p>
-      <p><strong>Date signature :</strong> ${stage.dateSignature}</p>
+      <p><strong>Date signature :</strong> ${formattedDate}</p>
       <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
     `;
