@@ -2,9 +2,12 @@ package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import be.vinci.pae.business.contact.Contact;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
@@ -13,6 +16,7 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -178,6 +182,97 @@ public class ContactUCCTest {
   }
 
   @Test
+  @DisplayName("Test updateContact of ContactUCC class with valid information")
+  void testUpdateContactDefault() {
+    // Create a dummy Contact
+    ContactDTO contact = factory.getContactDTO();
+    ContactDTO contactReceived = factory.getContactDTO();
+
+    contact.setId(1);
+    contact.setEtatContact("valid state");
+
+    contactReceived.setId(contact.getId());
+    contactReceived.setEtatContact("valid state");
+    contactReceived.setLieuxRencontre("valid place");
+    contactReceived.setRaisonRefus("valid reason");
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
+
+    assertAll(
+        () -> assertNull(contact.getRaisonRefus()),
+        () -> assertNull(contact.getLieuxRencontre()),
+        () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
+        () -> assertNotNull(contact.getLieuxRencontre()),
+        () -> assertNotNull(contact.getRaisonRefus())
+            // after updating, the contact now have values for refusal reason and meeting place
+    );
+  }
+ /* This test is Impossible or pretty hard to test without refactoring or advanced simulations
+    I don't want them, so I can't do this specific test, if someone knows how to do, you can share
+    your solution!
+  @Test
+  @DisplayName("Test updateContact of ContactUCC class with valid information")
+  void testUpdateContactInvalidState() {
+    // Create a dummy Contact
+    ContactDTO contact = factory.getContactDTO();
+    ContactDTO contactReceived = factory.getContactDTO();
+
+    contact.setId(1);
+    contact.setEtatContact("invalid state");
+
+    contactReceived.setId(contact.getId());
+    contactReceived.setEtatContact("valid state");
+    contactReceived.setLieuxRencontre("valid place");
+    contactReceived.setRaisonRefus("valid reason");
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
+    // Create a spy
+    Contact contactSpy = (Contact) Mockito.spy(contactReceived);
+    // Stub the checkState method to return false
+    Mockito.doReturn(false).when(contactSpy).checkState(Mockito.anyString(), Mockito.anyString());
+
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.updateContact(contact);
+    });
+  }
+*/
+  @Test
+  @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
+  void testUpdateContactNotFound() {
+    // Create a dummy Contact
+    ContactDTO contact = factory.getContactDTO();
+
+    contact.setId(1);
+    contact.setEtatContact("valid state");
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
+
+    assertThrows(NotFoundException.class, () -> {
+      contactUCC.updateContact(contact);
+    });
+  }
+
+  @Test
+  @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
+  void testUpdateContactFatalException() {
+    // Create a dummy Contact
+    ContactDTO contact = factory.getContactDTO();
+
+    contact.setId(1);
+    contact.setEtatContact("valid state");
+
+    // Define the behavior of the mock
+    Mockito.when(contactDAO.getContactById(contact.getId())).thenThrow(FatalException.class);
+
+    assertThrows(FatalException.class, () -> {
+      contactUCC.updateContact(contact);
+    });
+  }
+
+  @Test
   @DisplayName("Test getContactById of ContactUCC class with valid information")
   void testGetContactByIdDefault() {
     // Create a dummy Contact
@@ -242,6 +337,7 @@ public class ContactUCCTest {
 
     assertAll(
         () -> assertNotNull(contacts),
+        () -> assertEquals(2, contacts.size()),
         () -> assertDoesNotThrow(() -> contactUCC.getContactsByCompanyId(idCompany))
     );
   }
