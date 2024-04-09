@@ -104,6 +104,8 @@ public class ContactUCCImpl implements ContactUCC {
       return;
     }
 
+    contact.setEtatContact("initié");
+
     try {
       dalServices.startTransaction();
       if (contactDAO.getContactById(contact.getId()) != null) {

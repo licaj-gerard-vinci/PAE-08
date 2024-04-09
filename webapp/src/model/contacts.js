@@ -75,7 +75,7 @@ async function getContactsById(idUser) {
   }
 
 
-  async function insertContact(entrepriseObject, userObject, etat) {
+  async function insertContact(entrepriseObject, userObject) {
     const token = getToken();
     if(token) {
       const options = {
@@ -83,7 +83,6 @@ async function getContactsById(idUser) {
         body: JSON.stringify({
           entreprise : entrepriseObject,
           utilisateur: userObject,
-          etatContact: etat
         }),
         headers: {
           'Content-Type': 'application/json',

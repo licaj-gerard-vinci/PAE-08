@@ -191,7 +191,7 @@ async function renderHomePage(){
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
             console.log('before insert informations: entreprise: ', entreprise, ', user: ', user)
-            await insertContact(entreprise, user, "initié");
+            await insertContact(entreprise, user);
             await renderHomePage();
             startedButton.disabled = false;
           });

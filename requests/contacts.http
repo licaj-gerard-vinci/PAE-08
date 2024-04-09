@@ -43,8 +43,7 @@ Content-Type: application/json
       "annee": "2023-2024",
       "version": 1
     }
-  },
-    "etatContact": "initié"
+  }
 }
 
 ### Get all contacts
