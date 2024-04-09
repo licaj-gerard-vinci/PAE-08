@@ -9,7 +9,6 @@ import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
-import be.vinci.pae.presentation.filters.Log;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -183,7 +182,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @param contact The contact information to update.
    * @throws RuntimeException If an SQL exception occurs.
    */
-  @Log
   public void updateContact(ContactDTO contact) {
     String query = "UPDATE pae.contacts SET contact_company_id = ?, "
         + "contact_student_id = ? , contact_school_year_id = ?,  "

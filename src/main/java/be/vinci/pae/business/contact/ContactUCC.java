@@ -48,10 +48,17 @@ public interface ContactUCC {
   void updateContact(ContactDTO contact);
 
   /**
-   * Gets the all contacts with the idCompagny.
-   *
-   * @param idCompany The ID of the contact to be deleted.
-   * @return the contact
-   */
+  * Gets the all contacts with the idCompagny.
+  *
+  * @param idCompany The ID of the contact to be deleted.
+  * @return the contact
+  */
   List<ContactDTO> getContactsByCompanyId(int idCompany);
+
+  /**
+   * Blacklist a contact.
+   *
+   * @param idCompany The contact to be blacklisted.
+   */
+  void blackListContact(int idCompany);
 }

@@ -78,4 +78,56 @@
     cursor: pointer;
 }
 
+.centered-title {
+  text-align: center;
+}
+
+.title-with-line {
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+}
+
+.custom-header {
+  background-color: #00609D !important;
+  color: #fff; /* Ensures text is readable on the dark background */
+}
+
+#errorFiter {
+  background-color: darkgray !important;
+  color: #fff; /* Ensures text is readable on the dark background */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.form-group2 {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  width: 118px;
+}
+
+.form-group3 {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  width: 120px;
+}
+
+.input-group-text {
+  background-color: transparent;
+  border: none;
+}
+
+.profile-link {
+  color: black;
+}
+
+.profile-link:visited {
+  color: black;
+}
+
+
+
+
 

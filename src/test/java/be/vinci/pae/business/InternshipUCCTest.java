@@ -89,7 +89,6 @@ public class InternshipUCCTest {
     // Arrange
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
-
     assertNull(stageUCC.getStageUser(userId),
         "The result stage should be null when no stage is found for the user.");
   }
