@@ -53,13 +53,14 @@ const CompanyPage = async (companyId) => {
 
   main.innerHTML = `
   <div class="container">
+  
       <div class="row">
-          <div class="col-md-8 mt-5">
+          <div class="col-md-8 mt-5 border p-2">
               <h3>${entreprise.nom} ${entreprise.appellation || ''}</h3>
-              <p>Adresse: ${entreprise.adresse}</p>
-              <p>numéro de tel: ${entreprise.numTel}</p>
-              <p>email: ${entreprise.email || ''}</p>
-              <p>Est blacklisté: ${entreprise.blackListed ? 'Oui' : 'Non'}</p>
+              <p><strong>Adresse:</strong> ${entreprise.adresse}</p>
+              <p><strong>numéro de téléphone:</strong> ${entreprise.numTel}</p>
+              <p><strong>email: </strong>${entreprise.email || '/'}</p>
+              <p><strong>Est blacklisté: </strong> ${entreprise.blackListed ? 'Oui' : 'Non'}</p>
           </div>
           <div class="col-md-4 mt-5">
               ${formOrMessage}

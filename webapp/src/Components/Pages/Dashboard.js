@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Chart from "chart.js/auto";
 import {clearPage} from "../../utils/render";
 import {getEntreprises} from "../../model/entreprises";
@@ -39,7 +40,7 @@ async function renderCompaniesList() {
     `;
     } else {
         document.getElementById('company-list-table-container').innerHTML = `
-    <table class="table table-hover shadow-sm">
+    <table class="table table-hover shadow-sm rounded">
         <thead class="table-dark">
             <tr>
                 <th scope="col">Nom</th>
@@ -77,8 +78,17 @@ async function renderStatistics() {
     const chartContainer = document.querySelector('#chart-container');
     chartContainer.innerHTML =
         `<h3 class="chart-title centered-title">Internship Statistics</h3>
-        <div><canvas id="myChart"></canvas></div>`
+        <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
     ;
+
+    // Ajoutez ceci à votre CSS pour l'animation
+    /*
+    @keyframes fadeInAnimation {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    */
+
     const canvas = document.getElementById('myChart');
     new Chart(canvas, {
         type: 'pie',
@@ -99,6 +109,10 @@ async function renderStatistics() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            },
             title: {
                 display: true,
                 text: 'Internship Statistics',
