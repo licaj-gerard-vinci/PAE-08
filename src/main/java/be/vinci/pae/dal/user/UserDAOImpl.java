@@ -158,8 +158,8 @@ public class UserDAOImpl implements UserDAO {
   public boolean updateUser(UserDTO user) {
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
-        + "user_phone_number = ?, user_version = user_version + 1 ," +
-            " user_has_internship = ? where user_version = ? ";
+        + "user_phone_number = ?, user_version = user_version + 1 ,"
+        + " user_has_internship = ? where user_version = ? ";
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       query += ", user_password = ?";
