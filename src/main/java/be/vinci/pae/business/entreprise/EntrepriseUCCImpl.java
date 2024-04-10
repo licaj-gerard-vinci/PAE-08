@@ -2,7 +2,6 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -92,11 +91,11 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
 
 
-    /**
-     * Adds an entreprise.
-     *
-     * @param entreprise the entreprise to add.
-     */
+  /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   */
 
   public void addEntreprise(EntrepriseDTO entreprise) {
     try {
