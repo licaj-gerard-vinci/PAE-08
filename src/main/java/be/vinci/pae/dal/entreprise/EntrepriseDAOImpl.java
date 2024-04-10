@@ -50,7 +50,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   /**
   * Retrieves an entreprise from the database.
   *
-  * @paraam name and designation of the company to retrieve.
+  * @param name and designation of the company to retrieve.
   * @return the entreprise with the specified name and designation.
   */
   @Override
