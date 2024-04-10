@@ -93,30 +93,31 @@ public class EntrepriseResource {
     responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;
   }
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Authorize
-    public ObjectNode addEntreprise(EntrepriseDTO entreprise) {
-        if (entreprise.getNom() == null || entreprise.getNom().isEmpty()) {
-            throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
-        }
-        if (entreprise.getAdresse() == null || entreprise.getAdresse().isEmpty()) {
-            throw new WebApplicationException("Invalid entreprise address", Response.Status.BAD_REQUEST);
-        }
-        if (entreprise.getCity() == null || entreprise.getCity().isEmpty()) {
-            throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
-        }
+
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ObjectNode addEntreprise(EntrepriseDTO entreprise) {
+      if (entreprise.getNom() == null || entreprise.getNom().isEmpty()) {
+          throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
+      }
+      if (entreprise.getAdresse() == null || entreprise.getAdresse().isEmpty()) {
+          throw new WebApplicationException("Invalid entreprise address", Response.Status.BAD_REQUEST);
+      }
+      if (entreprise.getCity() == null || entreprise.getCity().isEmpty()) {
+          throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
+      }
 
 
 
 
-        myEntrepriseUcc.addEntreprise(entreprise);
+      myEntrepriseUcc.addEntreprise(entreprise);
 
-        ObjectNode responseNode = jsonMapper.createObjectNode();
-        responseNode.put("message", "Company  created successfully");
-        return responseNode;
-    }
+      ObjectNode responseNode = jsonMapper.createObjectNode();
+      responseNode.put("message", "Company  created successfully");
+      return responseNode;
+  }
 
 
 }
