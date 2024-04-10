@@ -46,7 +46,7 @@ public interface EntrepriseDAO {
        * @param entreprise An EntrepriseDTO object containing the information
        *                 of the entreprise to be inserted.
        */
-    void addEntreprise(EntrepriseDTO entreprise);
+  void addEntreprise(EntrepriseDTO entreprise);
 
 
 

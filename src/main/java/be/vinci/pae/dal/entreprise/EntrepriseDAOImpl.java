@@ -23,12 +23,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
 
-  /**
-   * Retrieves an entreprise from the database.
-   *
-   * @param id the id of the entreprise to retrieve.
-   * @return the entreprise with the specified id.
-   */
+/**
+* Retrieves an entreprise from the database.
+*
+* @param id the id of the entreprise to retrieve.
+* @return the entreprise with the specified id.
+*/
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     String query = "SELECT * FROM pae.companies "
@@ -47,12 +47,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     return null;
   }
 
-    /**
-     * Retrieves an entreprise from the database.
-     *
-     * @paraam name and designation of the company to retrieve.
-     * @return the entreprise with the specified name and designation.
-     */
+/**
+* Retrieves an entreprise from the database.
+*
+* @paraam name and designation of the company to retrieve.
+* @return the entreprise with the specified name and designation.
+*/
 @Override
 public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
     String query = "SELECT * FROM pae.companies "
