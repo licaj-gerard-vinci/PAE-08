@@ -102,11 +102,11 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       dalServices.startTransaction();
       EntrepriseDTO entrepriseFromDb = entrepriseDAO
               .getEntrepriseByNameDesignation(entreprise.getNom(),
-      entreprise.getAppellation());
-    if (entrepriseFromDb != null) {
-        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom() + " et l'appellation " +
-        entreprise.getAppellation() + " existe déjà.");
-    }
+          entreprise.getAppellation());
+      if (entrepriseFromDb != null) {
+          throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
+                  + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
+      }
       entrepriseDAO.addEntreprise(entreprise);
       dalServices.commitTransaction();
     } catch (ConflictException e) {
