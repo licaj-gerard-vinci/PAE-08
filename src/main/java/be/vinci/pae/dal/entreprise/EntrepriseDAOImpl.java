@@ -23,12 +23,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
 
-/**
-* Retrieves an entreprise from the database.
-*
-* @param id the id of the entreprise to retrieve.
-* @return the entreprise with the specified id.
-*/
+    /**
+    * Retrieves an entreprise from the database.
+    *
+    * @param id the id of the entreprise to retrieve.
+    * @return the entreprise with the specified id.
+    */
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     String query = "SELECT * FROM pae.companies "
@@ -53,23 +53,23 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 * @paraam name and designation of the company to retrieve.
 * @return the entreprise with the specified name and designation.
 */
-@Override
-public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
-    String query = "SELECT * FROM pae.companies "
-            + "WHERE LOWER(company_name) LIKE LOWER(?) AND LOWER(company_designation) LIKE LOWER(?)";
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-        statement.setString(1, name);
-        statement.setString(2, designation);
-        try (ResultSet rs = statement.executeQuery()) {
-            if (rs.next()) {
-                return rsToEntreprises(rs, "get");
-            }
-        }
-    } catch (SQLException e) {
-        throw new FatalException(e);
-    }
-    return null;
-}
+  @Override
+  public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
+      String query = "SELECT * FROM pae.companies "
+              + "WHERE LOWER(company_name) LIKE LOWER(?) AND LOWER(company_designation) LIKE LOWER(?)";
+      try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+          statement.setString(1, name);
+          statement.setString(2, designation);
+          try (ResultSet rs = statement.executeQuery()) {
+              if (rs.next()) {
+                  return rsToEntreprises(rs, "get");
+              }
+          }
+      } catch (SQLException e) {
+          throw new FatalException(e);
+      }
+      return null;
+  }
 
   /**
    * Retrieves all entreprises from the database.
