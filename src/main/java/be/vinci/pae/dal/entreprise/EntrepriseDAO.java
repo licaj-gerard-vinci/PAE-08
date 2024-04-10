@@ -40,12 +40,12 @@ public interface EntrepriseDAO {
    */
   EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation);
 
-    /**
-       * Inserts a new entreprise into the database.
-       *
-       * @param entreprise An EntrepriseDTO object containing the information
-       *                 of the entreprise to be inserted.
-       */
+  /**
+     * Inserts a new entreprise into the database.
+     *
+     * @param entreprise An EntrepriseDTO object containing the information
+     *                 of the entreprise to be inserted.
+     */
   void addEntreprise(EntrepriseDTO entreprise);
 
 
