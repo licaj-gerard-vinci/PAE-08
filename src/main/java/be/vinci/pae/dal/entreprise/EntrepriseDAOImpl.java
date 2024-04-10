@@ -153,11 +153,11 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
       statement.setInt(10, entreprise.getVersion());
       statement.executeUpdate();
     } catch (SQLException e) {
-        throw new FatalException(e);
+      throw new FatalException(e);
     }
-    }
+  }
 
-    private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
+  private EntrepriseDTO rsToEntreprises(ResultSet rs, String method) throws SQLException {
     return dalBackServiceUtils.fillEntrepriseDTO(rs, method);
   }
 }
