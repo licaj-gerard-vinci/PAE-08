@@ -6,6 +6,8 @@ import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.entreprise.EntrepriseUCCImpl;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.factory.FactoryImpl;
+import be.vinci.pae.business.responsable.ResponsableUCC;
+import be.vinci.pae.business.responsable.ResponsableUCCImpl;
 import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.stage.StageUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
@@ -15,6 +17,8 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.contact.ContactDAOImpl;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.manager.ManagerDAO;
+import be.vinci.pae.dal.manager.ManagerDAOImpl;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.dal.stage.StageDAOImpl;
 import be.vinci.pae.dal.user.UserDAO;
@@ -52,6 +56,9 @@ public class ApplicationBinderTest extends AbstractBinder {
 
     bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
     bind(Mockito.mock(StageDAOImpl.class)).to(StageDAO.class);
+
+    bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);
+    bind(Mockito.mock(ManagerDAOImpl.class)).to(ManagerDAO.class);
   }
 }
   
