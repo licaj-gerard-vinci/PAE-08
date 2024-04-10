@@ -96,7 +96,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
      * Adds an entreprise.
      *
      * @param entreprise the entreprise to add.
-     *
      */
 
   public void addEntreprise(EntrepriseDTO entreprise) {
