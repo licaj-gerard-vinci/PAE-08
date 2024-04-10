@@ -23,12 +23,12 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
 
-    /**
-    * Retrieves an entreprise from the database.
-    *
-    * @param id the id of the entreprise to retrieve.
-    * @return the entreprise with the specified id.
-    */
+  /**
+  * Retrieves an entreprise from the database.
+  *
+  * @param id the id of the entreprise to retrieve.
+  * @return the entreprise with the specified id.
+  */
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     String query = "SELECT * FROM pae.companies "
