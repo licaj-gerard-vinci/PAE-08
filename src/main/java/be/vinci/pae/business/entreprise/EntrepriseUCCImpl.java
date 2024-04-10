@@ -2,7 +2,6 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
-
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -97,25 +96,24 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
      * Adds an entreprise.
      *
      * @param entreprise the entreprise to add.
-     * @return the added entreprise.
+     *
      */
 
-    public void addEntreprise(EntrepriseDTO entreprise) {
-        try {
-            dalServices.startTransaction();
-            EntrepriseDTO entrepriseFromDb = entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(), entreprise.getAppellation());
-            if (  entrepriseFromDb != null ) {
-                throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom() + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
-            }
-            entrepriseDAO.addEntreprise(entreprise);
-            dalServices.commitTransaction();
-        } catch (ConflictException e) {
-            System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
-        } finally {
-            dalServices.close();
-        }
+  public void addEntreprise(EntrepriseDTO entreprise) {
+    try {
+        dalServices.startTransaction();
+        EntrepriseDTO entrepriseFromDb = entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
+        entreprise.getAppellation());
+    if (entrepriseFromDb != null) {
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom() + " et l'appellation " +
+        entreprise.getAppellation() + " existe déjà.");
     }
-
-
-
+        entrepriseDAO.addEntreprise(entreprise);
+        dalServices.commitTransaction();
+    } catch (ConflictException e) {
+        System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
+    } finally {
+        dalServices.close();
+    }
+  }
 }
