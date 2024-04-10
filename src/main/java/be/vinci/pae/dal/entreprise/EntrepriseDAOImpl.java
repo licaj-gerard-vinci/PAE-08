@@ -94,11 +94,11 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     }
     return entreprises;
   }
-    /**
-     * Adds an entreprise to the database.
-     *
-     * @param entreprise the entreprise to add.
-     */
+  /**
+   * Adds an entreprise to the database.
+   *
+   * @param entreprise the entreprise to add.
+   */
 
   public void addEntreprise (EntrepriseDTO entreprise) {
     String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,"
