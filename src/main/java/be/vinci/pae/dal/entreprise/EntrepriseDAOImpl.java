@@ -108,21 +108,21 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
         + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-        statement.setString(1, entreprise.getNom());
-        statement.setString(2, entreprise.getAppellation());
-        statement.setString(3, entreprise.getAdresse());
-        statement.setString(4, entreprise.getCity());
-        statement.setString(5, entreprise.getNumTel());
-        statement.setString(6, entreprise.getEmail());
-        statement.setString(7, entreprise.getMotivation());
+      statement.setString(1, entreprise.getNom());
+      statement.setString(2, entreprise.getAppellation());
+      statement.setString(3, entreprise.getAdresse());
+      statement.setString(4, entreprise.getCity());
+      statement.setString(5, entreprise.getNumTel());
+      statement.setString(6, entreprise.getEmail());
+      statement.setString(7, entreprise.getMotivation());
 
-        try (ResultSet rs = statement.executeQuery()) {
-            if (rs.next()) {
-            entreprise.setId(rs.getInt(1));
-            }
-        }
-        } catch (SQLException e) {
-        throw new FatalException(e);
+      try (ResultSet rs = statement.executeQuery()) {
+          if (rs.next()) {
+          entreprise.setId(rs.getInt(1));
+          }
+      }
+      } catch (SQLException e) {
+      throw new FatalException(e);
     }
 
   }
