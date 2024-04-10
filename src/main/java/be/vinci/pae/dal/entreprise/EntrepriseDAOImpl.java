@@ -56,18 +56,18 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
     String query = "SELECT * FROM pae.companies "
-            + "WHERE LOWER(company_name) LIKE LOWER(?) AND" +
-            " LOWER(company_designation) LIKE LOWER(?)";
+            + "WHERE LOWER(company_name) LIKE LOWER(?) AND"
+            + " LOWER(company_designation) LIKE LOWER(?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-        statement.setString(1, name);
-        statement.setString(2, designation);
+      statement.setString(1, name);
+      statement.setString(2, designation);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-            return rsToEntreprises(rs, "get");
+          return rsToEntreprises(rs, "get");
         }
       }
     } catch (SQLException e) {
-        throw new FatalException(e);
+      throw new FatalException(e);
     }
     return null;
   }
@@ -94,37 +94,37 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
     }
     return entreprises;
   }
-  /**
-   * Enregister a new entreprise in the database
-   * @param entreprise the entreprise to add
-   * @return the id of the new entreprise
-   */
+    /**
+     * Adds an entreprise to the database.
+     *
+     * @param entreprise the entreprise to add.
+     */
 
-    public void addEntreprise (EntrepriseDTO entreprise) {
-      String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,"
-          + "company_phone_number, company_email, company_is_blacklisted,company_blacklist_reason,company_version) "
-          + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
+  public void addEntreprise (EntrepriseDTO entreprise) {
+    String query = "INSERT INTO pae.companies (company_name, company_designation, company_address,company_city,"
+        + "company_phone_number, company_email, company_is_blacklisted,company_blacklist_reason,company_version) "
+        + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
 
-        try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-            statement.setString(1, entreprise.getNom());
-            statement.setString(2, entreprise.getAppellation());
-            statement.setString(3, entreprise.getAdresse());
-            statement.setString(4, entreprise.getCity());
-            statement.setString(5, entreprise.getNumTel());
-            statement.setString(6, entreprise.getEmail());
-            statement.setString(7, entreprise.getMotivation());
+      try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+          statement.setString(1, entreprise.getNom());
+          statement.setString(2, entreprise.getAppellation());
+          statement.setString(3, entreprise.getAdresse());
+          statement.setString(4, entreprise.getCity());
+          statement.setString(5, entreprise.getNumTel());
+          statement.setString(6, entreprise.getEmail());
+          statement.setString(7, entreprise.getMotivation());
 
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                entreprise.setId(rs.getInt(1));
-                }
-            }
-            } catch (SQLException e) {
-            throw new FatalException(e);
+          try (ResultSet rs = statement.executeQuery()) {
+              if (rs.next()) {
+              entreprise.setId(rs.getInt(1));
+              }
+          }
+          } catch (SQLException e) {
+          throw new FatalException(e);
 
-        }
+      }
 
-    }
+  }
 
     /**
      * Updates the entreprise in the database.
