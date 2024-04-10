@@ -104,7 +104,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
               .getEntrepriseByNameDesignation(entreprise.getNom(),
           entreprise.getAppellation());
       if (entrepriseFromDb != null) {
-          throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
                   + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
       }
       entrepriseDAO.addEntreprise(entreprise);
