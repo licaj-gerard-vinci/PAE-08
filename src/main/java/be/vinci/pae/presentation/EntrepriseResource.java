@@ -118,11 +118,11 @@ public class EntrepriseResource {
 
 
 
-      myEntrepriseUcc.addEntreprise(entreprise);
+    myEntrepriseUcc.addEntreprise(entreprise);
 
-      ObjectNode responseNode = jsonMapper.createObjectNode();
-      responseNode.put("message", "Company  created successfully");
-      return responseNode;
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Company  created successfully");
+    return responseNode;
   }
 
 
