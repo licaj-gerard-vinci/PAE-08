@@ -94,6 +94,12 @@ public class EntrepriseResource {
     return responseNode;
   }
 
+  /**
+   * Add a company.
+   *
+   * @param entreprise The company to add.
+   * @return The company added.
+   */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
