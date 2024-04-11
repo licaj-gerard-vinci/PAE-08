@@ -16,6 +16,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
 
   @Inject
   private EntrepriseDAO entrepriseDAO;
+
   @Inject
   private DALServices dalServices;
 
@@ -88,4 +89,30 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
     }
   }
 
+
+
+  /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   */
+
+  public void addEntreprise(EntrepriseDTO entreprise) {
+    try {
+      dalServices.startTransaction();
+      EntrepriseDTO entrepriseFromDb = entrepriseDAO
+              .getEntrepriseByNameDesignation(entreprise.getNom(),
+          entreprise.getAppellation());
+      if (entrepriseFromDb != null) {
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
+                  + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
+      }
+      entrepriseDAO.addEntreprise(entreprise);
+      dalServices.commitTransaction();
+    } catch (ConflictException e) {
+      System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
+    } finally {
+      dalServices.close();
+    }
+  }
 }
