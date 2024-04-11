@@ -113,6 +113,8 @@ async function checkCompany() {
             return;
         }
         NameError.textContent = '';
+
+
         if(adresseValue === '') {
             AdresseError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
             return;
@@ -142,7 +144,7 @@ async function checkCompany() {
 
         }
         const entrepriseList = await getEntreprises();
-        const entrepriseExist = entrepriseList.find(entreprises => entreprises.nom === nameValue && entreprises.appellation === appelationValue);
+        const entrepriseExist = entrepriseList.find(entreprises => entreprises.nom.toLowerCase() === nameValue.toLowerCase() && entreprises.appellation.toLowerCase() === appelationValue.toLowerCase());
         if(entrepriseExist) {
             SubmitError.textContent = 'Cette entreprise existe déjà';
             return;
