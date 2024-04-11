@@ -97,7 +97,7 @@ public class ManagerDAOImpl implements ManagerDAO {
   public List<ResponsableDTO> getManager(ResponsableDTO manager) {
     String query = "SELECT m.*,c.*"
         + " FROM pae.managers m, pae.companies c "
-        + "WHERE m.manager_lastname = ? AND m.manager_firstname = ?"
+        + "WHERE LOWER(m.manager_lastname) LIKE LOWER(?) AND LOWER(m.manager_firstname) LIKE LOWER(?)"
         + "AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();

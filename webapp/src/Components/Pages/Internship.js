@@ -149,11 +149,14 @@ const Internship = async (contactFound) => {
         }, 3000);
         return;
       }
+      console.log('manager options before push: ',managerOptions, ', managers: ', managers);
       managers.push(newManager);
+      managers = await getManagers(contact.entreprise.id);
+      managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.prenom} ${managerItem.nom}</option>`).join('');
+      console.log('manager options after push: ',managerOptions, ', managers: ', managers);
 
-      const updatedManagerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.prenom} ${managerItem.nom}</option>`).join('');
       // Update the select element with the new options
-      document.getElementById('managerId').innerHTML = updatedManagerOptions;
+      document.getElementById('managerId').innerHTML = managerOptions;
 
       // Show the success modal
       const successModal = document.getElementById('successModal');
