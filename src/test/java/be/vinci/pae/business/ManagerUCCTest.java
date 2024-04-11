@@ -7,13 +7,18 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.responsable.ResponsableUCC;
 import be.vinci.pae.dal.manager.ManagerDAO;
+import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.NotFoundException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ManagerUCCTest {
 
@@ -37,15 +42,6 @@ public class ManagerUCCTest {
   }
 
   @Test
-  @DisplayName("Test getManagers of ResponsableUCCImpl class")
-  void testGetManagersException() {
-    int companyId = -1;
-    assertThrows(NotFoundException.class, () -> {
-      responsableUCC.getManagers(companyId);
-    });
-  }
-
-  @Test
   @DisplayName("Test addManager of ResponsableUCCImpl class")
   void testAddManagerDefault() {
     ResponsableDTO responsableDTO = factory.getManagerDTO();
@@ -62,13 +58,16 @@ public class ManagerUCCTest {
   @DisplayName("Test addManager of ResponsableUCCImpl class")
   void testAddManagerException() {
     ResponsableDTO responsableDTO = factory.getManagerDTO();
+
     responsableDTO.setNom("test");
     responsableDTO.setPrenom("test");
     responsableDTO.setEmail("");
     responsableDTO.setNumTel("048590000");
     responsableDTO.setEntreprise(factory.getEntrepriseDTO());
 
-    assertThrows(NotFoundException.class, () -> {
+    Mockito.when(responsableDAO.getManager(responsableDTO)).thenReturn(Arrays.asList(responsableDTO));
+
+    assertThrows(ConflictException.class, () -> {
       responsableUCC.addManager(responsableDTO);
     });
   }

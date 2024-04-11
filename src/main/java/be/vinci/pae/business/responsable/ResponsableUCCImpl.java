@@ -32,9 +32,6 @@ public class ResponsableUCCImpl implements ResponsableUCC {
     try {
       dalServices.startTransaction();
       List<ResponsableDTO> manager = managerDAO.getManagers(companyId);
-      if (manager.isEmpty()) {
-        throw new NotFoundException("Manager not found");
-      }
       dalServices.commitTransaction();
       return manager;
     } catch (FatalException e) {
