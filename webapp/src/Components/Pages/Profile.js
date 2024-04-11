@@ -126,17 +126,17 @@ function renderProfile(user) {
 
           <div class="mb-3">
             <label for="lastname" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="lastname" value="${user.user.lastname}">
+            <input type="text" class="form-control" id="lastname" value="${user.user.lastname}" readonly>
           </div>
 
             <div class="mb-3">
               <label for="firstname" class="form-label">Prénom</label>
-              <input type="text" class="form-control" id="firstname" value="${user.user.firstname}">
+              <input type="text" class="form-control" id="firstname" value="${user.user.firstname}" readonly>
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label">Adresse email</label>
-              <input type="email" class="form-control" id="email" value="${user.user.email}">
+              <input type="email" class="form-control" id="email" value="${user.user.email}" readonly>
             </div>
             <div class="mb-3">
               <label for="phone" class="form-label">Numéro de téléphone</label>

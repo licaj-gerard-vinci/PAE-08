@@ -64,7 +64,7 @@ public class ManagerResource {
       throw new NotFoundException("Manager cannot be null");
     }
     if (manager.getNom() == null || manager.getPrenom() == null
-        || manager.getIdEntreprise() == 0) {
+        || manager.getNumTel().isEmpty() || manager.getIdEntreprise() <= 0) {
       throw new NotFoundException("Manager information is incomplete");
     }
     myManagerUCC.addManager(manager);

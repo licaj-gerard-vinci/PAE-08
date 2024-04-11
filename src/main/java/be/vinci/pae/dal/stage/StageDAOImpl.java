@@ -110,7 +110,7 @@ public class StageDAOImpl implements StageDAO {
       statement.setInt(2, internship.getEtudiant().getId());
       statement.setInt(3, internship.getContact().getId());
       statement.setInt(4, internship.getEntreprise().getId());
-      statement.setInt(5, internship.getContact().getIdAnnee());
+      statement.setInt(5, internship.getEtudiant().getidSchoolYear());
       statement.setString(6, internship.getSujet());
       statement.setDate(7, internship.getdateSignature());
       statement.executeUpdate();

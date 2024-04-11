@@ -49,7 +49,7 @@ Content-Type: application/json
 }
 
 ### Get all contacts
-GET {{baseUrl}}/contacts/5
+GET {{baseUrl}}/contacts/10
 Authorization: {{token}}
 
 ### Update a contact

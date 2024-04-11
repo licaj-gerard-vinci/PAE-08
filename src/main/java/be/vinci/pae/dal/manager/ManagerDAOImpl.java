@@ -59,6 +59,34 @@ public class ManagerDAOImpl implements ManagerDAO {
   }
 
   /**
+   * Retrieves the manager by its email.
+   *
+   * @param email the email of the manager to retrieve
+   * @return a ManagerDTO object representing the manager
+   * @throws FatalException if an error occurs during the operation
+   */
+  @Override
+  public ResponsableDTO getManagerByEmail(String email) {
+    String query = "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE m.manager_email = ? AND m.manager_company_id = c.company_id";
+
+    ResponsableDTO manager = null;
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, email);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          manager = rsToManager(rs, "get");
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return manager;
+  }
+
+  /**
    * Retrieves a manager by its first name, last name and email.
    *
    * @param manager the manager to retrieve if exists
@@ -67,9 +95,9 @@ public class ManagerDAOImpl implements ManagerDAO {
    */
   @Override
   public List<ResponsableDTO> getManager(ResponsableDTO manager) {
-    String query = "SELECT m.*,c.* "
-        + "FROM pae.managers m, pae.companies c "
-        + "WHERE m.manager_lastname = ? AND m.manager_firstname = ?"
+    String query = "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE LOWER(m.manager_lastname) LIKE LOWER(?) AND LOWER(m.manager_firstname) LIKE LOWER(?)"
         + "AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();
