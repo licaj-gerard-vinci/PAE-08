@@ -18,11 +18,20 @@ public interface ManagerDAO {
   List<ResponsableDTO> getManagers(int companyId);
 
   /**
+   * Retrieves the manager by its email.
+   *
+   * @param email the email of the manager to retrieve
+   * @return a ManagerDTO object representing the manager
+   */
+  ResponsableDTO getManagerByEmail(String email);
+
+  /**
    * Adds a manager to the database.
    *
    * @param manager the manager to add
    */
   void addManager(ResponsableDTO manager);
+
 
   /**
    * Retrieves the manager by its first name, last name and email.

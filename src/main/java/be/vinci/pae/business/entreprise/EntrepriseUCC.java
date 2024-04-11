@@ -24,6 +24,13 @@ public interface EntrepriseUCC {
   List<EntrepriseDTO> getEntreprises();
 
   /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   */
+  void addEntreprise(EntrepriseDTO entreprise);
+
+  /**
    * Updates the entreprise.
    *
    * @param entreprise the entreprise to update.

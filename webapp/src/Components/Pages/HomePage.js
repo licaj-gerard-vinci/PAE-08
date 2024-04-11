@@ -27,7 +27,6 @@ const HomePage = async () => {
 async function renderHomePage(){
   const main = document.querySelector('main');
   const user = await refreshUser();
-  console.log("user: ", user);
 
   if(user.hasInternship === true) {
     Navigate('/profile')
@@ -38,7 +37,15 @@ async function renderHomePage(){
     Navigate('/dashboard');
   } else if (user.role === "E") {
     const contacts = await getContacts();
-    const searchBar = `<div class="container-fluid">
+    const searchBar = `
+  <div class="container-fluid mt-4">
+    <!-- Bouton "Ajouter l'entreprise" aligné à gauche avec du padding -->
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-primary px-4 py-2" id="button-addon3"> + Ajouter l'entreprise</button>
+    </div>
+  </div>
+  
+<div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-10 col-md-8 col-lg-6">
         <div class="input-group mb-3">
@@ -183,7 +190,6 @@ async function renderHomePage(){
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
-            console.log('before insert informations: entreprise: ', entreprise, ', user: ', user)
             await insertContact(entreprise, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;
@@ -211,8 +217,7 @@ async function renderHomePage(){
         if (acceptedButton) {
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
-            // Stock the contactId inside a sessionStorage 
+            // Stock the contactId inside a sessionStorage
             sessionStorage.setItem('contactId', contactFound.id); 
             Navigate('/internship', contactFound.id);
             acceptedButton.disabled = false;
@@ -224,9 +229,7 @@ async function renderHomePage(){
             const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
             await updateContact(contactFound.id, entreprise, user, "non suivi", null, null, contactVersion);
-            console.log('after update')
             await renderHomePage();
             unsupervisedButton.disabled = false;
           });
@@ -255,12 +258,10 @@ async function renderHomePage(){
 
     searchButton.addEventListener('click', async () => {
       const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-      console.log('searchInput: ', searchInput);
       if (searchInput !== '') {
         searchResult = entreprises.filter(entreprise =>
             entreprise.nom.toLowerCase().includes(searchInput)
         );
-        console.log('searchResult: ', searchResult);
       } else {
         await renderEntreprises();
       }
@@ -269,6 +270,13 @@ async function renderHomePage(){
   } else {
     console.log("Unknown user role");
   }
+if(user.role === "E"){
+const addCompanie = document.getElementById('button-addon3');
+  addCompanie.addEventListener('click', () => {
+    window.location.href = '/addCompany';
+  });
+
+}
 }
 
 export default HomePage;
