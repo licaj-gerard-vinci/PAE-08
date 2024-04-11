@@ -24,6 +24,7 @@ public interface ManagerDAO {
    */
   void addManager(ResponsableDTO manager);
 
+
   /**
    * Retrieves the manager by its first name, last name and email.
    *
