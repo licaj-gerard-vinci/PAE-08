@@ -50,7 +50,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Retrieves all contact information for a specific user.
    *
    * @param idUser the ID of the user
-   * @return a list of contacts with all information
+   * @return a list of the user contacts
    */
   @Override
   public List<ContactDTO> getContactsAllInfo(int idUser) {
