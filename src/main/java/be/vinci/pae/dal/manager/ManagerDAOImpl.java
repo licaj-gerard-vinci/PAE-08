@@ -58,33 +58,33 @@ public class ManagerDAOImpl implements ManagerDAO {
     return managers;
   }
 
-    /**
-     * Retrieves the manager by its email.
-     *
-     * @param email the email of the manager to retrieve
-     * @return a ManagerDTO object representing the manager
-     * @throws FatalException if an error occurs during the operation
-     */
-    @Override
-    public ResponsableDTO getManagerByEmail(String email) {
-      String query = "SELECT m.*,c.*"
-          + " FROM pae.managers m, pae.companies c "
-          + "WHERE m.manager_email = ? AND m.manager_company_id = c.company_id";
+  /**
+   * Retrieves the manager by its email.
+   *
+   * @param email the email of the manager to retrieve
+   * @return a ManagerDTO object representing the manager
+   * @throws FatalException if an error occurs during the operation
+   */
+  @Override
+  public ResponsableDTO getManagerByEmail(String email) {
+    String query = "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE m.manager_email = ? AND m.manager_company_id = c.company_id";
 
-      ResponsableDTO manager = null;
+    ResponsableDTO manager = null;
 
-      try (PreparedStatement statement = dalService.preparedStatement(query)) {
-        statement.setString(1, email);
-        try (ResultSet rs = statement.executeQuery()) {
-          if (rs.next()) {
-            manager = rsToManager(rs, "get");
-          }
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, email);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          manager = rsToManager(rs, "get");
         }
-      } catch (SQLException e) {
-        throw new FatalException(e);
       }
-      return manager;
+    } catch (SQLException e) {
+      throw new FatalException(e);
     }
+    return manager;
+  }
 
   /**
    * Retrieves a manager by its first name, last name and email.
