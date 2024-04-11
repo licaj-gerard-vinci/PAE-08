@@ -94,7 +94,7 @@ public class ContactUCCTest {
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId()))
-        .thenThrow(new NotFoundException("User not found"));
+        .thenReturn(null);
     Mockito.when(companyDAO.getEntreprise(contact.getEntreprise().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
@@ -122,7 +122,7 @@ public class ContactUCCTest {
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
     Mockito.when(companyDAO.getEntreprise(contact.getEntreprise().getId()))
-        .thenThrow(new NotFoundException("Company not found"));
+        .thenReturn(null);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
     // company not found
@@ -404,7 +404,7 @@ public class ContactUCCTest {
     int idCompany = 1;
 
     // Define the behavior of the mock
-    Mockito.when(contactDAO.getContactsByCompanyId(idCompany)).thenReturn(null);
+    Mockito.when(companyDAO.getEntreprise(idCompany)).thenReturn(null);
 
     assertThrows(NotFoundException.class,
         () -> contactUCC.getContactsByCompanyId(idCompany));
