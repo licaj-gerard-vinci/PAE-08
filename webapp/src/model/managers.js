@@ -40,7 +40,7 @@ async function addManager(manager) {
     };
     const response = await fetch('http://localhost:8080/managers/insert', options);
     if (!response.ok) {
-      return "Impossible d'ajouter le responsable";
+      return null;
     }
   }
   return manager;
