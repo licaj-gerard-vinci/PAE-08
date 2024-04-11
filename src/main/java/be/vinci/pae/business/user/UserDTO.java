@@ -130,14 +130,14 @@ public interface UserDTO {
    *
    * @return the academic year of the user.
    */
-  YearDTO getYear();
+  YearDTO getSchoolyear();
 
   /**
    * Sets the academic year of the user.
    *
    * @param year the new academic year for the user.
    */
-  void setYear(YearDTO year);
+  void setSchoolyear(YearDTO year);
 
   /**
    * Gets the academic year of the user.
@@ -153,6 +153,20 @@ public interface UserDTO {
    * @param hasInternship the internship status to set for the user.
    */
   void setHasInternship(boolean hasInternship);
+
+  /**
+   * Get the idSchoolYear of the user.
+   *
+   * @return the idSchoolYear of the user.
+   */
+  int getidSchoolYear();
+
+  /**
+   * Set the idSchoolYear of the user.
+   *
+   * @return the idSchoolYear of the user.
+   */
+  void setidSchoolYear(int idSchoolYear);
 
   /**
    * Gets the version.

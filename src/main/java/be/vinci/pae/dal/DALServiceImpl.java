@@ -70,6 +70,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (transactionCounter.get() == 0) {
         getConnection().setAutoCommit(false);
       }
+      System.out.println("avant le start " + dataSource.getConnection() );
       transactionCounter.set(transactionCounter.get() + 1);
     } catch (SQLException e) {
       throw new FatalException(e);

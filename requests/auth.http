@@ -24,12 +24,8 @@ Content-Type: application/json
   "registrationDate": "23-03-24 11:00:00",
   "role": "E",
   "hasInternship": false,
-  "version": 1,
-  "year": {
-    "id": 1,
-    "annee": "2023-2024",
-    "version": 1
-  }
+  "version": 1
+
 }
 
 > {%

@@ -1,5 +1,8 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.year.YearDTO;
+import be.vinci.pae.business.year.YearUCC;
+import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
@@ -7,6 +10,8 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,6 +27,8 @@ public class UserUCCImpl implements UserUCC {
   private UserDAO userDAO;
   @Inject
   private DALServices dalServices;
+  @Inject
+  private YearUCC yearUCC;
 
 
 
@@ -106,6 +113,23 @@ public class UserUCCImpl implements UserUCC {
     } else {
       throw new BusinessException("Invalid email");
     }
+
+    // Get the current date in the format YYYY-MM-DD
+    LocalDate currentDate = LocalDate.now();
+    int currentMonth = currentDate.getMonthValue();
+
+    // Determine the academic year
+    String academicYear;
+    if (currentMonth < 9) {
+      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
+    } else {
+      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
+    }
+
+    YearDTO year = yearUCC.getYearByYear(academicYear);
+
+    // Set the year and year ID for the user
+    userDTO.setidSchoolYear(year.getId());
 
     try {
       dalServices.startTransaction();

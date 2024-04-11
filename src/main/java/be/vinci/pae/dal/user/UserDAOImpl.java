@@ -109,15 +109,16 @@ public class UserDAOImpl implements UserDAO {
         "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname, "
             + "user_school_year_id, user_phone_number, user_role, user_registration_date, "
             + "user_has_internship, user_version) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE, 1) RETURNING user_id";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, FALSE, 1) RETURNING user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
       statement.setString(2, user.getPassword());
       statement.setString(3, user.getLastname());
       statement.setString(4, user.getFirstname());
-      statement.setString(5, user.getPhone());
-      statement.setString(6, user.getRole());
-      statement.setDate(7, (java.sql.Date) user.getRegistrationDate());
+      statement.setInt(5, user.getidSchoolYear());
+      statement.setString(6, user.getPhone());
+      statement.setString(7, user.getRole());
+      statement.setDate(8, (java.sql.Date) user.getRegistrationDate());
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
           user.setId(rs.getInt("user_id"));
@@ -131,22 +132,7 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
-  /**
-   * Retrieves a single user by their login and password.
-   *
-   * @param rs the ResultSet containing user data.
-   * @return a UserDTO object populated with user data from the ResultSet row.
-   * @throws SQLException if an error occurs while accessing the ResultSet.
-   */
-  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
-    YearDTO year = factory.getYearDTO();
-    year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
-    year.setVersion(rs.getInt("school_year_version"));
-    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
-    user.setYear(year);
-    return user;
-  }
+
 
 
   /**
@@ -159,12 +145,12 @@ public class UserDAOImpl implements UserDAO {
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
         + "user_phone_number = ?, user_version = user_version + 1 ,"
-        + " user_has_internship = ? where user_version = ? ";
+        + " user_has_internship = ? ";
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       query += ", user_password = ?";
     }
-    query += " WHERE user_id = ?";
+    query += " WHERE user_id = ? ";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
@@ -190,5 +176,22 @@ public class UserDAOImpl implements UserDAO {
     }
   }
 
+
+
+    /**
+     * Fills a UserDTO with data from a ResultSet.
+     *
+     * @param rs the ResultSet containing user data.
+     * @return UserDTO filled with data from the ResultSet.
+     * @throws SQLException if there is an issue accessing the ResultSet data.
+     */
+    private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
+      UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
+      YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
+      System.out.println(rs);
+      user.setidSchoolYear(year.getId());
+      user.setSchoolyear(year);
+      return user;
+    }
 
 }

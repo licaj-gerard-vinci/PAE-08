@@ -25,7 +25,7 @@ import java.util.Date;
  */
 @Singleton
 @Provider
-@Authorize
+@Authorize("user")
 public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));

@@ -25,8 +25,10 @@ public class ContactImpl implements Contact {
   private String raisonRefus;
 
   private YearDTO annee;
+  private int idAnnee;
 
   private int version;
+
 
 
 
@@ -184,6 +186,26 @@ public class ContactImpl implements Contact {
   @Override
   public void setAnnee(YearDTO annee) {
     this.annee = annee;
+  }
+
+  /**
+   * Gets the associated year ID.
+   *
+   * @return the associated year ID.
+   */
+  @Override
+  public int getIdAnnee() {
+      return idAnnee;
+  }
+
+  /**
+   * Sets the associated year ID.
+   *
+   * @param idAnnee
+   */
+  @Override
+  public void setIdAnnee(int idAnnee) {
+      this.idAnnee = idAnnee;
   }
 
   /**

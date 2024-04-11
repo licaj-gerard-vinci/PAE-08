@@ -27,9 +27,6 @@ public class ContactDAOImpl implements ContactDAO {
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
 
-  @Inject
-  private Factory factory;
-
   /**
    * Gets the contacts.
    *
@@ -164,11 +161,12 @@ public class ContactDAOImpl implements ContactDAO {
     String query = "INSERT INTO pae.contacts "
         + "(contact_school_year_id, contact_company_id, contact_student_id, "
         + "contact_status, contact_version) "
-        + "VALUES (1, ?, ?, ?, 1)";
+        + "VALUES (?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, contact.getEntreprise().getId());
-      statement.setInt(2, contact.getUtilisateur().getId());
-      statement.setString(3, contact.getEtatContact());
+      statement.setInt(1, contact.getUtilisateur().getidSchoolYear());
+      statement.setInt(2, contact.getEntreprise().getId());
+      statement.setInt(3, contact.getUtilisateur().getId());
+      statement.setString(4, contact.getEtatContact());
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -225,13 +223,8 @@ public class ContactDAOImpl implements ContactDAO {
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     contact.setIdUtilisateur(user.getId());
     contact.setUtilisateur(user);
-    if (method.equals("get")) {
-      YearDTO year = factory.getYearDTO();
-      year.setId(rs.getInt("school_year_id"));
-      year.setAnnee(rs.getString("year"));
-      year.setVersion(rs.getInt("school_year_version"));
-      contact.setAnnee(year);
-    }
+    YearDTO annee = dalBackServiceUtils.fillYearDTO(rs);
+    contact.setAnnee(annee);
     return contact;
   }
 }

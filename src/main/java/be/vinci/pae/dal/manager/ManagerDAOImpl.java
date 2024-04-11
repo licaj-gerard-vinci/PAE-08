@@ -38,8 +38,8 @@ public class ManagerDAOImpl implements ManagerDAO {
   @Override
   public List<ResponsableDTO> getManagers(int companyId) {
     String query =
-        "SELECT m.*,c.*"
-            + " FROM pae.managers m, pae.companies c "
+        "SELECT m.*,c.* "
+            + "FROM pae.managers m, pae.companies c "
             + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();
@@ -67,8 +67,8 @@ public class ManagerDAOImpl implements ManagerDAO {
    */
   @Override
   public List<ResponsableDTO> getManager(ResponsableDTO manager) {
-    String query = "SELECT m.*,c.*"
-        + " FROM pae.managers m, pae.companies c "
+    String query = "SELECT m.*,c.* "
+        + "FROM pae.managers m, pae.companies c "
         + "WHERE m.manager_lastname = ? AND m.manager_firstname = ?"
         + "AND m.manager_company_id = c.company_id";
 
@@ -96,7 +96,7 @@ public class ManagerDAOImpl implements ManagerDAO {
    */
   @Override
   public void addManager(ResponsableDTO manager) {
-    String query = "INSERT INTO pae.managers ( manager_lastname, "
+    String query = "INSERT INTO pae.managers (manager_lastname, "
         + "manager_firstname, manager_phone_number, manager_email, manager_company_id, "
         + "manager_version) "
         + "VALUES (?,?,?,?,?,1)";

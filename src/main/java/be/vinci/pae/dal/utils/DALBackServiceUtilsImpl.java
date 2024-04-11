@@ -6,6 +6,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import jakarta.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,6 +39,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setHasInternship(rs.getBoolean("user_has_internship"));
+    user.setidSchoolYear(rs.getInt("user_school_year_id"));
     if (method.equals("update")) {
       user.setVersion(rs.getInt("user_version") + 1);
     } else {
@@ -134,6 +136,14 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     manager.setVersion(rs.getInt("manager_version"));
 
     return manager;
+  }
+
+  public YearDTO fillYearDTO(ResultSet rs) throws SQLException {
+    YearDTO year = (YearDTO) factory.getYearDTO();
+    year.setId(rs.getInt("school_year_id"));
+    year.setAnnee(rs.getString("year"));
+    year.setVersion(rs.getInt("school_year_version"));
+    return year;
   }
 
 }

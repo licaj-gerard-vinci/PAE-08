@@ -33,6 +33,8 @@ public class UserImpl implements User {
 
   private YearDTO schoolyear;
 
+  private int idSchoolYear;
+
   private boolean hasInternship;
 
   private int version;
@@ -227,7 +229,7 @@ public class UserImpl implements User {
    * @return the user's school year.
    */
   @Override
-  public YearDTO getYear() {
+  public YearDTO getSchoolyear() {
     return schoolyear;
   }
 
@@ -237,7 +239,7 @@ public class UserImpl implements User {
    * @param schoolyear the new school year for the user.
    */
   @Override
-  public void setYear(YearDTO schoolyear) {
+  public void setSchoolyear(YearDTO schoolyear) {
     this.schoolyear = schoolyear;
   }
 
@@ -259,6 +261,27 @@ public class UserImpl implements User {
   @Override
   public void setHasInternship(boolean hasInternship) {
     this.hasInternship = hasInternship;
+  }
+
+  /**
+   * Get the idSchoolYear of the user.
+   *
+   * @return the idSchoolYear of the user.
+   */
+  @Override
+  public int getidSchoolYear() {
+    return idSchoolYear;
+  }
+
+  /**
+   * Set the idSchoolYear of the user.
+   *
+   * @param idSchoolYear
+   * @return the idSchoolYear of the user.
+   */
+  @Override
+  public void setidSchoolYear(int idSchoolYear) {
+    this.idSchoolYear = idSchoolYear;
   }
 
   /**

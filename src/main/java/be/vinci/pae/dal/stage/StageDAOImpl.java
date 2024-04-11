@@ -104,14 +104,15 @@ public class StageDAOImpl implements StageDAO {
             + "(internship_manager_id, internship_student_id, internship_contact_id, "
             + "internship_company_id, internship_school_year_id, internship_topic, "
             + "internship_date_of_signature, internship_version) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, 1)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, internship.getIdResponsable());
       statement.setInt(2, internship.getEtudiant().getId());
       statement.setInt(3, internship.getContact().getId());
       statement.setInt(4, internship.getEntreprise().getId());
-      statement.setString(5, internship.getSujet());
-      statement.setDate(6, internship.getdateSignature());
+      statement.setInt(5, internship.getContact().getIdAnnee());
+      statement.setString(6, internship.getSujet());
+      statement.setDate(7, internship.getdateSignature());
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();

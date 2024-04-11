@@ -56,8 +56,8 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
   @Override
   public EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation) {
     String query = "SELECT * FROM pae.companies "
-            + "WHERE LOWER(company_name) LIKE LOWER(?) AND"
-            + " LOWER(company_designation) LIKE LOWER(?)";
+            + "WHERE LOWER(company_name) LIKE LOWER(?) AND "
+            + "LOWER(company_designation) LIKE LOWER(?)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, name);
       statement.setString(2, designation);
@@ -102,7 +102,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
 
   public void addEntreprise(EntrepriseDTO entreprise) {
     String query = "INSERT INTO pae.companies "
-        + "(company_name, company_designation, company_address,company_city,"
+        + "(company_name, company_designation, company_address,company_city, "
         + "company_phone_number, company_email, "
         + "company_is_blacklisted,company_blacklist_reason,company_version) "
         + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
@@ -138,8 +138,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
                 + "SET company_name = ?, company_address = ?, company_designation = ?, "
                 + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
                 + "company_email = ?, company_blacklist_reason = ?, "
-                + "company_version = company_version "
-                + "+ 1 WHERE company_id = ? AND company_version = ?";
+                + "company_version = company_version + 1 WHERE company_id = ? AND company_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, entreprise.getNom());
       statement.setString(2, entreprise.getAdresse());
