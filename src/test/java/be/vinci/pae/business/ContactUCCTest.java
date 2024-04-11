@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import be.vinci.pae.business.contact.Contact;
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
@@ -16,6 +17,7 @@ import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -262,9 +264,6 @@ public class ContactUCCTest {
     // after updating, the contact now have values for refusal reason and meeting place
     );
   }
-  /* This test is Impossible or pretty hard to test without refactoring or advanced simulations
-    I don't want them, so I can't do this specific test, if someone knows how to do, you can share
-    your solution!
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid information")
   void testUpdateContactInvalidState() {
@@ -283,15 +282,16 @@ public class ContactUCCTest {
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
     // Create a spy
-    Contact contactSpy = (Contact) Mockito.spy(contactReceived);
+    Contact contactMock = (Contact) Mockito.spy(contactReceived);
     // Stub the checkState method to return false
-    Mockito.doReturn(false).when(contactSpy).checkState(Mockito.anyString(), Mockito.anyString());
+    Mockito.when(contactMock.checkState(Mockito.anyString(),
+            Mockito.anyString())).thenReturn(false);
 
     assertThrows(BusinessException.class, () -> {
       contactUCC.updateContact(contact);
     });
   }
-*/
+
   @Test
   @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
   void testUpdateContactNotFound() {
