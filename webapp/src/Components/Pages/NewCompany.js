@@ -143,6 +143,7 @@ async function checkCompany() {
             motivation: '',
 
         }
+
         const entrepriseList = await getEntreprises();
         const entrepriseExist = entrepriseList.find(entreprises => entreprises.nom.toLowerCase() === nameValue.toLowerCase() && entreprises.appellation.toLowerCase() === appelationValue.toLowerCase());
         if(entrepriseExist) {
