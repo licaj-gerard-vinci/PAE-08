@@ -32,4 +32,11 @@ public interface StageDAO {
    */
   void insertInternship(StageDTO internship);
 
+    /**
+     * Updates an internship in the database.
+     *
+     * @param internship the internship to update
+     */
+    void updateInternshipTopic(StageDTO internship);
+
 }

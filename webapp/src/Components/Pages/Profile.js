@@ -4,9 +4,10 @@
 // eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
-import { getStagePresent } from '../../model/internships';
+import { getStagePresent,updateInternship } from '../../model/internships';
 import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
+
 
 const ProfilePage = async () => {
   clearPage();
@@ -298,9 +299,11 @@ async function displayStage() {
         modifierSujetButton.setAttribute('data-editing', 'true');
 
         // Add event listener to the input to save the new value when the user presses enter
-        sujetInput.addEventListener('keypress', (event) => {
+        sujetInput.addEventListener('keypress', async (event) => {
           if (event.key === 'Enter') {
+            await updateInternship(stage);
             modifierSujetButton.click();
+
           }
         });
       }

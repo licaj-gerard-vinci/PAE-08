@@ -104,4 +104,22 @@ public class StageUCCImpl implements StageUCC {
       throw e;
     }
   }
+
+    /**
+     * Updates the topic of an internship.
+     *
+     * @param internship the InternshipDTO object representing the internship to be updated
+     */
+
+    public void updateInternshipTopic(StageDTO internship,int id ) {
+      internship.setId(id);
+      try {
+        dalServices.startTransaction();
+        internshipDAO.updateInternshipTopic(internship);
+        dalServices.commitTransaction();
+      } catch (FatalException e) {
+        dalServices.rollbackTransaction();
+        throw e;
+      }
+    }
 }

@@ -8,13 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
@@ -87,4 +81,29 @@ public class StageResource {
     responseNode.put("message", "Internship created successfully");
     return responseNode;
   }
+
+    /**
+     * Updates the topic of an internship.
+     *
+     * @param internship the InternshipDTO object representing the internship to be updated
+     * @return a JSON object containing a success message
+     * @throws WebApplicationException if any required information is missing from the InternshipDTO
+     */
+    @PUT
+    @Path("/update/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Authorize
+    public ObjectNode updateInternshipTopic(@PathParam("id") int id ,StageDTO internship) {
+
+        if ( internship.getSujet() == null) {
+            throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
+        }
+
+        myStageUcc.updateInternshipTopic(internship,id);
+        ObjectNode responseNode = jsonMapper.createObjectNode();
+        responseNode.put("message", "Internship updated successfully");
+        return responseNode;
+
+    }
 }

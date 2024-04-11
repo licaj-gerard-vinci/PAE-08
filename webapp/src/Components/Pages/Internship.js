@@ -104,6 +104,7 @@ const Internship = async (contactFound) => {
   if (insertNewManager) {
     insertNewManager.addEventListener('click', async () => {
       document.getElementById('managerForm').style.display = 'block';
+
     });
   }
 
