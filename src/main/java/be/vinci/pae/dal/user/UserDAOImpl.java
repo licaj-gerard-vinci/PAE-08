@@ -156,6 +156,8 @@ public class UserDAOImpl implements UserDAO {
    * @return true if the user was updated successfully, false otherwise.
    */
   public boolean updateUser(UserDTO user) {
+    // We create a user, so we can get the version of the user before the update
+    // and will just add the information we want to change in it
     UserDTO userBeforeUpdate = getOneById(user.getId());
     if (userBeforeUpdate == null) {
       return false;
@@ -175,7 +177,6 @@ public class UserDAOImpl implements UserDAO {
         + "user_phone_number = ?, user_version = user_version + 1, "
         + "user_has_internship = ?";
 
-    // Vérifier si le mot de passe doit être ajouté à la requête
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
        hasPassword = true;
       query += ", user_password = ?";
