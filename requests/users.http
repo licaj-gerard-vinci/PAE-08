@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Basile.Ile@student.vinci.be",
+  "email": "annouck.lancaster@vinci.be",
   "password": "a"
 }
 
@@ -19,11 +19,21 @@ Authorization: {{token}}
 GET {{baseUrl}}/users
 Authorization: {{token}}
 
-### verify user password
-POST {{baseUrl}}/users/7/verify
+### verify user's old password
+POST {{baseUrl}}/users/4/verify
 Authorization: {{token}}
 Content-Type: application/json
 
 {
-  "Password": "a4747"
+  "Password": "a"
+}
+
+### put
+PUT {{baseUrl}}/users/4
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 4,
+  "phone": "0474747474"
 }

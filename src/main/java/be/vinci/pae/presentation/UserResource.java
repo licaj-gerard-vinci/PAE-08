@@ -60,15 +60,16 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-
+    System.out.println("le user que je recois : " + user.toString());
 
     boolean updateResult = myUserUcc.update(id, user);
     if (updateResult) {
 
       return myUserUcc.getOne(id);
     } else {
-      throw new WebApplicationException("User not found or update failed",
-          Status.NOT_FOUND.ordinal());
+      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
+
+
     }
 
   }

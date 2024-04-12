@@ -156,44 +156,53 @@ public class UserDAOImpl implements UserDAO {
    * @return true if the user was updated successfully, false otherwise.
    */
   public boolean updateUser(UserDTO user) {
-    // Début de la requête, sans condition WHERE pour le user_version
+    UserDTO userBeforeUpdate = getOneById(user.getId());
+    if (userBeforeUpdate == null) {
+      return false;
+    }
+    boolean hasPassword = false;
+    if (user.getEmail() != null && !user.getEmail().isEmpty()) userBeforeUpdate.setEmail(user.getEmail());
+    if (user.getLastname() != null && !user.getLastname().isEmpty()) userBeforeUpdate.setLastname(user.getLastname());
+    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) userBeforeUpdate.setFirstname(user.getFirstname());
+    if (user.getPhone() != null && !user.getPhone().isEmpty()) userBeforeUpdate.setPhone(user.getPhone());
+
+    if (user.getPassword()!= null && !user.getPassword().isEmpty()) userBeforeUpdate.setPassword(user.getPassword());
+
+    if (user.getHasInternship()) userBeforeUpdate.setHasInternship(user.getHasInternship());
+
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
         + "user_phone_number = ?, user_version = user_version + 1, "
-        + "user_has_internship = ? ";
+        + "user_has_internship = ?";
 
-    // Ajout conditionnel de la mise à jour du mot de passe
+    // Vérifier si le mot de passe doit être ajouté à la requête
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      query += ", user_password = ? ";
+       hasPassword = true;
+      query += ", user_password = ?";
     }
 
-    // Ajout de la condition WHERE à la fin, incluant la vérification de user_version
-    query += "WHERE user_id = ? AND user_version = ?";
+    query += " WHERE user_id = ? AND user_version = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      // Attribution des paramètres de base
-      statement.setString(1, user.getEmail());
-      statement.setString(2, user.getLastname());
-      statement.setString(3, user.getFirstname());
-      statement.setString(4, user.getPhone());
-      statement.setBoolean(5, user.getHasInternship());
+      int index = 1;
+      statement.setString(index++, userBeforeUpdate.getEmail());
+      statement.setString(index++, userBeforeUpdate.getLastname());
+      statement.setString(index++, userBeforeUpdate.getFirstname());
+      statement.setString(index++, userBeforeUpdate.getPhone());
+      statement.setBoolean(index++, userBeforeUpdate.getHasInternship());
 
-      int parameterIndex = 6;
-
-      // Attribution conditionnelle du mot de passe
-      if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-        statement.setString(parameterIndex++, user.getPassword());
+      if (hasPassword) {
+        statement.setString(index++, userBeforeUpdate.getPassword());
       }
 
-      // Attribution de user_id et user_version
-      statement.setInt(parameterIndex++, user.getId()); // user_id
-      statement.setInt(parameterIndex, user.getVersion()); // user_version
+      statement.setInt(index++, userBeforeUpdate.getId()); // user_id
+      statement.setInt(index, userBeforeUpdate.getVersion()); // current user_version
 
       int rowsUpdated = statement.executeUpdate();
       return rowsUpdated > 0;
     } catch (SQLException e) {
-      e.printStackTrace();
-      throw new FatalException(e);
+      System.err.println("SQL error on update: " + e.getMessage());
+      throw new RuntimeException("Failed to update user", e);
     }
   }
 

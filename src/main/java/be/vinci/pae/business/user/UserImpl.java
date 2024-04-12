@@ -282,4 +282,16 @@ public class UserImpl implements User {
   }
 
 
+  /**
+   * Returns a string representation of the user.
+   *
+   * @return a string representation of the user.
+   */
+  @Override
+  public String toString() {
+    return "UserImpl [id=" + id + ", email=" + email + ", lastname=" + lastname + ", firstname="
+        + firstname + ", phone=" + phone + ", registrationDate=" + registrationDate + ", role="
+        + role + ", password=" + password + ", schoolyear=" + schoolyear + ", hasInternship="
+        + hasInternship + ", version=" + version + "]";
+  }
 }
