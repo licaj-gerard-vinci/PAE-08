@@ -74,7 +74,7 @@ public class YearDAOImpl implements YearDAO {
    * @return the YearDTO.
    */
   @Override
-  public YearDTO rsToYear(ResultSet rs) throws SQLException{
+  public YearDTO rsToYear(ResultSet rs) throws SQLException {
     return dalBackServiceUtils.fillYearDTO(rs);
   }
 }
