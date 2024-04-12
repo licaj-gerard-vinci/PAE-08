@@ -29,6 +29,7 @@ public interface YearDAO {
    * Converts a ResultSet to a YearDTO.
    *
    * @param rs the ResultSet to convert.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
    * @return the YearDTO.
    */
   YearDTO rsToYear(ResultSet rs) throws SQLException;
