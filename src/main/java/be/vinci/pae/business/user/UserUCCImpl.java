@@ -127,7 +127,7 @@ public class UserUCCImpl implements UserUCC {
     }
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
-
+    userDTO.setSchoolyear(year);
     // Set the year and year ID for the user
     userDTO.setidSchoolYear(year.getId());
 

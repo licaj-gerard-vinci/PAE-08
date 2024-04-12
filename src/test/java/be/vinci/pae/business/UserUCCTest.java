@@ -8,11 +8,16 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.year.YearDTO;
+import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.dal.year.YearDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
+
+import java.time.Year;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -29,6 +34,7 @@ class UserUCCTest {
   private UserUCC userUCC;
   private Factory factory;
   private UserDAO userDAO;
+  private YearDAO yearDAO;
 
   @BeforeEach
   void setUp() {
@@ -36,6 +42,7 @@ class UserUCCTest {
     userUCC = locator.getService(UserUCC.class);
     factory = locator.getService(Factory.class);
     userDAO = locator.getService(UserDAO.class);
+    yearDAO = locator.getService(YearDAO.class);
   }
 
   @Test
@@ -90,6 +97,12 @@ class UserUCCTest {
   @Test
   @DisplayName("Test UserUCC registration")
   void testUserUCCRegistration() {
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setAnnee("2023-2024");
+    Mockito.when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
+
+
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");
@@ -107,6 +120,10 @@ class UserUCCTest {
   @Test
   @DisplayName("Test UserUCC registration with an existing email")
   void testUserUCCRegistrationWithExistingEmail() {
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setAnnee("2023-2024");
+    Mockito.when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");
@@ -114,6 +131,7 @@ class UserUCCTest {
     user.setFirstname("prenom");
     user.setLastname("nom");
     user.setPhone("phone");
+    user.setidSchoolYear(1);
     Mockito.when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(user);
     assertThrows(ConflictException.class, () -> {
       userUCC.register(user);
