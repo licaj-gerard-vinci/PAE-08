@@ -277,7 +277,6 @@ public class UserImpl implements User {
    * Set the idSchoolYear of the user.
    *
    * @param idSchoolYear
-   * @return the idSchoolYear of the user.
    */
   @Override
   public void setidSchoolYear(int idSchoolYear) {

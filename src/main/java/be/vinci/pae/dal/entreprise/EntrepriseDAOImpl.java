@@ -138,7 +138,8 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
                 + "SET company_name = ?, company_address = ?, company_designation = ?, "
                 + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
                 + "company_email = ?, company_blacklist_reason = ?, "
-                + "company_version = company_version + 1 WHERE company_id = ? AND company_version = ?";
+                + "company_version = company_version + 1 WHERE company_id = ? "
+                + "AND company_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, entreprise.getNom());
       statement.setString(2, entreprise.getAdresse());

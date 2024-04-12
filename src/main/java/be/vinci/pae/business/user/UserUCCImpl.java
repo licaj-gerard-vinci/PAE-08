@@ -2,7 +2,6 @@ package be.vinci.pae.business.user;
 
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
-import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
@@ -10,7 +9,6 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
-
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;

@@ -5,7 +5,6 @@ import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

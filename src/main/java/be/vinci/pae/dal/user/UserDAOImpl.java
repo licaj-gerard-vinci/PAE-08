@@ -185,20 +185,20 @@ public class UserDAOImpl implements UserDAO {
 
 
 
-    /**
-     * Fills a UserDTO with data from a ResultSet.
-     *
-     * @param rs the ResultSet containing user data.
-     * @return UserDTO filled with data from the ResultSet.
-     * @throws SQLException if there is an issue accessing the ResultSet data.
-     */
-    private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
-      UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
-      YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
-      System.out.println(rs);
-      user.setidSchoolYear(year.getId());
-      user.setSchoolyear(year);
-      return user;
-    }
+  /**
+   * Fills a UserDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing user data.
+   * @return UserDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
+  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
+    YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
+    System.out.println(rs);
+    user.setidSchoolYear(year.getId());
+    user.setSchoolyear(year);
+    return user;
+  }
 
 }

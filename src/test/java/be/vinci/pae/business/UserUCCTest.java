@@ -101,8 +101,6 @@ class UserUCCTest {
     year.setId(1);
     year.setAnnee("2023-2024");
     Mockito.when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
-
-
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@vinci.be");
     user.setPassword("password");

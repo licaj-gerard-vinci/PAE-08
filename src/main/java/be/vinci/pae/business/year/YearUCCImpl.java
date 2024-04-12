@@ -4,6 +4,11 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.year.YearDAO;
 import jakarta.inject.Inject;
 
+/**
+ * The {@code YearUCCImpl} class provides methods for managing year-related operations, such as
+ * retrieving year data. It makes use of dependency injection to obtain a reference to the
+ * {@code YearDAO} for accessing year-related data.
+ */
 public class YearUCCImpl implements YearUCC{
 
   @Inject

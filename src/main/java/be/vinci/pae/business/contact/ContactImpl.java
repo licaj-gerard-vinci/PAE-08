@@ -195,17 +195,17 @@ public class ContactImpl implements Contact {
    */
   @Override
   public int getIdAnnee() {
-      return idAnnee;
+    return idAnnee;
   }
 
   /**
    * Sets the associated year ID.
    *
-   * @param idAnnee
+   * @param idAnnee the new associated year ID.
    */
   @Override
   public void setIdAnnee(int idAnnee) {
-      this.idAnnee = idAnnee;
+    this.idAnnee = idAnnee;
   }
 
   /**

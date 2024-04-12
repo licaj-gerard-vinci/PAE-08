@@ -164,7 +164,7 @@ public interface UserDTO {
   /**
    * Set the idSchoolYear of the user.
    *
-   * @return the idSchoolYear of the user.
+   * @param idSchoolYear of the user.
    */
   void setidSchoolYear(int idSchoolYear);
 
