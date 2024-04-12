@@ -1,10 +1,12 @@
 package be.vinci.pae.dal.year;
 
 import be.vinci.pae.business.year.YearDTO;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The Interface YearDAO.
+ */
 public interface YearDAO {
 
   /**

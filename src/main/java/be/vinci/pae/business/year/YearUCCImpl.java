@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
  * retrieving year data. It makes use of dependency injection to obtain a reference to the
  * {@code YearDAO} for accessing year-related data.
  */
-public class YearUCCImpl implements YearUCC{
+public class YearUCCImpl implements YearUCC {
 
   @Inject
   private DALServices dalServices;

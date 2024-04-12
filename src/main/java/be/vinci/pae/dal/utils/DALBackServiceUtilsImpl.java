@@ -138,6 +138,13 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     return manager;
   }
 
+  /**
+   * Fills a YearDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing year data.
+   * @return YearDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
   public YearDTO fillYearDTO(ResultSet rs) throws SQLException {
     YearDTO year = (YearDTO) factory.getYearDTO();
     year.setId(rs.getInt("school_year_id"));

@@ -3,21 +3,17 @@ package be.vinci.pae.business;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.year.YearDTO;
-import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.year.YearDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
-
-import java.time.Year;
 import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;

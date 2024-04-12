@@ -9,6 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The YearDAOImpl class implements the YearDAO interface and provides methods to retrieve a single
+ * year by its unique identifier or year.
+ */
 public class YearDAOImpl implements YearDAO {
 
   @Inject
@@ -31,7 +35,7 @@ public class YearDAOImpl implements YearDAO {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-           return rsToYear(rs);
+          return rsToYear(rs);
         }
       }
     } catch (SQLException e) {
