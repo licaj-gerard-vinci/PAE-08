@@ -12,6 +12,8 @@ import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.stage.StageUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
+import be.vinci.pae.business.year.YearUCC;
+import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.DALServiceImpl;
 import be.vinci.pae.dal.DALServices;
@@ -27,6 +29,8 @@ import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.dal.utils.DALBackServiceUtilsImpl;
+import be.vinci.pae.dal.year.YearDAO;
+import be.vinci.pae.dal.year.YearDAOImpl;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -57,5 +61,7 @@ public class ApplicationBinder extends AbstractBinder {
     bind(EntrepriseDAOImpl.class).to(EntrepriseDAO.class).in(Singleton.class);
     bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);
     bind(ManagerDAOImpl.class).to(ManagerDAO.class).in(Singleton.class);
+    bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);
+    bind(YearDAOImpl.class).to(YearDAO.class).in(Singleton.class);
   }
 }

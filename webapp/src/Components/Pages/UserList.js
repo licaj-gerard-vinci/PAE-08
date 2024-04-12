@@ -34,6 +34,7 @@ const UserList = async () => {
     </div>`;
 
   originalUserList = await getAllUsers();
+  console.log(originalUserList);
   displayFilters();
   await renderUserList(originalUserList);
 }
@@ -62,7 +63,7 @@ async function renderUserList(userList) {
             <td>${user.firstname}</td>
             <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
             <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
+            <td>${user.schoolyear.annee === null ? 'N/A' : user.schoolyear.annee}</td>
           </tr>
         `).join('')}
       </tbody>
