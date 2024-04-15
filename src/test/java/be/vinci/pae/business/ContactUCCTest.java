@@ -264,28 +264,27 @@ public class ContactUCCTest {
     // after updating, the contact now have values for refusal reason and meeting place
     );
   }
+
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid information")
   void testUpdateContactInvalidState() {
     // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
-    ContactDTO contactReceived = factory.getContactDTO();
-
+    Contact contactReceived = Mockito.mock(Contact.class);
+    
     contact.setId(1);
     contact.setEtatContact("invalid state");
 
-    contactReceived.setId(contact.getId());
-    contactReceived.setEtatContact("valid state");
-    contactReceived.setLieuxRencontre("valid place");
-    contactReceived.setRaisonRefus("valid reason");
+    Mockito.when(contactReceived.getId()).thenReturn(1);
+    Mockito.when(contactReceived.getEtatContact()).thenReturn("valid state");
+    Mockito.when(contactReceived.getLieuxRencontre()).thenReturn("valid place");
+    Mockito.when(contactReceived.getRaisonRefus()).thenReturn("valid reason");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
-    // Create a spy
-    Contact contactMock = (Contact) Mockito.spy(contactReceived);
     // Stub the checkState method to return false
-    Mockito.when(contactMock.checkState(Mockito.anyString(),
-            Mockito.anyString())).thenReturn(false);
+    Mockito.when(contactReceived.checkState(contactReceived.getEtatContact(),
+                    contact.getEtatContact())).thenReturn(false);
 
     assertThrows(BusinessException.class, () -> {
       contactUCC.updateContact(contact);
