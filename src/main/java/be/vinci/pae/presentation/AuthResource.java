@@ -133,7 +133,7 @@ public class AuthResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "E", "P"})
   public UserDTO getUser(@Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     return myUserUcc.getOne(authenticatedUser.getId());

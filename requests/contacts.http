@@ -53,7 +53,7 @@ GET {{baseUrl}}/contacts/10
 Authorization: {{token}}
 
 ### Update a contact
-PUT {{baseUrl}}/contacts/update
+PUT {{baseUrl}}/contacts/upda te
 Authorization: {{token}}
 Content-Type: application/json
 

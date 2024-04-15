@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+  /* eslint-disable no-console */
 import {
   getContacts,
   insertContact,
@@ -70,7 +70,9 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
         let button;
         if(contacts){
-          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+          console.log('contacts: ', contacts)
+          console.log('user: ', user)
+          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
           if(!contactFound){
             button = `
                 <div class="row">
@@ -184,12 +186,13 @@ async function renderHomePage(){
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
-        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
 
         if (startedButton) {
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
+            console.log('before insert, user Object: ', user)
             await insertContact(entreprise, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;
