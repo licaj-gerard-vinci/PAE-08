@@ -179,7 +179,7 @@ public class UserDAOImpl implements UserDAO {
       return rowsUpdated > 0;
     } catch (SQLException e) {
       System.err.println("SQL error on update: " + e.getMessage());
-      throw new RuntimeException("Failed to update user", e);
+      throw new FatalException(e);
     }
   }
 

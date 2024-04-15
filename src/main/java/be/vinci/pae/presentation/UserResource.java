@@ -65,7 +65,7 @@ public class UserResource {
 
       return myUserUcc.getOne(id);
     } else {
-      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("Missing information", Response.Status.NOT_FOUND);
 
 
     }
