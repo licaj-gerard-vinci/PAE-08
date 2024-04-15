@@ -139,6 +139,20 @@ public interface ContactDTO {
   void setAnnee(YearDTO annee);
 
   /**
+   * Gets the associated year ID.
+   *
+   * @return the year ID.
+   */
+  int getIdAnnee();
+
+  /**
+   * Sets the associated year ID.
+   *
+   * @param idAnnee the new year ID.
+   */
+  void setIdAnnee(int idAnnee);
+
+  /**
    * Gets the version.
    *
    * @return the version.

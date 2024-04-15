@@ -91,7 +91,7 @@ function renderCompanies(companies, internships, selectedYear = '') {
             }
             return `
             <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
-              <td class="text-center">${company.nom}</td>
+              <td class="text-center">${company.nom} </br> ${company.appellation}</td>
               <td class="text-center">${company.numTel}</td>
               <td class="text-center">${studentCount}</td>
               <td class="text-center">${company.blackListed ? 'Oui' : 'Non'}</td>

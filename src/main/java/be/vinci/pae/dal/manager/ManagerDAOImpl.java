@@ -38,8 +38,8 @@ public class ManagerDAOImpl implements ManagerDAO {
   @Override
   public List<ResponsableDTO> getManagers(int companyId) {
     String query =
-        "SELECT m.*,c.*"
-            + " FROM pae.managers m, pae.companies c "
+        "SELECT m.*,c.* "
+            + "FROM pae.managers m, pae.companies c "
             + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();
@@ -59,6 +59,34 @@ public class ManagerDAOImpl implements ManagerDAO {
   }
 
   /**
+   * Retrieves the manager by its email.
+   *
+   * @param email the email of the manager to retrieve
+   * @return a ManagerDTO object representing the manager
+   * @throws FatalException if an error occurs during the operation
+   */
+  @Override
+  public ResponsableDTO getManagerByEmail(String email) {
+    String query = "SELECT m.*,c.*"
+        + " FROM pae.managers m, pae.companies c "
+        + "WHERE m.manager_email = ? AND m.manager_company_id = c.company_id";
+
+    ResponsableDTO manager = null;
+
+    try (PreparedStatement statement = dalService.preparedStatement(query)) {
+      statement.setString(1, email);
+      try (ResultSet rs = statement.executeQuery()) {
+        if (rs.next()) {
+          manager = rsToManager(rs, "get");
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return manager;
+  }
+
+  /**
    * Retrieves a manager by its first name, last name and email.
    *
    * @param manager the manager to retrieve if exists
@@ -69,7 +97,8 @@ public class ManagerDAOImpl implements ManagerDAO {
   public List<ResponsableDTO> getManager(ResponsableDTO manager) {
     String query = "SELECT m.*,c.*"
         + " FROM pae.managers m, pae.companies c "
-        + "WHERE m.manager_lastname = ? AND m.manager_firstname = ?"
+        + "WHERE LOWER(m.manager_lastname) LIKE LOWER(?) "
+        + "AND LOWER(m.manager_firstname) LIKE LOWER(?)"
         + "AND m.manager_company_id = c.company_id";
 
     List<ResponsableDTO> managers = new ArrayList<>();
@@ -96,7 +125,7 @@ public class ManagerDAOImpl implements ManagerDAO {
    */
   @Override
   public void addManager(ResponsableDTO manager) {
-    String query = "INSERT INTO pae.managers ( manager_lastname, "
+    String query = "INSERT INTO pae.managers (manager_lastname, "
         + "manager_firstname, manager_phone_number, manager_email, manager_company_id, "
         + "manager_version) "
         + "VALUES (?,?,?,?,?,1)";

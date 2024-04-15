@@ -37,7 +37,7 @@ public class UserResource {
    * @return the authenticated user.
    */
   @GET
-  @Authorize
+  @Authorize(roles = {"A", "P"})
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getUsers() {
     return myUserUcc.getAll();
@@ -56,7 +56,7 @@ public class UserResource {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "P", "E"})
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
     System.out.println("le user que je recois : " + user.toString());
 
@@ -83,7 +83,7 @@ public class UserResource {
   @Path("/{id}/verify")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "P", "E"})
   public Response verifyUser(@PathParam("id") int id, Map<String, String> passwordWrapper) {
     String oldPassword = passwordWrapper.get("Password");
     if (oldPassword == null || oldPassword.trim().isEmpty()) {

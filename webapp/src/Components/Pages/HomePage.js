@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+  /* eslint-disable no-console */
 import {
   getContacts,
   insertContact,
@@ -27,7 +27,6 @@ const HomePage = async () => {
 async function renderHomePage(){
   const main = document.querySelector('main');
   const user = await refreshUser();
-  console.log("user: ", user);
 
   if(user.hasInternship === true) {
     Navigate('/profile')
@@ -71,7 +70,9 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
         let button;
         if(contacts){
-          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+          console.log('contacts: ', contacts)
+          console.log('user: ', user)
+          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
           if(!contactFound){
             button = `
                 <div class="row">
@@ -185,13 +186,13 @@ async function renderHomePage(){
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
-        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
 
         if (startedButton) {
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
-            console.log('before insert informations: entreprise: ', entreprise, ', user: ', user)
+            console.log('before insert, user Object: ', user)
             await insertContact(entreprise, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;
@@ -219,8 +220,7 @@ async function renderHomePage(){
         if (acceptedButton) {
           acceptedButton.addEventListener('click', async () => {
             acceptedButton.disabled = true;
-            console.log('before update informations: entreprise: ', entreprise, ', user: ', user)
-            // Stock the contactId inside a sessionStorage 
+            // Stock the contactId inside a sessionStorage
             sessionStorage.setItem('contactId', contactFound.id); 
             Navigate('/internship', contactFound.id);
             acceptedButton.disabled = false;
@@ -232,9 +232,7 @@ async function renderHomePage(){
             const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
-            console.log('before update informations: entrepriseId: ', entreprise, ', userId: ', user)
             await updateContact(contactFound.id, entreprise, user, "non suivi", null, null, contactVersion);
-            console.log('after update')
             await renderHomePage();
             unsupervisedButton.disabled = false;
           });
@@ -263,12 +261,10 @@ async function renderHomePage(){
 
     searchButton.addEventListener('click', async () => {
       const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-      console.log('searchInput: ', searchInput);
       if (searchInput !== '') {
         searchResult = entreprises.filter(entreprise =>
             entreprise.nom.toLowerCase().includes(searchInput)
         );
-        console.log('searchResult: ', searchResult);
       } else {
         await renderEntreprises();
       }
@@ -280,7 +276,6 @@ async function renderHomePage(){
 if(user.role === "E"){
 const addCompanie = document.getElementById('button-addon3');
   addCompanie.addEventListener('click', () => {
-    console.log('addCompanie');
     window.location.href = '/addCompany';
   });
 
