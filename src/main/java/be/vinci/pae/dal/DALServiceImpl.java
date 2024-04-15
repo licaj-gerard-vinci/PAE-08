@@ -66,6 +66,14 @@ public class DALServiceImpl implements DALBackService, DALServices {
     return conn;
   }
 
+  /**
+   * Open connection.
+   */
+  @Override
+  public void openConnection() {
+      getConnection();
+  }
+
   @Override
   public void startTransaction() {
     try {
@@ -86,7 +94,6 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().commit();
         getConnection().setAutoCommit(true);
-        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);
@@ -101,7 +108,6 @@ public class DALServiceImpl implements DALBackService, DALServices {
       if (counter == 0) {
         getConnection().rollback();
         getConnection().setAutoCommit(true);
-        close();
       }
     } catch (SQLException e) {
       throw new FatalException(e);

@@ -29,16 +29,14 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   @Override
   public EntrepriseDTO getEntreprise(int id) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
       if (entreprise == null) {
         throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
       }
-      dalServices.commitTransaction();
       return entreprise;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -50,16 +48,14 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   @Override
   public List<EntrepriseDTO> getEntreprises() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
       if (entreprises == null) {
         throw new NotFoundException("Aucune entreprise n'a été trouvée.");
       }
-      dalServices.commitTransaction();
       return entreprises;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
