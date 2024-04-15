@@ -191,6 +191,7 @@ function renderProfile(user) {
       confirmPassword: document.getElementById('confirm-password').value,
       
     };
+    console.log('updatedUser', updatedUser);
     document.getElementById('password-error').textContent = '';
     document.getElementById('new-password-error').textContent = '';
 
@@ -222,10 +223,7 @@ function renderProfile(user) {
   return;
 }
 
-
-
-
-
+  console.log('updatedUser', updatedUser);
     await updateUser(updatedUser);
     await refreshUser();
     toggleUpdateModal();
@@ -269,6 +267,7 @@ async function displayStage() {
   } else {
     stageHTML = `<p>${stage}</p>`;
   }
+
 
   stageDiv.innerHTML = stageHTML;
   document.body.appendChild(stageDiv);
