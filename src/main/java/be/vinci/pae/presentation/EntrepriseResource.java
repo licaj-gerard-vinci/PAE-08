@@ -88,7 +88,7 @@ public class EntrepriseResource {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myEntrepriseUcc.blackListCompany(entreprise);
-    myContactUcc.blackListContact(entreprise.getId());
+
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;
