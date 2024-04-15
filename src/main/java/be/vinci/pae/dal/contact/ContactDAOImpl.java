@@ -168,7 +168,6 @@ public class ContactDAOImpl implements ContactDAO {
         + "contact_status, contact_version) "
         + "VALUES (?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      System.out.println("contact utilisateur id school year: " + contact.getUtilisateur().getidSchoolYear());
       statement.setInt(1, contact.getUtilisateur().getidSchoolYear());
       statement.setInt(2, contact.getEntreprise().getId());
       statement.setInt(3, contact.getUtilisateur().getId());

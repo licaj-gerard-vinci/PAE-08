@@ -12,5 +12,11 @@ import java.lang.annotation.RetentionPolicy;
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authorize {
-   String[] roles() default {};
+
+  /**
+   * Roles allowed to access the resource.
+   *
+   * @return the roles allowed to access the resource.
+   */
+  String[] roles() default {};
 }
