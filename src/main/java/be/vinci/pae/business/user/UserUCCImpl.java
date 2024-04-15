@@ -154,8 +154,6 @@ public class UserUCCImpl implements UserUCC {
    * @return the updated user.
    */
   public boolean update(int id, UserDTO user) {
-    // Assign the ID to the user object
-
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
