@@ -133,16 +133,41 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean update(int id, UserDTO user) {
     // Assign the ID to the user object
-    user.setId(id);
+
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(passwordHashed);
     }
+    UserDTO userBeforeUpdate = getOne(id);
+
+    if (userBeforeUpdate == null) {
+      return false;
+    }
+    if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+      userBeforeUpdate.setEmail(user.getEmail());
+    }
+    if (user.getLastname() != null && !user.getLastname().isEmpty()) {
+      userBeforeUpdate.setLastname(user.getLastname());
+    }
+    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) {
+      userBeforeUpdate.setFirstname(user.getFirstname());
+    }
+    if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+      userBeforeUpdate.setPhone(user.getPhone());
+    }
+
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      userBeforeUpdate.setPassword(user.getPassword());
+    }
+
+    if (user.getHasInternship()) {
+      userBeforeUpdate.setHasInternship(user.getHasInternship());
+    }
 
     try {
       dalServices.startTransaction();
-      boolean result = userDAO.updateUser(user);
+      boolean result = userDAO.updateUser(userBeforeUpdate);
       dalServices.commitTransaction();
       return result;
     } catch (FatalException e) {

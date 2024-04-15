@@ -158,31 +158,7 @@ public class UserDAOImpl implements UserDAO {
   public boolean updateUser(UserDTO user) {
     // We create a user, so we can get the version of the user before the update
     // and will just add the information we want to change in it
-    UserDTO userBeforeUpdate = getOneById(user.getId());
-    if (userBeforeUpdate == null) {
-      return false;
-    }
     boolean hasPassword = false;
-    if (user.getEmail() != null && !user.getEmail().isEmpty()) {
-      userBeforeUpdate.setEmail(user.getEmail());
-    }
-    if (user.getLastname() != null && !user.getLastname().isEmpty()) {
-      userBeforeUpdate.setLastname(user.getLastname());
-    }
-    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) {
-      userBeforeUpdate.setFirstname(user.getFirstname());
-    }
-    if (user.getPhone() != null && !user.getPhone().isEmpty()) {
-      userBeforeUpdate.setPhone(user.getPhone());
-    }
-
-    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      userBeforeUpdate.setPassword(user.getPassword());
-    }
-
-    if (user.getHasInternship()) {
-      userBeforeUpdate.setHasInternship(user.getHasInternship());
-    }
 
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
@@ -198,18 +174,18 @@ public class UserDAOImpl implements UserDAO {
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       int index = 1;
-      statement.setString(index++, userBeforeUpdate.getEmail());
-      statement.setString(index++, userBeforeUpdate.getLastname());
-      statement.setString(index++, userBeforeUpdate.getFirstname());
-      statement.setString(index++, userBeforeUpdate.getPhone());
-      statement.setBoolean(index++, userBeforeUpdate.getHasInternship());
+      statement.setString(index++, user.getEmail());
+      statement.setString(index++, user.getLastname());
+      statement.setString(index++, user.getFirstname());
+      statement.setString(index++, user.getPhone());
+      statement.setBoolean(index++, user.getHasInternship());
 
       if (hasPassword) {
-        statement.setString(index++, userBeforeUpdate.getPassword());
+        statement.setString(index++, user.getPassword());
       }
 
-      statement.setInt(index++, userBeforeUpdate.getId()); // user_id
-      statement.setInt(index, userBeforeUpdate.getVersion()); // current user_version
+      statement.setInt(index++, user.getId()); // user_id
+      statement.setInt(index, user.getVersion()); // current user_version
 
       int rowsUpdated = statement.executeUpdate();
       return rowsUpdated > 0;
