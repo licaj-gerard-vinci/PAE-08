@@ -163,14 +163,26 @@ public class UserDAOImpl implements UserDAO {
       return false;
     }
     boolean hasPassword = false;
-    if (user.getEmail() != null && !user.getEmail().isEmpty()) userBeforeUpdate.setEmail(user.getEmail());
-    if (user.getLastname() != null && !user.getLastname().isEmpty()) userBeforeUpdate.setLastname(user.getLastname());
-    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) userBeforeUpdate.setFirstname(user.getFirstname());
-    if (user.getPhone() != null && !user.getPhone().isEmpty()) userBeforeUpdate.setPhone(user.getPhone());
+    if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+      userBeforeUpdate.setEmail(user.getEmail());
+    }
+    if (user.getLastname() != null && !user.getLastname().isEmpty()) {
+      userBeforeUpdate.setLastname(user.getLastname());
+    }
+    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) {
+      userBeforeUpdate.setFirstname(user.getFirstname());
+    }
+    if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+      userBeforeUpdate.setPhone(user.getPhone());
+    }
 
-    if (user.getPassword()!= null && !user.getPassword().isEmpty()) userBeforeUpdate.setPassword(user.getPassword());
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      userBeforeUpdate.setPassword(user.getPassword());
+    }
 
-    if (user.getHasInternship()) userBeforeUpdate.setHasInternship(user.getHasInternship());
+    if (user.getHasInternship()) {
+      userBeforeUpdate.setHasInternship(user.getHasInternship());
+    }
 
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
@@ -178,7 +190,7 @@ public class UserDAOImpl implements UserDAO {
         + "user_has_internship = ?";
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-       hasPassword = true;
+      hasPassword = true;
       query += ", user_password = ?";
     }
 

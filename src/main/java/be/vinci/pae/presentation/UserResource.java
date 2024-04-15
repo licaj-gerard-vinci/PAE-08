@@ -19,8 +19,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
-import org.apache.logging.log4j.core.util.internal.Status;
-
 
 /**
  * UserResource.
