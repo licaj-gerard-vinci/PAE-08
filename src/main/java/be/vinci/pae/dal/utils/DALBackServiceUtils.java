@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -63,4 +64,13 @@ public interface DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   ResponsableDTO fillManagerDTO(ResultSet rs, String method) throws SQLException;
+
+  /**
+   * Fills a YearDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing year data.
+   * @return YearDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
+  YearDTO fillYearDTO(ResultSet rs) throws SQLException;
 }

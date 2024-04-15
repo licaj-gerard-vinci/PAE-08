@@ -5,6 +5,7 @@ import Navigate from "../Router/Navigate";
 import {getAuthenticatedUser} from "../../utils/auths";
 
 function generateContactsTable(contacts) {
+  console.log(contacts)
   let contactsTable = '<table class="table table-hover shadow-sm">';
   contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
   contactsTable += '<tbody>';
@@ -14,7 +15,7 @@ function generateContactsTable(contacts) {
                           ${contact.utilisateur.firstname} </br>
                           ${contact.utilisateur.email}</td>
                           <td class="text-center">${contact.etatContact}</td>
-                          <td class="text-center">${contact.lieuRencontre || 'N/A'}</td>
+                          <td class="text-center">${contact.lieuxRencontre || 'N/A'}</td>
                           <td class="text-center">${contact.raisonRefus || 'N/A'}</td>
                       </tr>`;
       });
@@ -72,6 +73,7 @@ const CompanyPage = async (companyId) => {
   }
   const entreprise = await getEntrepriseById(companyId);
   const contacts = await getContactByCompanyId(entreprise.id);
+  console.log(contacts)
   const main = document.querySelector('main');
 
   const contactsTable = generateContactsTable(contacts);

@@ -40,7 +40,7 @@ public class StageResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E", "P"})
   public StageDTO getUserStage(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
@@ -59,7 +59,7 @@ public class StageResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E", "P"})
   public List<StageDTO> getStages() {
     return myStageUcc.getStages();
   }
@@ -75,7 +75,7 @@ public class StageResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public ObjectNode insertInternship(StageDTO internship) {
     if (internship.getEntreprise() == null || internship.getEtudiant() == null
             || internship.getIdResponsable() <= 0 || internship.getContact() == null) {
