@@ -73,6 +73,7 @@ const CompanyPage = async (companyId) => {
   }
   const entreprise = await getEntrepriseById(companyId);
   const contacts = await getContactByCompanyId(entreprise.id);
+  console.log(contacts)
   const main = document.querySelector('main');
 
   const contactsTable = generateContactsTable(contacts);
