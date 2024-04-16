@@ -1,6 +1,5 @@
 package be.vinci.pae.dal.user;
 
-import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
@@ -35,8 +34,9 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneById(int id) {
     String query =
-        "SELECT u.*,sy.*"
-            + " FROM pae.users u LEFT JOIN pae.school_years sy ON user_school_year_id = school_year_id WHERE user_id = ?";
+        "SELECT u.*,sy.* "
+            + "FROM pae.users u LEFT JOIN pae.school_years sy "
+            + "ON user_school_year_id = school_year_id WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {

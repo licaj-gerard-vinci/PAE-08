@@ -39,7 +39,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.openConnection();
       return contactDAO.getContacts();
     } finally {
-        dalServices.close();
+      dalServices.close();
     }
   }
 

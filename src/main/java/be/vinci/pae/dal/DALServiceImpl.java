@@ -71,7 +71,7 @@ public class DALServiceImpl implements DALBackService, DALServices {
    */
   @Override
   public void openConnection() {
-      getConnection();
+    getConnection();
   }
 
   @Override
