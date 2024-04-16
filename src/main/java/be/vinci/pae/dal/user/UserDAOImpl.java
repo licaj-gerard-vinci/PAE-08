@@ -39,8 +39,8 @@ public class UserDAOImpl implements UserDAO {
   public UserDTO getOneById(int id) {
     String query =
         "SELECT u.*,sy.*"
-            + " FROM pae.users u, pae.school_years sy WHERE user_id = ? "
-            + "AND user_school_year_id = school_year_id";
+            + " FROM pae.users u LEFT JOIN pae.school_years sy "
+            + "ON u.user_school_year_id = sy.school_year_id WHERE user_id = ? ";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -63,8 +63,8 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneByEmail(String email) {
     String query = "SELECT u.* ,sy.* "
-        + "FROM pae.users u, pae.school_years sy WHERE user_email = ? "
-        + "AND user_school_year_id = school_year_id";
+        + "FROM pae.users u LEFT JOIN pae.school_years sy "
+        + "ON u.user_school_year_id = sy.school_year_id WHERE user_email = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
