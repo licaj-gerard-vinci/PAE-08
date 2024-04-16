@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Carole.skile@student.vinci.be",
+  "email": "raphael.baroni@vinci.be",
   "password": "a"
 }
 
@@ -36,11 +36,11 @@ Authorization: {{token}}
 
 
 ### Blacklist a company
-PUT {{baseUrl}}/entreprise/1/blacklist
+PUT {{baseUrl}}/entreprise/19/blacklist
 Content-Type: application/json
 Authorization: {{token}}
 
 {
-  "id": 1,
+  "id": 19,
   "motivation": "This company is a scam"
 }

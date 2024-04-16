@@ -71,8 +71,6 @@ public class ResponsableUCCImpl implements ResponsableUCC {
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
-    } finally {
-      dalServices.close();
     }
   }
 }
