@@ -28,7 +28,7 @@ public class ResponsableUCCImpl implements ResponsableUCC {
    * @throws FatalException    if an error occurs during the operation
    */
   @Override
-  public List<ResponsableDTO> getManagers(int companyId) {
+  public List<ResponsableDTO> getManagersByCompanyId(int companyId) {
     try {
       dalServices.openConnection();
       List<ResponsableDTO> manager = managerDAO.getManagers(companyId);
@@ -55,7 +55,7 @@ public class ResponsableUCCImpl implements ResponsableUCC {
       if (existingManagers != null) {
         for (ResponsableDTO existingManager : existingManagers) {
           if (existingManager.getEmail().isEmpty()) {
-            throw new ConflictException("A manager with the same name and email already exists");
+            throw new ConflictException("A manager with empty email already exists");
           }
           if (existingManager.getEmail().equals(manager.getEmail())) {
             throw new ConflictException("A manager with the same email already exists");

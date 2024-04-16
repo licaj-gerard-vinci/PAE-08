@@ -36,7 +36,7 @@ public class StageUCCImpl implements StageUCC {
    * @return the stage user
    */
 
-  public StageDTO getStageUser(int idUser) {
+  public StageDTO getInternshipByUserId(int idUser) {
     try {
       dalServices.openConnection();
       return internshipDAO.getStageById(idUser);
@@ -55,11 +55,7 @@ public class StageUCCImpl implements StageUCC {
   public List<StageDTO> getStages() {
     try {
       dalServices.openConnection();
-      List<StageDTO> stages = internshipDAO.getStages();
-      if (stages == null) {
-        throw new NotFoundException("No stages found");
-      }
-      return stages;
+      return internshipDAO.getStages();
     } finally {
       dalServices.close();
     }
@@ -74,7 +70,7 @@ public class StageUCCImpl implements StageUCC {
   public void insertInternship(StageDTO internship) {
     UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
-    if (myContact.getContactById(myContactDTO.getId()) == null
+    if (myContact.getContactByContactId(myContactDTO.getId()) == null
         || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;

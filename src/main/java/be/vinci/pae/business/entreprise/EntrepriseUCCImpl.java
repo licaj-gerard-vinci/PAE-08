@@ -27,7 +27,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the associated entreprise.
    */
   @Override
-  public EntrepriseDTO getEntreprise(int id) {
+  public EntrepriseDTO getCompanyById(int id) {
     try {
       dalServices.openConnection();
       EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
@@ -46,7 +46,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the list containing all entreprises.
    */
   @Override
-  public List<EntrepriseDTO> getEntreprises() {
+  public List<EntrepriseDTO> getAllCompanies() {
     try {
       dalServices.openConnection();
       List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
@@ -68,7 +68,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   public void blackListCompany(EntrepriseDTO entreprise) {
     try {
       dalServices.startTransaction();
-      EntrepriseDTO company = getEntreprise(entreprise.getId());
+      EntrepriseDTO company = getCompanyById(entreprise.getId());
       if (company == null) {
         throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
       }

@@ -56,7 +56,7 @@ public class ApplicationBinder extends AbstractBinder {
     bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
     bind(StageDAOImpl.class).to(StageDAO.class).in(Singleton.class);
     bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
-    bind(ContactDAOImpl.class).to(ContactDAO.class).to(Singleton.class);
+    bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
     bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
     bind(EntrepriseDAOImpl.class).to(EntrepriseDAO.class).in(Singleton.class);
     bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);

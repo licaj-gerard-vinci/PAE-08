@@ -114,7 +114,7 @@ public class EntrepriseDAOImpl implements EntrepriseDAO {
       statement.setString(4, entreprise.getCity());
       statement.setString(5, entreprise.getNumTel());
       statement.setString(6, entreprise.getEmail());
-      statement.setString(7, entreprise.getMotivation());
+      statement.setString(7, entreprise.getMotivation_blacklist());
 
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {

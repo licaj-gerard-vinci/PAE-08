@@ -48,7 +48,7 @@ public class EntrepriseResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"A", "E", "P"})
   public List<EntrepriseDTO> getAllEntreprises() {
-    return myEntrepriseUcc.getEntreprises();
+    return myEntrepriseUcc.getAllCompanies();
   }
 
   /**
@@ -65,7 +65,7 @@ public class EntrepriseResource {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    return myEntrepriseUcc.getEntreprise(id);
+    return myEntrepriseUcc.getCompanyById(id);
   }
 
   /**
