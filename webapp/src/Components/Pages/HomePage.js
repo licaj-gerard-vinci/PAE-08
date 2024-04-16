@@ -91,8 +91,6 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
         let button;
         if(contacts){
-          console.log('contacts: ', contacts)
-          console.log('user: ', user)
           const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
           if(!contactFound){
             button = `
@@ -213,7 +211,6 @@ async function renderHomePage(){
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
-            console.log('before insert, user Object: ', user)
             await insertContact(entreprise, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;

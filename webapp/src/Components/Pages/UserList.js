@@ -34,9 +34,9 @@ const UserList = async () => {
     </div>`;
 
   originalUserList = await getAllUsers();
-  console.log(originalUserList);
   displayFilters();
   await renderUserList(originalUserList);
+  await filterUsers();
 }
 
 async function renderUserList(userList) {
@@ -80,8 +80,6 @@ async function renderUserList(userList) {
         Navigate('/studentInfo',user);
       })});
   }
-
-  filterUsers(userList);
 }
 
 function displayFilters() {
@@ -94,7 +92,6 @@ function displayFilters() {
             <label for="search">Recherche d'utilisateur :</label>
             <div class="input-group">
               <input type="text" class="form-control" id="search" placeholder="nom ou prénom">
-              <button class="btn btn-primary" id="search-btn">Rechercher</button>
             </div>
           </div>
         </div>
@@ -145,35 +142,41 @@ function displayFilters() {
   });
 }
 
-function filterUsers() {
+async function filterUsers() {
   // Search by name
-  const searchBtn = document.getElementById('search-btn');
-  searchBtn.addEventListener('click', async () => {
-    const search = document.getElementById('search').value;
-    if(search.length === 0) {
-      return renderUserList(originalUserList);
-    }
-    filtered = filtered.length === 0 ?
-        originalUserList.filter(
-        user => user.lastname.toLowerCase().normalize("NFD").replace(
-                /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-            || user.firstname.toLowerCase().normalize("NFD").replace(
-                /[\u0300-\u036f]/g, "").includes(search.toLowerCase()))
-        : filtered.filter(
-            user => user.lastname.toLowerCase().normalize("NFD").replace(
-                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-                || user.firstname.toLowerCase().normalize("NFD").replace(
-                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
-    if (filtered.length === 0) {
-      const tableBody = document.querySelector('tbody');
-      tableBody.innerHTML = `
-            <tr>
+  const searchInput = document.getElementById('search');
+  searchInput.addEventListener('input', async () => {
+    const search = searchInput.value.trim().toLowerCase();
+    if(search.length !== 0) {
+      filtered = filtered.length === 0 ?
+          originalUserList.filter(
+          user => user.lastname.toLowerCase().normalize("NFD").replace(
+                  /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
+              || user.firstname.toLowerCase().normalize("NFD").replace(
+                  /[\u0300-\u036f]/g, "").includes(search.toLowerCase()))
+          : filtered.filter(
+              user => user.lastname.toLowerCase().normalize("NFD").replace(
+                      /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
+                  || user.firstname.toLowerCase().normalize("NFD").replace(
+                      /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
+      if (filtered.length === 0) {
+        const tableBody = document.querySelector('tbody');
+        if (tableBody) {
+          if (filtered.length === 0) {
+            tableBody.innerHTML = `
+              <tr>
                 <td colspan="5" id="errorFiter" class="text-center" >Aucun résultat trouvé</td>
-            </tr>
+              </tr>
             `;
-    }
-
-    return renderUserList(filtered);
+          } else {
+            await renderUserList(filtered);
+          }
+        }
+      }
+      await renderUserList(filtered);
+    }else {
+        await renderUserList(originalUserList);
+      }
   });
 
   // Filter by role
