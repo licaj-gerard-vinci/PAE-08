@@ -25,13 +25,10 @@ public class YearUCCImpl implements YearUCC {
   @Override
   public YearDTO getYearById(int id) {
     try {
-      dalServices.startTransaction();
-      YearDTO year = yearDAO.getOneById(id);
-      dalServices.commitTransaction();
-      return year;
-    } catch (Exception e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return yearDAO.getOneById(id);
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -44,13 +41,10 @@ public class YearUCCImpl implements YearUCC {
   @Override
   public YearDTO getYearByYear(String year) {
     try {
-      dalServices.startTransaction();
-      YearDTO yearToReturn = yearDAO.getOneByYear(year);
-      dalServices.commitTransaction();
-      return yearToReturn;
-    } catch (Exception e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return yearDAO.getOneByYear(year);
+    } finally {
+      dalServices.close();
     }
   }
 }

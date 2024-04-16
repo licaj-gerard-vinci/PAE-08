@@ -36,13 +36,10 @@ public class ContactUCCImpl implements ContactUCC {
   @Override
   public List<ContactDTO> getContacts() {
     try {
-      dalServices.startTransaction();
-      List<ContactDTO> contacts = contactDAO.getContacts();
-      dalServices.commitTransaction();
-      return contacts;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return contactDAO.getContacts();
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -58,13 +55,10 @@ public class ContactUCCImpl implements ContactUCC {
       throw new NotFoundException("User not found");
     }
     try {
-      dalServices.startTransaction();
-      List<ContactDTO> contacts = contactDAO.getContactsAllInfo(idUser);
-      dalServices.commitTransaction();
-      return contacts;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return contactDAO.getContactsAllInfo(idUser);
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -77,16 +71,14 @@ public class ContactUCCImpl implements ContactUCC {
   @Override
   public ContactDTO getContactById(int idContact) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       ContactDTO contact = contactDAO.getContactById(idContact);
       if (contact == null) {
         throw new NotFoundException("Contact not found");
       }
-      dalServices.commitTransaction();
       return contact;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -165,15 +157,11 @@ public class ContactUCCImpl implements ContactUCC {
     if (myCompany.getEntreprise(idCompany) == null) {
       throw new NotFoundException("Company not found");
     }
-
     try {
-      dalServices.startTransaction();
-      List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
-      dalServices.commitTransaction();
-      return contacts;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return contactDAO.getContactsByCompanyId(idCompany);
+    } finally {
+      dalServices.close();
     }
   }
 
