@@ -153,7 +153,7 @@ public class UserUCCImpl implements UserUCC {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(passwordHashed);
     }
-    UserDTO userBeforeUpdate = getOne(id);
+    UserDTO userBeforeUpdate = userDAO.getOneById(id);
 
     if (userBeforeUpdate == null) {
       return false;

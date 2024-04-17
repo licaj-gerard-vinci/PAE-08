@@ -126,8 +126,6 @@ public class ContactUCCImpl implements ContactUCC {
       throw new BusinessException("Invalid state");
     }
 
-    contactToUpdate.setId(contactToVerif.getId());
-
     if (contactToVerif.getLieuxRencontre() != null) {
       contactToUpdate.setLieuxRencontre(contactToVerif.getLieuxRencontre());
     }
@@ -136,9 +134,11 @@ public class ContactUCCImpl implements ContactUCC {
       contactToUpdate.setRaisonRefus(contactToVerif.getRaisonRefus());
     }
 
+    contactToUpdate.setId(contactToVerif.getId());
+    contactToUpdate.setAnnee(contactToVerif.getAnnee());
+
     try {
       dalServices.startTransaction();
-      contactToUpdate.setAnnee(contactToVerif.getAnnee());
       contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
     } catch (FatalException e) {
@@ -162,6 +162,35 @@ public class ContactUCCImpl implements ContactUCC {
       return contactDAO.getContactsByCompanyId(idCompany);
     } finally {
       dalServices.close();
+    }
+  }
+
+  /**
+   * Suspend all initiated and taken contacts.
+   *
+   * @param idUser the user getting all initiated and taken contacts updated to suspend
+   * @param idContact the contact that want to be accepted
+   */
+  public void suspendContacts(int idUser, int idContact) {
+    if (myUser.getOne(idUser) == null) {
+      throw new NotFoundException("user not found");
+    }
+    try {
+      dalServices.startTransaction();
+      List<ContactDTO> userContacts = contactDAO.getContactsAllInfo(idUser);
+      for (ContactDTO contact : userContacts) {
+        if ((contact.getEtatContact().equals("pris") || contact.getEtatContact().equals("initié"))
+            && contact.getId() != idContact) {
+          contact.setEtatContact("suspendu");
+          System.out.println("before updateContact call");
+          updateContact(contact);
+          System.out.println("after updateContact call");
+        }
+      }
+      dalServices.commitTransaction();
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
     }
   }
 
