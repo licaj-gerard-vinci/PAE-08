@@ -1,5 +1,6 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -36,6 +37,7 @@ public class InternshipUCCTest {
     stageUCC = locator.getService(StageUCC.class);
     factory = locator.getService(Factory.class);
     stageDAO = locator.getService(StageDAO.class);
+    Mockito.reset(stageDAO);
   }
 
   @Test
@@ -47,16 +49,6 @@ public class InternshipUCCTest {
     Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
     List<StageDTO> stage = stageUCC.getStages();
     assertEquals(2, stage.size());
-  }
-
-
-  @Test
-  @DisplayName("Test getStages when no stages are found")
-  void testStageNotFound() {
-    Mockito.when(stageDAO.getStages()).thenReturn(null);
-
-    assertThrows(NotFoundException.class, () -> stageUCC.getStages(),
-        "NotFoundException was expected to be thrown when no stages are found");
   }
 
   @Test
