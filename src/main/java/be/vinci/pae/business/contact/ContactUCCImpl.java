@@ -4,6 +4,7 @@ import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
+import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -24,6 +25,9 @@ public class ContactUCCImpl implements ContactUCC {
 
   @Inject
   private UserUCC myUser;
+
+  @Inject
+  private UserDAO myDaoUser;
 
   @Inject
   private EntrepriseUCC myCompany;
@@ -173,7 +177,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idContact the contact that want to be accepted
    */
   public void suspendContacts(int idUser, int idContact) {
-    if (myUser.getOne(idUser) == null) {
+    if (myDaoUser.getOneById(idUser) == null) {
       throw new NotFoundException("user not found");
     }
     try {

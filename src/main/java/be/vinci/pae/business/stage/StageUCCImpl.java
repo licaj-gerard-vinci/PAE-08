@@ -84,13 +84,11 @@ public class StageUCCImpl implements StageUCC {
     myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
       dalServices.startTransaction();
-      System.out.println("before all");
       internshipDAO.insertInternship(internship);
-      System.out.println("after insert");
       // verification for (if company/user exists) were already done here, in updateContact.
       myContact.updateContact(myContactDTO); // contact accepted
-      System.out.println("after update");
-      System.out.println("after user update");
+      myContact.suspendContacts(myUserDTO.getId(),myContactDTO.getId());
+      myUser.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
