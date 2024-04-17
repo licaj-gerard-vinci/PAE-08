@@ -15,7 +15,7 @@ public interface ResponsableUCC {
    * @param companyId the ID of the company for which to retrieve managers
    * @return a list of ManagerDTO objects representing the managers of the company
    */
-  List<ResponsableDTO> getManagers(int companyId);
+  List<ResponsableDTO> getManagersByCompanyId(int companyId);
 
   /**
    * Adds a manager to the database.
