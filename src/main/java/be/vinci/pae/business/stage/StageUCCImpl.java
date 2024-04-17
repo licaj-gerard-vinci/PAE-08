@@ -75,19 +75,22 @@ public class StageUCCImpl implements StageUCC {
       return;
     } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
+    if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
+      throw new ConflictException("internship for the student already exists");
+    }
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
     myUserDTO.setHasInternship(true);
     myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
       dalServices.startTransaction();
-      if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
-        throw new ConflictException("internship for the student already exists");
-      }
+      System.out.println("before all");
       internshipDAO.insertInternship(internship);
+      System.out.println("after insert");
       // verification for (if company/user exists) were already done here, in updateContact.
-      myContact.updateContact(myContactDTO);
-      myUser.update(myUserDTO.getId(), myUserDTO);
+      myContact.updateContact(myContactDTO); // contact accepted
+      System.out.println("after update");
+      System.out.println("after user update");
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
