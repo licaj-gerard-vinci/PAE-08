@@ -89,10 +89,16 @@ public class StageUCCImpl implements StageUCC {
       if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
         throw new ConflictException("internship for the student already exists");
       }
+      System.out.println("before all");
       internshipDAO.insertInternship(internship);
+      System.out.println("after insert");
       // verification for (if company/user exists) were already done here, in updateContact.
-      myContact.updateContact(myContactDTO);
+      myContact.updateContact(myContactDTO); // contact accepted
+      System.out.println("after update");
+      myContact.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
+      System.out.println("after suspend");
       myUser.update(myUserDTO.getId(), myUserDTO);
+      System.out.println("after user update");
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();

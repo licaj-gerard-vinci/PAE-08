@@ -56,6 +56,14 @@ public interface ContactUCC {
   List<ContactDTO> getContactsByCompanyId(int idCompany);
 
   /**
+   * Suspend all initiated and taken contacts.
+   *
+   * @param idUser the user getting all initiated and taken contacts updated to suspend
+   * @param idContact the contact that want to be accepted
+   */
+  void suspendContacts(int idUser, int idContact);
+
+  /**
    * Blacklist a contact.
    *
    * @param idCompany The contact to be blacklisted.
