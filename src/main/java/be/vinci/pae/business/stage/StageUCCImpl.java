@@ -8,7 +8,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
-import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 

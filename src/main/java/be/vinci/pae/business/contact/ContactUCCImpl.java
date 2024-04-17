@@ -9,9 +9,7 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.ext.ParamConverter.Lazy;
 import java.util.List;
-import org.glassfish.hk2.api.Immediate;
 
 /**
  * The type Contact UCC.
