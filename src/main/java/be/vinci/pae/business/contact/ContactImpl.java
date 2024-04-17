@@ -242,12 +242,13 @@ public class ContactImpl implements Contact {
   public boolean checkState(String actualState, String expectedState) {
     if (actualState.equals("pris") && !expectedState.equals("accepté")
         && !expectedState.equals("refusé") && !expectedState.equals("non suivi")
-        && !expectedState.equals("blacklisté")) {
+        && !expectedState.equals("blacklisté") && !expectedState.equals("suspendu")) {
       return false;
     }
 
-    if (actualState.equals("initié") && !expectedState.equals("pris")
-        && !expectedState.equals("non suivi") && !expectedState.equals("blacklisté")) {
+    if (acutalState.equals("initié") && !expectedState.equals("pris")
+        && !expectedState.equals("non suivi") && !expectedState.equals("blacklisté")
+        && !expectedState.equals("suspendu")) {
       return false;
     }
 
