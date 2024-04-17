@@ -53,8 +53,7 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test getStages when no stages are found")
   void testStageNotFound() {
-    Mockito.when(stageDAO.getStages()).thenReturn(null);
-
+    Mockito.when(stageDAO.getStages()).thenThrow(new NotFoundException());
     assertThrows(NotFoundException.class, () -> stageUCC.getStages(),
         "NotFoundException was expected to be thrown when no stages are found");
   }
