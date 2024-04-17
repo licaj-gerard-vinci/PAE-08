@@ -1,5 +1,6 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -36,6 +37,7 @@ public class InternshipUCCTest {
     stageUCC = locator.getService(StageUCC.class);
     factory = locator.getService(Factory.class);
     stageDAO = locator.getService(StageDAO.class);
+    Mockito.reset(stageDAO);
   }
 
   @Test
@@ -47,15 +49,6 @@ public class InternshipUCCTest {
     Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
     List<StageDTO> stage = stageUCC.getStages();
     assertEquals(2, stage.size());
-  }
-
-
-  @Test
-  @DisplayName("Test getStages when no stages are found")
-  void testStageNotFound() {
-    Mockito.when(stageDAO.getStages()).thenReturn(null);
-    assertThrows(NotFoundException.class, () -> stageUCC.getStages(),
-        "NotFoundException was expected to be thrown when no stages are found");
   }
 
   @Test
@@ -74,7 +67,7 @@ public class InternshipUCCTest {
     StageDTO mockStage = factory.getStageDTO();
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(mockStage);
 
-    StageDTO resultStage = stageUCC.getStageUser(userId);
+    StageDTO resultStage = stageUCC.getInternshipByUserId(userId);
 
     assertNotNull(resultStage, "The result stage should not be null.");
     assertEquals(mockStage, resultStage,
@@ -88,7 +81,7 @@ public class InternshipUCCTest {
     // Arrange
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
-    assertNull(stageUCC.getStageUser(userId),
+    assertNull(stageUCC.getInternshipByUserId(userId),
         "The result stage should be null when no stage is found for the user.");
   }
 
@@ -100,7 +93,7 @@ public class InternshipUCCTest {
     int userId = 1;
     Mockito.when(stageDAO.getStageById(userId)).thenThrow(new FatalException("Database error"));
 
-    assertThrows(FatalException.class, () -> stageUCC.getStageUser(userId),
+    assertThrows(FatalException.class, () -> stageUCC.getInternshipByUserId(userId),
         "FatalException should be thrown when there is a database error.");
   }
 

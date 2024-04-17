@@ -62,7 +62,7 @@ public class ContactResource {
   @Authorize(roles = {"A", "E", "P"})
   public List<ContactDTO> getContatcsAllInfo(
       @PathParam("id") int id) {
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(id);
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsByUserId(id);
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }
@@ -81,7 +81,7 @@ public class ContactResource {
   @Authorize(roles = {"E"})
   public ContactDTO getContactById(
           @PathParam("contactId") int contactId) {
-    return myContactUcc.getContactById(contactId);
+    return myContactUcc.getContactByContactId(contactId);
   }
 
   /**

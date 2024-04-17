@@ -45,7 +45,7 @@ public class StageResource {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    StageDTO userStage = myStageUcc.getStageUser(id);
+    StageDTO userStage = myStageUcc.getInternshipByUserId(id);
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
     }

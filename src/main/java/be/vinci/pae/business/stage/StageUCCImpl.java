@@ -8,7 +8,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
-import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class StageUCCImpl implements StageUCC {
    * @return the stage user
    */
 
-  public StageDTO getStageUser(int idUser) {
+  public StageDTO getInternshipByUserId(int idUser) {
     try {
       dalServices.openConnection();
       return internshipDAO.getStageById(idUser);
@@ -55,11 +54,7 @@ public class StageUCCImpl implements StageUCC {
   public List<StageDTO> getStages() {
     try {
       dalServices.openConnection();
-      List<StageDTO> stages = internshipDAO.getStages();
-      if (stages == null) {
-        throw new NotFoundException("No stages found");
-      }
-      return stages;
+      return internshipDAO.getStages();
     } finally {
       dalServices.close();
     }
@@ -74,11 +69,11 @@ public class StageUCCImpl implements StageUCC {
   public void insertInternship(StageDTO internship) {
     UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
-    if (myContact.getContactById(myContactDTO.getId()) == null
+    if (myContact.getContactByContactId(myContactDTO.getId()) == null
         || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;
-    } // verify either if contact exists and if the userId and companyId.
+    } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
     if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
       throw new ConflictException("internship for the student already exists");

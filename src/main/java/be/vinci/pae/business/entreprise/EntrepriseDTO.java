@@ -136,20 +136,6 @@ public interface EntrepriseDTO {
   void setMotivation_blacklist(String motivationBlacklist);
 
   /**
-   * Get the motivation.
-   *
-   * @return motivation.
-   */
-  String getMotivation();
-
-  /**
-   * Sets the motivation.
-   *
-   * @param motivation the motivation of refuse.
-   */
-  void setMotivation(String motivation);
-
-  /**
    * Gets the version.
    *
    * @return the version.
@@ -162,7 +148,4 @@ public interface EntrepriseDTO {
    * @param version the new version.
    */
   void setVersion(int version);
-
-
-
 }

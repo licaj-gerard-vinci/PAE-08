@@ -8,9 +8,9 @@ public interface Contact extends ContactDTO {
   /**
    * Check if a contact can be updated to the 'taken' state.
    *
-   * @param acutalState The actuel.
+   * @param actualState The actuel state.
    * @param expectedState The expected state of the contact.
    * @return true if the contact can be updated, false otherwise.
    */
-  boolean checkState(String acutalState, String expectedState);
+  boolean checkState(String actualState, String expectedState);
 }

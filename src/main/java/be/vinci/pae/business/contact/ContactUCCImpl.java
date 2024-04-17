@@ -50,7 +50,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return a list of contacts with all information
    */
   @Override
-  public List<ContactDTO> getContactsAllInfo(int idUser) {
+  public List<ContactDTO> getContactsByUserId(int idUser) {
     if (myUser.getOne(idUser) == null) {
       throw new NotFoundException("User not found");
     }
@@ -69,7 +69,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contact
    */
   @Override
-  public ContactDTO getContactById(int idContact) {
+  public ContactDTO getContactByContactId(int idContact) {
     try {
       dalServices.openConnection();
       ContactDTO contact = contactDAO.getContactById(idContact);
@@ -88,19 +88,20 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contact the contact to insert
    */
   public void insertContact(ContactDTO contact) {
-    if (myUser.getOne(contact.getUtilisateur().getId()) == null) {
-      return;
+    if (contactDAO.getContactById(contact.getId()) != null) {
+      throw new ConflictException("Contact already exists");
     }
 
-    if (myCompany.getEntreprise(contact.getEntreprise().getId()) == null) {
-      return;
+    if (myUser.getOne(contact.getUtilisateur().getId()) == null) {
+      throw new NotFoundException("User not found");
+    }
+
+    if (myCompany.getCompanyById(contact.getEntreprise().getId()) == null) {
+      throw new NotFoundException("Company not found");
     }
 
     try {
       dalServices.startTransaction();
-      if (contactDAO.getContactById(contact.getId()) != null) {
-        throw new ConflictException("Contact already exists");
-      }
       contactDAO.insertContact(contact);
       dalServices.commitTransaction();
     } catch (FatalException e) {
@@ -115,27 +116,27 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contactToUpdate the contact to update
    */
   public void updateContact(ContactDTO contactToUpdate) {
-    Contact contactToVerif = (Contact) contactDAO.getContactById(contactToUpdate.getId());
+    Contact contactToVerify = (Contact) contactDAO.getContactById(contactToUpdate.getId());
 
-    if (contactToVerif == null) {
+    if (contactToVerify == null) {
       throw new NotFoundException("Contact not found");
     }
 
-    if (!contactToVerif.checkState(contactToVerif.getEtatContact(),
+    if (!contactToVerify.checkState(contactToVerify.getEtatContact(),
         contactToUpdate.getEtatContact())) {
       throw new BusinessException("Invalid state");
     }
 
-    if (contactToVerif.getLieuxRencontre() != null) {
-      contactToUpdate.setLieuxRencontre(contactToVerif.getLieuxRencontre());
+    if (contactToVerify.getLieuxRencontre() != null) {
+      contactToUpdate.setLieuxRencontre(contactToVerify.getLieuxRencontre());
     }
 
-    if (contactToVerif.getRaisonRefus() != null) {
-      contactToUpdate.setRaisonRefus(contactToVerif.getRaisonRefus());
+    if (contactToVerify.getRaisonRefus() != null) {
+      contactToUpdate.setRaisonRefus(contactToVerify.getRaisonRefus());
     }
 
-    contactToUpdate.setId(contactToVerif.getId());
-    contactToUpdate.setAnnee(contactToVerif.getAnnee());
+    contactToUpdate.setId(contactToVerify.getId());
+    contactToUpdate.setAnnee(contactToVerify.getAnnee());
 
     try {
       dalServices.startTransaction();
@@ -154,7 +155,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contact.
    */
   public List<ContactDTO> getContactsByCompanyId(int idCompany) {
-    if (myCompany.getEntreprise(idCompany) == null) {
+    if (myCompany.getCompanyById(idCompany) == null) {
       throw new NotFoundException("Company not found");
     }
     try {
@@ -200,7 +201,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idCompany the ID of the company to blacklist
    */
   public void blackListContact(int idCompany) {
-    if (myCompany.getEntreprise(idCompany) == null) {
+    if (myCompany.getCompanyById(idCompany) == null) {
       throw new NotFoundException("Company not found");
     }
     try {
