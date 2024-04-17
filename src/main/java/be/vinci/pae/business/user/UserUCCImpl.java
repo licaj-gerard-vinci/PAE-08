@@ -1,5 +1,7 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.year.YearDTO;
+import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
@@ -7,6 +9,7 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,6 +25,8 @@ public class UserUCCImpl implements UserUCC {
   private UserDAO userDAO;
   @Inject
   private DALServices dalServices;
+  @Inject
+  private YearUCC yearUCC;
 
 
 
@@ -33,7 +38,7 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO login(String email, String password) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneByEmail(email);
       if (user == null) {
         throw new NotFoundException("User not found");
@@ -41,11 +46,9 @@ public class UserUCCImpl implements UserUCC {
       if (!user.checkPassword(password)) {
         throw new BusinessException("Password incorrect");
       }
-      dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -58,16 +61,14 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO getOne(int id) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneById(id);
       if (user == null) {
         throw new NotFoundException("User not found");
       }
-      dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -77,16 +78,14 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public List<UserDTO> getAll() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<UserDTO> users = userDAO.getAllUsers();
       if (users == null) {
         throw new NotFoundException("No users found");
       }
-      dalServices.commitTransaction();
       return users;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -106,6 +105,23 @@ public class UserUCCImpl implements UserUCC {
     } else {
       throw new BusinessException("Invalid email");
     }
+
+    // Get the current date in the format YYYY-MM-DD
+    LocalDate currentDate = LocalDate.now();
+    int currentMonth = currentDate.getMonthValue();
+
+    // Determine the academic year
+    String academicYear;
+    if (currentMonth < 9) {
+      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
+    } else {
+      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
+    }
+
+    YearDTO year = yearUCC.getYearByYear(academicYear);
+    userDTO.setSchoolyear(year);
+    // Set the year and year ID for the user
+    userDTO.setidSchoolYear(year.getId());
 
     try {
       dalServices.startTransaction();
@@ -132,17 +148,40 @@ public class UserUCCImpl implements UserUCC {
    * @return the updated user.
    */
   public boolean update(int id, UserDTO user) {
-    // Assign the ID to the user object
-    user.setId(id);
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(passwordHashed);
     }
+    UserDTO userBeforeUpdate = getOne(id);
+
+    if (userBeforeUpdate == null) {
+      return false;
+    }
+    if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+      userBeforeUpdate.setEmail(user.getEmail());
+    }
+    if (user.getLastname() != null && !user.getLastname().isEmpty()) {
+      userBeforeUpdate.setLastname(user.getLastname());
+    }
+    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) {
+      userBeforeUpdate.setFirstname(user.getFirstname());
+    }
+    if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+      userBeforeUpdate.setPhone(user.getPhone());
+    }
+
+    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      userBeforeUpdate.setPassword(user.getPassword());
+    }
+
+    if (user.getHasInternship()) {
+      userBeforeUpdate.setHasInternship(user.getHasInternship());
+    }
 
     try {
       dalServices.startTransaction();
-      boolean result = userDAO.updateUser(user);
+      boolean result = userDAO.updateUser(userBeforeUpdate);
       dalServices.commitTransaction();
       return result;
     } catch (FatalException e) {
@@ -158,17 +197,14 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean checkPassword(int id, String password) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneById(id);
       if (user == null) {
         throw new NotFoundException("User not found");
       }
-      boolean result = user.checkPassword(password);
-      dalServices.commitTransaction();
-      return result;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      return user.checkPassword(password);
+    } finally {
+      dalServices.close();
     }
   }
 

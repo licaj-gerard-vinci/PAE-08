@@ -30,16 +30,14 @@ public class ResponsableUCCImpl implements ResponsableUCC {
   @Override
   public List<ResponsableDTO> getManagers(int companyId) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<ResponsableDTO> manager = managerDAO.getManagers(companyId);
       if (manager == null) {
         throw new NotFoundException("Manager not found");
       }
-      dalServices.commitTransaction();
       return manager;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -63,6 +61,10 @@ public class ResponsableUCCImpl implements ResponsableUCC {
             throw new ConflictException("A manager with the same email already exists");
           }
         }
+      }
+      if (managerDAO.getManagerByEmail(manager.getEmail()) != null
+              && !manager.getEmail().isEmpty()) {
+        throw new ConflictException("A manager with the same email already exists");
       }
       managerDAO.addManager(manager);
       dalServices.commitTransaction();

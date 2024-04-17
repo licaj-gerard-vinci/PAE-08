@@ -1,6 +1,5 @@
 package be.vinci.pae.dal.user;
 
-import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
@@ -26,9 +25,6 @@ public class UserDAOImpl implements UserDAO {
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
 
-  @Inject
-  private Factory factory;
-
   /**
    * Retrieves a single user by their ID.
    *
@@ -38,8 +34,9 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneById(int id) {
     String query =
-        "SELECT u.*,sy.*"
-            + " FROM pae.users u, pae.school_years sy WHERE user_id = ?";
+        "SELECT u.*,sy.* "
+            + "FROM pae.users u LEFT JOIN pae.school_years sy "
+            + "ON user_school_year_id = school_year_id WHERE user_id = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, id);
       try (ResultSet rs = statement.executeQuery()) {
@@ -62,7 +59,8 @@ public class UserDAOImpl implements UserDAO {
   @Override
   public UserDTO getOneByEmail(String email) {
     String query = "SELECT u.* ,sy.* "
-        + "FROM pae.users u, pae.school_years sy WHERE user_email = ?";
+        + "FROM pae.users u LEFT JOIN pae.school_years sy ON user_school_year_id = school_year_id "
+        + "WHERE user_email = ?";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
@@ -109,15 +107,16 @@ public class UserDAOImpl implements UserDAO {
         "INSERT INTO pae.users (user_email, user_password, user_lastname, user_firstname, "
             + "user_school_year_id, user_phone_number, user_role, user_registration_date, "
             + "user_has_internship, user_version) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, ?, FALSE, 1) RETURNING user_id";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, FALSE, 1) RETURNING user_id";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, user.getEmail());
       statement.setString(2, user.getPassword());
       statement.setString(3, user.getLastname());
       statement.setString(4, user.getFirstname());
-      statement.setString(5, user.getPhone());
-      statement.setString(6, user.getRole());
-      statement.setDate(7, (java.sql.Date) user.getRegistrationDate());
+      statement.setInt(5, user.getidSchoolYear());
+      statement.setString(6, user.getPhone());
+      statement.setString(7, user.getRole());
+      statement.setDate(8, (java.sql.Date) user.getRegistrationDate());
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
           user.setId(rs.getInt("user_id"));
@@ -131,22 +130,7 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
-  /**
-   * Retrieves a single user by their login and password.
-   *
-   * @param rs the ResultSet containing user data.
-   * @return a UserDTO object populated with user data from the ResultSet row.
-   * @throws SQLException if an error occurs while accessing the ResultSet.
-   */
-  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
-    YearDTO year = factory.getYearDTO();
-    year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
-    year.setVersion(rs.getInt("school_year_version"));
-    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
-    user.setYear(year);
-    return user;
-  }
+
 
 
   /**
@@ -156,39 +140,59 @@ public class UserDAOImpl implements UserDAO {
    * @return true if the user was updated successfully, false otherwise.
    */
   public boolean updateUser(UserDTO user) {
+    // We create a user, so we can get the version of the user before the update
+    // and will just add the information we want to change in it
+    boolean hasPassword = false;
+
     String query = "UPDATE pae.users SET "
         + "user_email = ?, user_lastname = ?, user_firstname = ?, "
-        + "user_phone_number = ?, user_version = user_version + 1 ,"
-        + " user_has_internship = ? where user_version = ? ";
+        + "user_phone_number = ?, user_version = user_version + 1, "
+        + "user_has_internship = ?";
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+      hasPassword = true;
       query += ", user_password = ?";
     }
-    query += " WHERE user_id = ?";
+
+    query += " WHERE user_id = ? AND user_version = ?";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      statement.setString(1, user.getEmail());
-      statement.setString(2, user.getLastname());
-      statement.setString(3, user.getFirstname());
-      statement.setString(4, user.getPhone());
-      statement.setBoolean(5, user.getHasInternship());
-      statement.setInt(6, user.getVersion());
-      // L'index du paramètre pour user_id dépend de la présence du mot de passe.
-      int parameterIndex = 7;
+      int index = 1;
+      statement.setString(index++, user.getEmail());
+      statement.setString(index++, user.getLastname());
+      statement.setString(index++, user.getFirstname());
+      statement.setString(index++, user.getPhone());
+      statement.setBoolean(index++, user.getHasInternship());
 
-      if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-        statement.setString(parameterIndex++, user.getPassword());
+      if (hasPassword) {
+        statement.setString(index++, user.getPassword());
       }
 
-      statement.setInt(parameterIndex, user.getId());
+      statement.setInt(index++, user.getId()); // user_id
+      statement.setInt(index, user.getVersion()); // current user_version
 
       int rowsUpdated = statement.executeUpdate();
       return rowsUpdated > 0;
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
   }
 
+
+
+  /**
+   * Fills a UserDTO with data from a ResultSet.
+   *
+   * @param rs the ResultSet containing user data.
+   * @return UserDTO filled with data from the ResultSet.
+   * @throws SQLException if there is an issue accessing the ResultSet data.
+   */
+  private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
+    UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
+    YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
+    user.setidSchoolYear(year.getId());
+    user.setSchoolyear(year);
+    return user;
+  }
 
 }

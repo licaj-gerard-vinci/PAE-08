@@ -114,7 +114,7 @@ Content-Type: application/json
 }
 
 ### Update an internship
-PUT {{baseUrl}}/stages/update/4
+PUT {{baseUrl}}/stages/update/1
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -184,6 +184,6 @@ Content-Type: application/json
     "version": 1,
     "motivation_blacklist": null
   },
-  "sujet": "djkzdjhzjkdjkze",
+  "sujet": "kkkk",
   "dateSignature": "2024-04-01"
 }

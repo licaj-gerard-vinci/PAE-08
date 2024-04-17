@@ -83,7 +83,7 @@ function renderLoginForm() {
                   <div class="input-group">
                     <input type="password" id="password" name="password" class="form-control" placeholder="mot de passe" autocomplete="current-password" required>
                     <button id="togglePassword" class="btn btn-outline-secondary" type="button">
-                      <img src="${eyeOpen}" alt="toggle password visibility">
+                      <img src="${eyeOpen}" id="togglePasswordImg" alt="toggle password visibility">
                     </button>
 
                   </div>
@@ -118,11 +118,11 @@ function renderLoginForm() {
   document.getElementById('togglePassword').addEventListener('click', (e) => {
     e.preventDefault();
     const passwordInput = document.getElementById('password');
-    const togglePasswordImage = document.getElementById('togglePassword');
+    const togglePasswordImage = document.getElementById('togglePasswordImg');
     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
     passwordInput.setAttribute('type', type);
 
-    togglePasswordImage.src = type === 'text' ? eyeOpen : eyeClose;
+    togglePasswordImage.src = type === 'text' ? eyeClose : eyeOpen;
   });
 
   const rememberme = document.querySelector('#rememberme');

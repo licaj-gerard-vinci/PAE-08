@@ -38,13 +38,10 @@ public class StageUCCImpl implements StageUCC {
 
   public StageDTO getStageUser(int idUser) {
     try {
-      dalServices.startTransaction();
-      StageDTO stage = internshipDAO.getStageById(idUser);
-      dalServices.commitTransaction();
-      return stage;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return internshipDAO.getStageById(idUser);
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -57,16 +54,14 @@ public class StageUCCImpl implements StageUCC {
   @Override
   public List<StageDTO> getStages() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<StageDTO> stages = internshipDAO.getStages();
       if (stages == null) {
         throw new NotFoundException("No stages found");
       }
-      dalServices.commitTransaction();
       return stages;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 

@@ -38,7 +38,7 @@ public class ManagerResource {
   @GET
   @Path("/{companyId}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public List<ResponsableDTO> getManagers(
       @PathParam("companyId") int companyId) {
     List<ResponsableDTO> managerDTOs = myManagerUCC.getManagers(companyId);
@@ -58,13 +58,13 @@ public class ManagerResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public void addManager(ResponsableDTO manager) {
     if (manager == null) {
       throw new NotFoundException("Manager cannot be null");
     }
     if (manager.getNom() == null || manager.getPrenom() == null
-        || manager.getIdEntreprise() == 0) {
+        || manager.getNumTel().isEmpty() || manager.getIdEntreprise() <= 0) {
       throw new NotFoundException("Manager information is incomplete");
     }
     myManagerUCC.addManager(manager);

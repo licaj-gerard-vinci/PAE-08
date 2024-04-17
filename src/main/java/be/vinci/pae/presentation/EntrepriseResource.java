@@ -46,7 +46,7 @@ public class EntrepriseResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "E", "P"})
   public List<EntrepriseDTO> getAllEntreprises() {
     return myEntrepriseUcc.getEntreprises();
   }
@@ -60,7 +60,7 @@ public class EntrepriseResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"P"})
   public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
@@ -78,9 +78,12 @@ public class EntrepriseResource {
   @PUT
   @Path("/{id}/blacklist")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"P"})
   public ObjectNode blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
     if (id <= 0) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
+    if (entreprise.getId() != id) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
     if (entreprise.getMotivation_blacklist() == null
@@ -88,7 +91,7 @@ public class EntrepriseResource {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myEntrepriseUcc.blackListCompany(entreprise);
-    myContactUcc.blackListContact(entreprise.getId());
+    myContactUcc.blackListContact(id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;
@@ -103,7 +106,7 @@ public class EntrepriseResource {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public ObjectNode addEntreprise(EntrepriseDTO entreprise) {
     if (entreprise.getNom() == null || entreprise.getNom().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
