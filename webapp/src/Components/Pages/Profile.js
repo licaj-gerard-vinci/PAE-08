@@ -276,9 +276,8 @@ async function displayStage() {
 
   const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
   const sujetText = stageDiv.querySelector('#sujet-text');
-
   if (modifierSujetButton) {
-    modifierSujetButton.addEventListener('click', () => {
+    modifierSujetButton.addEventListener('click', async () => {
       const isEditing = modifierSujetButton.getAttribute('data-editing');
 
       if (isEditing) {
@@ -290,6 +289,7 @@ async function displayStage() {
         modifierSujetButton.removeAttribute('data-editing');
 
         // Save the new value to the server
+        await updateInternship(stage);
       } else {
         const currentValue = sujetText.textContent;
         sujetText.innerHTML = `<input id="sujet-input" class="form-control" type="text" value="${currentValue}" />`;
@@ -297,18 +297,12 @@ async function displayStage() {
         sujetInput.focus();
         modifierSujetButton.textContent = 'Confirmer le Sujet';
         modifierSujetButton.setAttribute('data-editing', 'true');
-
-        // Add event listener to the input to save the new value when the user presses enter
-        sujetInput.addEventListener('keypress', async (event) => {
-          if (event.key === 'Enter') {
-            await updateInternship(stage);
-            modifierSujetButton.click();
-
-          }
-        });
       }
     });
   }
+
+
+
 
   return stageDiv;
 }

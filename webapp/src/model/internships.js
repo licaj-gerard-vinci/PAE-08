@@ -83,7 +83,7 @@ import {
   }
   async function updateInternship(stage) {
     const token = getToken();
-    const id = stage.id;
+
     if(token) {
       const options = {
         method: 'PUT',
@@ -93,7 +93,7 @@ import {
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/stages/update/${id}`, options);
+      const response = await fetch(`http://localhost:8080/stages/update/${stage.id}`, options);
       console.log("response: ", response);
       if (!response.ok) {
         throw new Error(`Error updating internship: ${response.statusText}`);
