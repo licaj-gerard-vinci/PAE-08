@@ -74,7 +74,7 @@ public class StageUCCImpl implements StageUCC {
         || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;
-    } // verify either if contact exists and if the userId and companyId.
+    } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
