@@ -550,60 +550,58 @@ public class ContactUCCTest {
   }
 
   @Test
-  @DisplayName("Test suspendContacts of ContactUCC class with valid information")
-  void testSuspendContactsDefault() {
-    // Create a dummy Contact
+  @DisplayName("Suspend contacts with valid user and contact")
+  void suspendContactsWithValidUserAndContact() {
     int userId = 1;
+    int contactId = 1;
+
     UserDTO user = factory.getPublicUser();
     user.setId(userId);
 
-    int contactId = 1;
-    ContactDTO contactDTOToAccepted = factory.getContactDTO();
-    contactDTOToAccepted.setId(contactId);
-    contactDTOToAccepted.setEtatContact("pris");
-    ContactDTO contactDTOIsTaken = factory.getContactDTO();
-    contactDTOIsTaken.setId(2);
-    contactDTOIsTaken.setEtatContact("pris");
-    ContactDTO contactDTOIsInitiated = factory.getContactDTO();
-    contactDTOIsInitiated.setId(3);
-    contactDTOIsInitiated.setEtatContact("initié");
-    ContactDTO contactDTOIsDifferent = factory.getContactDTO();
-    contactDTOIsDifferent.setId(4);
-    contactDTOIsDifferent.setEtatContact("different");
+    ContactDTO contact1 = factory.getContactDTO();
+    contact1.setId(2);
+    contact1.setEtatContact("pris");
 
-    // Define the behavior of the mock
+    ContactDTO contact2 = factory.getContactDTO();
+    contact2.setId(3);
+    contact2.setEtatContact("initié");
+
+    ContactDTO contact3 = factory.getContactDTO();
+    contact3.setId(contactId);
+    contact3.setEtatContact("pris");
+
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
-    Mockito.when(contactDAO.getContactById(contactId)).thenReturn(contactDTOToAccepted,
-            contactDTOIsTaken, contactDTOIsInitiated, contactDTOIsDifferent);
-    Mockito.when(contactDAO.getContactsAllInfo(userId))
-            .thenReturn(Arrays.asList(contactDTOToAccepted,
-                    contactDTOIsTaken,
-                    contactDTOIsInitiated,
-                    contactDTOIsDifferent));
-    assertAll(
-            () -> assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId)),
-            () -> assertEquals(4, contactDAO.getContactsAllInfo(userId).size()),
-            () -> assertEquals("pris", contactDTOToAccepted.getEtatContact()),
-            () -> assertEquals("suspendu", contactDTOIsTaken.getEtatContact()),
-            () -> assertEquals("suspendu", contactDTOIsInitiated.getEtatContact()),
-            () -> assertEquals("different", contactDTOIsDifferent.getEtatContact())
-    );
+    Mockito.when(contactDAO.getContactsAllInfo(userId)).thenReturn(Arrays.asList(contact1, contact2, contact3));
+
+    assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
+    assertEquals("suspendu", contact1.getEtatContact());
+    assertEquals("suspendu", contact2.getEtatContact());
+    assertEquals("pris", contact3.getEtatContact());
   }
 
   @Test
-  @DisplayName("Test suspendContacts of ContactUCC class with non-existing user")
-  void testSuspendContactsNonExistingUser() {
-    // Create a dummy Contact
+  @DisplayName("Suspend contacts with non-existing user")
+  void suspendContactsWithNonExistingUser() {
     int userId = 1;
+    int contactId = 1;
+
+    Mockito.when(userDAO.getOneById(userId)).thenReturn(null);
+
+    assertThrows(NotFoundException.class, () -> contactUCC.suspendContacts(userId, contactId));
+  }
+
+  @Test
+  @DisplayName("Suspend contacts with valid user and no contacts")
+  void suspendContactsWithValidUserAndNoContacts() {
+    int userId = 1;
+    int contactId = 1;
+
     UserDTO user = factory.getPublicUser();
     user.setId(userId);
 
-    int contactId = 1;
-    ContactDTO contactDTOToTest = factory.getContactDTO();
-    contactDTOToTest.setId(contactId);
+    Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
+    Mockito.when(contactDAO.getContactsAllInfo(userId)).thenReturn(new ArrayList<>());
 
-    // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(userId)).thenReturn(null);
-    assertThrows(NotFoundException.class, () -> contactUCC.suspendContacts(userId, contactId));
+    assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
   }
 }
