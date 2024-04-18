@@ -13,17 +13,22 @@ let entreprises;
 let searchResult = [];
 
 
+const HomePage = async () => {
+  const user = await refreshUser();
+  if (user.role === 'A') {
+    Navigate('/users');
+    return;
+  }
+  await renderEntreprises();
+  await renderSearchBar();
+  await renderHomePage();
+};
+
 async function renderEntreprises(){
   entreprises = await getEntreprises();
   entreprises = entreprises.filter(entreprise => entreprise.blackListed === false);
   searchResult = entreprises;
 }
-
-const HomePage = async () => {
-  await renderEntreprises();
-  await renderSearchBar();
-  await renderHomePage();
-};
 
 async function renderSearchBar() {
   const main = document.querySelector('main');
@@ -74,8 +79,6 @@ async function renderHomePage(){
 
   if(user.role === "P"){
     Navigate('/dashboard');
-  } else if (user.role === "A"){
-    Navigate('/users');
   } else if (user.role === "E") {
     const contacts = await getContacts();
 
