@@ -14,6 +14,7 @@ function renderNavbar() {
 
     // Déterminer si le bouton de recherche utilisateur doit être affiché
     const showSearchUserButton = user?.user?.role === 'A' || user?.user?.role === 'P';
+    const showDashboard = user?.user?.role === 'P';
     const showCompaniesListButton = user?.user?.role === 'E';
 
 
@@ -27,9 +28,10 @@ function renderNavbar() {
             <a class="navbar-brand d-flex align-items-center" href="#" data-uri="/" style="color: #fff; font-size: 0.9em;">
                 <img src="${logo}" alt="Logo" style="margin-right: 10px;">
             </a>
+            ${showDashboard ? `
+            <a id="dashboard" class="nav-link" href="#" data-uri="/dashboard" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Tableau de bord</a>` : ''}
             ${showSearchUserButton ? `
-            <a id="dashboard" class="nav-link" href="#" data-uri="/dashboard" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Tableau de bord</a>
-            <a id="searchUser" class="nav-link" href="#" data-uri="/users" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Recherche utilisateur</a>` : ''}
+            <a id="dashboard" class="nav-link" href="#" data-uri="/users" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Recherche utilisateur</a>` : ''}
             ${showCompaniesListButton ? `
             <a id="companiesList" class="nav-link" href="#" data-uri="/" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Liste des entreprises</a>` : ''}
             <div class="d-flex align-items-center ms-auto text-white" style="font-size: 1.1em;">

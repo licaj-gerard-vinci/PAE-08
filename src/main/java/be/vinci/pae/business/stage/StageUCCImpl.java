@@ -67,7 +67,6 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public void insertInternship(StageDTO internship) {
-    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
     if (myContact.getContactByContactId(myContactDTO.getId()) == null
         || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
@@ -80,6 +79,7 @@ public class StageUCCImpl implements StageUCC {
     }
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
+    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     myUserDTO.setHasInternship(true);
     myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
@@ -87,7 +87,7 @@ public class StageUCCImpl implements StageUCC {
       internshipDAO.insertInternship(internship);
       // verification for (if company/user exists) were already done here, in updateContact.
       myContact.updateContact(myContactDTO); // contact accepted
-      myContact.suspendContacts(myUserDTO.getId(),myContactDTO.getId());
+      myContact.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
       myUser.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
