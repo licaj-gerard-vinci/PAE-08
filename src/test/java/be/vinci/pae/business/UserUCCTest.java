@@ -40,6 +40,8 @@ class UserUCCTest {
     factory = locator.getService(Factory.class);
     userDAO = locator.getService(UserDAO.class);
     yearDAO = locator.getService(YearDAO.class);
+    Mockito.reset(userDAO);
+    Mockito.reset(yearDAO);
   }
 
   @Test
