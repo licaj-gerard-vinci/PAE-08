@@ -548,4 +548,62 @@ public class ContactUCCTest {
 
     assertThrows(FatalException.class, () -> contactUCC.getContactsByUserId(userId));
   }
+
+  @Test
+  @DisplayName("Test suspendContacts of ContactUCC class with valid information")
+  void testSuspendContactsDefault() {
+    // Create a dummy Contact
+    int userId = 1;
+    UserDTO user = factory.getPublicUser();
+    user.setId(userId);
+
+    int contactId = 1;
+    ContactDTO contactDTOToAccepted = factory.getContactDTO();
+    contactDTOToAccepted.setId(contactId);
+    contactDTOToAccepted.setEtatContact("pris");
+    ContactDTO contactDTOIsTaken = factory.getContactDTO();
+    contactDTOIsTaken.setId(2);
+    contactDTOIsTaken.setEtatContact("pris");
+    ContactDTO contactDTOIsInitiated = factory.getContactDTO();
+    contactDTOIsInitiated.setId(3);
+    contactDTOIsInitiated.setEtatContact("initié");
+    ContactDTO contactDTOIsDifferent = factory.getContactDTO();
+    contactDTOIsDifferent.setId(4);
+    contactDTOIsDifferent.setEtatContact("different");
+
+    // Define the behavior of the mock
+    Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
+    Mockito.when(contactDAO.getContactById(contactId)).thenReturn(contactDTOToAccepted,
+            contactDTOIsTaken, contactDTOIsInitiated, contactDTOIsDifferent);
+    Mockito.when(contactDAO.getContactsAllInfo(userId))
+            .thenReturn(Arrays.asList(contactDTOToAccepted,
+                    contactDTOIsTaken,
+                    contactDTOIsInitiated,
+                    contactDTOIsDifferent));
+    assertAll(
+            () -> assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId)),
+            () -> assertEquals(4, contactDAO.getContactsAllInfo(userId).size()),
+            () -> assertEquals("pris", contactDTOToAccepted.getEtatContact()),
+            () -> assertEquals("suspendu", contactDTOIsTaken.getEtatContact()),
+            () -> assertEquals("suspendu", contactDTOIsInitiated.getEtatContact()),
+            () -> assertEquals("different", contactDTOIsDifferent.getEtatContact())
+    );
+  }
+
+  @Test
+  @DisplayName("Test suspendContacts of ContactUCC class with non-existing user")
+  void testSuspendContactsNonExistingUser() {
+    // Create a dummy Contact
+    int userId = 1;
+    UserDTO user = factory.getPublicUser();
+    user.setId(userId);
+
+    int contactId = 1;
+    ContactDTO contactDTOToTest = factory.getContactDTO();
+    contactDTOToTest.setId(contactId);
+
+    // Define the behavior of the mock
+    Mockito.when(userDAO.getOneById(userId)).thenReturn(null);
+    assertThrows(NotFoundException.class, () -> contactUCC.suspendContacts(userId, contactId));
+  }
 }

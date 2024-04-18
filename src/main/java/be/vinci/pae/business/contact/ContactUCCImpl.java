@@ -189,9 +189,7 @@ public class ContactUCCImpl implements ContactUCC {
         if ((contact.getEtatContact().equals("pris") || contact.getEtatContact().equals("initié"))
             && contact.getId() != idContact) {
           contact.setEtatContact("suspendu");
-          System.out.println("before updateContact call");
           updateContact(contact);
-          System.out.println("after updateContact call");
         }
       }
       dalServices.commitTransaction();
