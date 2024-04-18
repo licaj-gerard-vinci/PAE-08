@@ -218,6 +218,7 @@ public class InternshipUCCTest {
             () -> {
               StageDTO stage = factory.getStageDTO();
               ContactDTO contact = factory.getContactDTO();
+              Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               EntrepriseDTO entreprise = factory.getEntrepriseDTO();
