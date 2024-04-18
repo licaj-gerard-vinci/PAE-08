@@ -9,7 +9,6 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
