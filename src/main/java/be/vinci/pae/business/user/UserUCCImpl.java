@@ -99,24 +99,17 @@ public class UserUCCImpl implements UserUCC {
     if (userDTO.getEmail().endsWith("@student.vinci.be")) {
       userDTO.setRole("E");
     } else if (userDTO.getEmail().endsWith("@vinci.be")) {
-      if (!userDTO.getRole().equals("A") && !userDTO.getRole().equals("P")) {
+      User userRole = (User) userDTO;
+      if (!userRole.renderRole(userDTO).equals("A") && !userRole.renderRole(userDTO).equals("P")) {
         throw new BusinessException("Invalid role");
       }
     } else {
       throw new BusinessException("Invalid email");
     }
 
+    User userCurrentAcademicYear = (User) userDTO;
     // Get the current date in the format YYYY-MM-DD
-    LocalDate currentDate = LocalDate.now();
-    int currentMonth = currentDate.getMonthValue();
-
-    // Determine the academic year
-    String academicYear;
-    if (currentMonth < 9) {
-      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
-    } else {
-      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
-    }
+    String academicYear = userCurrentAcademicYear.getCurrentYear();
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
     userDTO.setSchoolyear(year);
