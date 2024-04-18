@@ -115,7 +115,7 @@ public class UserUCCImpl implements UserUCC {
     if (currentMonth < 9) {
       academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
     } else {
-        academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
+      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
     }
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
@@ -200,8 +200,7 @@ public class UserUCCImpl implements UserUCC {
       if (user == null) {
         throw new NotFoundException("User not found");
       }
-      boolean result = user.checkPassword(password);
-return result;
+      return user.checkPassword(password);
     } finally {
       dalServices.close();
     }
