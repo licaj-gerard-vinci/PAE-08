@@ -93,6 +93,7 @@ public class StageResource {
    * Updates the topic of an internship.
    *
    * @param internship the InternshipDTO object representing the internship to be updated
+   * @param id         the id of the internship to be updated
    * @return a JSON object containing a success message
    * @throws WebApplicationException if any required information is missing from the InternshipDTO
    */
