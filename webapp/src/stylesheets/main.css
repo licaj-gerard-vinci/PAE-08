@@ -82,11 +82,6 @@
   text-align: center;
 }
 
-.title-with-line {
-  border-bottom: 2px solid black;
-  padding-bottom: 10px;
-}
-
 .custom-header {
   background-color: #00609D !important;
   color: #fff; /* Ensures text is readable on the dark background */
@@ -190,4 +185,10 @@
   text-align: center; /* Center the text */
   border-radius: 10px; /* Round the corners */
   color: red; /* Red text color */
+}
+
+.flex-container-stats {
+  display: flex;
+  justify-content: center;
+  gap: 3%; /* Adjust this value to change the space between elements */
 }
