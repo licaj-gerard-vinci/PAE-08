@@ -30,6 +30,7 @@ public class YearUCCImpl implements YearUCC {
     } finally {
       dalServices.close();
     }
+
   }
 
   /**

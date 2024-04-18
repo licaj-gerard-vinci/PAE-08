@@ -62,8 +62,8 @@ public class ResponsableUCCImpl implements ResponsableUCC {
           }
         }
       }
-      if (managerDAO.getManagerByEmail(manager.getEmail()) != null
-              && !manager.getEmail().isEmpty()) {
+      if (!manager.getEmail().isEmpty()
+              && managerDAO.getManagerByEmail(manager.getEmail()) != null) {
         throw new ConflictException("A manager with the same email already exists");
       }
       managerDAO.addManager(manager);
