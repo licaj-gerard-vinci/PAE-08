@@ -5,6 +5,39 @@ import {
 import { getManagers, addManager} from "../../model/managers";
 import { insertInternship } from "../../model/internships";
 import Navigate from '../Router/Navigate';
+import { clearPage } from "../../utils/render";
+
+function createSuccesModal() {
+  const modal = document.createElement('div');
+  modal.id = 'succesManagerModal';
+  modal.style = 'position: fixed; bottom: 20px; right: 20px; background-color: green; color: white; padding: 20px; border-radius: 10px; display: none; z-index: 1000;';
+  modal.textContent = 'Le responsable a été ajouté avec succès !';  
+  document.body.appendChild(modal);
+}
+function createErrorModal() {
+  const modal = document.createElement('div');
+  modal.id = 'ErrorManagerModal';
+  modal.style = 'position: fixed; bottom: 20px; right: 20px; background-color: red; color: white; padding: 20px; border-radius: 10px; display: none; z-index: 1000;';
+  modal.textContent = 'Le responsable existe déjà !';
+  document.body.appendChild(modal);
+}
+// Toggle the visibility of the modals for the password modification
+function toggleModalError() {
+  const modal = document.getElementById('ErrorManagerModal');
+  modal.style.display = 'block';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 5000);
+}
+function toggleModalSucces() {
+  const modal = document.getElementById('succesManagerModal');
+  modal.style.display = 'block';
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 5000);
+}
+
+
 
 let managers = [];
 
@@ -13,6 +46,9 @@ const Internship = async (contactFound) => {
     Navigate('/');
     return;
   }
+  clearPage();
+  createSuccesModal();
+  createErrorModal();
 
   const main = document.querySelector('main');
   const contactId = sessionStorage.getItem('contactId');
@@ -47,7 +83,7 @@ const Internship = async (contactFound) => {
         <div class="form-group">
           <label for="topic" class="col-sm-2 control-label">Topic:</label>
           <div class="col-sm-10">
-            <input type="text" id="topic" name="topic" class="form-control" placeholder="topic" required>
+            <input type="text" id="topic" name="topic" class="form-control" placeholder="topic">
           </div>
         </div>
         <div class="form-group">
@@ -140,15 +176,10 @@ const Internship = async (contactFound) => {
       const newManager = await addManager(manager);
       if (newManager === null) {
         // Display an error message
-        const errorModal = document.getElementById('errorModal');
-        errorModal.style.display = "block";
-
-        // Hide the error modal after 3 seconds
-        setTimeout(() => {
-          errorModal.style.display = "none";
-        }, 3000);
+        toggleModalError();
         return;
       }
+
       console.log('manager options before push: ',managerOptions, ', managers: ', managers);
       managers.push(newManager);
       managers = await getManagers(contact.entreprise.id);
@@ -159,13 +190,7 @@ const Internship = async (contactFound) => {
       document.getElementById('managerId').innerHTML = managerOptions;
 
       // Show the success modal
-      const successModal = document.getElementById('successModal');
-      successModal.style.display = "block";
-
-      // Hide the success modal after 3 seconds
-      setTimeout(() => {
-        successModal.style.display = "none";
-      }, 3000);
+      toggleModalSucces();
 
       // Show success message
       document.getElementById('managerForm').style.display = 'none';

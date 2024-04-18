@@ -1,6 +1,7 @@
 package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -261,6 +262,103 @@ class UserUCCTest {
       userUCC.getAll();
     });
   }
+
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with an password")
+  void testUpdate() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setPassword("password");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+  }
+
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with a email")
+  void testUpdateEmail() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setEmail("nom.prenom@vinci.be");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+
+  }
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with a Lastname")
+  void testUpdateLastname() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setLastname("nom");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+
+  }
+
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with a Firstname")
+  void testUpdateFirstname() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setFirstname("prenom");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+
+  }
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with a Phone")
+  void testUpdatePhone() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setPhone("phone");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+
+  }
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with an Internship")
+  void testUpdateInternship() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setHasInternship(true);
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenReturn(true);
+    assertEquals(true, userUCC.update(user.getId(), user));
+
+  }
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with a fatal exception")
+  void testUpdateFatalException() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setHasInternship(true);
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    Mockito.when(userDAO.updateUser(user)).thenThrow(new FatalException("SQL Connection Error"));
+    assertThrows(FatalException.class, () -> {
+      userUCC.update(user.getId(), user);
+    });
+  }
+
+  @Test
+  @DisplayName("Test update of UserUCCImpl class with an invalid id")
+  void testUpdateInvalidId() {
+    User user = (User) factory.getPublicUser();
+    user.setLastname("nom");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(null);
+    assertFalse(userUCC.update(user.getId(), user));
+    }
+
 
 
 }

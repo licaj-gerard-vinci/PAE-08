@@ -149,10 +149,7 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean update(int id, UserDTO user) {
 
-    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-      user.setPassword(passwordHashed);
-    }
+
     UserDTO userBeforeUpdate = userDAO.getOneById(id);
 
     if (userBeforeUpdate == null) {
@@ -172,7 +169,8 @@ public class UserUCCImpl implements UserUCC {
     }
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      userBeforeUpdate.setPassword(user.getPassword());
+      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      user.setPassword(passwordHashed);
     }
 
     if (user.getHasInternship()) {
