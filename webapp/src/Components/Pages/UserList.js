@@ -4,7 +4,6 @@ import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 
 let originalUserList = [];
-let filtered = [];
 
 const UserList = async () => {
   const authenticatedUser = getAuthenticatedUser();
@@ -143,61 +142,42 @@ function displayFilters() {
 }
 
 async function filterUsers() {
-  // Search by name
+  let search = '';
+  let selectedRole = 'all';
+  let selectedYear = 'all';
+
   const searchInput = document.getElementById('search');
-  searchInput.addEventListener('input', async () => {
-    const search = searchInput.value.trim().toLowerCase();
-    if(search.length !== 0) {
-      filtered = filtered.length === 0 ?
-          originalUserList.filter(
-          user => user.lastname.toLowerCase().normalize("NFD").replace(
-                  /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-              || user.firstname.toLowerCase().normalize("NFD").replace(
-                  /[\u0300-\u036f]/g, "").includes(search.toLowerCase()))
-          : filtered.filter(
-              user => user.lastname.toLowerCase().normalize("NFD").replace(
-                      /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-                  || user.firstname.toLowerCase().normalize("NFD").replace(
-                      /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
-      if (filtered.length === 0) {
-        const tableBody = document.querySelector('tbody');
-        if (tableBody) {
-          if (filtered.length === 0) {
-            tableBody.innerHTML = `
-              <tr>
-                <td colspan="5" id="errorFiter" class="text-center" >Aucun résultat trouvé</td>
-              </tr>
-            `;
-          } else {
-            await renderUserList(filtered);
-          }
-        }
-      }
-      await renderUserList(filtered);
-    }else {
-        await renderUserList(originalUserList);
-      }
-  });
-
-  // Filter by role
   const filter = document.getElementById('filter');
-  filter.addEventListener('change', async () => {
-    const selectedRole = filter.value;
-    const filteredUsers = filtered.length === 0 ?
-        originalUserList.filter(user => selectedRole === 'all' ? true : user.role === selectedRole)
-        : filtered.filter(user => selectedRole === 'all' ? true : user.role === selectedRole);
+  const year = document.getElementById('year');
+
+  const applyFilters = async () => {
+    const filteredUsers = originalUserList.filter(user => {
+      console.log(user)
+      const matchesSearch = search.length === 0 
+        || user.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()) 
+        || user.firstname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase());
+      const matchesRole = selectedRole === 'all' || user.role === selectedRole;
+      const matchesYear = selectedYear === 'all' || user.schoolyear.annee === selectedYear;
+      return matchesSearch && matchesRole && matchesYear;
+    });
     await renderUserList(filteredUsers);
+  };
+
+  searchInput.addEventListener('input', async () => {
+    search = searchInput.value.trim().toLowerCase();
+    await applyFilters();
   });
 
-  // Filter by year
-  const year = document.getElementById('year');
+  filter.addEventListener('change', async () => {
+    selectedRole = filter.value;
+    await applyFilters();
+  });
+
   year.addEventListener('change', async () => {
-    const selectedYear = year.value;
-    const filteredUsers = originalUserList.filter(
-        user => selectedYear === 'all' ? true : user.year.annee
-            === selectedYear);
-    await renderUserList(filteredUsers);
+    selectedYear = year.value;
+    await applyFilters();
   });
 }
+
 
 export default UserList;
