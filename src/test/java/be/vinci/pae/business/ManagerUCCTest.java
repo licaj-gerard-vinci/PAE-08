@@ -1,5 +1,9 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.responsable.ResponsableUCC;
@@ -17,9 +21,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test ManagerUCC class.
@@ -134,7 +135,7 @@ public class ManagerUCCTest {
     Mockito.doThrow(FatalException.class).when(responsableDAO).addManager(newManager);
 
     assertThrows(FatalException.class, () -> {
-        responsableUCC.addManager(newManager);
+      responsableUCC.addManager(newManager);
     });
   }
 
@@ -152,7 +153,7 @@ public class ManagerUCCTest {
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
-        responsableUCC.addManager(newManager);
+      responsableUCC.addManager(newManager);
     });
   }
 }
