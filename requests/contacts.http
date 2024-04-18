@@ -38,16 +38,18 @@ Content-Type: application/json
     "role": "E",
     "hasInternship": false,
     "version": 1,
-    "year": {
+    "schoolyear": {
       "id": 1,
       "annee": "2023-2024",
       "version": 1
-    }
-  }
+    },
+    "idSchoolYear": 1
+  },
+    "etatContact": "initié"
 }
 
 ### Get all contacts
-GET {{baseUrl}}/contacts/5
+GET {{baseUrl}}/contacts/10
 Authorization: {{token}}
 
 ### Update a contact
@@ -78,13 +80,14 @@ Content-Type: application/json
       "role": "E",
       "hasInternship": false,
       "version": 1,
-      "year": {
+      "schoolyear": {
         "id": 1,
         "annee": "2023-2024",
         "version": 1
-      }
+      },
+      "idSchoolYear": 1
     },
-  "etatContact": "accepté",
+  "etatContact": "pris",
   "raisonRefus": null,
   "lieuxRencontre": null,
   "version": 1

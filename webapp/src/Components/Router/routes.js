@@ -4,8 +4,10 @@ import Logout from '../Logout/Logout';
 import ProfilePage from '../Pages/Profile';
 import UserList from '../Pages/UserList';
 import RegisterPage from "../Pages/RegisterPage";
+import NewCompany from "../Pages/NewCompany";
 import Internship from "../Pages/Internship";
 import CompanyPage from "../Pages/CompanyPage";
+import Dashboard from "../Pages/Dashboard";
 import StudentInfoPage from "../Pages/StudentInfoPage";
 
 const routes = {
@@ -15,8 +17,10 @@ const routes = {
   '/register': RegisterPage,
   '/profile': ProfilePage,
   '/users': UserList,
+  '/addCompany': NewCompany,
   '/internship': Internship,
   '/company': CompanyPage,
+  '/dashboard': Dashboard,
   '/studentInfo': StudentInfoPage,
 };
 

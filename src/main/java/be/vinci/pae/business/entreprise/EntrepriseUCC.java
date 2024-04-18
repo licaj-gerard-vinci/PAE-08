@@ -14,12 +14,26 @@ public interface EntrepriseUCC {
    * @param id the id of the entreprise.
    * @return the associated entreprise.
    */
-  EntrepriseDTO getEntreprise(int id);
+  EntrepriseDTO getCompanyById(int id);
 
   /**
    * Retrieves all entreprises.
    *
    * @return the list containing all entreprises.
    */
-  List<EntrepriseDTO> getEntreprises();
+  List<EntrepriseDTO> getAllCompanies();
+
+  /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   */
+  void addEntreprise(EntrepriseDTO entreprise);
+
+  /**
+   * Updates the entreprise.
+   *
+   * @param entreprise the entreprise to update.
+   */
+  void blackListCompany(EntrepriseDTO entreprise);
 }

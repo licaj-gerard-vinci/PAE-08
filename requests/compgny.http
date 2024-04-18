@@ -3,7 +3,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "Carole.skile@student.vinci.be",
+  "email": "raphael.baroni@vinci.be",
   "password": "a"
 }
 
@@ -15,3 +15,32 @@ Content-Type: application/json
 GET {{baseUrl}}/entreprise
 Content-Type: application/json
 Authorization: {{token}}
+
+### add a company
+POST {{baseUrl}}/entreprise
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+
+  "nom": "Vinci",
+  "appellation": "Construction",
+  "adresse": "rue de la loi",
+  "city": "Bruxelles",
+  "numTel": "0487654321",
+  "email": "t@gmail.com",
+  "blackListed": false,
+  "motivation": "none",
+  "version": "1"
+}
+
+
+### Blacklist a company
+PUT {{baseUrl}}/entreprise/19/blacklist
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "id": 19,
+  "motivation": "This company is a scam"
+}

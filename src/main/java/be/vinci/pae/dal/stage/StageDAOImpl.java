@@ -104,17 +104,38 @@ public class StageDAOImpl implements StageDAO {
             + "(internship_manager_id, internship_student_id, internship_contact_id, "
             + "internship_company_id, internship_school_year_id, internship_topic, "
             + "internship_date_of_signature, internship_version) "
-            + "VALUES (?, ?, ?, ?, 1, ?, ?, 1)";
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, internship.getIdResponsable());
       statement.setInt(2, internship.getEtudiant().getId());
       statement.setInt(3, internship.getContact().getId());
       statement.setInt(4, internship.getEntreprise().getId());
-      statement.setString(5, internship.getSujet());
-      statement.setDate(6, internship.getdateSignature());
+      statement.setInt(5, internship.getEtudiant().getidSchoolYear());
+      statement.setString(6, internship.getSujet());
+      statement.setDate(7, internship.getdateSignature());
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
+      throw new FatalException(e);
+    }
+  }
+
+  /**
+   * Update internship.
+   *
+   * @param internship the internship
+   */
+
+  public void updateInternshipTopic(StageDTO internship) {
+    String query = "UPDATE pae.internships "
+            + "SET internship_topic = ?, internship_version = internship_version + 1"
+            + "WHERE internship_id = ? AND internship_version = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setString(1, internship.getSujet());
+      statement.setInt(2, internship.getId());
+      statement.setInt(3, internship.getVersion());
+      statement.executeUpdate();
+    } catch (SQLException e) {
       throw new FatalException(e);
     }
   }

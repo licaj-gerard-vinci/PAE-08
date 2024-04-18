@@ -338,7 +338,7 @@ public class ContactUCCTest {
     ContactDTO contactReceived = contactDAO.getContactById(idContact);
 
     assertAll(
-        () -> assertDoesNotThrow(() -> contactUCC.getContactById(idContact)),
+        () -> assertDoesNotThrow(() -> contactUCC.getContactByContactId(idContact)),
         () -> assertNotNull(contactReceived)
     );
   }
@@ -353,7 +353,7 @@ public class ContactUCCTest {
     Mockito.when(contactDAO.getContactById(idContact)).thenReturn(null);
 
     assertThrows(NotFoundException.class,
-        () -> contactUCC.getContactById(idContact));
+        () -> contactUCC.getContactByContactId(idContact));
 
   }
 
@@ -368,7 +368,7 @@ public class ContactUCCTest {
             .thenThrow(FatalException.class);
 
     assertThrows(FatalException.class, () -> {
-      contactUCC.getContactById(idContact);
+      contactUCC.getContactByContactId(idContact);
     });
 
   }
@@ -493,7 +493,7 @@ public class ContactUCCTest {
     List<ContactDTO> contacts = contactDAO.getContactsAllInfo(userId);
 
     assertAll(
-        () -> assertDoesNotThrow(() -> contactUCC.getContactsAllInfo(userId)),
+        () -> assertDoesNotThrow(() -> contactUCC.getContactsByUserId(userId)),
         () -> assertNotNull(contacts),
         () -> assertEquals(2, contacts.size())
     );
@@ -514,7 +514,7 @@ public class ContactUCCTest {
     List<ContactDTO> contacts = contactDAO.getContacts();
 
     assertAll(
-        () -> assertDoesNotThrow(() -> contactUCC.getContactsAllInfo(userId)),
+        () -> assertDoesNotThrow(() -> contactUCC.getContactsByUserId(userId)),
         () -> assertNotNull(contacts),
         () -> assertTrue(contacts.isEmpty())
     );
@@ -531,7 +531,7 @@ public class ContactUCCTest {
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenReturn(new ArrayList<>());
 
-    assertThrows(NotFoundException.class, () -> contactUCC.getContactsAllInfo(userId));
+    assertThrows(NotFoundException.class, () -> contactUCC.getContactsByUserId(userId));
   }
 
   @Test
@@ -546,6 +546,6 @@ public class ContactUCCTest {
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenThrow(FatalException.class);
 
-    assertThrows(FatalException.class, () -> contactUCC.getContactsAllInfo(userId));
+    assertThrows(FatalException.class, () -> contactUCC.getContactsByUserId(userId));
   }
 }

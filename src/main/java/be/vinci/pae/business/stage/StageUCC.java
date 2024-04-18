@@ -14,7 +14,7 @@ public interface StageUCC {
    * @return the stage user
    */
 
-  StageDTO getStageUser(int idUser);
+  StageDTO getInternshipByUserId(int idUser);
 
   /**
    * Gets all stages.
@@ -29,4 +29,12 @@ public interface StageUCC {
    * @param internship the contact to insert
    */
   void insertInternship(StageDTO internship);
+
+  /**
+   * Updates an internship in the database.
+   *
+   * @param internship the internship to update
+   * @param id the id of the internship to update
+   */
+  void updateInternshipTopic(StageDTO internship, int id);
 }

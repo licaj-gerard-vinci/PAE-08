@@ -2,6 +2,7 @@ package be.vinci.pae.business.entreprise;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
@@ -26,18 +27,16 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the associated entreprise.
    */
   @Override
-  public EntrepriseDTO getEntreprise(int id) {
+  public EntrepriseDTO getCompanyById(int id) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
       if (entreprise == null) {
         throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
       }
-      dalServices.commitTransaction();
       return entreprise;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -47,18 +46,67 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the list containing all entreprises.
    */
   @Override
-  public List<EntrepriseDTO> getEntreprises() {
+  public List<EntrepriseDTO> getAllCompanies() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
       if (entreprises == null) {
         throw new NotFoundException("Aucune entreprise n'a été trouvée.");
       }
-      dalServices.commitTransaction();
       return entreprises;
+    } finally {
+      dalServices.close();
+    }
+  }
+
+  /**
+   * Updates an entreprise.
+   *
+   * @param entreprise the entreprise to update.
+   */
+  @Override
+  public void blackListCompany(EntrepriseDTO entreprise) {
+    try {
+      dalServices.startTransaction();
+      EntrepriseDTO company = getCompanyById(entreprise.getId());
+      if (company == null) {
+        throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
+      }
+      if (company.isBlackListed()) {
+        throw new ConflictException("L'entreprise est déjà blacklistée.");
+      }
+      company.setBlackListed(true);
+      company.setMotivation_blacklist(entreprise.getMotivation_blacklist());
+      entrepriseDAO.updateEntreprise(company);
+      dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
+    }
+  }
+
+
+
+  /**
+   * Adds an entreprise.
+   *
+   * @param entreprise the entreprise to add.
+   */
+
+  public void addEntreprise(EntrepriseDTO entreprise) {
+    try {
+      dalServices.startTransaction();
+      EntrepriseDTO entrepriseFromDb = entrepriseDAO
+              .getEntrepriseByNameDesignation(entreprise.getNom(),
+          entreprise.getAppellation());
+      if (entrepriseFromDb != null) {
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
+                  + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
+      }
+      entrepriseDAO.addEntreprise(entreprise);
+      dalServices.commitTransaction();
+    } catch (ConflictException e) {
+      System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
     }
   }
 }

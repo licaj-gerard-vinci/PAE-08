@@ -41,7 +41,7 @@ public class ContactResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "E", "P"})
   public List<ContactDTO> getContatcs() {
     List<ContactDTO> contactDetailledDTOs = myContactUcc.getContacts();
     if (contactDetailledDTOs == null || contactDetailledDTOs.isEmpty()) {
@@ -59,10 +59,10 @@ public class ContactResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "E", "P"})
   public List<ContactDTO> getContatcsAllInfo(
       @PathParam("id") int id) {
-    List<ContactDTO> contactDTOs = myContactUcc.getContactsAllInfo(id);
+    List<ContactDTO> contactDTOs = myContactUcc.getContactsByUserId(id);
     if (contactDTOs == null || contactDTOs.isEmpty()) {
       contactDTOs = new ArrayList<>();
     }
@@ -78,10 +78,10 @@ public class ContactResource {
   @GET
   @Path("/getOne/{contactId}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public ContactDTO getContactById(
           @PathParam("contactId") int contactId) {
-    return myContactUcc.getContactById(contactId);
+    return myContactUcc.getContactByContactId(contactId);
   }
 
   /**
@@ -95,7 +95,7 @@ public class ContactResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public ObjectNode insertContact(ContactDTO contact) {
     if (contact.getEntreprise() == null || contact.getUtilisateur() == null
         || contact.getEtatContact() == null) {
@@ -116,7 +116,7 @@ public class ContactResource {
    */
   @PUT
   @Path("/update")
-  @Authorize
+  @Authorize(roles = {"E"})
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode updateContact(ContactDTO contact) {
@@ -139,7 +139,7 @@ public class ContactResource {
   @GET
   @Path("/{id}/company")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"P"})
   public List<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);

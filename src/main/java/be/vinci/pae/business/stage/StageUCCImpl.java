@@ -8,7 +8,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
-import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -36,15 +35,12 @@ public class StageUCCImpl implements StageUCC {
    * @return the stage user
    */
 
-  public StageDTO getStageUser(int idUser) {
+  public StageDTO getInternshipByUserId(int idUser) {
     try {
-      dalServices.startTransaction();
-      StageDTO stage = internshipDAO.getStageById(idUser);
-      dalServices.commitTransaction();
-      return stage;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return internshipDAO.getStageById(idUser);
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -57,16 +53,10 @@ public class StageUCCImpl implements StageUCC {
   @Override
   public List<StageDTO> getStages() {
     try {
-      dalServices.startTransaction();
-      List<StageDTO> stages = internshipDAO.getStages();
-      if (stages == null) {
-        throw new NotFoundException("No stages found");
-      }
-      dalServices.commitTransaction();
-      return stages;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      dalServices.openConnection();
+      return internshipDAO.getStages();
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -77,26 +67,27 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public void insertInternship(StageDTO internship) {
-    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     ContactDTO myContactDTO = internship.getContact();
-    if (myContact.getContactById(myContactDTO.getId()) == null
+    if (myContact.getContactByContactId(myContactDTO.getId()) == null
         || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
       return;
-    } // verify either if contact exists and if the userId and companyId.
+    } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
+    if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
+      throw new ConflictException("internship for the student already exists");
+    }
     myContactDTO.setEtatContact("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
+    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
     myUserDTO.setHasInternship(true);
     myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
     try {
       dalServices.startTransaction();
-      if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
-        throw new ConflictException("internship for the student already exists");
-      }
       internshipDAO.insertInternship(internship);
       // verification for (if company/user exists) were already done here, in updateContact.
-      myContact.updateContact(myContactDTO);
+      myContact.updateContact(myContactDTO); // contact accepted
+      myContact.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
       myUser.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
@@ -104,4 +95,25 @@ public class StageUCCImpl implements StageUCC {
       throw e;
     }
   }
+
+  /**
+   * Updates the topic of an internship.
+   *
+   * @param internship the InternshipDTO object representing the internship to be updated
+   * @param id         the id of the internship to update
+   */
+
+  public void updateInternshipTopic(StageDTO internship, int id) {
+    internship.setId(id);
+    try {
+      dalServices.startTransaction();
+      internshipDAO.updateInternshipTopic(internship);
+      dalServices.commitTransaction();
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
+    }
+  }
+
+
 }

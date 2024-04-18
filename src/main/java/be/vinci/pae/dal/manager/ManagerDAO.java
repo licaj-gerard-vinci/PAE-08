@@ -4,8 +4,8 @@ import be.vinci.pae.business.responsable.ResponsableDTO;
 import java.util.List;
 
 /**
- * Interface for the ManagerDAO.
- * This interface provides methods to handle data access operations related to Manager.
+ * Interface for the ManagerDAO. This interface provides methods to handle data access operations
+ * related to Manager.
  */
 public interface ManagerDAO {
 
@@ -16,4 +16,28 @@ public interface ManagerDAO {
    * @return a list of ManagerDTO objects representing the managers of the company
    */
   List<ResponsableDTO> getManagers(int companyId);
+
+  /**
+   * Retrieves the manager by its email.
+   *
+   * @param email the email of the manager to retrieve
+   * @return a ManagerDTO object representing the manager
+   */
+  ResponsableDTO getManagerByEmail(String email);
+
+  /**
+   * Adds a manager to the database.
+   *
+   * @param manager the manager to add
+   */
+  void addManager(ResponsableDTO manager);
+
+
+  /**
+   * Retrieves the manager by its first name, last name and email.
+   *
+   * @param manager the manager to retrieve if exists
+   * @return a list of ManagerDTO objects representing the managers
+   */
+  List<ResponsableDTO> getManager(ResponsableDTO manager);
 }

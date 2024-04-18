@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import routes from './routes';
 import {refreshUser} from '../../model/users';
 import Navigate from './Navigate';
+import routes from "./routes";
 
 const Router = () => {
   onFrontendLoad();

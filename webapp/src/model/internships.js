@@ -61,7 +61,51 @@ import {
     }
   }
 
+  async function getAllInternships() {
+    let internships = null;
+    const token = getToken();
+    if(token) {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      };
+      const response = await fetch('http://localhost:8080/stages', options);
+
+      if (!response.ok) {
+        return internships;
+      }
+      internships = await response.json();
+    }
+    return internships;
+  }
+
+async function updateInternship(stage) {
+  const token = getToken();
+
+  if(token) {
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(stage),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+    const response = await fetch(`http://localhost:8080/stages/update/${stage.id}`, options);
+    console.log("response: ", response);
+    if (!response.ok) {
+      throw new Error(`Error updating internship: ${response.statusText}`);
+    }
+  }
+}
+
+
   export {
     getStagePresent,
-    insertInternship
+    insertInternship,
+    getAllInternships,
+    updateInternship,
   }

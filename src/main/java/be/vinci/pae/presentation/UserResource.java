@@ -19,8 +19,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
-import org.apache.logging.log4j.core.util.internal.Status;
-
 
 /**
  * UserResource.
@@ -39,7 +37,7 @@ public class UserResource {
    * @return the authenticated user.
    */
   @GET
-  @Authorize
+  @Authorize(roles = {"A", "P"})
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getUsers() {
     return myUserUcc.getAll();
@@ -58,17 +56,18 @@ public class UserResource {
   @Path("/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "P", "E"})
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-
+    System.out.println("le user que je recois : " + user.toString());
 
     boolean updateResult = myUserUcc.update(id, user);
     if (updateResult) {
 
       return myUserUcc.getOne(id);
     } else {
-      throw new WebApplicationException("User not found or update failed",
-          Status.NOT_FOUND.ordinal());
+      throw new WebApplicationException("Missing information", Response.Status.NOT_FOUND);
+
+
     }
 
   }
@@ -84,7 +83,7 @@ public class UserResource {
   @Path("/{id}/verify")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"A", "P", "E"})
   public Response verifyUser(@PathParam("id") int id, Map<String, String> passwordWrapper) {
     String oldPassword = passwordWrapper.get("Password");
     if (oldPassword == null || oldPassword.trim().isEmpty()) {

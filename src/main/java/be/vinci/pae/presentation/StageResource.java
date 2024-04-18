@@ -11,6 +11,7 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -40,12 +41,12 @@ public class StageResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E", "P"})
   public StageDTO getUserStage(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    StageDTO userStage = myStageUcc.getStageUser(id);
+    StageDTO userStage = myStageUcc.getInternshipByUserId(id);
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
     }
@@ -59,7 +60,7 @@ public class StageResource {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E", "P"})
   public List<StageDTO> getStages() {
     return myStageUcc.getStages();
   }
@@ -75,7 +76,7 @@ public class StageResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public ObjectNode insertInternship(StageDTO internship) {
     if (internship.getEntreprise() == null || internship.getEtudiant() == null
             || internship.getIdResponsable() <= 0 || internship.getContact() == null) {
@@ -86,5 +87,31 @@ public class StageResource {
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Internship created successfully");
     return responseNode;
+  }
+
+  /**
+   * Updates the topic of an internship.
+   *
+   * @param internship the InternshipDTO object representing the internship to be updated
+   * @param id         the id of the internship to be updated
+   * @return a JSON object containing a success message
+   * @throws WebApplicationException if any required information is missing from the InternshipDTO
+   */
+  @PUT
+  @Path("/update/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(roles = {"E"})
+  public ObjectNode updateInternshipTopic(@PathParam("id") int id, StageDTO internship) {
+
+    if (internship.getSujet() == null) {
+      throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
+    }
+
+    myStageUcc.updateInternshipTopic(internship, id);
+    ObjectNode responseNode = jsonMapper.createObjectNode();
+    responseNode.put("message", "Internship updated successfully");
+    return responseNode;
+
   }
 }

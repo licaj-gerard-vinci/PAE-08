@@ -55,7 +55,9 @@ public class DALServiceImpl implements DALBackService, DALServices {
     Connection conn = connection.get();
     if (conn == null) {
       try {
+        System.out.println("avant le getconnection " + dataSource.getNumActive());
         conn = dataSource.getConnection();
+        System.out.println("apres le getconnection " + dataSource.getNumActive());
         connection.set(conn);
       } catch (SQLException e) {
         throw new FatalException(e);
@@ -64,11 +66,18 @@ public class DALServiceImpl implements DALBackService, DALServices {
     return conn;
   }
 
+  /**
+   * Open connection.
+   */
+  @Override
+  public void openConnection() {
+    getConnection();
+  }
+
   @Override
   public void startTransaction() {
     try {
       if (transactionCounter.get() == 0) {
-
         getConnection().setAutoCommit(false);
       }
       transactionCounter.set(transactionCounter.get() + 1);
@@ -97,13 +106,12 @@ public class DALServiceImpl implements DALBackService, DALServices {
     try {
       int counter = transactionCounter.get() - 1;
       transactionCounter.set(counter);
-      if (counter == 0) {
-        getConnection().rollback();
-        getConnection().setAutoCommit(true);
-        close();
-      }
+      getConnection().rollback();
+      getConnection().setAutoCommit(true);
     } catch (SQLException e) {
       throw new FatalException(e);
+    } finally {
+      close();
     }
   }
 
