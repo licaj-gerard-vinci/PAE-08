@@ -4,6 +4,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.year.YearDAO;
+import be.vinci.pae.exceptions.FatalException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
