@@ -103,46 +103,26 @@ class UserUCCTest {
   }
 
   @Test
-  @DisplayName("Test UserUCC registration")
-  void testUserUCCRegistration() {
-    YearDTO year = factory.getYearDTO();
-    year.setId(1);
-    year.setAnnee("2023-2024");
-    when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
-    User user = (User) factory.getPublicUser();
-    user.setEmail("prenom.nom@vinci.be");
-    user.setPassword("password");
-    user.setRole("A");
-    user.setFirstname("prenom");
-    user.setLastname("nom");
-    user.setPhone("phone");
-    when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(null);
-    when(userDAO.insertUser(user)).thenReturn(user);
-    User registeredUser = (User) userUCC.register(user);
-    assertEquals("prenom.nom@vinci.be", registeredUser.getEmail());
-    assertEquals("A", registeredUser.getRole());
+  @DisplayName("Test register of UserUCCImpl class")
+  void testRegister() {
+      YearDTO year = factory.getYearDTO();
+      year.setId(1);
+      year.setAnnee("2023-2024");
+      when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
+      User user = (User) factory.getPublicUser();
+      user.setEmail("prenom.nom@vinci.be");
+      user.setPassword("password");
+      user.setRole("A");
+      user.setFirstname("prenom");
+      user.setLastname("nom");
+      user.setPhone("phone");
+      when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(null);
+      when(userDAO.insertUser(user)).thenReturn(user);
+      User registeredUser = (User) userUCC.register(user);
+      assertEquals("prenom.nom@vinci.be", registeredUser.getEmail());
+      assertEquals("A", registeredUser.getRole());
+      assertEquals("2023-2024", userUCC.register(user).getSchoolyear().getAnnee());
   }
-
-  @Test
-  @DisplayName("Test academic year")
-  void testAcademicYear() {
-    YearDTO year = factory.getYearDTO();
-    year.setId(1);
-    year.setAnnee("2023-2024");
-    when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
-    User user = (User) factory.getPublicUser();
-    user.setEmail("nom.prenom@student.vinci.be");
-    user.setPassword("password");
-    user.setRole("E");
-    user.setFirstname("prenom");
-    user.setLastname("nom");
-    user.setPhone("phone");
-    when(userDAO.getOneByEmail("toz")).thenReturn(null);
-    when(userDAO.insertUser(user)).thenReturn(user);
-    assertEquals("2023-2024", userUCC.register(user).getSchoolyear().getAnnee());
-  }
-
-
 
   @Test
   @DisplayName("Test UserUCC registration with an existing email")
@@ -168,6 +148,10 @@ class UserUCCTest {
   @Test
   @DisplayName("Test UserUCC registration with student email")
   void testUserUCCRegistrationWithStudentEmail() {
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setAnnee("2023-2024");
+    when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@student.vinci.be");
     user.setFirstname("prenom");
@@ -214,6 +198,10 @@ class UserUCCTest {
   @Test
   @DisplayName("Test UserUCC registration with SqlConnectionException")
   void testUserUCCRegistrationWithSqlConnectionException() {
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setAnnee("2023-2024");
+    when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@student.vinci.be");
     user.setRole("E");
@@ -223,7 +211,6 @@ class UserUCCTest {
       userUCC.register(user);
     });
   }
-
 
   @Test
   @DisplayName("Test getOne of UserUCCImpl class")

@@ -37,6 +37,7 @@ public class ManagerUCCTest {
     responsableUCC = locator.getService(ResponsableUCC.class);
     factory = locator.getService(Factory.class);
     responsableDAO = locator.getService(ManagerDAO.class);
+    Mockito.reset(responsableDAO);
   }
 
   @Test
@@ -156,4 +157,6 @@ public class ManagerUCCTest {
       responsableUCC.addManager(newManager);
     });
   }
+
+
 }
