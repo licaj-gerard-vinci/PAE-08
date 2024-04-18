@@ -7,6 +7,8 @@ import be.vinci.pae.dal.manager.ManagerDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test ManagerUCC class.
