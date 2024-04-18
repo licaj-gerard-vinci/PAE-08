@@ -562,16 +562,35 @@ public class ContactUCCTest {
     contact1.setId(2);
     contact1.setEtatContact("pris");
 
+    ContactDTO contact12 = factory.getContactDTO();
+    contact12.setId(2);
+    contact12.setEtatContact("pris");
+
     ContactDTO contact2 = factory.getContactDTO();
     contact2.setId(3);
     contact2.setEtatContact("initié");
+
+    ContactDTO contact22 = factory.getContactDTO();
+    contact22.setId(3);
+    contact22.setEtatContact("initié");
 
     ContactDTO contact3 = factory.getContactDTO();
     contact3.setId(contactId);
     contact3.setEtatContact("pris");
 
+    ContactDTO contact32 = factory.getContactDTO();
+    contact32.setId(contactId);
+    contact32.setEtatContact("pris");
+
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
-    Mockito.when(contactDAO.getContactsAllInfo(userId)).thenReturn(Arrays.asList(contact1, contact2, contact3));
+    Mockito.when(contactDAO.getContactById(2))
+            .thenReturn(contact12);
+    Mockito.when(contactDAO.getContactById(3))
+            .thenReturn(contact22);
+    Mockito.when(contactDAO.getContactById(contactId))
+            .thenReturn(contact32);
+    Mockito.when(contactDAO.getContactsAllInfo(userId))
+            .thenReturn(Arrays.asList(contact1, contact2, contact3));
 
     assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
     assertEquals("suspendu", contact1.getEtatContact());
@@ -603,5 +622,112 @@ public class ContactUCCTest {
     Mockito.when(contactDAO.getContactsAllInfo(userId)).thenReturn(new ArrayList<>());
 
     assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
+  }
+
+  @Test
+  @DisplayName("Suspend contacts fatal Exception")
+  void suspendContactsFatalException() {
+    int userId = 1;
+    int contactId = 1;
+
+    UserDTO user = factory.getPublicUser();
+    user.setId(userId);
+
+    Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
+    Mockito.when(contactDAO.getContactsAllInfo(userId)).thenThrow(FatalException.class);
+
+    assertThrows(FatalException.class, () -> contactUCC.suspendContacts(userId, contactId));
+  }
+
+  @Test
+  @DisplayName("blackListContact with valid information")
+  void blacklistContactDefault() {
+    int companyId = 1;
+    int contactId = 1;
+
+    EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
+    companyDTO.setId(companyId);
+
+    ContactDTO contact1 = factory.getContactDTO();
+    contact1.setId(2);
+    contact1.setEtatContact("pris");
+
+    ContactDTO contact12 = factory.getContactDTO();
+    contact12.setId(2);
+    contact12.setEtatContact("pris");
+
+    ContactDTO contact2 = factory.getContactDTO();
+    contact2.setId(3);
+    contact2.setEtatContact("initié");
+
+    ContactDTO contact22 = factory.getContactDTO();
+    contact22.setId(3);
+    contact22.setEtatContact("initié");
+
+    ContactDTO contact3 = factory.getContactDTO();
+    contact3.setId(contactId);
+    contact3.setEtatContact("different");
+
+    ContactDTO contact32 = factory.getContactDTO();
+    contact32.setId(contactId);
+    contact32.setEtatContact("different");
+
+    Mockito.when(companyDAO.getEntreprise(companyDTO.getId())).thenReturn(companyDTO);
+    Mockito.when(contactDAO.getContactById(2))
+            .thenReturn(contact12);
+    Mockito.when(contactDAO.getContactById(3))
+            .thenReturn(contact22);
+    Mockito.when(contactDAO.getContactById(contactId))
+            .thenReturn(contact32);
+    Mockito.when(contactDAO.getContactsByCompanyId(companyId))
+            .thenReturn(Arrays.asList(contact1, contact2, contact3));
+
+    assertDoesNotThrow(() -> contactUCC.blackListContact(companyId));
+    assertEquals("blacklisté", contact1.getEtatContact());
+    assertEquals("blacklisté", contact2.getEtatContact());
+    assertEquals("different", contact3.getEtatContact());
+
+  }
+
+
+  @Test
+  @DisplayName("blacklist contacts with non-existing company")
+  void blacklistContactsWithNonExistingUser() {
+    int companyId = 1;
+    int contactId = 1;
+
+    Mockito.when(companyDAO.getEntreprise(companyId)).thenReturn(null);
+
+    assertThrows(NotFoundException.class, () -> contactUCC.blackListContact(companyId));
+  }
+
+  @Test
+  @DisplayName("blacklist contacts with valid user and no contacts")
+  void blacklistContactssWithValidUserAndNoContacts() {
+    int companyId = 1;
+    int contactId = 1;
+
+    EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
+    companyDTO.setId(companyId);
+
+    Mockito.when(companyDAO.getEntreprise(companyDTO.getId())).thenReturn(companyDTO);
+    Mockito.when(contactDAO.getContactsByCompanyId(companyId)).thenReturn(new ArrayList<>());
+
+    assertDoesNotThrow(() -> contactUCC.blackListContact(companyId));
+  }
+
+  @Test
+  @DisplayName("blacklist contacts fatal Exception")
+  void blacklistContactsFatalException() {
+    int companyId = 1;
+    int contactId = 1;
+
+    EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
+    companyDTO.setId(companyId);
+
+    Mockito.when(companyDAO.getEntreprise(companyDTO.getId())).thenReturn(companyDTO);
+    Mockito.when(contactDAO.getContactsByCompanyId(companyId)).thenThrow(FatalException.class);
+
+    assertThrows(FatalException.class, () -> contactUCC.blackListContact(companyId));
   }
 }
