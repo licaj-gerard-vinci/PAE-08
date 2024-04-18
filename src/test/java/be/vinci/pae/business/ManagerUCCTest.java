@@ -183,7 +183,8 @@ public class ManagerUCCTest {
     ResponsableDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("existingEmail@example.com");
 
-    Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(existingManager);
+    Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail()))
+            .thenReturn(existingManager);
 
     assertThrows(ConflictException.class, () -> {
       responsableUCC.addManager(newManager);

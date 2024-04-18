@@ -186,7 +186,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test insert internship with FatalException")
   void testInsertInternshipFatalException() {
-    StageDTO stage = factory.getStageDTO();
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
     contact1.setEtatContact("pris");
@@ -201,6 +200,7 @@ public class InternshipUCCTest {
     contact1.setUtilisateur(user);
     contact2.setEntreprise(entreprise);
     contact2.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
     stage.setEtudiant(user);
     stage.setContact(contact1);
     stage.setEntreprise(entreprise);
@@ -272,7 +272,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test insertInternship with ConflictException for invalid entreprise")
   void testInsertInternshipConflictExceptionForInvalidEntreprise2() {
-    StageDTO stage = factory.getStageDTO();
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setEtatContact("pris");
@@ -283,6 +282,7 @@ public class InternshipUCCTest {
     entreprise.setId(1);
     contact.setEntreprise(entreprise);
     contact.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
     stage.setEtudiant(user);
     stage.setContact(contact);
     stage.setEntreprise(entreprise2);
@@ -294,7 +294,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test insertInternship with NotFoundException for invalid contact")
   void testInsertInternshipNotFoundExceptionForInvalidContact() {
-    StageDTO stage = factory.getStageDTO();
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setEtatContact("pris");
@@ -304,6 +303,7 @@ public class InternshipUCCTest {
     entreprise.setId(1);
     contact.setEntreprise(entreprise);
     contact.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
     stage.setEtudiant(user);
     stage.setContact(contact);
     stage.setEntreprise(entreprise);
@@ -314,7 +314,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test insertInternship with NotFoundException for invalid contact or user")
   void testInsertInternshipNotFoundExceptionForInvalidContactOrUser() {
-    StageDTO stage = factory.getStageDTO();
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setEtatContact("pris");
@@ -324,6 +323,7 @@ public class InternshipUCCTest {
     entreprise.setId(1);
     contact.setEntreprise(entreprise);
     contact.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
     stage.setEtudiant(user);
     stage.setContact(contact);
     stage.setEntreprise(entreprise);
@@ -333,8 +333,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test update internship")
   void testUpdateInternship() {
-    StageDTO stage = factory.getStageDTO();
-    stage.setId(1);
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
     contact1.setEtatContact("pris");
@@ -349,6 +347,8 @@ public class InternshipUCCTest {
     contact1.setUtilisateur(user);
     contact2.setEntreprise(entreprise);
     contact2.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
+    stage.setId(1);
     stage.setEtudiant(user);
     stage.setContact(contact1);
     stage.setEntreprise(entreprise);
@@ -360,8 +360,6 @@ public class InternshipUCCTest {
   @Test
   @DisplayName("Test update internship with ConflictException")
   void testUpdateInternshipConflictException() {
-    StageDTO stage = factory.getStageDTO();
-    stage.setId(1);
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
     contact1.setEtatContact("pris");
@@ -376,6 +374,8 @@ public class InternshipUCCTest {
     contact1.setUtilisateur(user);
     contact2.setEntreprise(entreprise);
     contact2.setUtilisateur(user);
+    StageDTO stage = factory.getStageDTO();
+    stage.setId(1);
     stage.setEtudiant(user);
     stage.setContact(contact1);
     stage.setEntreprise(entreprise);
