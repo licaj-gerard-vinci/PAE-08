@@ -218,7 +218,6 @@ public class InternshipUCCTest {
             () -> {
               StageDTO stage = factory.getStageDTO();
               ContactDTO contact = factory.getContactDTO();
-              Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               EntrepriseDTO entreprise = factory.getEntrepriseDTO();
@@ -226,6 +225,7 @@ public class InternshipUCCTest {
               stage.setEtudiant(user);
               stage.setContact(contact);
               stage.setEntreprise(entreprise);
+              Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
               assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
             },
             () -> {

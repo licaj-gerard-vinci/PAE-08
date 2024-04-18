@@ -71,8 +71,7 @@ public class StageUCCImpl implements StageUCC {
   @Override
   public void insertInternship(StageDTO internship) {
     ContactDTO myContactDTO = myContact.getContactByContactId(internship.getContact().getId());
-    if (myContactDTO == null
-        || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
+    if (myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
         throw new NotFoundException("contact doesn't exist or doesn't match with the internship");
     } // verify either if contact  exists and if the userId and companyId.
