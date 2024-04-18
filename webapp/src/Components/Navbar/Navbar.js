@@ -2,20 +2,24 @@
 import { Navbar as BootstrapNavbar } from 'bootstrap';
 import { isAuthenticated, getAuthenticatedUser } from '../../utils/auths';
 import logo from '../../img/HELOGO.png';
+import { refreshUser } from '../../model/users';
 
 const Navbar = () => {
+    
     renderNavbar();
 };
 
 function renderNavbar() {
-    const user = getAuthenticatedUser();
-    const userFirstName = user?.user?.firstname || '';
+    refreshUser().then((updatedUser) => {
+        const user = updatedUser || getAuthenticatedUser();
+            const userFirstName = user?.user?.firstname || '';
     const userName = user?.user?.lastname || '';
 
     // Déterminer si le bouton de recherche utilisateur doit être affiché
     const showSearchUserButton = user?.user?.role === 'A' || user?.user?.role === 'P';
     const showDashboard = user?.user?.role === 'P';
-    const showCompaniesListButton = user?.user?.role === 'E';
+    const showCompaniesListButton = user?.user?.role === 'E' && user?.user?.hasInternship === false; 
+
 
 
 
@@ -70,6 +74,8 @@ function renderNavbar() {
 
     const navbarWrapper = document.querySelector('#navbarWrapper');
     navbarWrapper.innerHTML = isAuthenticated() ? authenticatedUser : unauthenticatedUser;
-}
 
-export default Navbar;
+
+    });
+}
+    export default Navbar;

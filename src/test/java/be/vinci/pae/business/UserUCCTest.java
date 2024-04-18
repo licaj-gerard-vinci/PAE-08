@@ -9,6 +9,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.user.UserUCCImpl;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.year.YearDAO;
@@ -41,6 +42,8 @@ class UserUCCTest {
     factory = locator.getService(Factory.class);
     userDAO = locator.getService(UserDAO.class);
     yearDAO = locator.getService(YearDAO.class);
+    Mockito.reset(userDAO);
+
   }
 
   @Test
@@ -358,6 +361,16 @@ class UserUCCTest {
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(null);
     assertFalse(userUCC.update(user.getId(), user));
     }
+
+  @Test
+  @DisplayName("check password ok")
+  void testCheckPasswordOk() {
+    User user = (User) factory.getPublicUser();
+    user.setId(1);
+    user.setPassword("password");
+    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
+    assertEquals(true, userUCC.checkPassword(user.getId(), "password"));
+  }
 
 
 
