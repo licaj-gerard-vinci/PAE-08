@@ -82,8 +82,30 @@ import {
     return internships;
   }
 
+async function updateInternship(stage) {
+  const token = getToken();
+
+  if(token) {
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(stage),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+    const response = await fetch(`http://localhost:8080/stages/update/${stage.id}`, options);
+    console.log("response: ", response);
+    if (!response.ok) {
+      throw new Error(`Error updating internship: ${response.statusText}`);
+    }
+  }
+}
+
+
   export {
     getStagePresent,
     insertInternship,
     getAllInternships,
+    updateInternship,
   }

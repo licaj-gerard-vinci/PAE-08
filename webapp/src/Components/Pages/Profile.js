@@ -4,7 +4,7 @@
 // eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
-import { getStagePresent } from '../../model/internships';
+import { getStagePresent,updateInternship } from '../../model/internships';
 import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import { getContacts } from '../../model/contacts';
 
@@ -274,9 +274,8 @@ async function displayStage() {
 
   const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
   const sujetText = stageDiv.querySelector('#sujet-text');
-
   if (modifierSujetButton) {
-    modifierSujetButton.addEventListener('click', () => {
+    modifierSujetButton.addEventListener('click', async () => {
       const isEditing = modifierSujetButton.getAttribute('data-editing');
 
       if (isEditing) {
@@ -288,6 +287,7 @@ async function displayStage() {
         modifierSujetButton.removeAttribute('data-editing');
 
         // Save the new value to the server
+        await updateInternship(stage);
       } else {
         const currentValue = sujetText.textContent;
         sujetText.innerHTML = `<input id="sujet-input" class="form-control" type="text" value="${currentValue}" />`;
@@ -295,13 +295,6 @@ async function displayStage() {
         sujetInput.focus();
         modifierSujetButton.textContent = 'Confirmer le Sujet';
         modifierSujetButton.setAttribute('data-editing', 'true');
-
-        // Add event listener to the input to save the new value when the user presses enter
-        sujetInput.addEventListener('keypress', (event) => {
-          if (event.key === 'Enter') {
-            modifierSujetButton.click();
-          }
-        });
       }
     });
   }
