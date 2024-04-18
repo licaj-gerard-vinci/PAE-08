@@ -10,7 +10,7 @@ const Dashboard = async () => {
     clearPage();
     const main = document.querySelector('main');
     main.innerHTML = `
-        <h1 class="centered-title title-with-line">Tableau de bord</h1>
+        <h1 class="centered-title">Tableau de bord</h1>
     <div id="chart-container"></div>
     <div id="companies-container"></div>
     `;
@@ -35,7 +35,6 @@ async function renderCompaniesList() {
                     </select>
                 </div>
                 <div id="company-list-table-container" class="table-responsive">
-                    <!-- Table will be inserted here -->
                 </div>
             </div>
         </div>
@@ -53,6 +52,38 @@ async function renderCompaniesList() {
     renderCompanies(companies, internships);
 }
 
+const sortOrder = {
+    nom: true,
+    numTel: true,
+    studentCount: true,
+    blackListed: true
+};
+
+async function sortAndRenderCompanies(property, companies, internships) {
+    let updatedCompanies = [...companies];
+
+    // If sorting by student count, add a studentCount property to each company
+    if (property === 'studentCount') {
+        updatedCompanies = companies.map(company => {
+            const companyInternships = internships.filter(internship => internship.entreprise.id === company.id);
+            return {...company, studentCount: companyInternships.length};
+        });
+    }
+
+    // Sort the companies
+    updatedCompanies.sort((a, b) => {
+        if (a[property] < b[property]) return sortOrder[property] ? -1 : 1;
+        if (a[property] > b[property]) return sortOrder[property] ? 1 : -1;
+        return 0;
+    });
+
+    // Invert the sort order for the next time
+    sortOrder[property] = !sortOrder[property];
+
+    // Render the sorted companies
+    await renderCompanies(updatedCompanies, internships);
+}
+
 function renderCompanies(companies, internships, selectedYear = '') {
     if (!companies || companies.length === 0) {
         document.getElementById('company-list-table-container').innerHTML = `
@@ -63,10 +94,10 @@ function renderCompanies(companies, internships, selectedYear = '') {
     <table class="table table-hover shadow-sm rounded">
         <thead class="table-dark">
             <tr>
-                <th scope="col" class="text-center">Nom</th>
-                <th scope="col" class="text-center">Numéro de téléphone</th>
-                <th scope="col" class="text-center">Nombre d'étudiant</th>
-                <th scope="col" class="text-center">Est blacklisté</th>
+               <th scope="col" id="sortByName" class="text-center cursor-pointer">Nom ${sortOrder.nom ? '↓' : '↑'}</th>
+                <th scope="col" id="sortByPhone" class="text-center cursor-pointer">Numéro de téléphone ${sortOrder.numTel ? '↓' : '↑'}</th>
+                <th scope="col" id="sortByStudentCount" class="text-center cursor-pointer">Nombre d'étudiant ${sortOrder.studentCount ? '↓' : '↑'}</th>
+                <th scope="col" id="sortByBlacklisted" class="text-center cursor-pointer">Est blacklisté ${sortOrder.blackListed ? '↓' : '↑'}</th>
             </tr>
         </thead>
         <tbody>
@@ -107,9 +138,14 @@ function renderCompanies(companies, internships, selectedYear = '') {
                 Navigate('/company', companyId);
             });
         });
+
+        // Add event listeners to the table headers
+        document.getElementById('sortByName').addEventListener('click', () => sortAndRenderCompanies('nom', companies, internships));
+        document.getElementById('sortByPhone').addEventListener('click', () => sortAndRenderCompanies('numTel', companies, internships));
+        document.getElementById('sortByStudentCount').addEventListener('click', () => sortAndRenderCompanies('studentCount', companies, internships));
+        document.getElementById('sortByBlacklisted').addEventListener('click', () => sortAndRenderCompanies('blackListed', companies, internships));
     }
 }
-
 
 async function renderStatistics() {
     let totalStudents = await getAllUsers();
@@ -145,10 +181,11 @@ async function renderStatistics() {
     const studentsWithoutInternship = totalStudents.length - studentsWithInternship;
 
     chartContainer.innerHTML =
-        `<h3 class="chart-title centered-title">Internship Statistics</h3>
+        `<div class="flex-container-stats">
         <p class="text-center">Année académique: ${academicYear}</p>
         <p class="text-center">Nombre total d'étudiants: ${totalStudents.length}</p>
-        <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
+    </div>
+    <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
     ;
 
     const canvas = document.getElementById('myChart');
