@@ -4,7 +4,6 @@ import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 
 let originalUserList = [];
-let filtered = [];
 
 const UserList = async () => {
   const authenticatedUser = getAuthenticatedUser();
@@ -36,6 +35,7 @@ const UserList = async () => {
   originalUserList = await getAllUsers();
   displayFilters();
   await renderUserList(originalUserList);
+  await filterUsers();
 }
 
 async function renderUserList(userList) {
@@ -62,7 +62,7 @@ async function renderUserList(userList) {
             <td>${user.firstname}</td>
             <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
             <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.year.annee === null ? 'N/A' : user.year.annee}</td>
+            <td>${user.schoolyear.annee === null ? 'N/A' : user.schoolyear.annee}</td>
           </tr>
         `).join('')}
       </tbody>
@@ -79,8 +79,6 @@ async function renderUserList(userList) {
         Navigate('/studentInfo',user);
       })});
   }
-
-  filterUsers(userList);
 }
 
 function displayFilters() {
@@ -93,7 +91,6 @@ function displayFilters() {
             <label for="search">Recherche d'utilisateur :</label>
             <div class="input-group">
               <input type="text" class="form-control" id="search" placeholder="nom ou prénom">
-              <button class="btn btn-primary" id="search-btn">Rechercher</button>
             </div>
           </div>
         </div>
@@ -144,56 +141,43 @@ function displayFilters() {
   });
 }
 
-function filterUsers() {
-  // Search by name
-  const searchBtn = document.getElementById('search-btn');
-  searchBtn.addEventListener('click', async () => {
-    const search = document.getElementById('search').value;
-    if(search.length === 0) {
-      return renderUserList(originalUserList);
-    }
-    filtered = filtered.length === 0 ?
-        originalUserList.filter(
-        user => user.lastname.toLowerCase().normalize("NFD").replace(
-                /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-            || user.firstname.toLowerCase().normalize("NFD").replace(
-                /[\u0300-\u036f]/g, "").includes(search.toLowerCase()))
-        : filtered.filter(
-            user => user.lastname.toLowerCase().normalize("NFD").replace(
-                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase())
-                || user.firstname.toLowerCase().normalize("NFD").replace(
-                    /[\u0300-\u036f]/g, "").includes(search.toLowerCase()));
-    if (filtered.length === 0) {
-      const tableBody = document.querySelector('tbody');
-      tableBody.innerHTML = `
-            <tr>
-                <td colspan="5" id="errorFiter" class="text-center" >Aucun résultat trouvé</td>
-            </tr>
-            `;
-    }
+async function filterUsers() {
+  let search = '';
+  let selectedRole = 'all';
+  let selectedYear = 'all';
 
-    return renderUserList(filtered);
-  });
-
-  // Filter by role
+  const searchInput = document.getElementById('search');
   const filter = document.getElementById('filter');
-  filter.addEventListener('change', async () => {
-    const selectedRole = filter.value;
-    const filteredUsers = filtered.length === 0 ?
-        originalUserList.filter(user => selectedRole === 'all' ? true : user.role === selectedRole)
-        : filtered.filter(user => selectedRole === 'all' ? true : user.role === selectedRole);
+  const year = document.getElementById('year');
+
+  const applyFilters = async () => {
+    const filteredUsers = originalUserList.filter(user => {
+      console.log(user)
+      const matchesSearch = search.length === 0 
+        || user.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()) 
+        || user.firstname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase());
+      const matchesRole = selectedRole === 'all' || user.role === selectedRole;
+      const matchesYear = selectedYear === 'all' || user.schoolyear.annee === selectedYear;
+      return matchesSearch && matchesRole && matchesYear;
+    });
     await renderUserList(filteredUsers);
+  };
+
+  searchInput.addEventListener('input', async () => {
+    search = searchInput.value.trim().toLowerCase();
+    await applyFilters();
   });
 
-  // Filter by year
-  const year = document.getElementById('year');
+  filter.addEventListener('change', async () => {
+    selectedRole = filter.value;
+    await applyFilters();
+  });
+
   year.addEventListener('change', async () => {
-    const selectedYear = year.value;
-    const filteredUsers = originalUserList.filter(
-        user => selectedYear === 'all' ? true : user.year.annee
-            === selectedYear);
-    await renderUserList(filteredUsers);
+    selectedYear = year.value;
+    await applyFilters();
   });
 }
+
 
 export default UserList;

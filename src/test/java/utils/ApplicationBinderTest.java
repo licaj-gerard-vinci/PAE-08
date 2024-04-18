@@ -12,6 +12,8 @@ import be.vinci.pae.business.stage.StageUCC;
 import be.vinci.pae.business.stage.StageUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
+import be.vinci.pae.business.year.YearUCC;
+import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
@@ -19,11 +21,14 @@ import be.vinci.pae.dal.contact.ContactDAOImpl;
 import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.dal.manager.ManagerDAO;
 import be.vinci.pae.dal.manager.ManagerDAOImpl;
+import be.vinci.pae.dal.entreprise.EntrepriseDAOImpl;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.dal.stage.StageDAOImpl;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
+import be.vinci.pae.dal.year.YearDAO;
+import be.vinci.pae.dal.year.YearDAOImpl;
 import jakarta.inject.Singleton;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.mockito.Mockito;
@@ -44,7 +49,7 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(FactoryImpl.class).to(Factory.class).in(Singleton.class);
 
     bind(ContactUCCImpl.class).to(ContactUCC.class).in(Singleton.class);
-    bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
+    bind(Mockito.mock(ContactDAO.class)).to(ContactDAO.class);
 
     bind(Mockito.mock(DALServices.class)).to(DALServices.class);
 
@@ -55,10 +60,13 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(Mockito.mock(EntrepriseDAO.class)).to(EntrepriseDAO.class);
 
     bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
-    bind(Mockito.mock(StageDAOImpl.class)).to(StageDAO.class);
+    bind(Mockito.mock(StageDAO.class)).to(StageDAO.class);
 
     bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);
     bind(Mockito.mock(ManagerDAOImpl.class)).to(ManagerDAO.class);
+
+    bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);
+    bind(Mockito.mock(YearDAO.class)).to(YearDAO.class);
   }
 }
   

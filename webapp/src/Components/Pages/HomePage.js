@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+  /* eslint-disable no-console */
 import {
   getContacts,
   insertContact,
@@ -21,11 +21,50 @@ async function renderEntreprises(){
 
 const HomePage = async () => {
   await renderEntreprises();
+  await renderSearchBar();
   await renderHomePage();
 };
 
-async function renderHomePage(){
+async function renderSearchBar() {
   const main = document.querySelector('main');
+  const searchBar = `
+    <div class="container-fluid mt-4">
+      <!-- Bouton "Ajouter l'entreprise" aligné à gauche avec du padding -->
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn btn-primary px-4 py-2" id="button-addon3"> + Ajouter l'entreprise</button>
+      </div>
+    </div>
+    
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-10 col-md-8 col-lg-6">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="searchResults"></div>`;
+  main.innerHTML = searchBar;
+
+  const searchInput = document.getElementById('searchInput');
+
+  searchInput.addEventListener('input', async () => {
+    const searchValue = searchInput.value.trim().toLowerCase();
+    if (searchValue !== '') {
+      searchResult = entreprises.filter(entreprise =>
+          entreprise.nom.toLowerCase().includes(searchValue) || entreprise.appellation.toLowerCase().includes(searchValue)
+      );
+    } else {
+      await renderEntreprises();
+    }
+    await renderHomePage();
+  });
+}
+
+
+async function renderHomePage(){
+  const resultsContainer = document.getElementById('searchResults');
   const user = await refreshUser();
 
   if(user.hasInternship === true) {
@@ -33,44 +72,26 @@ async function renderHomePage(){
     return;
   }
 
-  if(user.role === "A" || user.role === "P"){
+  if(user.role === "P"){
     Navigate('/dashboard');
+  } else if (user.role === "A"){
+    Navigate('/users');
   } else if (user.role === "E") {
     const contacts = await getContacts();
-    const searchBar = `
-  <div class="container-fluid mt-4">
-    <!-- Bouton "Ajouter l'entreprise" aligné à gauche avec du padding -->
-    <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-primary px-4 py-2" id="button-addon3"> + Ajouter l'entreprise</button>
-    </div>
-  </div>
-  
-<div class="container-fluid">
-    <div class="row justify-content-center">
-      <div class="col-10 col-md-8 col-lg-6">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
-          <button class="btn btn-primary" type="button" id="button-addon2">Rechercher</button>
-        </div>
-      </div>
-    </div>
-    </div>`
 
     if(!searchResult || searchResult.length === 0) {
-      main.innerHTML = `
-      ${searchBar}
+      resultsContainer.innerHTML = `
       <p>Aucune entreprise n'a été trouvé.</p>
       `;
     } else {
-      main.innerHTML = `
-        ${searchBar}
+      resultsContainer.innerHTML = `
         <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
           ${searchResult.map(entreprise => {
         let button;
         if(contacts){
-          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
           if(!contactFound){
             button = `
                 <div class="row">
@@ -184,7 +205,7 @@ async function renderHomePage(){
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
-        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id);
+        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
 
         if (startedButton) {
           startedButton.addEventListener('click', async () => {
@@ -254,19 +275,6 @@ async function renderHomePage(){
       });
 
     }
-    const searchButton = document.getElementById('button-addon2');
-
-    searchButton.addEventListener('click', async () => {
-      const searchInput = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (searchInput !== '') {
-        searchResult = entreprises.filter(entreprise =>
-            entreprise.nom.toLowerCase().includes(searchInput)
-        );
-      } else {
-        await renderEntreprises();
-      }
-      await renderHomePage();
-    });
   } else {
     console.log("Unknown user role");
   }

@@ -23,7 +23,7 @@ public interface ContactUCC {
    * @param idUser The ID of the user whose contacts are to be fetched.
    * @return A list of ContactDTO objects containing all contact information for the user.
    */
-  List<ContactDTO> getContactsAllInfo(int idUser);
+  List<ContactDTO> getContactsByUserId(int idUser);
 
   /**
    * Get a contact by its ID.
@@ -31,7 +31,7 @@ public interface ContactUCC {
    * @param idContact The ID of the contact to fetch.
    * @return A ContactDTO object containing the contact information.
    */
-  ContactDTO getContactById(int idContact);
+  ContactDTO getContactByContactId(int idContact);
 
   /**
    * Inserts a new contact into the database.
@@ -54,6 +54,14 @@ public interface ContactUCC {
   * @return the contact
   */
   List<ContactDTO> getContactsByCompanyId(int idCompany);
+
+  /**
+   * Suspend all initiated and taken contacts.
+   *
+   * @param idUser the user getting all initiated and taken contacts updated to suspend
+   * @param idContact the contact that want to be accepted
+   */
+  void suspendContacts(int idUser, int idContact);
 
   /**
    * Blacklist a contact.

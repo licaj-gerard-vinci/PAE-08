@@ -38,10 +38,10 @@ public class ManagerResource {
   @GET
   @Path("/{companyId}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public List<ResponsableDTO> getManagers(
       @PathParam("companyId") int companyId) {
-    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagers(companyId);
+    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagersByCompanyId(companyId);
 
     if (managerDTOs == null || managerDTOs.isEmpty()) {
       managerDTOs = new ArrayList<>();
@@ -58,7 +58,7 @@ public class ManagerResource {
   @Path("/insert")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(roles = {"E"})
   public void addManager(ResponsableDTO manager) {
     if (manager == null) {
       throw new NotFoundException("Manager cannot be null");

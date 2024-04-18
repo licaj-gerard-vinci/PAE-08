@@ -27,18 +27,16 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the associated entreprise.
    */
   @Override
-  public EntrepriseDTO getEntreprise(int id) {
+  public EntrepriseDTO getCompanyById(int id) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
       if (entreprise == null) {
         throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
       }
-      dalServices.commitTransaction();
       return entreprise;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -48,18 +46,16 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @return the list containing all entreprises.
    */
   @Override
-  public List<EntrepriseDTO> getEntreprises() {
+  public List<EntrepriseDTO> getAllCompanies() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
       if (entreprises == null) {
         throw new NotFoundException("Aucune entreprise n'a été trouvée.");
       }
-      dalServices.commitTransaction();
       return entreprises;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -72,7 +68,7 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   public void blackListCompany(EntrepriseDTO entreprise) {
     try {
       dalServices.startTransaction();
-      EntrepriseDTO company = getEntreprise(entreprise.getId());
+      EntrepriseDTO company = getCompanyById(entreprise.getId());
       if (company == null) {
         throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
       }
@@ -111,8 +107,6 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       dalServices.commitTransaction();
     } catch (ConflictException e) {
       System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
-    } finally {
-      dalServices.close();
     }
   }
 }
