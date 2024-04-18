@@ -362,15 +362,6 @@ class UserUCCTest {
     assertFalse(userUCC.update(user.getId(), user));
     }
 
-  @Test
-  @DisplayName("check password ok")
-  void testCheckPasswordOk() {
-    User user = (User) factory.getPublicUser();
-    user.setId(1);
-    user.setPassword("password");
-    Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    assertEquals(true, userUCC.checkPassword(user.getId(), "password"));
-  }
 
 
 

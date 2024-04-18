@@ -2,7 +2,6 @@
 import { Navbar as BootstrapNavbar } from 'bootstrap';
 import { isAuthenticated, getAuthenticatedUser } from '../../utils/auths';
 import logo from '../../img/HELOGO.png';
-import { refreshUser } from '../../model/users';
 
 const Navbar = () => {
     
@@ -10,9 +9,8 @@ const Navbar = () => {
 };
 
 function renderNavbar() {
-    refreshUser().then((updatedUser) => {
-        const user = updatedUser || getAuthenticatedUser();
-            const userFirstName = user?.user?.firstname || '';
+    const user = getAuthenticatedUser();
+    const userFirstName = user?.user?.firstname || '';
     const userName = user?.user?.lastname || '';
 
     // Déterminer si le bouton de recherche utilisateur doit être affiché
@@ -74,8 +72,6 @@ function renderNavbar() {
 
     const navbarWrapper = document.querySelector('#navbarWrapper');
     navbarWrapper.innerHTML = isAuthenticated() ? authenticatedUser : unauthenticatedUser;
-
-
-    });
 }
-    export default Navbar;
+
+export default Navbar;
