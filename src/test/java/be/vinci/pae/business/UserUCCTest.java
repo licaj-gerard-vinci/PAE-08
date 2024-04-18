@@ -377,7 +377,6 @@ class UserUCCTest {
     assertFalse(userUCC.update(user.getId(), user));
   }
 
-
   @Test
   @DisplayName("test check password OK")
   void testCheckPasswordOK() {
