@@ -21,6 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -278,13 +279,13 @@ public class InternshipUCCTest {
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-    EntrepriseDTO entreprise2 = factory.getEntrepriseDTO();
     entreprise.setId(1);
     contact.setEntreprise(entreprise);
     contact.setUtilisateur(user);
     StageDTO stage = factory.getStageDTO();
     stage.setEtudiant(user);
     stage.setContact(contact);
+    EntrepriseDTO entreprise2 = factory.getEntrepriseDTO();
     stage.setEntreprise(entreprise2);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
@@ -330,6 +331,7 @@ public class InternshipUCCTest {
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
     assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
   }
+
   @Test
   @DisplayName("Test update internship")
   void testUpdateInternship() {

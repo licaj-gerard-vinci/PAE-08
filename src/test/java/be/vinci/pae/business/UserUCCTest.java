@@ -375,7 +375,7 @@ class UserUCCTest {
     user.setLastname("nom");
     when(userDAO.getOneById(user.getId())).thenReturn(null);
     assertFalse(userUCC.update(user.getId(), user));
-    }
+  }
 
 
   @Test
