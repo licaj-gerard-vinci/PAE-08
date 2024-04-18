@@ -109,20 +109,20 @@ async function renderHomePage(){
             <div class="row">
               <div class="col"></div>
               <div class="col d-flex justify-content-center">
-                <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>ne plus suivre</button>
+                <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>Ne plus suivre</button>
               </div>
               <div class="col d-flex justify-content-end">
-                <button type='button' class='btn btn-success' id='admittedButton${entreprise.id}'>contact pris</button>
+                <button type='button' class='btn btn-success' id='admittedButton${entreprise.id}'>Contact pris</button>
               </div>
             </div>
         
             <div id='form${entreprise.id}' style='display: none;'>
               <select class="form-control my-2" id='textInput${entreprise.id}'>
-                <option value='distance'>à distance</option>
-                <option value='sur place'>sur place</option>
+                <option value='distance'>À distance</option>
+                <option value='sur place'>Sur place</option>
               </select>
               <div class="d-flex justify-content-center col-12">
-                <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveMeetingButton${entreprise.id}'>Save</button>
+                <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveMeetingButton${entreprise.id}'>Sauvegarder</button>
               </div>
             </div>
             `;
@@ -133,18 +133,20 @@ async function renderHomePage(){
             button = `
                 <div class="row">
                   <div class="col d-flex justify-content-start">
-                    <button type='button' class='btn btn-danger' id='turnedDownButton${entreprise.id}'>contact refusé</button>
+                    <button type='button' class='btn btn-danger' id='turnedDownButton${entreprise.id}'>Contact refusé</button>
                   </div>
                   <div class="col d-flex justify-content-center">
-                    <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>ne plus suivre</button>
+                    <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>Ne plus suivre</button>
                   </div>
                   <div class="col d-flex justify-content-end">
-                    <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>stage accepté</button>
+                    <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>Stage accepté</button>
                   </div>
                 </div>
                 <div id='form${entreprise.id}' style='display: none;'>
-                  <input class="w-80" type='text' id='textInput${entreprise.id}' placeholder='Entrez la raison du refus: '>
-                  <button type='button' id='saveRefusalReasonButton${entreprise.id}'>Save</button>
+                   <input type='text' class="form-control my-2" id='textInput${entreprise.id}' placeholder='Entrez la raison du refus'>
+                   <div class="d-flex justify-content-center col-12">
+                     <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveRefusalReasonButton${entreprise.id}'>Sauvegarder</button>
+                   </div> 
                 </div>`;
           } else if(contactFound.etatContact === 'refusé'){
             button = `
@@ -186,7 +188,7 @@ async function renderHomePage(){
         }
 
         return `
-              <div class="border rounded p-3 d-flex flex-column justify-content-between" style="border-radius: 50px;">
+              <div class="border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;">
                   <div>
                       <div class="d-flex justify-content-between">
                           <div class="mr-auto text-left">
