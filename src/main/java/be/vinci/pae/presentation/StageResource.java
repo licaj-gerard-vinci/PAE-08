@@ -101,13 +101,13 @@ public class StageResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode updateInternshipTopic(@PathParam("id") int id ,StageDTO internship) {
+  public ObjectNode updateInternshipTopic(@PathParam("id") int id, StageDTO internship) {
 
-    if ( internship.getSujet() == null) {
+    if (internship.getSujet() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
 
-    myStageUcc.updateInternshipTopic(internship,id);
+    myStageUcc.updateInternshipTopic(internship, id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Internship updated successfully");
     return responseNode;

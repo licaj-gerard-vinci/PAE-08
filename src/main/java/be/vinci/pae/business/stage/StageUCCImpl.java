@@ -102,7 +102,7 @@ public class StageUCCImpl implements StageUCC {
    * @param internship the InternshipDTO object representing the internship to be updated
    */
 
-  public void updateInternshipTopic(StageDTO internship,int id ) {
+  public void updateInternshipTopic(StageDTO internship, int id) {
     internship.setId(id);
     try {
       dalServices.startTransaction();
