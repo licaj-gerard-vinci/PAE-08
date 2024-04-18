@@ -100,6 +100,7 @@ public class StageUCCImpl implements StageUCC {
    * Updates the topic of an internship.
    *
    * @param internship the InternshipDTO object representing the internship to be updated
+   * @param id         the id of the internship to update
    */
 
   public void updateInternshipTopic(StageDTO internship, int id) {

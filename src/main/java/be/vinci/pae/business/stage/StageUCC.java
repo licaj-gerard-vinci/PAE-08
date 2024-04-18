@@ -34,6 +34,7 @@ public interface StageUCC {
    * Updates an internship in the database.
    *
    * @param internship the internship to update
+   * @param id the id of the internship to update
    */
   void updateInternshipTopic(StageDTO internship, int id);
 }
