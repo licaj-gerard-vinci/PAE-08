@@ -13,17 +13,22 @@ let entreprises;
 let searchResult = [];
 
 
+const HomePage = async () => {
+  const user = await refreshUser();
+  if (user.role === 'A') {
+    Navigate('/users');
+    return;
+  }
+  await renderEntreprises();
+  await renderSearchBar();
+  await renderHomePage();
+};
+
 async function renderEntreprises(){
   entreprises = await getEntreprises();
   entreprises = entreprises.filter(entreprise => entreprise.blackListed === false);
   searchResult = entreprises;
 }
-
-const HomePage = async () => {
-  await renderEntreprises();
-  await renderSearchBar();
-  await renderHomePage();
-};
 
 async function renderSearchBar() {
   const main = document.querySelector('main');
@@ -74,8 +79,6 @@ async function renderHomePage(){
 
   if(user.role === "P"){
     Navigate('/dashboard');
-  } else if (user.role === "A"){
-    Navigate('/users');
   } else if (user.role === "E") {
     const contacts = await getContacts();
 
@@ -103,22 +106,29 @@ async function renderHomePage(){
                 </div>`;
           } else if (contactFound.etatContact === 'initié') {
             button = `
-                <div class="row">
-                  <div class="col"></div>
-                  <div class="col d-flex justify-content-center">
-                    <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>ne plus suivre</button>
-                  </div>
-                  <div class="col d-flex justify-content-end">
-                    <button type='button' class='btn btn-success' id='admittedButton${entreprise.id}'>contact pris</button>
-                  </div>
-                </div>
-                <div id='form${entreprise.id}' style='display: none;'>
-                <select class="w-80" id='textInput${entreprise.id}'>
-                  <option value='distance'>à distance</option>
-                  <option value='sur place'>sur place</option>
-                </select>
-                <button type='button' id='saveMeetingButton${entreprise.id}'>Save</button>
-              </div>`;
+            <div class="row">
+              <div class="col"></div>
+              <div class="col d-flex justify-content-center">
+                <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>ne plus suivre</button>
+              </div>
+              <div class="col d-flex justify-content-end">
+                <button type='button' class='btn btn-success' id='admittedButton${entreprise.id}'>contact pris</button>
+              </div>
+            </div>
+        
+            <div id='form${entreprise.id}' style='display: none;'>
+              <select class="form-control my-2" id='textInput${entreprise.id}'>
+                <option value='distance'>à distance</option>
+                <option value='sur place'>sur place</option>
+              </select>
+              <div class="d-flex justify-content-center col-12">
+                <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveMeetingButton${entreprise.id}'>Save</button>
+              </div>
+            </div>
+            `;
+        
+        
+        
           } else if (contactFound.etatContact === 'pris'){
             button = `
                 <div class="row">

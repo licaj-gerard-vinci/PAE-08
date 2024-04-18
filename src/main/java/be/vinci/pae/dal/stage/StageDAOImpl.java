@@ -121,6 +121,26 @@ public class StageDAOImpl implements StageDAO {
   }
 
   /**
+   * Update internship.
+   *
+   * @param internship the internship
+   */
+
+  public void updateInternshipTopic(StageDTO internship) {
+    String query = "UPDATE pae.internships "
+            + "SET internship_topic = ?, internship_version = internship_version + 1"
+            + "WHERE internship_id = ? AND internship_version = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setString(1, internship.getSujet());
+      statement.setInt(2, internship.getId());
+      statement.setInt(3, internship.getVersion());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
+
+  /**
    * Rs to stage.
    *
    * @param rs the rs
