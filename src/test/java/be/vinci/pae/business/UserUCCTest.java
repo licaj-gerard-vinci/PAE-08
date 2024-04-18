@@ -131,6 +131,7 @@ class UserUCCTest {
     user.setidSchoolYear(1);
     Mockito.when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(user);
     assertThrows(ConflictException.class, () -> {
+
       userUCC.register(user);
     });
   }
