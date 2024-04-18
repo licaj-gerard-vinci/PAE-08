@@ -53,7 +53,7 @@ GET {{baseUrl}}/contacts/10
 Authorization: {{token}}
 
 ### Update a contact
-PUT {{baseUrl}}/contacts/upda te
+PUT {{baseUrl}}/contacts/update
 Authorization: {{token}}
 Content-Type: application/json
 
@@ -72,7 +72,7 @@ Content-Type: application/json
     },
     "utilisateur": {
       "id": 10,
-      "email": "toz.toz@student.vinci.be",
+      "email": "nadir.ahdid@student.vinci.be",
       "lastname": "nadir",
       "firstname": "ahdid",
       "phone": "0485367792",
@@ -80,11 +80,12 @@ Content-Type: application/json
       "role": "E",
       "hasInternship": false,
       "version": 1,
-      "year": {
+      "schoolyear": {
         "id": 1,
         "annee": "2023-2024",
         "version": 1
-      }
+      },
+      "idSchoolYear": 1
     },
   "etatContact": "pris",
   "raisonRefus": null,

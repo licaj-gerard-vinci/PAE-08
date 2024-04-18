@@ -26,4 +26,9 @@ public interface DALServices {
    */
   void close();
 
+  /**
+   * Opens a connection.
+   */
+  void openConnection();
+
 }

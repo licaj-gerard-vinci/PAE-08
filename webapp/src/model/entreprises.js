@@ -43,7 +43,7 @@ const insertEntreprises = async (entreprise) => {
         email: entreprise.email,
         appellation: entreprise.appelation,
         city: entreprise.city,
-        motivation: '',
+        motivation_blacklist: '',
       }),
     };
     console.log('Sending request with options:', options); // Ajoutez cette ligne pour afficher les options de la requête
@@ -89,7 +89,7 @@ async function blackListEntreprise(entreprise, raisonBlacklist){
       method: 'PUT',
       body: JSON.stringify({
         id: idEntreprise,
-        motivation: raisonBlacklist
+        motivation_blacklist: raisonBlacklist
       }),
       headers: {
         'Content-Type': 'application/json',

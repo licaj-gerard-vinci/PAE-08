@@ -41,7 +41,7 @@ public class ManagerResource {
   @Authorize(roles = {"E"})
   public List<ResponsableDTO> getManagers(
       @PathParam("companyId") int companyId) {
-    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagers(companyId);
+    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagersByCompanyId(companyId);
 
     if (managerDTOs == null || managerDTOs.isEmpty()) {
       managerDTOs = new ArrayList<>();

@@ -38,7 +38,7 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO login(String email, String password) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneByEmail(email);
       if (user == null) {
         throw new NotFoundException("User not found");
@@ -46,11 +46,9 @@ public class UserUCCImpl implements UserUCC {
       if (!user.checkPassword(password)) {
         throw new BusinessException("Password incorrect");
       }
-      dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -63,16 +61,14 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public UserDTO getOne(int id) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneById(id);
       if (user == null) {
         throw new NotFoundException("User not found");
       }
-      dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -82,16 +78,14 @@ public class UserUCCImpl implements UserUCC {
   @Override
   public List<UserDTO> getAll() {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       List<UserDTO> users = userDAO.getAllUsers();
       if (users == null) {
         throw new NotFoundException("No users found");
       }
-      dalServices.commitTransaction();
       return users;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+    } finally {
+      dalServices.close();
     }
   }
 
@@ -159,7 +153,7 @@ public class UserUCCImpl implements UserUCC {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
       user.setPassword(passwordHashed);
     }
-    UserDTO userBeforeUpdate = getOne(id);
+    UserDTO userBeforeUpdate = userDAO.getOneById(id);
 
     if (userBeforeUpdate == null) {
       return false;
@@ -203,17 +197,14 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean checkPassword(int id, String password) {
     try {
-      dalServices.startTransaction();
+      dalServices.openConnection();
       User user = (User) userDAO.getOneById(id);
       if (user == null) {
         throw new NotFoundException("User not found");
       }
-      boolean result = user.checkPassword(password);
-      dalServices.commitTransaction();
-      return result;
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
+      return user.checkPassword(password);
+    } finally {
+      dalServices.close();
     }
   }
 

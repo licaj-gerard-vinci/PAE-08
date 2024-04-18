@@ -48,7 +48,7 @@ public class EntrepriseResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"A", "E", "P"})
   public List<EntrepriseDTO> getAllEntreprises() {
-    return myEntrepriseUcc.getEntreprises();
+    return myEntrepriseUcc.getAllCompanies();
   }
 
   /**
@@ -65,7 +65,7 @@ public class EntrepriseResource {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    return myEntrepriseUcc.getEntreprise(id);
+    return myEntrepriseUcc.getCompanyById(id);
   }
 
   /**
@@ -83,12 +83,15 @@ public class EntrepriseResource {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
+    if (entreprise.getId() != id) {
+      throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
+    }
     if (entreprise.getMotivation_blacklist() == null
         || entreprise.getMotivation_blacklist().isEmpty()) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myEntrepriseUcc.blackListCompany(entreprise);
-    myContactUcc.blackListContact(entreprise.getId());
+    myContactUcc.blackListContact(id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;

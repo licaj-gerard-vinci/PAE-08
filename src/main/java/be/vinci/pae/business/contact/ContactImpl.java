@@ -17,7 +17,9 @@ public class ContactImpl implements Contact {
   private int idEntreprise;
 
   private UserDTO utilisateur;
+
   private int idUtilisateur;
+
   private String etatContact;
 
   private String lieuxRencontre;
@@ -25,6 +27,7 @@ public class ContactImpl implements Contact {
   private String raisonRefus;
 
   private YearDTO annee;
+
   private int idAnnee;
 
   private int version;
@@ -228,21 +231,30 @@ public class ContactImpl implements Contact {
     this.version = version;
   }
 
+  /**
+   * Check if a contact can be updated to the 'taken' state.
+   *
+   * @param actualState The actuel.
+   * @param expectedState The expected state of the contact.
+   * @return true if the contact can be updated, false otherwise.
+   */
   @Override
-  public boolean checkState(String acutalState, String expectedState) {
-    if (acutalState.equals("pris") && !expectedState.equals("accepté")
+  public boolean checkState(String actualState, String expectedState) {
+
+    if (actualState.equals("pris") && !expectedState.equals("accepté")
         && !expectedState.equals("refusé") && !expectedState.equals("non suivi")
-        && !expectedState.equals("blacklisté")) {
+        && !expectedState.equals("blacklisté") && !expectedState.equals("suspendu")) {
       return false;
     }
 
-    if (acutalState.equals("initié") && !expectedState.equals("pris")
-        && !expectedState.equals("non suivi") && !expectedState.equals("blacklisté")) {
+    if (actualState.equals("initié") && !expectedState.equals("pris")
+        && !expectedState.equals("non suivi") && !expectedState.equals("blacklisté")
+        && !expectedState.equals("suspendu")) {
       return false;
     }
 
-    if (acutalState.equals("non suivi") || acutalState.equals("refusé")
-        || acutalState.equals("accepté") || acutalState.equals("suspendu")) {
+    if (actualState.equals("non suivi") || actualState.equals("refusé")
+        || actualState.equals("accepté") || actualState.equals("suspendu")) {
       return false;
     }
 

@@ -14,7 +14,7 @@ public interface StageUCC {
    * @return the stage user
    */
 
-  StageDTO getStageUser(int idUser);
+  StageDTO getInternshipByUserId(int idUser);
 
   /**
    * Gets all stages.

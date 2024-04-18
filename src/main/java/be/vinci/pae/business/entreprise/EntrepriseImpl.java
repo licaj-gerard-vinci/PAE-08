@@ -213,16 +213,6 @@ public class EntrepriseImpl implements EntrepriseDTO {
   }
 
   @Override
-  public String getMotivation() {
-    return motivation;
-  }
-
-  @Override
-  public void setMotivation(String motivation) {
-    this.motivation = motivation;
-  }
-
-  @Override
   public int getVersion() {
     return version;
   }
