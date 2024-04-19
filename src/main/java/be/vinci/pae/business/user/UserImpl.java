@@ -306,6 +306,8 @@ public class UserImpl implements User {
 
   /**
    * Get the current academic year.
+   *
+   * @return academicYear format of the current year
    */
   @Override
   public String getCurrentYear() {
@@ -324,11 +326,14 @@ public class UserImpl implements User {
 
   /**
    * Render the user's role.
+   *
+   * @param user the user you want to get its role
+   * @return String char user role
    */
   @Override
   public String renderRole(UserDTO user) {
     if (user.getRole().equals("A")) {
-        return "A";
+      return "A";
     } else if (user.getRole().equals("P")) {
       return "P";
     } else if (user.getRole().equals("E")) {
