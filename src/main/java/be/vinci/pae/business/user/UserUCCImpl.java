@@ -108,7 +108,7 @@ public class UserUCCImpl implements UserUCC {
 
     User userCurrentAcademicYear = (User) userDTO;
     // Get the current date in the format YYYY-MM-DD
-    String academicYear = userCurrentAcademicYear.getCurrentYear();
+    String academicYear = userCurrentAcademicYear.renderCurrentYear();
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
     userDTO.setSchoolyear(year);
