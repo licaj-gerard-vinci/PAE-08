@@ -3,7 +3,6 @@ package be.vinci.pae.business.user;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
@@ -307,6 +306,8 @@ public class UserImpl implements User {
 
   /**
    * Get the current academic year.
+   *
+   * @return a String of the current academic year
    */
   @Override
   public String renderCurrentYear() {
@@ -325,6 +326,9 @@ public class UserImpl implements User {
 
   /**
    * Render the user's role.
+   *
+   * @param user the user you want to know its role
+   * @return the role of the user received in the param
    */
   @Override
   public String renderRole(UserDTO user) {

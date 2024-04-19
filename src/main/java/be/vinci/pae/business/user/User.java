@@ -24,11 +24,16 @@ public interface User extends UserDTO {
 
   /**
    * Get the current academic year.
+   *
+   * @return a String of the current academic year
    */
   String renderCurrentYear();
 
   /**
    * Render the user's role.
+   *
+   * @param user the user you want to know its role
+   * @return the role of the user received in the param
    */
   String renderRole(UserDTO user);
 
