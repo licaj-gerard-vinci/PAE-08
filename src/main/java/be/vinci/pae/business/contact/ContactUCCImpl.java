@@ -55,9 +55,8 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public List<ContactDTO> getContactsByUserId(int idUser) {
-    if (myUser.getOne(idUser) == null) {
-      throw new NotFoundException("User not found");
-    }
+    myUser.getOne(idUser);
+
     try {
       dalServices.openConnection();
       return contactDAO.getContactsAllInfo(idUser);
@@ -157,9 +156,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contact.
    */
   public List<ContactDTO> getContactsByCompanyId(int idCompany) {
-    if (myCompany.getCompanyById(idCompany) == null) {
-      throw new NotFoundException("Company not found");
-    }
+    myCompany.getCompanyById(idCompany);
+
     try {
       dalServices.openConnection();
       return contactDAO.getContactsByCompanyId(idCompany);
