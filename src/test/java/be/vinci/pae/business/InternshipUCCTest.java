@@ -1,5 +1,12 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
@@ -21,8 +28,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The {@code InternshipUCCTest} class tests the {@code InternshipUCC} class.

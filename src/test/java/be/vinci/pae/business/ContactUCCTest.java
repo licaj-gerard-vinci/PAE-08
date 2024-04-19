@@ -210,7 +210,7 @@ public class ContactUCCTest {
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
             () -> assertNotNull(contact.getLieuxRencontre()),
             () -> assertNotNull(contact.getRaisonRefus())
-            // after updating, the contact now have values for refusal reason and meeting place
+    // after updating, the contact now have values for refusal reason and meeting place
     );
   }
 
@@ -236,7 +236,7 @@ public class ContactUCCTest {
             () -> assertNull(contactReceived.getRaisonRefus()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
             () -> assertNotNull(contact.getRaisonRefus())
-            // after updating, the contact now have values for refusal reason and meeting place
+    // after updating, the contact now have values for refusal reason and meeting place
     );
   }
 
@@ -261,7 +261,7 @@ public class ContactUCCTest {
             () -> assertNull(contactReceived.getLieuxRencontre()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
             () -> assertNotNull(contact.getLieuxRencontre())
-            // after updating, the contact now have values for refusal reason and meeting place
+    // after updating, the contact now have values for refusal reason and meeting place
     );
   }
 
@@ -698,7 +698,6 @@ public class ContactUCCTest {
   @DisplayName("blacklist contacts with non-existing company")
   void blacklistContactsWithNonExistingUser() {
     int companyId = 1;
-    int contactId = 1;
 
     Mockito.when(companyDAO.getEntreprise(companyId)).thenReturn(null);
 
@@ -709,7 +708,6 @@ public class ContactUCCTest {
   @DisplayName("blacklist contacts with valid user and no contacts")
   void blacklistContactssWithValidUserAndNoContacts() {
     int companyId = 1;
-    int contactId = 1;
 
     EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
     companyDTO.setId(companyId);
@@ -724,7 +722,6 @@ public class ContactUCCTest {
   @DisplayName("blacklist contacts fatal Exception")
   void blacklistContactsFatalException() {
     int companyId = 1;
-    int contactId = 1;
 
     EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
     companyDTO.setId(companyId);

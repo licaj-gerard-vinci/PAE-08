@@ -1,5 +1,7 @@
 package be.vinci.pae.business;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
@@ -11,8 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import utils.ApplicationBinderTest;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test YearUCC class.

@@ -329,13 +329,13 @@ public class UserImpl implements User {
   @Override
   public String renderRole(UserDTO user) {
     if (user.getRole().equals("A")) {
-        return "A";
+      return "A";
     } else if (user.getRole().equals("P")) {
-        return "P";
+      return "P";
     } else if (user.getRole().equals("E")) {
-        return "E";
+      return "E";
     } else {
-        return "Unknown";
+      return "Unknown";
     }
   }
 
