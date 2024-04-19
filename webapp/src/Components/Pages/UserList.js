@@ -90,7 +90,7 @@ function displayFilters() {
           <div class="form-group mb-3">
             <label for="search">Recherche d'utilisateur :</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="search" placeholder="nom ou prénom">
+              <input type="text" class="form-control" id="search" placeholder="Nom ou Prénom">
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import { Navbar as BootstrapNavbar } from 'bootstrap';
 import { isAuthenticated, getAuthenticatedUser } from '../../utils/auths';
-import logo from '../../img/HELOGO.png';
+import logo from '../../img/logoNavBar.jpg';
 
 const Navbar = () => {
     
@@ -28,7 +27,7 @@ function renderNavbar() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand d-flex align-items-center" href="#" data-uri="/" style="color: #fff; font-size: 0.9em;">
-                <img src="${logo}" alt="Logo" style="margin-right: 10px;">
+                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 280px; height: 70px;">
             </a>
             ${showDashboard ? `
             <a id="dashboard" class="nav-link" href="#" data-uri="/dashboard" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Tableau de bord</a>` : ''}
@@ -54,7 +53,7 @@ function renderNavbar() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
-                <img src="${logo}" alt="Logo" style="margin-right: 10px;">
+                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 280px; height: 70px;">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="font-size: 1.1em;">
