@@ -309,7 +309,7 @@ public class UserImpl implements User {
    * Get the current academic year.
    */
   @Override
-  public String getCurrentYear() {
+  public String renderCurrentYear() {
     LocalDate currentDate = LocalDate.now();
     int currentMonth = currentDate.getMonthValue();
 
