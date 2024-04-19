@@ -97,5 +97,4 @@ public class InternshipUCCTest {
         "FatalException should be thrown when there is a database error.");
   }
 
-
 }

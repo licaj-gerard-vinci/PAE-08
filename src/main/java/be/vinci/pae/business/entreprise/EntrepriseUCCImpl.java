@@ -105,8 +105,10 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
       }
       entrepriseDAO.addEntreprise(entreprise);
       dalServices.commitTransaction();
-    } catch (ConflictException e) {
-      System.out.println(e.getMessage()); // Imprime le message d'erreur et continue
-    }
+    } catch (FatalException e) {
+        dalServices.rollbackTransaction();
+        throw e;}
   }
+
+
 }

@@ -260,7 +260,6 @@ class UserUCCTest {
     assertThrows(FatalException.class, () -> {
       userUCC.getAll();
     });
+
   }
-
-
 }
