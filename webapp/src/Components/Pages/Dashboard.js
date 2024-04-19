@@ -196,7 +196,7 @@ async function renderStatistics() {
             datasets: [{
                 label: 'Nombre d\'étudiants',
                 data: [studentsWithInternship, studentsWithoutInternship],
-                backgroundColor: ['#007bff', '#343a40'],
+                backgroundColor: ['#00609D', '#343a40'],
                 borderColor: ['#fff', '#fff'],
                 borderWidth: 2
             }]

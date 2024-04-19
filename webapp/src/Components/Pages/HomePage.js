@@ -5,7 +5,7 @@ import {
   updateContact
 } from "../../model/contacts";
 import {getEntreprises} from "../../model/entreprises";
-import logo from '../../img/HELOGO.png';
+import logo from '../../img/companyLogo.png';
 import Navigate from '../Router/Navigate';
 import { refreshUser } from "../../model/users";
 
@@ -44,7 +44,7 @@ async function renderSearchBar() {
       <div class="row justify-content-center">
         <div class="col-10 col-md-8 col-lg-6">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
+            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher une entreprise 🔍" aria-label="Rechercher une entreprise" aria-describedby="button-addon2">
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@ async function renderHomePage(){
                                   <li>Téléphone: ${entreprise.numTel}</li>
                               </ul>
                           </div>
-                          <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: auto;">
+                          <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: 100px;">
                       </div>
                   </div>
                   ${button}
