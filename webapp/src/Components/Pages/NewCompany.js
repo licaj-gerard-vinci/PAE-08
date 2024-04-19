@@ -42,7 +42,7 @@ function renderNewCompanyForm ()  {
                     <input type="text" class="form-control" id="RegisterAdresse" placeholder="Adresse Entreprise">
                   </div>
                    <div class="mb-3 form-group">
-                    <label for="city">Ville</label>
+                    <label for="city">Ville<span class="text-danger">*</label>
                     <input type="text" class="form-control" id="RegisterCity" placeholder="Ville Entreprise">
                   </div>
                   

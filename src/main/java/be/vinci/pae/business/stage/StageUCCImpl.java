@@ -8,6 +8,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.stage.StageDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
+import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
 
@@ -67,11 +68,10 @@ public class StageUCCImpl implements StageUCC {
    */
   @Override
   public void insertInternship(StageDTO internship) {
-    ContactDTO myContactDTO = internship.getContact();
-    if (myContact.getContactByContactId(myContactDTO.getId()) == null
-        || myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
+    ContactDTO myContactDTO = myContact.getContactByContactId(internship.getContact().getId());
+    if (myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
         || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
-      return;
+      throw new NotFoundException("contact doesn't exist or doesn't match with the internship");
     } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
     if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
