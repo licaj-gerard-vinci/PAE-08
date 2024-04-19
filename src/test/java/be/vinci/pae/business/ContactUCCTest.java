@@ -553,7 +553,6 @@ public class ContactUCCTest {
   @DisplayName("Suspend contacts with valid user and contact")
   void suspendContactsWithValidUserAndContact() {
     int userId = 1;
-    int contactId = 1;
 
     UserDTO user = factory.getPublicUser();
     user.setId(userId);
@@ -573,6 +572,8 @@ public class ContactUCCTest {
     ContactDTO contact22 = factory.getContactDTO();
     contact22.setId(3);
     contact22.setEtatContact("initié");
+
+    int contactId = 1;
 
     ContactDTO contact3 = factory.getContactDTO();
     contact3.setId(contactId);
@@ -613,13 +614,14 @@ public class ContactUCCTest {
   @DisplayName("Suspend contacts with valid user and no contacts")
   void suspendContactsWithValidUserAndNoContacts() {
     int userId = 1;
-    int contactId = 1;
 
     UserDTO user = factory.getPublicUser();
     user.setId(userId);
 
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactsAllInfo(userId)).thenReturn(new ArrayList<>());
+
+    int contactId = 1;
 
     assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
   }
@@ -628,13 +630,14 @@ public class ContactUCCTest {
   @DisplayName("Suspend contacts fatal Exception")
   void suspendContactsFatalException() {
     int userId = 1;
-    int contactId = 1;
 
     UserDTO user = factory.getPublicUser();
     user.setId(userId);
 
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactsAllInfo(userId)).thenThrow(FatalException.class);
+
+    int contactId = 1;
 
     assertThrows(FatalException.class, () -> contactUCC.suspendContacts(userId, contactId));
   }
@@ -643,7 +646,6 @@ public class ContactUCCTest {
   @DisplayName("blackListContact with valid information")
   void blacklistContactDefault() {
     int companyId = 1;
-    int contactId = 1;
 
     EntrepriseDTO companyDTO = factory.getEntrepriseDTO();
     companyDTO.setId(companyId);
@@ -663,6 +665,8 @@ public class ContactUCCTest {
     ContactDTO contact22 = factory.getContactDTO();
     contact22.setId(3);
     contact22.setEtatContact("initié");
+
+    int contactId = 1;
 
     ContactDTO contact3 = factory.getContactDTO();
     contact3.setId(contactId);
