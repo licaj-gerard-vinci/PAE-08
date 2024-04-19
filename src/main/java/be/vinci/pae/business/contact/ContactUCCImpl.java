@@ -96,13 +96,9 @@ public class ContactUCCImpl implements ContactUCC {
       throw new ConflictException("Contact already exists");
     }
 
-    if (myUser.getOne(contact.getUtilisateur().getId()) == null) {
-      throw new NotFoundException("User not found");
-    }
+    myUser.getOne(contact.getUtilisateur().getId());
 
-    if (myCompany.getCompanyById(contact.getEntreprise().getId()) == null) {
-      throw new NotFoundException("Company not found");
-    }
+    myCompany.getCompanyById(contact.getEntreprise().getId());
 
     contact.setEtatContact("initié");
 
@@ -205,9 +201,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idCompany the ID of the company to blacklist
    */
   public void blackListContact(int idCompany) {
-    if (myCompany.getCompanyById(idCompany) == null) {
-      throw new NotFoundException("Company not found");
-    }
+    myCompany.getCompanyById(idCompany);
+
     try {
       dalServices.startTransaction();
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);

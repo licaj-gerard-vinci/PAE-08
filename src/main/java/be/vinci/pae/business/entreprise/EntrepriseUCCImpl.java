@@ -30,7 +30,12 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
   public EntrepriseDTO getCompanyById(int id) {
     try {
       dalServices.openConnection();
-      return entrepriseDAO.getEntreprise(id);
+      EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
+      if (entreprise == null) {
+        throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
+      }
+      return entreprise;
+
     } finally {
       dalServices.close();
     }

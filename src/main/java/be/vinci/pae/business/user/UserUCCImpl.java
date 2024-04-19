@@ -61,7 +61,12 @@ public class UserUCCImpl implements UserUCC {
   public UserDTO getOne(int id) {
     try {
       dalServices.openConnection();
-      return userDAO.getOneById(id);
+      User user = (User) userDAO.getOneById(id);
+      if (user == null) {
+        throw new NotFoundException("User not found");
+      }
+      return user;
+
     } finally {
       dalServices.close();
     }
