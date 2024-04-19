@@ -46,6 +46,7 @@ public class EntrepriseUCCTest {
   @BeforeEach
   void setUpBeforeEach() {
     entrepriseDTO = factory.getEntrepriseDTO();
+    Mockito.reset(entrepriseDAO);
   }
 
     @Test

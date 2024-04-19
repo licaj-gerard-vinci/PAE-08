@@ -37,6 +37,7 @@ public class ManagerUCCTest {
     responsableUCC = locator.getService(ResponsableUCC.class);
     factory = locator.getService(Factory.class);
     responsableDAO = locator.getService(ManagerDAO.class);
+    Mockito.reset(responsableDAO);
   }
 
   @Test
@@ -156,4 +157,39 @@ public class ManagerUCCTest {
       responsableUCC.addManager(newManager);
     });
   }
+
+  @Test
+  @DisplayName("Test addManager with ConflictException for empty email")
+  void testAddManagerConflictExceptionForEmptyEmail() {
+    ResponsableDTO newManager = factory.getManagerDTO();
+    newManager.setEmail("");
+
+    ResponsableDTO existingManager = factory.getManagerDTO();
+    existingManager.setEmail("");
+
+    Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
+
+    assertThrows(ConflictException.class, () -> {
+      responsableUCC.addManager(newManager);
+    });
+  }
+
+  @Test
+  @DisplayName("Test addManager with ConflictException for existing email")
+  void testAddManagerConflictExceptionForExistingEmail() {
+    ResponsableDTO newManager = factory.getManagerDTO();
+    newManager.setEmail("existingEmail@example.com");
+
+    ResponsableDTO existingManager = factory.getManagerDTO();
+    existingManager.setEmail("existingEmail@example.com");
+
+    Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail()))
+            .thenReturn(existingManager);
+
+    assertThrows(ConflictException.class, () -> {
+      responsableUCC.addManager(newManager);
+    });
+  }
+
+
 }

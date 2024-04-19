@@ -4,6 +4,7 @@ import { isAuthenticated, getAuthenticatedUser } from '../../utils/auths';
 import logo from '../../img/HELOGO.png';
 
 const Navbar = () => {
+    
     renderNavbar();
 };
 
@@ -15,7 +16,8 @@ function renderNavbar() {
     // Déterminer si le bouton de recherche utilisateur doit être affiché
     const showSearchUserButton = user?.user?.role === 'A' || user?.user?.role === 'P';
     const showDashboard = user?.user?.role === 'P';
-    const showCompaniesListButton = user?.user?.role === 'E';
+    const showCompaniesListButton = user?.user?.role === 'E' && user?.user?.hasInternship === false; 
+
 
 
 

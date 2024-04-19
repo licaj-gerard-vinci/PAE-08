@@ -9,7 +9,6 @@ import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
@@ -99,24 +98,17 @@ public class UserUCCImpl implements UserUCC {
     if (userDTO.getEmail().endsWith("@student.vinci.be")) {
       userDTO.setRole("E");
     } else if (userDTO.getEmail().endsWith("@vinci.be")) {
-      if (!userDTO.getRole().equals("A") && !userDTO.getRole().equals("P")) {
+      User userRole = (User) userDTO;
+      if (!userRole.renderRole(userDTO).equals("A") && !userRole.renderRole(userDTO).equals("P")) {
         throw new BusinessException("Invalid role");
       }
     } else {
       throw new BusinessException("Invalid email");
     }
 
+    User userCurrentAcademicYear = (User) userDTO;
     // Get the current date in the format YYYY-MM-DD
-    LocalDate currentDate = LocalDate.now();
-    int currentMonth = currentDate.getMonthValue();
-
-    // Determine the academic year
-    String academicYear;
-    if (currentMonth < 9) {
-      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
-    } else {
-      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
-    }
+    String academicYear = userCurrentAcademicYear.renderCurrentYear();
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
     userDTO.setSchoolyear(year);
@@ -149,10 +141,7 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean update(int id, UserDTO user) {
 
-    if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-      user.setPassword(passwordHashed);
-    }
+
     UserDTO userBeforeUpdate = userDAO.getOneById(id);
 
     if (userBeforeUpdate == null) {
@@ -172,7 +161,8 @@ public class UserUCCImpl implements UserUCC {
     }
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-      userBeforeUpdate.setPassword(user.getPassword());
+      String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+      user.setPassword(passwordHashed);
     }
 
     if (user.getHasInternship()) {

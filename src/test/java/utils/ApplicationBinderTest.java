@@ -59,7 +59,7 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(Mockito.mock(StageDAO.class)).to(StageDAO.class);
 
     bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);
-    bind(Mockito.mock(ManagerDAOImpl.class)).to(ManagerDAO.class);
+    bind(Mockito.mock(ManagerDAO.class)).to(ManagerDAO.class);
 
     bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);
     bind(Mockito.mock(YearDAO.class)).to(YearDAO.class);
