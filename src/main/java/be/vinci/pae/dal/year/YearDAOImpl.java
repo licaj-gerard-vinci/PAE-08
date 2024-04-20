@@ -1,5 +1,6 @@
 package be.vinci.pae.dal.year;
 
+import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -8,6 +9,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The YearDAOImpl class implements the YearDAO interface and provides methods to retrieve a single
@@ -20,6 +23,26 @@ public class YearDAOImpl implements YearDAO {
 
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
+
+  /**
+   * Retrieves all years.
+   */
+  @Override
+  public List<YearDTO> getAll() {
+    String query = "SELECT * FROM pae.school_years";
+
+    List<YearDTO> years = new ArrayList<>();
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      try (ResultSet rs = statement.executeQuery()) {
+        while (rs.next()) {
+          years.add(rsToYear(rs));
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return years;
+  }
 
   /**
    * Retrieves a single year by its unique identifier.

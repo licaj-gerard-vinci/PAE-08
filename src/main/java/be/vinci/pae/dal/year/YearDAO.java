@@ -3,11 +3,19 @@ package be.vinci.pae.dal.year;
 import be.vinci.pae.business.year.YearDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * The Interface YearDAO.
  */
 public interface YearDAO {
+
+  /**
+   * Retrieves all years.
+   *
+   * @return A list of all years.
+   */
+  List<YearDTO> getAll();
 
   /**
    * Retrieves a single year by its unique identifier.

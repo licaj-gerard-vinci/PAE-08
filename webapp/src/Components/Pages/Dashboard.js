@@ -5,6 +5,7 @@ import {getEntreprises} from "../../model/entreprises";
 import Navigate from "../Router/Navigate";
 import {getAllUsers} from "../../model/users";
 import {getAllInternships} from "../../model/internships";
+import getAllAcademicYears from "../../model/years";
 
 const Dashboard = async () => {
     clearPage();
@@ -19,29 +20,32 @@ const Dashboard = async () => {
 }
 
 async function renderCompaniesList() {
-    const companiesContainer = document.querySelector('#companies-container');
+const companiesContainer = document.querySelector('#companies-container');
+const academicYears = await getAllAcademicYears();
+const academicYearOptions = academicYears.map(year => `<option value="${year.annee}">${year.annee}</option>`).join('\n');
 
-    companiesContainer.innerHTML = `
-    <div class="container my-5">
-        <h1 class="text-center mb-3">Liste des entreprises</h1>
-        <div class="row">
-            <div class="col-12">
-                <div class="filter-container d-flex align-items-center mb-3">
-                    <label for="academicYearFilter" class="me-2">Filtrer par année académique:</label>
-                    <select id="academicYearFilter" class="form-select" style="width: auto;">
-                        <option value="">Toutes les années</option>
-                        <option value="2023-2024">2023-2024</option>
-                        <option value="2024-2025">2024-2025</option>
-                    </select>
-                </div>
-                <div id="company-list-table-container" class="table-responsive">
-                </div>
+companiesContainer.innerHTML = `
+<div class="container my-5">
+    <h1 class="text-center mb-3">Liste des entreprises</h1>
+    <div class="row">
+        <div class="col-12">
+            <div class="filter-container d-flex align-items-center mb-3">
+                <label for="academicYearFilter" class="me-2">Filtrer par année académique:</label>
+                <select id="academicYearFilter" class="form-select" style="width: auto;">
+                    <option value="">Toutes les années</option>
+                    ${academicYearOptions}
+                </select>
+            </div>
+            <div id="company-list-table-container" class="table-responsive">
             </div>
         </div>
-    </div>`;
+    </div>
+</div>`;
 
     const companies = await getEntreprises();
     const internships = await getAllInternships();
+    console.log(internships, 'internships');
+    
 
     // Add event listener to the filter
     document.getElementById('academicYearFilter').addEventListener('change', (event) => {
@@ -102,24 +106,15 @@ function renderCompanies(companies, internships, selectedYear = '') {
         </thead>
         <tbody>
         ${companies.map(company => {
-            const companyInternships = internships.filter(internship => internship.entreprise.id === company.id);
-            let studentCount;
+            let companyInternships;
             if (selectedYear) {
-                studentCount = companyInternships.filter(internship => {
-                    const date = new Date(internship.dateSignature);
-                    const year = date.getFullYear();
-                    const month = date.getMonth();
-                    let academicYear;
-                    if (month >= 9) {
-                        academicYear = `${year}-${year + 1}`;
-                    } else {
-                        academicYear = `${year - 1}-${year}`;
-                    }
-                    return academicYear === selectedYear;
-                }).length;
+                companyInternships = internships.filter(internship => 
+                    internship.entreprise.id === company.id && internship.annee.annee === selectedYear);
             } else {
-                studentCount = companyInternships.length;
+                companyInternships = internships.filter(internship => 
+                    internship.entreprise.id === company.id);
             }
+            const studentCount = companyInternships.length;
             return `
             <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
               <td class="text-center">${company.nom} </br> ${company.appellation}</td>

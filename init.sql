@@ -9,11 +9,11 @@ CREATE TABLE pae.school_years
     school_year_version  INTEGER
 );
 
-
-INSERT INTO pae.school_years VALUES (DEFAULT,'2023-2024',1);
 INSERT INTO pae.school_years VALUES (DEFAULT,'2020-2021',1);
-
-
+INSERT INTO pae.school_years VALUES (DEFAULT,'2021-2022',1);
+INSERT INTO pae.school_years VALUES (DEFAULT,'2022-2023',1);
+INSERT INTO pae.school_years VALUES (DEFAULT,'2023-2024',1);
+INSERT INTO pae.school_years VALUES (DEFAULT,'2024-2025',1);
 
 
 DROP TABLE IF EXISTS pae.users;

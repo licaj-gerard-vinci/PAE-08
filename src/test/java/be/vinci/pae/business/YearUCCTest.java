@@ -6,6 +6,8 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.year.YearDAO;
+import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +32,26 @@ public class YearUCCTest {
     yearDAO = locator.getService(YearDAO.class);
     yearUCC = locator.getService(YearUCC.class);
     Mockito.reset(yearDAO);
+  }
+
+  @Test
+  @DisplayName("Test get all academic years")
+  void testGetAllAcademicYears() {
+    // Créer une liste d'années académiques
+    List<YearDTO> expectedYears = new ArrayList<>();
+    YearDTO year1 = factory.getYearDTO();
+    YearDTO year2 = factory.getYearDTO();
+    expectedYears.add(year1);
+    expectedYears.add(year2);
+
+    // Configurer le comportement de yearDAO.getAll()
+    Mockito.when(yearDAO.getAll()).thenReturn(expectedYears);
+
+    // Appeler la méthode à tester
+    List<YearDTO> actualYears = yearUCC.getAllAcademicYears();
+
+    // Vérifier que la méthode renvoie la liste attendue
+    assertEquals(expectedYears, actualYears);
   }
 
   @Test
