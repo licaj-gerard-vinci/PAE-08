@@ -138,6 +138,7 @@ function displayFilters() {
     document.getElementById('filter').value = 'all';
     document.getElementById('year').value = 'all';
     await renderUserList(originalUserList);
+    await filterUsers();
   });
 }
 
