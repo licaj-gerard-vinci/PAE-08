@@ -139,6 +139,7 @@ function displayFilters(years) {
     document.getElementById('filter').value = 'all';
     document.getElementById('year').value = 'all';
     await renderUserList(originalUserList);
+    await filterUsers();
   });
 }
 

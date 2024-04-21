@@ -86,10 +86,11 @@ const Internship = async (contactFound) => {
             <input type="text" id="topic" name="topic" class="form-control" placeholder="topic">
           </div>
         </div>
-        <div class="form-group">
-          <label for="signatureDate" class="col-sm-2 control-label">Signature Date:</label>
-          <div class="col-sm-10">
-            <input type="date" id="signatureDate" name="signatureDate" class="form-control" required>
+          <div class="form-group">
+            <label for="signatureDate" class="col-sm-2 control-label">Signature Date:</label>
+              <div class="col-sm-10">
+                <input type="date" id="signatureDate" name="signatureDate" class="form-control" required>
+              <p id="dateError" style="color: red;"></p> <!-- Placeholder for the error message -->
           </div>
         </div>
         <div class="form-group">
@@ -139,7 +140,7 @@ const Internship = async (contactFound) => {
       <span class="close">&times;</span>
       <p>Manager has been added successfully!</p>
     </div>
-  </div>
+But I have to verify based on the school year so 15 september 2023 till 1 june 2024 dinamically with years  </div>
   <div id="errorModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -204,15 +205,34 @@ const Internship = async (contactFound) => {
     event.preventDefault();
     const managerId = document.getElementById("managerId").value;
     const topic = document.getElementById("topic").value;
-    const signatureDate = document.getElementById("signatureDate").value;
+    const signatureDate = new Date(document.getElementById("signatureDate").value);
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Get the current year and month
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+
+    // If the current month is before or equal to June, set the start date to September 15th of the previous year and the end date to June 1st of the current year
+    // If the current month is after June, set the start date to September 15th of the current year and the end date to June 1st of the next year
+    const startDate = currentMonth <= 5 ? new Date(currentYear - 1, 8, 15) : new Date(currentYear, 8, 15); // September 15th
+    const endDate = currentMonth <= 5 ? new Date(currentYear, 5, 1) : new Date(currentYear + 1, 5, 1); // June 1st
+
+    // Check if the selected date is within the range
+    if (signatureDate < startDate || signatureDate > endDate) {
+      // Display an error message and stop the form submission
+      document.getElementById('dateError').textContent = `Entrez une date valide (min: 15/09/${startDate.getFullYear()} - max: 01/06/${endDate.getFullYear()}).`;
+      return;
+    }
 
     if(!managerId) {
-        document.getElementById('managerForm').style.display = 'block';
+      document.getElementById('managerForm').style.display = 'block';
     } else {
-        await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
-        Navigate('/')
+      await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
+      Navigate('/')
     }
-    });
+  });
 
   // When the page is about to be unloaded
   window.addEventListener('beforeunload', () => {
