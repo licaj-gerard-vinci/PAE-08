@@ -1,9 +1,18 @@
 package be.vinci.pae.business.year;
 
+import java.util.List;
+
 /**
  * The Interface YearUCC.
  */
 public interface YearUCC {
+
+  /**
+   * Retrieves all years.
+   *
+   * @return A list of all years.
+   */
+  List<YearDTO> getAllAcademicYears();
 
   /**
    * Retrieves a single year by its unique identifier.

@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import java.sql.Date;
 
 /**
@@ -34,6 +35,10 @@ public class InternshipImpl implements InternshipDTO {
   private Date signatureDate;
 
   private int version;
+
+  private YearDTO annee;
+
+  private int idAnnee;
 
   @Override
   public int getId() {
@@ -173,6 +178,26 @@ public class InternshipImpl implements InternshipDTO {
   @Override
   public void setVersion(int version) {
     this.version = version;
+  }
+
+  @Override
+  public YearDTO getAnnee() {
+    return annee;
+  }
+
+  @Override
+  public void setAnnee(YearDTO annee) {
+    this.annee = annee;
+  }
+
+  @Override
+  public int getIdAnnee() {
+    return idAnnee;
+  }
+  
+  @Override
+  public void setIdAnnee(int idAnnee) {
+    this.idAnnee = idAnnee;
   }
 
 }

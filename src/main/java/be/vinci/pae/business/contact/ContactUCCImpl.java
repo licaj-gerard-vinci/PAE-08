@@ -178,8 +178,8 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       List<ContactDTO> userContacts = contactDAO.getContactsAllInfo(idUser);
       for (ContactDTO contact : userContacts) {
-        if ((contact.getEtatContact().equals("pris") || contact.getEtatContact().equals("initié"))
-            && contact.getId() != idContact) {
+        if (contact.getEtatContact().equals("pris") && contact.getId() != idContact
+                || contact.getEtatContact().equals("initié")) {
           contact.setEtatContact("suspendu");
           System.out.println("before updateContact call");
           updateContact(contact);

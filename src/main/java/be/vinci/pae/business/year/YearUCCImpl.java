@@ -3,6 +3,7 @@ package be.vinci.pae.business.year;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.year.YearDAO;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * The {@code YearUCCImpl} class provides methods for managing year-related operations, such as
@@ -15,6 +16,21 @@ public class YearUCCImpl implements YearUCC {
   private DALServices dalServices;
   @Inject
   private YearDAO yearDAO;
+
+  /**
+   * Retrieves all years.
+   *
+   * @return A list of all years.
+   */
+  @Override
+  public List<YearDTO> getAllAcademicYears() {
+    try {
+      dalServices.openConnection();
+      return yearDAO.getAll();
+    } finally {
+      dalServices.close();
+    }
+  }
 
   /**
    * Retrieves a single year by its unique identifier.

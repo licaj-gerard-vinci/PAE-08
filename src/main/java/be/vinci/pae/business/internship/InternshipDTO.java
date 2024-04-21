@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.sql.Date;
 
@@ -182,6 +183,34 @@ public interface InternshipDTO {
    * @param version the new version.
    */
   void setVersion(int version);
+
+  /**
+   * Gets the meeting date.
+   *
+   * @return the meeting date.
+   */
+  YearDTO getAnnee();
+
+  /**
+   * Sets the meeting date.
+   *
+   * @param annee the new meeting date.
+   */
+  void setAnnee(YearDTO annee);
+
+  /**
+   * Gets the associated year ID.
+   *
+   * @return the year ID.
+   */
+  int getIdAnnee();
+
+  /**
+   * Sets the associated year ID.
+   *
+   * @param idAnnee the new year ID.
+   */
+  void setIdAnnee(int idAnnee);
 
 
 }
