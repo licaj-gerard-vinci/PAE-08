@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
+
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.factory.Factory;
@@ -11,6 +12,8 @@ import be.vinci.pae.dal.entreprise.EntrepriseDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
+import java.util.Arrays;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import java.util.Arrays;
-import java.util.List;
 import utils.ApplicationBinderTest;
 
 
@@ -59,21 +60,21 @@ public class EntrepriseUCCTest {
     assertDoesNotThrow(() -> entrepriseUCC.getCompanyById(id));
   }
 
-    @Test
-    @DisplayName("Test getEntrepriseById of EntrepriseUCCImpl class")
-    void testGetEntrepriseByIdException() {
-      int id = 1;
-      Mockito.when(entrepriseDAO.getEntreprise(id)).thenReturn(null);
-      assertThrows(NotFoundException.class, () -> entrepriseUCC.getCompanyById(id));
-    }
+  @Test
+  @DisplayName("Test getEntrepriseById of EntrepriseUCCImpl class")
+  void testGetEntrepriseByIdException() {
+    int id = 1;
+    Mockito.when(entrepriseDAO.getEntreprise(id)).thenReturn(null);
+    assertThrows(NotFoundException.class, () -> entrepriseUCC.getCompanyById(id));
+  }
 
 
-    @Test
-    @DisplayName("Test getAllCompanies of EntrepriseUCCImpl class")
-    void testGetAllCompaniesDefault() {
-      Mockito.when(entrepriseDAO.getEntreprises()).thenReturn(null);
-      assertThrows(NotFoundException.class, () -> entrepriseUCC.getAllCompanies());
-    }
+  @Test
+  @DisplayName("Test getAllCompanies of EntrepriseUCCImpl class")
+  void testGetAllCompaniesDefault() {
+    Mockito.when(entrepriseDAO.getEntreprises()).thenReturn(null);
+    assertThrows(NotFoundException.class, () -> entrepriseUCC.getAllCompanies());
+  }
 
   @Test
   @DisplayName("Test getAllCompanies of EntrepriseUCCImpl class")
