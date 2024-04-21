@@ -1,6 +1,6 @@
 package be.vinci.pae.business.contact;
 
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
+import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
@@ -30,7 +30,7 @@ public class ContactUCCImpl implements ContactUCC {
   private UserDAO myDaoUser;
 
   @Inject
-  private EntrepriseUCC myCompany;
+  private CompanyUCC myCompany;
 
   /**
    * Retrieves a list of contacts for a specific user.

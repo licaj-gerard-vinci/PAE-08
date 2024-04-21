@@ -1,7 +1,7 @@
 package be.vinci.pae.dal.contact;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
@@ -222,7 +222,7 @@ public class ContactDAOImpl implements ContactDAO {
   private ContactDTO rsToContact(ResultSet rs, String method) throws SQLException {
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
 
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
+    CompanyDTO entreprise = dalBackServiceUtils.fillCompanyDTO(rs, method);
     contact.setEntreprise(entreprise);
     contact.setIdEntreprise(entreprise.getId());
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);

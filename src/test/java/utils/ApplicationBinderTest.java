@@ -2,14 +2,14 @@ package utils;
 
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.contact.ContactUCCImpl;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
-import be.vinci.pae.business.entreprise.EntrepriseUCCImpl;
+import be.vinci.pae.business.company.CompanyUCC;
+import be.vinci.pae.business.company.CompanyUCCImpl;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.factory.FactoryImpl;
-import be.vinci.pae.business.responsable.ResponsableUCC;
-import be.vinci.pae.business.responsable.ResponsableUCCImpl;
-import be.vinci.pae.business.stage.StageUCC;
-import be.vinci.pae.business.stage.StageUCCImpl;
+import be.vinci.pae.business.manager.ManagerUCC;
+import be.vinci.pae.business.manager.ManagerUCCImpl;
+import be.vinci.pae.business.internship.InternshipUCC;
+import be.vinci.pae.business.internship.InternshipUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
 import be.vinci.pae.business.year.YearUCC;
@@ -17,10 +17,9 @@ import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
-import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.entreprise.CompanyDAO;
 import be.vinci.pae.dal.manager.ManagerDAO;
-import be.vinci.pae.dal.manager.ManagerDAOImpl;
-import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.stage.InternshipDAO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.dal.user.UserDAOImpl;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -52,13 +51,13 @@ public class ApplicationBinderTest extends AbstractBinder {
     bind(Mockito.mock(DALBackService.class)).to(DALBackService.class);
     bind(Mockito.mock(DALBackServiceUtils.class)).to(DALBackServiceUtils.class);
 
-    bind(EntrepriseUCCImpl.class).to(EntrepriseUCC.class).in(Singleton.class);
-    bind(Mockito.mock(EntrepriseDAO.class)).to(EntrepriseDAO.class);
+    bind(CompanyUCCImpl.class).to(CompanyUCC.class).in(Singleton.class);
+    bind(Mockito.mock(CompanyDAO.class)).to(CompanyDAO.class);
 
-    bind(StageUCCImpl.class).to(StageUCC.class).in(Singleton.class);
-    bind(Mockito.mock(StageDAO.class)).to(StageDAO.class);
+    bind(InternshipUCCImpl.class).to(InternshipUCC.class).in(Singleton.class);
+    bind(Mockito.mock(InternshipDAO.class)).to(InternshipDAO.class);
 
-    bind(ResponsableUCCImpl.class).to(ResponsableUCC.class).in(Singleton.class);
+    bind(ManagerUCCImpl.class).to(ManagerUCC.class).in(Singleton.class);
     bind(Mockito.mock(ManagerDAO.class)).to(ManagerDAO.class);
 
     bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);

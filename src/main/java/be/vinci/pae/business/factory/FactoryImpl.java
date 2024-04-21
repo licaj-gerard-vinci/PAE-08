@@ -2,12 +2,12 @@ package be.vinci.pae.business.factory;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactImpl;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.entreprise.EntrepriseImpl;
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.responsable.ResponsableImpl;
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageImpl;
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.company.CompanyImpl;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.manager.ManagerImpl;
+import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.internship.InternshipImpl;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserImpl;
 import be.vinci.pae.business.year.YearDTO;
@@ -38,8 +38,8 @@ public class FactoryImpl implements Factory {
    * @return a new {@code StageDTO} instance.
    */
   @Override
-  public StageDTO getStageDTO() {
-    return new StageImpl();
+  public InternshipDTO getInternshipDTO() {
+    return new InternshipImpl();
   }
 
 
@@ -49,8 +49,8 @@ public class FactoryImpl implements Factory {
    * @return a new instance of EntrepriseDTO.
    */
   @Override
-  public EntrepriseDTO getEntrepriseDTO() {
-    return new EntrepriseImpl();
+  public CompanyDTO getCompanyDTO() {
+    return new CompanyImpl();
   }
 
   /**
@@ -77,8 +77,8 @@ public class FactoryImpl implements Factory {
    * Create a new ResponsableDTO.
    */
   @Override
-  public ResponsableDTO getManagerDTO() {
-    return new ResponsableImpl();
+  public ManagerDTO getManagerDTO() {
+    return new ManagerImpl();
   }
 }
 

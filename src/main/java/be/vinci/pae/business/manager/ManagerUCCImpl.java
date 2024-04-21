@@ -1,4 +1,4 @@
-package be.vinci.pae.business.responsable;
+package be.vinci.pae.business.manager;
 
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.manager.ManagerDAO;
@@ -12,7 +12,7 @@ import java.util.List;
  * The ManagerUCCImpl class implements the ManagerUCC interface. It provides the business logic for
  * handling managers.
  */
-public class ResponsableUCCImpl implements ResponsableUCC {
+public class ManagerUCCImpl implements ManagerUCC {
 
   @Inject
   private DALServices dalServices;
@@ -28,10 +28,10 @@ public class ResponsableUCCImpl implements ResponsableUCC {
    * @throws FatalException    if an error occurs during the operation
    */
   @Override
-  public List<ResponsableDTO> getManagersByCompanyId(int companyId) {
+  public List<ManagerDTO> getManagersByCompanyId(int companyId) {
     try {
       dalServices.openConnection();
-      List<ResponsableDTO> manager = managerDAO.getManagers(companyId);
+      List<ManagerDTO> manager = managerDAO.getManagers(companyId);
       if (manager == null) {
         throw new NotFoundException("Manager not found");
       }
@@ -48,12 +48,12 @@ public class ResponsableUCCImpl implements ResponsableUCC {
    * @param manager the manager to add
    */
   @Override
-  public void addManager(ResponsableDTO manager) {
+  public void addManager(ManagerDTO manager) {
     try {
       dalServices.startTransaction();
-      List<ResponsableDTO> existingManagers = managerDAO.getManager(manager);
+      List<ManagerDTO> existingManagers = managerDAO.getManager(manager);
       if (existingManagers != null) {
-        for (ResponsableDTO existingManager : existingManagers) {
+        for (ManagerDTO existingManager : existingManagers) {
           if (existingManager.getEmail().isEmpty()) {
             throw new ConflictException("A manager with empty email already exists");
           }

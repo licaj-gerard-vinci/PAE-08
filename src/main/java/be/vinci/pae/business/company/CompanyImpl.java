@@ -1,20 +1,20 @@
-package be.vinci.pae.business.entreprise;
+package be.vinci.pae.business.company;
 
 /**
  * Represents the EntrepriseImpl class.
  */
 
-public class EntrepriseImpl implements EntrepriseDTO {
+public class CompanyImpl implements CompanyDTO {
 
   private int id;
 
-  private String nom;
+  private String name;
 
-  private String appellation;
+  private String designation;
 
   private String adresse;
 
-  private String numTel;
+  private String phone;
 
   private String email;
 
@@ -56,41 +56,41 @@ public class EntrepriseImpl implements EntrepriseDTO {
    */
 
   @Override
-  public String getNom() {
-    return nom;
+  public String getName() {
+    return name;
   }
 
   /**
    * Sets the name of the entreprise.
    *
-   * @param nom the new name for the entreprise.
+   * @param name the new name for the entreprise.
    */
 
   @Override
-  public void setNom(String nom) {
-    this.nom = nom;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
-   * Gets the apellation of the entreprise.
+   * Gets the designation of the entreprise.
    *
-   * @return the apellation of the entreprise.
+   * @return the designation of the entreprise.
    */
 
   @Override
-  public String getAppellation() {
-    return appellation;
+  public String getDesignation() {
+    return designation;
   }
 
   /**
-   * Sets the apellation of the entreprise.
+   * Sets the designation of the entreprise.
    *
-   * @param appellation the new apellation for the entreprise.
+   * @param designation the new apellation for the entreprise.
    */
 
   @Override
-  public void setAppellation(String appellation) {
-    this.appellation = appellation;
+  public void setDesignation(String designation) {
+    this.designation = designation;
   }
 
   /**
@@ -131,19 +131,19 @@ public class EntrepriseImpl implements EntrepriseDTO {
    */
 
   @Override
-  public String getNumTel() {
-    return numTel;
+  public String getPhone() {
+    return phone;
   }
 
   /**
    * Sets the numTel of the entreprise.
    *
-   * @param numTel the new numTel for the entreprise.
+   * @param phone the new numTel for the entreprise.
    */
 
   @Override
-  public void setNumTel(String numTel) {
-    this.numTel = numTel;
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   /**

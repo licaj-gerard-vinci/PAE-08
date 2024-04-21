@@ -1,9 +1,9 @@
 package be.vinci.pae.business;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.entreprise.CompanyDAO;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,28 +14,28 @@ import utils.ApplicationBinderTest;
 /**
  * The {@code EntrepriseUCCTest} class tests the {@code EntrepriseUCC} class.
  */
-public class EntrepriseUCCTest {
+public class CompanyUCCTest {
 
-  private static EntrepriseUCC entrepriseUCC;
+  private static CompanyUCC companyUCC;
 
   private static Factory factory;
 
-  private static EntrepriseDAO entrepriseDAO;
+  private static CompanyDAO companyDAO;
 
-  private EntrepriseDTO entrepriseDTO;
+  private CompanyDTO companyDTO;
 
   @BeforeAll
   static void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
-    entrepriseUCC = locator.getService(EntrepriseUCC.class);
+    companyUCC = locator.getService(CompanyUCC.class);
     factory = locator.getService(Factory.class);
-    entrepriseDAO = locator.getService(EntrepriseDAO.class);
+    companyDAO = locator.getService(CompanyDAO.class);
   }
 
   @BeforeEach
   void setUpBeforeEach() {
-    entrepriseDTO = factory.getEntrepriseDTO();
-    Mockito.reset(entrepriseDAO);
+    companyDTO = factory.getCompanyDTO();
+    Mockito.reset(companyDAO);
   }
 
 }

@@ -1,10 +1,10 @@
 package be.vinci.pae.dal.stage;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * The Class StageDAOImpl.
  */
-public class StageDAOImpl implements StageDAO {
+public class InternshipDAOImpl implements InternshipDAO {
 
 
   @Inject
@@ -38,8 +38,8 @@ public class StageDAOImpl implements StageDAO {
    * @return all stages
    */
   @Override
-  public List<StageDTO> getStages() {
-    List<StageDTO> stages = new ArrayList<>();
+  public List<InternshipDTO> getInternship() {
+    List<InternshipDTO> stages = new ArrayList<>();
     String query = "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
         + "FROM pae.internships int "
         + "INNER JOIN pae.managers man ON int.internship_manager_id = man.manager_id "
@@ -67,7 +67,7 @@ public class StageDAOImpl implements StageDAO {
    * @return the stage by id
    */
   @Override
-  public StageDTO getStageById(int userId) {
+  public InternshipDTO getInternshipById(int userId) {
     String query =
         "SELECT int.*, man.*, use.*, con.*, com.*, sch.*"
             + "FROM pae.internships int, pae.managers man, pae.users use, pae.contacts con, "
@@ -79,7 +79,7 @@ public class StageDAOImpl implements StageDAO {
             + "AND use.user_school_year_id = sch.school_year_id "
             + "AND use.user_id = ?";
 
-    StageDTO stage = null;
+    InternshipDTO stage = null;
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, userId);
       try (ResultSet rs = statement.executeQuery()) {
@@ -99,19 +99,19 @@ public class StageDAOImpl implements StageDAO {
    * @param internship the contact to insert
    */
   @Override
-  public void insertInternship(StageDTO internship) {
+  public void insertInternship(InternshipDTO internship) {
     String query = "INSERT INTO pae.internships "
             + "(internship_manager_id, internship_student_id, internship_contact_id, "
             + "internship_company_id, internship_school_year_id, internship_topic, "
             + "internship_date_of_signature, internship_version) "
             + "VALUES (?, ?, ?, ?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, internship.getIdResponsable());
-      statement.setInt(2, internship.getEtudiant().getId());
+      statement.setInt(1, internship.getIdManager());
+      statement.setInt(2, internship.getStudent().getId());
       statement.setInt(3, internship.getContact().getId());
-      statement.setInt(4, internship.getEntreprise().getId());
-      statement.setInt(5, internship.getEtudiant().getidSchoolYear());
-      statement.setString(6, internship.getSujet());
+      statement.setInt(4, internship.getCompany().getId());
+      statement.setInt(5, internship.getStudent().getidSchoolYear());
+      statement.setString(6, internship.getTopics());
       statement.setDate(7, internship.getdateSignature());
       statement.executeUpdate();
     } catch (SQLException e) {
@@ -126,12 +126,12 @@ public class StageDAOImpl implements StageDAO {
    * @param internship the internship
    */
 
-  public void updateInternshipTopic(StageDTO internship) {
+  public void updateInternshipTopic(InternshipDTO internship) {
     String query = "UPDATE pae.internships "
             + "SET internship_topic = ?, internship_version = internship_version + 1"
             + "WHERE internship_id = ? AND internship_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, internship.getSujet());
+      statement.setString(1, internship.getTopics());
       statement.setInt(2, internship.getId());
       statement.setInt(3, internship.getVersion());
       statement.executeUpdate();
@@ -149,29 +149,29 @@ public class StageDAOImpl implements StageDAO {
    * @throws SQLException the SQL exception
    */
 
-  public StageDTO rsToStage(ResultSet rs, String method) throws SQLException {
-    StageDTO stage = factory.getStageDTO();
+  public InternshipDTO rsToStage(ResultSet rs, String method) throws SQLException {
+    InternshipDTO stage = factory.getInternshipDTO();
 
     // Fill DTOs using methods from DALBackServiceUtils
-    ResponsableDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
+    ManagerDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
     UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
+    CompanyDTO entreprise = dalBackServiceUtils.fillCompanyDTO(rs, method);
 
     // Add stage info
     stage.setId(rs.getInt("internship_id"));
-    stage.setSujet(rs.getString("internship_topic"));
+    stage.setTopics(rs.getString("internship_topic"));
     stage.setdateSignature(rs.getDate("internship_date_of_signature"));
 
     // Set filled DTOs to stage
-    stage.setResponsable(responsable);
-    stage.setIdResponsable(responsable.getId());
-    stage.setEtudiant(etudiant);
-    stage.setIdEtudiant(etudiant.getId());
+    stage.setManager(responsable);
+    stage.setIdManager(responsable.getId());
+    stage.setStudent(etudiant);
+    stage.setIdStudent(etudiant.getId());
     stage.setContact(contact);
     stage.setIdContact(contact.getId());
-    stage.setEntreprise(entreprise);
-    stage.setIdEntreprise(entreprise.getId());
+    stage.setCompany(entreprise);
+    stage.setIdCompany(entreprise.getId());
     if (method.equals("update")) {
       stage.setVersion(rs.getInt("internship_version") + 1);
     } else {

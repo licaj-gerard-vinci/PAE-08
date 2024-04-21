@@ -1,37 +1,37 @@
-package be.vinci.pae.business.stage;
+package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import java.sql.Date;
 
 /**
  * Represents the StageImpl class.
  */
-public class StageImpl implements StageDTO {
+public class InternshipImpl implements InternshipDTO {
 
   private int id;
 
-  private ResponsableDTO responsable;
+  private ManagerDTO manager;
 
-  private int idResponsable;
+  private int idManager;
 
-  private UserDTO etudiant;
+  private UserDTO student;
 
-  private int idEtudiant;
+  private int idStudent;
 
   private ContactDTO contact;
 
   private int idContact;
 
-  private EntrepriseDTO entreprise;
+  private CompanyDTO company;
 
-  private int idEntreprise;
+  private int idCompany;
 
-  private String sujet;
+  private String topics;
 
-  private Date dateSignature;
+  private Date signatureDate;
 
   private int version;
 
@@ -46,43 +46,43 @@ public class StageImpl implements StageDTO {
   }
 
   @Override
-  public ResponsableDTO getResponsable() {
-    return responsable;
+  public ManagerDTO getManager() {
+    return manager;
   }
 
   @Override
-  public void setResponsable(ResponsableDTO responsable) {
-    this.responsable = responsable;
+  public void setManager(ManagerDTO manager) {
+    this.manager = manager;
   }
 
   @Override
-  public int getIdResponsable() {
-    return idResponsable;
+  public int getIdManager() {
+    return idManager;
   }
 
   @Override
-  public void setIdResponsable(int idResponsable) {
-    this.idResponsable = idResponsable;
+  public void setIdManager(int idManager) {
+    this.idManager = idManager;
   }
 
   @Override
-  public UserDTO getEtudiant() {
-    return etudiant;
+  public UserDTO getStudent() {
+    return student;
   }
 
   @Override
-  public void setEtudiant(UserDTO etudiant) {
-    this.etudiant = etudiant;
+  public void setStudent(UserDTO student) {
+    this.student = student;
   }
 
   @Override
-  public int getIdEtudiant() {
-    return idEtudiant;
+  public int getIdStudent() {
+    return idStudent;
   }
 
   @Override
-  public void setIdEtudiant(int idEtudiant) {
-    this.idEtudiant = idEtudiant;
+  public void setIdStudent(int idStudent) {
+    this.idStudent = idStudent;
   }
 
   @Override
@@ -106,33 +106,33 @@ public class StageImpl implements StageDTO {
   }
 
   @Override
-  public EntrepriseDTO getEntreprise() {
-    return entreprise;
+  public CompanyDTO getCompany() {
+    return company;
   }
 
   @Override
-  public void setEntreprise(EntrepriseDTO entreprise) {
-    this.entreprise = entreprise;
+  public void setCompany(CompanyDTO company) {
+    this.company = company;
   }
 
   @Override
-  public int getIdEntreprise() {
-    return idEntreprise;
+  public int getIdCompany() {
+    return idCompany;
   }
 
   @Override
-  public void setIdEntreprise(int idEntreprise) {
-    this.idEntreprise = idEntreprise;
+  public void setIdCompany(int idCompany) {
+    this.idCompany = idCompany;
   }
 
   @Override
-  public String getSujet() {
-    return sujet;
+  public String getTopics() {
+    return topics;
   }
 
   @Override
-  public void setSujet(String sujet) {
-    this.sujet = sujet;
+  public void setTopics(String topics) {
+    this.topics = topics;
   }
 
   /**
@@ -142,7 +142,7 @@ public class StageImpl implements StageDTO {
    */
   @Override
   public Date getdateSignature() {
-    return dateSignature;
+    return signatureDate;
   }
 
   /**
@@ -152,7 +152,7 @@ public class StageImpl implements StageDTO {
    */
   @Override
   public void setdateSignature(Date dateSignature) {
-    this.dateSignature = dateSignature;
+    this.signatureDate = dateSignature;
   }
 
   /**

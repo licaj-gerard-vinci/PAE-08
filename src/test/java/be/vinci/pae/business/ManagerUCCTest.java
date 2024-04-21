@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.responsable.ResponsableUCC;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.manager.ManagerUCC;
 import be.vinci.pae.dal.manager.ManagerDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -27,14 +27,14 @@ import utils.ApplicationBinderTest;
  */
 public class ManagerUCCTest {
 
-  private ResponsableUCC responsableUCC;
+  private ManagerUCC managerUCC;
   private Factory factory;
   private ManagerDAO responsableDAO;
 
   @BeforeEach
   void set() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
-    responsableUCC = locator.getService(ResponsableUCC.class);
+    managerUCC = locator.getService(ManagerUCC.class);
     factory = locator.getService(Factory.class);
     responsableDAO = locator.getService(ManagerDAO.class);
     Mockito.reset(responsableDAO);
@@ -47,7 +47,7 @@ public class ManagerUCCTest {
     Mockito.when(responsableDAO.getManagers(companyId))
             .thenReturn(Arrays.asList(factory.getManagerDTO()));
 
-    List<ResponsableDTO> managers = responsableUCC.getManagersByCompanyId(companyId);
+    List<ManagerDTO> managers = managerUCC.getManagersByCompanyId(companyId);
     assertNotNull(managers);
   }
 
@@ -58,7 +58,7 @@ public class ManagerUCCTest {
     Mockito.when(responsableDAO.getManagers(companyId)).thenReturn(null);
 
     assertThrows(NotFoundException.class, () -> {
-      responsableUCC.getManagersByCompanyId(companyId);
+      managerUCC.getManagersByCompanyId(companyId);
     });
   }
 
@@ -66,34 +66,34 @@ public class ManagerUCCTest {
   @Test
   @DisplayName("Test addManager of ResponsableUCCImpl class if emails are the same")
   void testAddManagerEmailsAreTheSame() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("test@test.com");
 
-    ResponsableDTO existingManager = factory.getManagerDTO();
+    ManagerDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("test@test.com");
 
     Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
 
     assertThrows(ConflictException.class, () -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
   @Test
   @DisplayName("Test addManager of ResponsableUCCImpl class")
   void testAddManagerDefault() {
-    ResponsableDTO responsableDTO = factory.getManagerDTO();
-    responsableDTO.setNom("test");
-    responsableDTO.setPrenom("test");
-    responsableDTO.setEmail("test@gmail.com");
-    responsableDTO.setNumTel("048590000");
-    responsableDTO.setEntreprise(factory.getEntrepriseDTO());
+    ManagerDTO managerDTO = factory.getManagerDTO();
+    managerDTO.setName("test");
+    managerDTO.setFirstName("test");
+    managerDTO.setEmail("test@gmail.com");
+    managerDTO.setPhone("048590000");
+    managerDTO.setCompany(factory.getCompanyDTO());
 
-    Mockito.when(responsableDAO.getManager(responsableDTO)).thenReturn(null);
-    Mockito.when(responsableDAO.getManagerByEmail(responsableDTO.getEmail())).thenReturn(null);
+    Mockito.when(responsableDAO.getManager(managerDTO)).thenReturn(null);
+    Mockito.when(responsableDAO.getManagerByEmail(managerDTO.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
-      responsableUCC.addManager(responsableDTO);
+      managerUCC.addManager(managerDTO);
     });
   }
 
@@ -101,13 +101,13 @@ public class ManagerUCCTest {
   @DisplayName("addManager does not throw ConflictException "
           + "when manager with same email does not exist in database")
   void addManagerDoesNotThrowConflictWhenEmailDoesNotExistInDatabase() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("test@test.com");
 
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
@@ -115,20 +115,20 @@ public class ManagerUCCTest {
   @DisplayName("addManager does not throw ConflictException"
           + " when manager with empty email does not exist in database")
   void addManagerDoesNotThrowConflictWhenEmptyEmailDoesNotExistInDatabase() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("");
 
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
   @Test
   @DisplayName("addManager throws FatalException when an error occurs during the operation")
   void addManagerThrowsFatalExceptionWhenErrorOccurs() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("test.test@gmail.com");
 
     Mockito.when(responsableDAO.getManager(newManager)).thenReturn(null);
@@ -136,7 +136,7 @@ public class ManagerUCCTest {
     Mockito.doThrow(FatalException.class).when(responsableDAO).addManager(newManager);
 
     assertThrows(FatalException.class, () -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
@@ -144,50 +144,50 @@ public class ManagerUCCTest {
   @DisplayName("addManager when it exists but the manager to "
           + "add has a different email so you can add it")
   void addManagerWhenItInsertsItNormally() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("test@gmail.com");
 
-    ResponsableDTO existingManager = factory.getManagerDTO();
+    ManagerDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("test123@gmail.com");
 
     Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
   @Test
   @DisplayName("Test addManager with ConflictException for empty email")
   void testAddManagerConflictExceptionForEmptyEmail() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("");
 
-    ResponsableDTO existingManager = factory.getManagerDTO();
+    ManagerDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("");
 
     Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
 
     assertThrows(ConflictException.class, () -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 
   @Test
   @DisplayName("Test addManager with ConflictException for existing email")
   void testAddManagerConflictExceptionForExistingEmail() {
-    ResponsableDTO newManager = factory.getManagerDTO();
+    ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("existingEmail@example.com");
 
-    ResponsableDTO existingManager = factory.getManagerDTO();
+    ManagerDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("existingEmail@example.com");
 
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail()))
             .thenReturn(existingManager);
 
     assertThrows(ConflictException.class, () -> {
-      responsableUCC.addManager(newManager);
+      managerUCC.addManager(newManager);
     });
   }
 

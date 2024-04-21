@@ -1,8 +1,8 @@
 package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.contact.ContactUCC;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.entreprise.EntrepriseUCC;
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +28,10 @@ import java.util.List;
 @Singleton
 @Path("entreprise")
 @Log
-public class EntrepriseResource {
+public class CompanyResource {
 
   @Inject
-  private EntrepriseUCC myEntrepriseUcc;
+  private CompanyUCC myCompanyUcc;
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -47,8 +47,8 @@ public class EntrepriseResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public List<EntrepriseDTO> getAllEntreprises() {
-    return myEntrepriseUcc.getAllCompanies();
+  public List<CompanyDTO> getAllEntreprises() {
+    return myCompanyUcc.getAllCompanies();
   }
 
   /**
@@ -61,36 +61,36 @@ public class EntrepriseResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"P"})
-  public EntrepriseDTO getEntreprise(@PathParam("id") int id) {
+  public CompanyDTO getEntreprise(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    return myEntrepriseUcc.getCompanyById(id);
+    return myCompanyUcc.getCompanyById(id);
   }
 
   /**
    * BlackList an company with the specified id.
    *
    * @param id The id of the company to update.
-   * @param entreprise The company to update.
+   * @param Company The company to update.
    * @return The updated company.
    */
   @PUT
   @Path("/{id}/blacklist")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"P"})
-  public ObjectNode blackListCompany(@PathParam("id") int id, EntrepriseDTO entreprise) {
+  public ObjectNode blackListCompany(@PathParam("id") int id, CompanyDTO Company) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (entreprise.getId() != id) {
+    if (Company.getId() != id) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (entreprise.getMotivation_blacklist() == null
-        || entreprise.getMotivation_blacklist().isEmpty()) {
+    if (Company.getMotivation_blacklist() == null
+        || Company.getMotivation_blacklist().isEmpty()) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
-    myEntrepriseUcc.blackListCompany(entreprise);
+    myCompanyUcc.blackListCompany(Company);
     myContactUcc.blackListContact(id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
@@ -100,28 +100,28 @@ public class EntrepriseResource {
   /**
    * Add a company.
    *
-   * @param entreprise The company to add.
+   * @param Company The company to add.
    * @return The company added.
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode addEntreprise(EntrepriseDTO entreprise) {
-    if (entreprise.getNom() == null || entreprise.getNom().isEmpty()) {
+  public ObjectNode addEntreprise(CompanyDTO Company) {
+    if (Company.getName() == null || Company.getName().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
     }
-    if (entreprise.getAdresse() == null || entreprise.getAdresse().isEmpty()) {
+    if (Company.getAdresse() == null || Company.getAdresse().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise address", Response.Status.BAD_REQUEST);
     }
-    if (entreprise.getCity() == null || entreprise.getCity().isEmpty()) {
+    if (Company.getCity() == null || Company.getCity().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
     }
 
 
 
 
-    myEntrepriseUcc.addEntreprise(entreprise);
+    myCompanyUcc.addCompany(Company);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Company  created successfully");

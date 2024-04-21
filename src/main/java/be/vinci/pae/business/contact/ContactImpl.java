@@ -1,6 +1,6 @@
 package be.vinci.pae.business.contact;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 
@@ -12,7 +12,7 @@ public class ContactImpl implements Contact {
 
   private int id;
 
-  private EntrepriseDTO entreprise;
+  private CompanyDTO entreprise;
 
   private int idEntreprise;
 
@@ -76,7 +76,7 @@ public class ContactImpl implements Contact {
    * @return the enterprise.
    */
   @Override
-  public EntrepriseDTO getEntreprise() {
+  public CompanyDTO getEntreprise() {
     return entreprise;
   }
 
@@ -86,7 +86,7 @@ public class ContactImpl implements Contact {
    * @param entreprise the new enterprise ID.
    */
   @Override
-  public void setEntreprise(EntrepriseDTO entreprise) {
+  public void setEntreprise(CompanyDTO entreprise) {
     this.entreprise = entreprise;
   }
 

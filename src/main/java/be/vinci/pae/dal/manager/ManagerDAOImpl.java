@@ -1,8 +1,8 @@
 package be.vinci.pae.dal.manager;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
@@ -36,13 +36,13 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public List<ResponsableDTO> getManagers(int companyId) {
+  public List<ManagerDTO> getManagers(int companyId) {
     String query =
         "SELECT m.*,c.* "
             + "FROM pae.managers m, pae.companies c "
             + "WHERE c.company_id = ? AND m.manager_company_id = c.company_id";
 
-    List<ResponsableDTO> managers = new ArrayList<>();
+    List<ManagerDTO> managers = new ArrayList<>();
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setInt(1, companyId);
@@ -66,12 +66,12 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public ResponsableDTO getManagerByEmail(String email) {
+  public ManagerDTO getManagerByEmail(String email) {
     String query = "SELECT m.*,c.*"
         + " FROM pae.managers m, pae.companies c "
         + "WHERE m.manager_email = ? AND m.manager_company_id = c.company_id";
 
-    ResponsableDTO manager = null;
+    ManagerDTO manager = null;
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
@@ -94,18 +94,18 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public List<ResponsableDTO> getManager(ResponsableDTO manager) {
+  public List<ManagerDTO> getManager(ManagerDTO manager) {
     String query = "SELECT m.*,c.*"
         + " FROM pae.managers m, pae.companies c "
         + "WHERE LOWER(m.manager_lastname) LIKE LOWER(?) "
         + "AND LOWER(m.manager_firstname) LIKE LOWER(?)"
         + "AND m.manager_company_id = c.company_id";
 
-    List<ResponsableDTO> managers = new ArrayList<>();
+    List<ManagerDTO> managers = new ArrayList<>();
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      statement.setString(1, manager.getNom());
-      statement.setString(2, manager.getPrenom());
+      statement.setString(1, manager.getName());
+      statement.setString(2, manager.getFirstName());
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
           managers.add(rsToManager(rs, "get"));
@@ -124,18 +124,18 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @throws FatalException if an error occurs during the operation
    */
   @Override
-  public void addManager(ResponsableDTO manager) {
+  public void addManager(ManagerDTO manager) {
     String query = "INSERT INTO pae.managers (manager_lastname, "
         + "manager_firstname, manager_phone_number, manager_email, manager_company_id, "
         + "manager_version) "
         + "VALUES (?,?,?,?,?,1)";
 
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
-      statement.setString(1, manager.getNom());
-      statement.setString(2, manager.getPrenom());
-      statement.setString(3, manager.getNumTel());
+      statement.setString(1, manager.getName());
+      statement.setString(2, manager.getFirstName());
+      statement.setString(3, manager.getPhone());
       statement.setString(4, manager.getEmail());
-      statement.setInt(5, manager.getIdEntreprise());
+      statement.setInt(5, manager.getIdCompany());
 
       int affectedRows = statement.executeUpdate();
 
@@ -156,12 +156,12 @@ public class ManagerDAOImpl implements ManagerDAO {
    * @return a ManagerDTO object representing the manager
    * @throws SQLException if an error occurs during the operation
    */
-  private ResponsableDTO rsToManager(ResultSet rs, String method) throws SQLException {
-    EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
-    ResponsableDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
+  private ManagerDTO rsToManager(ResultSet rs, String method) throws SQLException {
+    CompanyDTO company = dalBackServiceUtils.fillCompanyDTO(rs, method);
+    ManagerDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
 
-    manager.setEntreprise(entreprise);
-    manager.setIdEntreprise(entreprise.getId());
+    manager.setCompany(company);
+    manager.setIdCompany(company.getId());
     return manager;
   }
 }

@@ -1,8 +1,8 @@
 package be.vinci.pae.dal.utils;
 
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import java.sql.ResultSet;
@@ -43,17 +43,17 @@ public interface DALBackServiceUtils {
    * @return ResponsableDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException;
+  ManagerDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a EntrepriseDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing entreprise data.
    * @param method the method to call
-   * @return EntrepriseDTO filled with data from the ResultSet.
+   * @return CompanyDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException;
+  CompanyDTO fillCompanyDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a ManagerDTO with data from a ResultSet.
@@ -63,7 +63,7 @@ public interface DALBackServiceUtils {
    * @return ManagerDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  ResponsableDTO fillManagerDTO(ResultSet rs, String method) throws SQLException;
+  ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException;
 
   /**
    * Fills a YearDTO with data from a ResultSet.

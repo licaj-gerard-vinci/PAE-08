@@ -1,6 +1,6 @@
 package be.vinci.pae.business.contact;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,14 +31,14 @@ public interface ContactDTO {
    *
    * @return the enterprise ID.
    */
-  EntrepriseDTO getEntreprise();
+  CompanyDTO getEntreprise();
 
   /**
    * Sets the associated enterprise ID.
    *
    * @param entreprise the new enterprise ID.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setEntreprise(CompanyDTO entreprise);
 
   /**
    * Gets the associated enterprise ID.
