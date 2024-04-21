@@ -141,22 +141,21 @@ public class UserUCCImpl implements UserUCC {
    */
   public boolean update(int id, UserDTO user) {
 
-
     UserDTO userBeforeUpdate = userDAO.getOneById(id);
 
     if (userBeforeUpdate == null) {
       return false;
     }
-    if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+    if (user.getEmail() != null) {
       userBeforeUpdate.setEmail(user.getEmail());
     }
-    if (user.getLastname() != null && !user.getLastname().isEmpty()) {
+    if (user.getLastname() != null) {
       userBeforeUpdate.setLastname(user.getLastname());
     }
-    if (user.getFirstname() != null && !user.getFirstname().isEmpty()) {
+    if (user.getFirstname() != null) {
       userBeforeUpdate.setFirstname(user.getFirstname());
     }
-    if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+    if (user.getPhone() != null) {
       userBeforeUpdate.setPhone(user.getPhone());
     }
 

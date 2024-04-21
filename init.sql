@@ -136,19 +136,4 @@ INSERT INTO pae.internships(internship_manager_id, internship_student_id, intern
 INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (3, 7, 4, 1, 1, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23',1);
 
 
-SELECT COUNT(*) as nb_of_usrs FROM pae.users;
-
-SELECT COUNT(*) as nb_of_companies FROM pae.companies;
-
-SELECT con.contact_status, COUNT(*) as nb_of_contact_status FROM pae.contacts con GROUP BY con.contact_status;
-
-SELECT sy.year , COALESCE(COUNT(int.internship_id), 0) as nb_of_internship FROM pae.school_years sy
-                                                                                    LEFT JOIN pae.internships int ON sy.school_year_id = int.internship_school_year_id
-GROUP BY sy.year;
-
-SELECT sy.year , COALESCE(COUNT(con.contact_id), 0) as nb_of_contact FROM pae.school_years sy
-                                                                              LEFT JOIN pae.contacts con ON sy.school_year_id = con.contact_school_year_id
-GROUP BY sy.year;
-
-
 
