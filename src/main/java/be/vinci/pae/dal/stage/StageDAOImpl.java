@@ -6,6 +6,7 @@ import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.stage.StageDTO;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
 import be.vinci.pae.exceptions.FatalException;
@@ -157,11 +158,14 @@ public class StageDAOImpl implements StageDAO {
     UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
     EntrepriseDTO entreprise = dalBackServiceUtils.fillEntrepriseDTO(rs, method);
+    YearDTO annee = dalBackServiceUtils.fillYearDTO(rs);
 
     // Add stage info
     stage.setId(rs.getInt("internship_id"));
     stage.setSujet(rs.getString("internship_topic"));
     stage.setdateSignature(rs.getDate("internship_date_of_signature"));
+    stage.setAnnee(annee);
+    stage.setIdAnnee(annee.getId());
 
     // Set filled DTOs to stage
     stage.setResponsable(responsable);

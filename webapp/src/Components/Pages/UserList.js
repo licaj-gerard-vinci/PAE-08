@@ -2,6 +2,7 @@
 import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
+import getAllAcademicYears from '../../model/years';
 
 let originalUserList = [];
 
@@ -33,7 +34,8 @@ const UserList = async () => {
     </div>`;
 
   originalUserList = await getAllUsers();
-  displayFilters();
+  const years = await getAllAcademicYears();
+  displayFilters(years);
   await renderUserList(originalUserList);
   await filterUsers();
 }
@@ -81,8 +83,9 @@ async function renderUserList(userList) {
   }
 }
 
-function displayFilters() {
-  // Adjusted sizes for select elements and added dropdown indicators
+function displayFilters(years) {
+  console.log(years, 'oihiohioh'); // Get unique years
+
   const filterHtml = `
     <div class="container">
       <div class="row align-items-end">
@@ -90,7 +93,7 @@ function displayFilters() {
           <div class="form-group mb-3">
             <label for="search">Recherche d'utilisateur :</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="search" placeholder="nom ou prénom">
+              <input type="text" class="form-control" id="search" placeholder="Nom ou Prénom">
             </div>
           </div>
         </div>
@@ -116,9 +119,7 @@ function displayFilters() {
             <div class="input-group">
               <select class="form-control" id="year">
                 <option value="all">Toutes</option>
-                <option value="2022-2023">2022/2023</option>
-                <option value="2023-2024">2023/2024</option>
-                <option value="2024-2025">2024/2025</option>    
+                ${years.map(year => `<option value="${year.annee}">${year.annee}</option>`).join('')}
               </select>
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-chevron-down"></i></span>
@@ -138,6 +139,7 @@ function displayFilters() {
     document.getElementById('filter').value = 'all';
     document.getElementById('year').value = 'all';
     await renderUserList(originalUserList);
+    await filterUsers();
   });
 }
 
