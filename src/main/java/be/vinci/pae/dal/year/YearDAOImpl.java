@@ -1,6 +1,5 @@
 package be.vinci.pae.dal.year;
 
-import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
