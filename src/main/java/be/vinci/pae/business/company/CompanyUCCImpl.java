@@ -1,7 +1,7 @@
 package be.vinci.pae.business.company;
 
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.entreprise.CompanyDAO;
+import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -76,7 +76,7 @@ public class CompanyUCCImpl implements CompanyUCC {
         throw new ConflictException("L'entreprise est déjà blacklistée.");
       }
       company.setBlackListed(true);
-      company.setMotivation_blacklist(entreprise.getMotivation_blacklist());
+      company.setMotivation(entreprise.getMotivation());
       companyDAO.updateCompany(company);
       dalServices.commitTransaction();
     } catch (FatalException e) {

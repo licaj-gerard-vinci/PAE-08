@@ -12,23 +12,23 @@ public class ContactImpl implements Contact {
 
   private int id;
 
-  private CompanyDTO entreprise;
+  private CompanyDTO company;
 
-  private int idEntreprise;
+  private int idCompany;
 
-  private UserDTO utilisateur;
+  private UserDTO student;
 
-  private int idUtilisateur;
+  private int idStudent;
 
-  private String etatContact;
+  private String contactStatus;
 
-  private String lieuxRencontre;
+  private String meetingPlace;
 
-  private String raisonRefus;
+  private String refusalReason;
 
-  private YearDTO annee;
+  private YearDTO year;
 
-  private int idAnnee;
+  private int idYear;
 
   private int version;
 
@@ -36,23 +36,23 @@ public class ContactImpl implements Contact {
 
 
   @Override
-  public int getIdEntreprise() {
-    return idEntreprise;
+  public int getIdCompany() {
+    return idCompany;
   }
 
   @Override
-  public void setIdEntreprise(int idEntreprise) {
-    this.idEntreprise = idEntreprise;
+  public void setIdCompany(int idCompany) {
+    this.idCompany = idCompany;
   }
 
   @Override
-  public int getIdUtilisateur() {
-    return idUtilisateur;
+  public int getIdStudent() {
+    return idStudent;
   }
 
   @Override
-  public void setIdUtilisateur(int idUtilisateur) {
-    this.idUtilisateur = idUtilisateur;
+  public void setIdStudent(int idStudent) {
+    this.idStudent = idStudent;
   }
 
   @Override
@@ -76,18 +76,18 @@ public class ContactImpl implements Contact {
    * @return the enterprise.
    */
   @Override
-  public CompanyDTO getEntreprise() {
-    return entreprise;
+  public CompanyDTO getCompany() {
+    return company;
   }
 
   /**
    * Sets the associated enterprise ID.
    *
-   * @param entreprise the new enterprise ID.
+   * @param company the new enterprise ID.
    */
   @Override
-  public void setEntreprise(CompanyDTO entreprise) {
-    this.entreprise = entreprise;
+  public void setCompany(CompanyDTO company) {
+    this.company = company;
   }
 
   /**
@@ -96,18 +96,18 @@ public class ContactImpl implements Contact {
    * @return the user ID.
    */
   @Override
-  public UserDTO getUtilisateur() {
-    return utilisateur;
+  public UserDTO getStudent() {
+    return student;
   }
 
   /**
    * Sets the associated user ID.
    *
-   * @param utilisateur the new user ID.
+   * @param student the new user ID.
    */
   @Override
-  public void setUtilisateur(UserDTO utilisateur) {
-    this.utilisateur = utilisateur;
+  public void setStudent(UserDTO student) {
+    this.student = student;
   }
 
   /**
@@ -116,18 +116,18 @@ public class ContactImpl implements Contact {
    * @return the contact state.
    */
   @Override
-  public String getEtatContact() {
-    return etatContact;
+  public String getContactStatus() {
+    return contactStatus;
   }
 
   /**
    * Sets the state of the contact.
    *
-   * @param etatContact the new contact state.
+   * @param contactStatus the new contact state.
    */
   @Override
-  public void setEtatContact(String etatContact) {
-    this.etatContact = etatContact;
+  public void setContactStatus(String contactStatus) {
+    this.contactStatus = contactStatus;
   }
 
   /**
@@ -136,18 +136,18 @@ public class ContactImpl implements Contact {
    * @return the meeting location.
    */
   @Override
-  public String getLieuxRencontre() {
-    return lieuxRencontre;
+  public String getMeetingPlace() {
+    return meetingPlace;
   }
 
   /**
    * Sets the meeting location.
    *
-   * @param lieuxRencontre the new meeting location.
+   * @param meetingPlace the new meeting location.
    */
   @Override
-  public void setLieuxRencontre(String lieuxRencontre) {
-    this.lieuxRencontre = lieuxRencontre;
+  public void setMeetingPlace(String meetingPlace) {
+    this.meetingPlace = meetingPlace;
   }
 
   /**
@@ -156,18 +156,18 @@ public class ContactImpl implements Contact {
    * @return the reason for refusal.
    */
   @Override
-  public String getRaisonRefus() {
-    return raisonRefus;
+  public String getRefusalReason() {
+    return refusalReason;
   }
 
   /**
    * Sets the reason for refusal.
    *
-   * @param raisonRefus the new reason for refusal.
+   * @param refusalReason the new reason for refusal.
    */
   @Override
-  public void setRaisonRefus(String raisonRefus) {
-    this.raisonRefus = raisonRefus;
+  public void setRefusalReason(String refusalReason) {
+    this.refusalReason = refusalReason;
   }
 
 
@@ -177,18 +177,18 @@ public class ContactImpl implements Contact {
    * @return the associated year.
    */
   @Override
-  public YearDTO getAnnee() {
-    return annee;
+  public YearDTO getYear() {
+    return year;
   }
 
   /**
    * Sets the associated year.
    *
-   * @param annee the new associated year.
+   * @param year the new associated year.
    */
   @Override
-  public void setAnnee(YearDTO annee) {
-    this.annee = annee;
+  public void setYear(YearDTO year) {
+    this.year = year;
   }
 
   /**
@@ -197,18 +197,18 @@ public class ContactImpl implements Contact {
    * @return the associated year ID.
    */
   @Override
-  public int getIdAnnee() {
-    return idAnnee;
+  public int getIdYear() {
+    return idYear;
   }
 
   /**
    * Sets the associated year ID.
    *
-   * @param idAnnee the new associated year ID.
+   * @param idYear the new associated year ID.
    */
   @Override
-  public void setIdAnnee(int idAnnee) {
-    this.idAnnee = idAnnee;
+  public void setIdYear(int idYear) {
+    this.idYear = idYear;
   }
 
   /**

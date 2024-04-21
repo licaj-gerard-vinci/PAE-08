@@ -3,7 +3,7 @@ package be.vinci.pae.business;
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.dal.entreprise.CompanyDAO;
+import be.vinci.pae.dal.company.CompanyDAO;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeAll;

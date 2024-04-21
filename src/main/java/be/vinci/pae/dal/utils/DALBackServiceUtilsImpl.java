@@ -56,40 +56,17 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException {
-    ContactDTO contact = (ContactDTO) factory.getContactDTO();
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
-    contact.setEtatContact(rs.getString("contact_status"));
-    contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
-    contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    contact.setContactStatus(rs.getString("contact_status"));
+    contact.setMeetingPlace(rs.getString("contact_meeting_place"));
+    contact.setRefusalReason(rs.getString("contact_refusal_reason"));
     if (method.equals("update")) {
       contact.setVersion(rs.getInt("contact_version") + 1);
     } else {
       contact.setVersion(rs.getInt("contact_version"));
     }
     return contact;
-  }
-
-  /**
-   * Fills a ResponsableDTO with data from a ResultSet.
-   *
-   * @param rs the ResultSet containing manager data.
-   * @return ResponsableDTO filled with data from the ResultSet.
-   * @throws SQLException if there is an issue accessing the ResultSet data.
-   */
-  public ManagerDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
-    ManagerDTO responsable = (ManagerDTO) factory.getManagerDTO();
-    responsable.setId(rs.getInt("manager_id"));
-    responsable.setName(rs.getString("manager_lastname"));
-    responsable.setFirstName(rs.getString("manager_firstname"));
-    responsable.setPhone(rs.getString("manager_phone_number"));
-    responsable.setEmail(rs.getString("manager_email"));
-    responsable.setIdCompany(rs.getInt("manager_company_id"));
-    if (method.equals("update")) {
-      responsable.setVersion(rs.getInt("manager_version") + 1);
-    } else {
-      responsable.setVersion(rs.getInt("manager_version"));
-    }
-    return responsable;
   }
 
   /**
@@ -100,22 +77,22 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public CompanyDTO fillCompanyDTO(ResultSet rs, String method) throws SQLException {
-    CompanyDTO entreprise = (CompanyDTO) factory.getCompanyDTO();
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setName(rs.getString("company_name"));
-    entreprise.setDesignation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setPhone(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
+    CompanyDTO company = factory.getCompanyDTO();
+    company.setId(rs.getInt("company_id"));
+    company.setName(rs.getString("company_name"));
+    company.setDesignation(rs.getString("company_designation"));
+    company.setAdresse(rs.getString("company_address"));
+    company.setCity(rs.getString("company_city"));
+    company.setPhone(rs.getString("company_phone_number"));
+    company.setEmail(rs.getString("company_email"));
+    company.setBlackListed(rs.getBoolean("company_is_blacklisted"));
+    company.setMotivation(rs.getString("company_blacklist_reason"));
     if (method.equals("update")) {
-      entreprise.setVersion(rs.getInt("company_version") + 1);
+      company.setVersion(rs.getInt("company_version") + 1);
     } else {
-      entreprise.setVersion(rs.getInt("company_version"));
+      company.setVersion(rs.getInt("company_version"));
     }
-    return entreprise;
+    return company;
   }
 
   /**
@@ -126,7 +103,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
-    ManagerDTO manager = (ManagerDTO) factory.getManagerDTO();
+    ManagerDTO manager = factory.getManagerDTO();
     manager.setId(rs.getInt("manager_id"));
     manager.setFirstName(rs.getString("manager_firstname"));
     manager.setName(rs.getString("manager_lastname"));
@@ -146,9 +123,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public YearDTO fillYearDTO(ResultSet rs) throws SQLException {
-    YearDTO year = (YearDTO) factory.getYearDTO();
+    YearDTO year = factory.getYearDTO();
     year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
+    year.setYear(rs.getString("year"));
     year.setVersion(rs.getInt("school_year_version"));
     return year;
   }

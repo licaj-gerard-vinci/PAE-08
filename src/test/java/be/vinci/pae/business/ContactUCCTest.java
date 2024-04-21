@@ -15,7 +15,7 @@ import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.contact.ContactDAO;
-import be.vinci.pae.dal.entreprise.CompanyDAO;
+import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
@@ -68,11 +68,11 @@ public class ContactUCCTest {
 
     contact.setId(1);
     contact.setUtilisateur(user); // Default user
-    contact.setEntreprise(company); // Default company
+    contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
-    Mockito.when(companyDAO.getCompany(contact.getEntreprise().getId())).thenReturn(company);
+    Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
     // Everything return the expected value
@@ -92,12 +92,12 @@ public class ContactUCCTest {
 
     contact.setId(1);
     contact.setUtilisateur(user); // Default user
-    contact.setEntreprise(company); // Default company
+    contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId()))
             .thenReturn(null);
-    Mockito.when(companyDAO.getCompany(contact.getEntreprise().getId())).thenReturn(company);
+    Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
     // user not found
@@ -119,11 +119,11 @@ public class ContactUCCTest {
 
     contact.setId(1);
     contact.setUtilisateur(user); // Default user
-    contact.setEntreprise(company); // Default company
+    contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
-    Mockito.when(companyDAO.getCompany(contact.getEntreprise().getId()))
+    Mockito.when(companyDAO.getCompany(contact.getCompany().getId()))
             .thenReturn(null);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
@@ -146,11 +146,11 @@ public class ContactUCCTest {
 
     contact.setId(1);
     contact.setUtilisateur(user); // Default user
-    contact.setEntreprise(company); // Default company
+    contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
-    Mockito.when(companyDAO.getCompany(contact.getEntreprise().getId())).thenReturn(company);
+    Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
 
     // contact already exist
@@ -172,11 +172,11 @@ public class ContactUCCTest {
 
     contact.setId(1);
     contact.setUtilisateur(user); // Default user
-    contact.setEntreprise(company); // Default company
+    contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
-    Mockito.when(companyDAO.getCompany(contact.getEntreprise().getId())).thenReturn(company);
+    Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
     Mockito.doThrow(FatalException.class)
             .when(contactDAO).insertContact(contact);
@@ -194,22 +194,22 @@ public class ContactUCCTest {
     ContactDTO contactReceived = factory.getContactDTO();
 
     contact.setId(1);
-    contact.setEtatContact("valid state");
+    contact.setContactStatus("valid state");
 
     contactReceived.setId(contact.getId());
-    contactReceived.setEtatContact("valid state");
-    contactReceived.setLieuxRencontre("valid place");
-    contactReceived.setRaisonRefus("valid reason");
+    contactReceived.setContactStatus("valid state");
+    contactReceived.setMeetingPlace("valid place");
+    contactReceived.setRefusalReason("valid reason");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
 
     assertAll(
-            () -> assertNull(contact.getRaisonRefus()),
-            () -> assertNull(contact.getLieuxRencontre()),
+            () -> assertNull(contact.getRefusalReason()),
+            () -> assertNull(contact.getMeetingPlace()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
-            () -> assertNotNull(contact.getLieuxRencontre()),
-            () -> assertNotNull(contact.getRaisonRefus())
+            () -> assertNotNull(contact.getMeetingPlace()),
+            () -> assertNotNull(contact.getRefusalReason())
     // after updating, the contact now have values for refusal reason and meeting place
     );
   }
@@ -220,22 +220,22 @@ public class ContactUCCTest {
     // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("valid state");
-    contact.setRaisonRefus("valid reason");
+    contact.setContactStatus("valid state");
+    contact.setRefusalReason("valid reason");
 
     ContactDTO contactReceived = factory.getContactDTO();
     contactReceived.setId(contact.getId());
-    contactReceived.setEtatContact("valid state");
-    contactReceived.setLieuxRencontre("valid place");
+    contactReceived.setContactStatus("valid state");
+    contactReceived.setMeetingPlace("valid place");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
 
     assertAll(
-            () -> assertNotNull(contact.getRaisonRefus()),
-            () -> assertNull(contactReceived.getRaisonRefus()),
+            () -> assertNotNull(contact.getRefusalReason()),
+            () -> assertNull(contactReceived.getRefusalReason()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
-            () -> assertNotNull(contact.getRaisonRefus())
+            () -> assertNotNull(contact.getRefusalReason())
     // after updating, the contact now have values for refusal reason and meeting place
     );
   }
@@ -246,21 +246,21 @@ public class ContactUCCTest {
     // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("valid state");
-    contact.setLieuxRencontre("valid place");
+    contact.setContactStatus("valid state");
+    contact.setMeetingPlace("valid place");
 
     ContactDTO contactReceived = factory.getContactDTO();
     contactReceived.setId(contact.getId());
-    contactReceived.setEtatContact("valid state");
+    contactReceived.setContactStatus("valid state");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
 
     assertAll(
-            () -> assertNotNull(contact.getLieuxRencontre()),
-            () -> assertNull(contactReceived.getLieuxRencontre()),
+            () -> assertNotNull(contact.getMeetingPlace()),
+            () -> assertNull(contactReceived.getMeetingPlace()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
-            () -> assertNotNull(contact.getLieuxRencontre())
+            () -> assertNotNull(contact.getMeetingPlace())
     // after updating, the contact now have values for refusal reason and meeting place
     );
   }
@@ -273,18 +273,18 @@ public class ContactUCCTest {
     Contact contactReceived = Mockito.mock(Contact.class);
 
     contact.setId(1);
-    contact.setEtatContact("invalid state");
+    contact.setContactStatus("invalid state");
 
     Mockito.when(contactReceived.getId()).thenReturn(1);
-    Mockito.when(contactReceived.getEtatContact()).thenReturn("valid state");
-    Mockito.when(contactReceived.getLieuxRencontre()).thenReturn("valid place");
-    Mockito.when(contactReceived.getRaisonRefus()).thenReturn("valid reason");
+    Mockito.when(contactReceived.getContactStatus()).thenReturn("valid state");
+    Mockito.when(contactReceived.getMeetingPlace()).thenReturn("valid place");
+    Mockito.when(contactReceived.getRefusalReason()).thenReturn("valid reason");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
     // Stub the checkState method to return false
-    Mockito.when(contactReceived.checkState(contactReceived.getEtatContact(),
-            contact.getEtatContact())).thenReturn(false);
+    Mockito.when(contactReceived.checkState(contactReceived.getContactStatus(),
+            contact.getContactStatus())).thenReturn(false);
 
     assertThrows(BusinessException.class, () -> {
       contactUCC.updateContact(contact);
@@ -298,7 +298,7 @@ public class ContactUCCTest {
     ContactDTO contact = factory.getContactDTO();
 
     contact.setId(1);
-    contact.setEtatContact("valid state");
+    contact.setContactStatus("valid state");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
@@ -315,7 +315,7 @@ public class ContactUCCTest {
     ContactDTO contact = factory.getContactDTO();
 
     contact.setId(1);
-    contact.setEtatContact("valid state");
+    contact.setContactStatus("valid state");
 
     // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
@@ -559,29 +559,29 @@ public class ContactUCCTest {
 
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(2);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
 
     ContactDTO contact12 = factory.getContactDTO();
     contact12.setId(2);
-    contact12.setEtatContact("pris");
+    contact12.setContactStatus("pris");
 
     ContactDTO contact2 = factory.getContactDTO();
     contact2.setId(3);
-    contact2.setEtatContact("initié");
+    contact2.setContactStatus("initié");
 
     ContactDTO contact22 = factory.getContactDTO();
     contact22.setId(3);
-    contact22.setEtatContact("initié");
+    contact22.setContactStatus("initié");
 
     int contactId = 1;
 
     ContactDTO contact3 = factory.getContactDTO();
     contact3.setId(contactId);
-    contact3.setEtatContact("pris");
+    contact3.setContactStatus("pris");
 
     ContactDTO contact32 = factory.getContactDTO();
     contact32.setId(contactId);
-    contact32.setEtatContact("pris");
+    contact32.setContactStatus("pris");
 
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactById(2))
@@ -594,9 +594,9 @@ public class ContactUCCTest {
             .thenReturn(Arrays.asList(contact1, contact2, contact3));
 
     assertDoesNotThrow(() -> contactUCC.suspendContacts(userId, contactId));
-    assertEquals("suspendu", contact1.getEtatContact());
-    assertEquals("suspendu", contact2.getEtatContact());
-    assertEquals("pris", contact3.getEtatContact());
+    assertEquals("suspendu", contact1.getContactStatus());
+    assertEquals("suspendu", contact2.getContactStatus());
+    assertEquals("pris", contact3.getContactStatus());
   }
 
   @Test
@@ -652,29 +652,29 @@ public class ContactUCCTest {
 
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(2);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
 
     ContactDTO contact12 = factory.getContactDTO();
     contact12.setId(2);
-    contact12.setEtatContact("pris");
+    contact12.setContactStatus("pris");
 
     ContactDTO contact2 = factory.getContactDTO();
     contact2.setId(3);
-    contact2.setEtatContact("initié");
+    contact2.setContactStatus("initié");
 
     ContactDTO contact22 = factory.getContactDTO();
     contact22.setId(3);
-    contact22.setEtatContact("initié");
+    contact22.setContactStatus("initié");
 
     int contactId = 1;
 
     ContactDTO contact3 = factory.getContactDTO();
     contact3.setId(contactId);
-    contact3.setEtatContact("different");
+    contact3.setContactStatus("different");
 
     ContactDTO contact32 = factory.getContactDTO();
     contact32.setId(contactId);
-    contact32.setEtatContact("different");
+    contact32.setContactStatus("different");
 
     Mockito.when(companyDAO.getCompany(companyDTO.getId())).thenReturn(companyDTO);
     Mockito.when(contactDAO.getContactById(2))
@@ -687,9 +687,9 @@ public class ContactUCCTest {
             .thenReturn(Arrays.asList(contact1, contact2, contact3));
 
     assertDoesNotThrow(() -> contactUCC.blackListContact(companyId));
-    assertEquals("blacklisté", contact1.getEtatContact());
-    assertEquals("blacklisté", contact2.getEtatContact());
-    assertEquals("different", contact3.getEtatContact());
+    assertEquals("blacklisté", contact1.getContactStatus());
+    assertEquals("blacklisté", contact2.getContactStatus());
+    assertEquals("different", contact3.getContactStatus());
 
   }
 

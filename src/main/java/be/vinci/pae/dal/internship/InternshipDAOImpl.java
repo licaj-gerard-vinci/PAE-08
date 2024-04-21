@@ -1,4 +1,4 @@
-package be.vinci.pae.dal.stage;
+package be.vinci.pae.dal.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
@@ -112,8 +112,8 @@ public class InternshipDAOImpl implements InternshipDAO {
       statement.setInt(3, internship.getContact().getId());
       statement.setInt(4, internship.getCompany().getId());
       statement.setInt(5, internship.getStudent().getidSchoolYear());
-      statement.setString(6, internship.getTopics());
-      statement.setDate(7, internship.getdateSignature());
+      statement.setString(6, internship.getTopic());
+      statement.setDate(7, internship.getSignatureDate());
       statement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
@@ -132,7 +132,7 @@ public class InternshipDAOImpl implements InternshipDAO {
             + "SET internship_topic = ?, internship_version = internship_version + 1"
             + "WHERE internship_id = ? AND internship_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, internship.getTopics());
+      statement.setString(1, internship.getTopic());
       statement.setInt(2, internship.getId());
       statement.setInt(3, internship.getVersion());
       statement.executeUpdate();
@@ -154,7 +154,7 @@ public class InternshipDAOImpl implements InternshipDAO {
     InternshipDTO stage = factory.getInternshipDTO();
 
     // Fill DTOs using methods from DALBackServiceUtils
-    ManagerDTO responsable = dalBackServiceUtils.fillResponsableDTO(rs, method);
+    ManagerDTO responsable = dalBackServiceUtils.fillManagerDTO(rs, method);
     UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
     CompanyDTO entreprise = dalBackServiceUtils.fillCompanyDTO(rs, method);
@@ -162,10 +162,10 @@ public class InternshipDAOImpl implements InternshipDAO {
 
     // Add stage info
     stage.setId(rs.getInt("internship_id"));
-    stage.setTopics(rs.getString("internship_topic"));
-    stage.setdateSignature(rs.getDate("internship_date_of_signature"));
-    stage.setAnnee(annee);
-    stage.setIdAnnee(annee.getId());
+    stage.setTopic(rs.getString("internship_topic"));
+    stage.setSignatureDate(rs.getDate("internship_date_of_signature"));
+    stage.setYear(annee);
+    stage.setIdYear(annee.getId());
 
     // Set filled DTOs to stage
     stage.setManager(responsable);

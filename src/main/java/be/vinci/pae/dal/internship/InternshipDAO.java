@@ -1,4 +1,4 @@
-package be.vinci.pae.dal.stage;
+package be.vinci.pae.dal.internship;
 
 import be.vinci.pae.business.internship.InternshipDTO;
 import java.util.List;

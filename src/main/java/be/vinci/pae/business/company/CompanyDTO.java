@@ -126,14 +126,14 @@ public interface CompanyDTO {
    *
    * @return the motivation_blacklist of the Company.
    */
-  String getMotivation_blacklist();
+  String getMotivation();
 
   /**
    * Sets the motivation_blacklist of the Company.
    *
    * @param motivationBlacklist the new motivation_blacklist for the Company.
    */
-  void setMotivation_blacklist(String motivationBlacklist);
+  void setMotivation(String motivationBlacklist);
 
   /**
    * Gets the version.

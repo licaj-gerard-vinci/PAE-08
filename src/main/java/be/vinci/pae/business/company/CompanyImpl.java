@@ -196,7 +196,7 @@ public class CompanyImpl implements CompanyDTO {
    * @return the motivation_blacklist of the entreprise.
    */
   @Override
-  public String getMotivation_blacklist() {
+  public String getMotivation() {
     return motivation;
   }
 
@@ -208,7 +208,7 @@ public class CompanyImpl implements CompanyDTO {
    */
 
   @Override
-  public void setMotivation_blacklist(String motivation) {
+  public void setMotivation(String motivation) {
     this.motivation = motivation;
   }
 

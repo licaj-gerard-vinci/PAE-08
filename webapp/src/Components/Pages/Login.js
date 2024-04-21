@@ -40,7 +40,6 @@ function checkUser() {
           Navbar();
           Navigate('/');
         } catch (error) {
-          console.error(error);
           errorMessage.id = 'error-message';
           errorMessage.textContent = 'Erreur : Nom d\'utilisateur ou mot de passe invalide.';
           errorMessage.style.fontWeight = 'bold';

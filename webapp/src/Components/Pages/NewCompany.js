@@ -135,7 +135,7 @@ async function checkCompany() {
         CityError.textContent = '';
         const entreprise = {
             name: nameValue,
-            appelation: appelationValue,
+            designation: appelationValue,
             phone: phoneValue,
             email: emailValue,
             adresse: adresseValue,
@@ -145,7 +145,7 @@ async function checkCompany() {
         }
 
         const entrepriseList = await getEntreprises();
-        const entrepriseExist = entrepriseList.find(entreprises => entreprises.nom.toLowerCase() === nameValue.toLowerCase() && entreprises.appellation.toLowerCase() === appelationValue.toLowerCase());
+        const entrepriseExist = entrepriseList.find(entreprises => entreprises.name.toLowerCase() === nameValue.toLowerCase() && entreprises.designation.toLowerCase() === appelationValue.toLowerCase());
         if(entrepriseExist) {
             SubmitError.textContent = 'Cette entreprise existe déjà';
             return;

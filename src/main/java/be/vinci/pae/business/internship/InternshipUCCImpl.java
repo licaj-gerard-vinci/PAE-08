@@ -5,7 +5,7 @@ import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.stage.InternshipDAO;
+import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -69,15 +69,15 @@ public class InternshipUCCImpl implements InternshipUCC {
   @Override
   public void insertInternship(InternshipDTO internship) {
     ContactDTO myContactDTO = myContact.getContactByContactId(internship.getContact().getId());
-    if (myContactDTO.getUtilisateur().getId() != internship.getStudent().getId()
-        || myContactDTO.getEntreprise().getId() != internship.getCompany().getId()) {
+    if (myContactDTO.getStudent().getId() != internship.getStudent().getId()
+        || myContactDTO.getCompany().getId() != internship.getCompany().getId()) {
       throw new NotFoundException("contact doesn't exist or doesn't match with the internship");
     } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
     if (internshipDAO.getInternshipById(internship.getStudent().getId()) != null) {
       throw new ConflictException("internship for the student already exists");
     }
-    myContactDTO.setEtatContact("accepté");
+    myContactDTO.setContactStatus("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
     UserDTO myUserDTO = myUser.getOne(internship.getStudent().getId());
     myUserDTO.setHasInternship(true);

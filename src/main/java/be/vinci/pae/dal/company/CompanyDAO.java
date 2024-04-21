@@ -1,4 +1,4 @@
-package be.vinci.pae.dal.entreprise;
+package be.vinci.pae.dal.company;
 
 import be.vinci.pae.business.company.CompanyDTO;
 import java.util.List;

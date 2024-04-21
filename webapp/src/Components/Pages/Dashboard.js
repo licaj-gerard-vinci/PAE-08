@@ -22,7 +22,7 @@ const Dashboard = async () => {
 async function renderCompaniesList() {
 const companiesContainer = document.querySelector('#companies-container');
 const academicYears = await getAllAcademicYears();
-const academicYearOptions = academicYears.map(year => `<option value="${year.annee}">${year.annee}</option>`).join('\n');
+const academicYearOptions = academicYears.map(year => `<option value="${year.year}">${year.year}</option>`).join('\n');
 
 companiesContainer.innerHTML = `
 <div class="container my-5">
@@ -44,7 +44,6 @@ companiesContainer.innerHTML = `
 
     const companies = await getEntreprises();
     const internships = await getAllInternships();
-    console.log(internships, 'internships');
     
 
     // Add event listener to the filter
@@ -69,7 +68,7 @@ async function sortAndRenderCompanies(property, companies, internships) {
     // If sorting by student count, add a studentCount property to each company
     if (property === 'studentCount') {
         updatedCompanies = companies.map(company => {
-            const companyInternships = internships.filter(internship => internship.entreprise.id === company.id);
+            const companyInternships = internships.filter(internship => internship.company.id === company.id);
             return {...company, studentCount: companyInternships.length};
         });
     }
@@ -108,17 +107,18 @@ function renderCompanies(companies, internships, selectedYear = '') {
         ${companies.map(company => {
             let companyInternships;
             if (selectedYear) {
-                companyInternships = internships.filter(internship => 
-                    internship.entreprise.id === company.id && internship.annee.annee === selectedYear);
+                companyInternships = internships.filter(internship =>
+                    internship.company.id === company.id && internship.year.year === selectedYear);
+                    
             } else {
                 companyInternships = internships.filter(internship => 
-                    internship.entreprise.id === company.id);
+                    internship.company.id === company.id);
             }
             const studentCount = companyInternships.length;
             return `
             <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
-              <td class="text-center">${company.nom} </br> ${company.appellation}</td>
-              <td class="text-center">${company.numTel}</td>
+              <td class="text-center">${company.name} </br> ${company.designation}</td>
+              <td class="text-center">${company.phone}</td>
               <td class="text-center">${studentCount}</td>
               <td class="text-center">${company.blackListed ? 'Oui' : 'Non'}</td>
             </tr>
@@ -160,7 +160,7 @@ async function renderStatistics() {
 
     const internships = await getAllInternships();
     const internshipsThisYear = internships.filter(internship => {
-        const date = new Date(internship.dateSignature);
+        const date = new Date(internship.signatureDate);
         const year = date.getFullYear();
         const month = date.getMonth();
         let internshipAcademicYear;

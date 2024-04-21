@@ -147,28 +147,28 @@ public interface InternshipDTO {
    *
    * @return the stage Sujet.
    */
-  String getTopics();
+  String getTopic();
 
   /**
    * Sets the stage Sujet.
    *
-   * @param topics the new stage Sujet.
+   * @param topic the new stage Sujet.
    */
-  void setTopics(String topics);
+  void setTopic(String topic);
 
   /**
    * Gets the stage date.
    *
    * @return the stage date.
    */
-  Date getdateSignature();
+  Date getSignatureDate();
 
   /**
    * Sets the stage date.
    *
    * @param dateSignature the new stage date.
    */
-  void setdateSignature(Date dateSignature);
+  void setSignatureDate(Date dateSignature);
 
   /**
    * Gets the version.
@@ -189,28 +189,28 @@ public interface InternshipDTO {
    *
    * @return the meeting date.
    */
-  YearDTO getAnnee();
+  YearDTO getYear();
 
   /**
    * Sets the meeting date.
    *
-   * @param annee the new meeting date.
+   * @param year the new meeting date.
    */
-  void setAnnee(YearDTO annee);
+  void setYear(YearDTO year);
 
   /**
    * Gets the associated year ID.
    *
    * @return the year ID.
    */
-  int getIdAnnee();
+  int getIdYear();
 
   /**
    * Sets the associated year ID.
    *
-   * @param idAnnee the new year ID.
+   * @param idYear the new year ID.
    */
-  void setIdAnnee(int idAnnee);
+  void setIdYear(int idYear);
 
 
 }

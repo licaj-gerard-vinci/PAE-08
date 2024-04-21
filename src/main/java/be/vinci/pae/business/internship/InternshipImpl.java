@@ -30,15 +30,15 @@ public class InternshipImpl implements InternshipDTO {
 
   private int idCompany;
 
-  private String topics;
+  private String topic;
 
   private Date signatureDate;
 
   private int version;
 
-  private YearDTO annee;
+  private YearDTO year;
 
-  private int idAnnee;
+  private int idYear;
 
   @Override
   public int getId() {
@@ -131,13 +131,13 @@ public class InternshipImpl implements InternshipDTO {
   }
 
   @Override
-  public String getTopics() {
-    return topics;
+  public String getTopic() {
+    return topic;
   }
 
   @Override
-  public void setTopics(String topics) {
-    this.topics = topics;
+  public void setTopic(String topic) {
+    this.topic = topic;
   }
 
   /**
@@ -146,18 +146,18 @@ public class InternshipImpl implements InternshipDTO {
    * @return the stage date.
    */
   @Override
-  public Date getdateSignature() {
+  public Date getSignatureDate() {
     return signatureDate;
   }
 
   /**
    * Sets the stage date.
    *
-   * @param dateSignature the new stage date.
+   * @param signatureDate the new stage date.
    */
   @Override
-  public void setdateSignature(Date dateSignature) {
-    this.signatureDate = dateSignature;
+  public void setSignatureDate(Date signatureDate) {
+    this.signatureDate = signatureDate;
   }
 
   /**
@@ -181,23 +181,23 @@ public class InternshipImpl implements InternshipDTO {
   }
 
   @Override
-  public YearDTO getAnnee() {
-    return annee;
+  public YearDTO getYear() {
+    return year;
   }
 
   @Override
-  public void setAnnee(YearDTO annee) {
-    this.annee = annee;
+  public void setYear(YearDTO year) {
+    this.year = year;
   }
 
   @Override
-  public int getIdAnnee() {
-    return idAnnee;
+  public int getIdYear() {
+    return idYear;
   }
   
   @Override
-  public void setIdAnnee(int idAnnee) {
-    this.idAnnee = idAnnee;
+  public void setIdYear(int idYear) {
+    this.idYear = idYear;
   }
 
 }

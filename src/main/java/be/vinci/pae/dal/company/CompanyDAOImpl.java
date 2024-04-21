@@ -1,4 +1,4 @@
-package be.vinci.pae.dal.entreprise;
+package be.vinci.pae.dal.company;
 
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.dal.DALBackService;
@@ -114,7 +114,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       statement.setString(4, Company.getCity());
       statement.setString(5, Company.getPhone());
       statement.setString(6, Company.getEmail());
-      statement.setString(7, Company.getMotivation_blacklist());
+      statement.setString(7, Company.getMotivation());
 
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
@@ -148,7 +148,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       statement.setString(5, Company.getPhone());
       statement.setBoolean(6, Company.isBlackListed());
       statement.setString(7, Company.getEmail());
-      statement.setString(8, Company.getMotivation_blacklist());
+      statement.setString(8, Company.getMotivation());
       statement.setInt(9, Company.getId());
       statement.setInt(10, Company.getVersion());
       statement.executeUpdate();

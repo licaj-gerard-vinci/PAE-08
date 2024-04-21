@@ -94,7 +94,7 @@ async function renderHomePage(){
           ${searchResult.map(entreprise => {
         let button;
         if(contacts){
-          const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
+          const contactFound = contacts.find(contact => contact.idCompany === entreprise.id && contact.year.id === user.idSchoolYear);
           if(!contactFound){
             button = `
                 <div class="row">
@@ -104,7 +104,7 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-          } else if (contactFound.etatContact === 'initié') {
+          } else if (contactFound.contactStatus === 'initié') {
             button = `
             <div class="row">
               <div class="col"></div>
@@ -129,7 +129,7 @@ async function renderHomePage(){
         
         
         
-          } else if (contactFound.etatContact === 'pris'){
+          } else if (contactFound.contactStatus === 'pris'){
             button = `
                 <div class="row">
                   <div class="col d-flex justify-content-start">
@@ -148,7 +148,7 @@ async function renderHomePage(){
                      <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveRefusalReasonButton${entreprise.id}'>Sauvegarder</button>
                    </div> 
                 </div>`;
-          } else if(contactFound.etatContact === 'refusé'){
+          } else if(contactFound.contactStatus === 'refusé'){
             button = `
                 <div class="row">
                   <div class="col"></div>
@@ -157,7 +157,7 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-          } else if (contactFound.etatContact === 'non suivi'){
+          } else if (contactFound.contactStatus === 'non suivi'){
             button = `
                 <div class="row">
                   <div class="col"></div>
@@ -166,7 +166,7 @@ async function renderHomePage(){
                   </div>
                   <div class="col"></div>
                 </div>`;
-          } else if (contactFound.etatContact === 'suspendu'){
+          } else if (contactFound.contactStatus === 'suspendu'){
             button = `
                 <div class="row">
                   <div class="col"></div>
@@ -192,11 +192,10 @@ async function renderHomePage(){
                   <div>
                       <div class="d-flex justify-content-between">
                           <div class="mr-auto text-left">
-                              <h1 class="mb-auto">${entreprise.nom}</h1>
+                              <h1 class="mb-auto">${entreprise.name}</h1>
                               <ul class="list-unstyled">
-                                  <li>Appellation: ${entreprise.appellation}</li>
-                                  <li>Adresse: ${entreprise.adresse}</li>
-                                  <li>Téléphone: ${entreprise.numTel}</li>
+                                  <li>Appellation: ${entreprise.designation ? entreprise.designation : '/'}</li>                                  <li>Adresse: ${entreprise.adresse}</li>
+                                  <li>Téléphone: ${entreprise.phone}</li>
                               </ul>
                           </div>
                           <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: 100px;">
@@ -217,7 +216,7 @@ async function renderHomePage(){
         const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
         const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
         const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
-        const contactFound = contacts.find(contact => contact.idEntreprise === entreprise.id && contact.annee.id === user.idSchoolYear);
+        const contactFound = contacts.find(contact => contact.idCompany === entreprise.id && contact.year.id === user.idSchoolYear);
 
         if (startedButton) {
           startedButton.addEventListener('click', async () => {

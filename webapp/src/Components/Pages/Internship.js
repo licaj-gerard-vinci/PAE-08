@@ -53,12 +53,12 @@ const Internship = async (contactFound) => {
   const main = document.querySelector('main');
   const contactId = sessionStorage.getItem('contactId');
   const contact = await getContact(contactId);
-  managers = await getManagers(contact.entreprise.id);
+  managers = await getManagers(contact.company.id);
   let managerOptions = [];
   let managerNotFound = ``;
 
-  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.prenom} ${manager.nom}</option>`).join('');
-
+  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.firstName} ${manager.name}</option>`).join('');
+  console.log("managerOptions", managers);
   if (managerOptions.length === 0) {
     managerNotFound = `<p class="text-danger">Pas de manager trouvé</p>`
   }
@@ -168,11 +168,11 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
     if (contact && contact.entreprise) {
       // Create a manager object
       const manager = {
-        nom: lastname,
-        prenom: firstname,
-        numTel: phoneNumber,
+        name: lastname,
+        firstName: firstname,
+        phone: phoneNumber,
         email: emailManager,
-        idEntreprise: contact.entreprise.id,
+        idCompany: contact.entreprise.id,
       };
       const newManager = await addManager(manager);
       if (newManager === null) {
@@ -181,11 +181,9 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
         return;
       }
 
-      console.log('manager options before push: ',managerOptions, ', managers: ', managers);
       managers.push(newManager);
       managers = await getManagers(contact.entreprise.id);
-      managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.prenom} ${managerItem.nom}</option>`).join('');
-      console.log('manager options after push: ',managerOptions, ', managers: ', managers);
+      managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name}</option>`).join('');
 
       // Update the select element with the new options
       document.getElementById('managerId').innerHTML = managerOptions;
@@ -229,7 +227,7 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
     if(!managerId) {
       document.getElementById('managerForm').style.display = 'block';
     } else {
-      await insertInternship(managerId, contact.utilisateur, contact, contact.entreprise, topic, signatureDate);
+      await insertInternship(managerId, contact.student, contact, contact.company, topic, signatureDate);
       Navigate('/')
     }
   });

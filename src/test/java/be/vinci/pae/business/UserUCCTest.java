@@ -103,7 +103,7 @@ class UserUCCTest {
   void testRegister() {
     YearDTO year = factory.getYearDTO();
     year.setId(1);
-    year.setAnnee("2023-2024");
+    year.setYear("2023-2024");
     when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user1 = (User) factory.getPublicUser();
     user1.setEmail("prenom.nom@vinci.be");
@@ -138,7 +138,7 @@ class UserUCCTest {
   void testUserUCCRegistrationWithExistingEmail() {
     YearDTO year = factory.getYearDTO();
     year.setId(1);
-    year.setAnnee("2023-2024");
+    year.setYear("2023-2024");
     when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@vinci.be");
@@ -159,7 +159,7 @@ class UserUCCTest {
   void testUserUCCRegistrationWithStudentEmail() {
     YearDTO year = factory.getYearDTO();
     year.setId(1);
-    year.setAnnee("2023-2024");
+    year.setYear("2023-2024");
     when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@student.vinci.be");
@@ -209,7 +209,7 @@ class UserUCCTest {
   void testUserUCCRegistrationWithSqlConnectionException() {
     YearDTO year = factory.getYearDTO();
     year.setId(1);
-    year.setAnnee("2023-2024");
+    year.setYear("2023-2024");
     when(yearDAO.getOneByYear("2023-2024")).thenReturn(year);
     User user = (User) factory.getPublicUser();
     user.setEmail("prenom.nom@student.vinci.be");

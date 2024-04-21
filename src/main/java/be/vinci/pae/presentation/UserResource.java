@@ -58,7 +58,6 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"A", "P", "E"})
   public UserDTO updateUser(@PathParam("id") int id, UserDTO user) {
-    System.out.println("le user que je recois : " + user.toString());
 
     boolean updateResult = myUserUcc.update(id, user);
     if (updateResult) {

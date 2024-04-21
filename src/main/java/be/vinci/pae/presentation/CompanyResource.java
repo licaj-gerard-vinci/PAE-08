@@ -86,8 +86,8 @@ public class CompanyResource {
     if (Company.getId() != id) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (Company.getMotivation_blacklist() == null
-        || Company.getMotivation_blacklist().isEmpty()) {
+    if (Company.getMotivation() == null
+        || Company.getMotivation().isEmpty()) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myCompanyUcc.blackListCompany(Company);

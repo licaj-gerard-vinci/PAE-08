@@ -28,33 +28,35 @@ import {
 
   async function insertInternship(managerId, student, contactObject, company, topic, signatureDate) {
     const token = getToken();
+    console.log("managerId", managerId)
+    console.log("student", student)
+    console.log("contactObject", contactObject)
+    console.log("company", company)
+    console.log("topic", topic)
+    console.log("signatureDate", signatureDate)
     if(token) {
-      console.log("managerId: ", managerId, ", student: ", student, ", contactObject: ", contactObject)
-      console.log("company: ", company, ", topic: ", topic, ", signatureDate: ", signatureDate)
+
       const options = {
         method: 'POST',
         body: JSON.stringify({
-            idResponsable: managerId,
-            etudiant: student,
+            idManager: managerId,
+            student,
             contact: contactObject,
-            entreprise: company,
-            sujet: topic,
-            dateSignature: signatureDate
+            company,
+            topic,
+            signatureDate
           }),
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,
         },
       };
-      console.log("options: ", options)
+      
       try {
         const response = await fetch(`http://localhost:8080/stages/insert`, options);
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
         }
-  
-        const result = await response.json();
-        console.log(result);
       } catch (error) {
         console.error('Error inserting internship');
       }
@@ -95,7 +97,6 @@ async function updateInternship(stage) {
       },
     };
     const response = await fetch(`http://localhost:8080/stages/update/${stage.id}`, options);
-    console.log("response: ", response);
     if (!response.ok) {
       throw new Error(`Error updating internship: ${response.statusText}`);
     }

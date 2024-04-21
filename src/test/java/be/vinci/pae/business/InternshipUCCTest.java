@@ -14,7 +14,7 @@ import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.contact.ContactDAO;
-import be.vinci.pae.dal.stage.InternshipDAO;
+import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -113,17 +113,17 @@ public class InternshipUCCTest {
   void testInsertInternship() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -140,17 +140,17 @@ public class InternshipUCCTest {
   void testInsertInternshipConflictException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -167,17 +167,17 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -194,17 +194,17 @@ public class InternshipUCCTest {
   void testInsertInternshipFatalException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO Internship = factory.getInternshipDTO();
     Internship.setStudent(user);
@@ -237,14 +237,14 @@ public class InternshipUCCTest {
             () -> {
               ContactDTO contact = factory.getContactDTO();
               contact.setId(1);
-              contact.setEtatContact("pris");
+              contact.setContactStatus("pris");
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               UserDTO differentUser = factory.getPublicUser();
               differentUser.setId(2);
               CompanyDTO company = factory.getCompanyDTO();
               company.setId(1);
-              contact.setEntreprise(company);
+              contact.setCompany(company);
               contact.setUtilisateur(differentUser);
               InternshipDTO Internship = factory.getInternshipDTO();
               Internship.setStudent(user);
@@ -256,12 +256,12 @@ public class InternshipUCCTest {
             () -> {
               ContactDTO contact = factory.getContactDTO();
               contact.setId(1);
-              contact.setEtatContact("pris");
+              contact.setContactStatus("pris");
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               CompanyDTO entreprise = factory.getCompanyDTO();
               entreprise.setId(1);
-              contact.setEntreprise(entreprise);
+              contact.setCompany(entreprise);
               contact.setUtilisateur(user);
               InternshipDTO Internship = factory.getInternshipDTO();
               Internship.setStudent(user);
@@ -280,12 +280,12 @@ public class InternshipUCCTest {
   void testInsertInternshipConflictExceptionForInvalidEntreprise2() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
+    contact.setCompany(entreprise);
     contact.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -302,12 +302,12 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundExceptionForInvalidContact() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
+    contact.setCompany(entreprise);
     contact.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -322,12 +322,12 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundExceptionForInvalidContactOrUser() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
+    contact.setCompany(entreprise);
     contact.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
@@ -342,17 +342,17 @@ public class InternshipUCCTest {
   void testUpdateInternship() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);
@@ -369,17 +369,17 @@ public class InternshipUCCTest {
   void testUpdateInternshipConflictException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
     contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
+    contact2.setCompany(entreprise);
     contact2.setUtilisateur(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);

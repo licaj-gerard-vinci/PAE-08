@@ -95,9 +95,9 @@ public class ContactUCCImpl implements ContactUCC {
       throw new ConflictException("Contact already exists");
     }
 
-    myUser.getOne(contact.getUtilisateur().getId());
+    myUser.getOne(contact.getStudent().getId());
 
-    myCompany.getCompanyById(contact.getEntreprise().getId());
+    myCompany.getCompanyById(contact.getCompany().getId());
 
     try {
       dalServices.startTransaction();
@@ -121,21 +121,21 @@ public class ContactUCCImpl implements ContactUCC {
       throw new NotFoundException("Contact not found");
     }
 
-    if (!contactToVerify.checkState(contactToVerify.getEtatContact(),
-        contactToUpdate.getEtatContact())) {
+    if (!contactToVerify.checkState(contactToVerify.getContactStatus(),
+        contactToUpdate.getContactStatus())) {
       throw new BusinessException("Invalid state");
     }
 
-    if (contactToVerify.getLieuxRencontre() != null) {
-      contactToUpdate.setLieuxRencontre(contactToVerify.getLieuxRencontre());
+    if (contactToVerify.getMeetingPlace() != null) {
+      contactToUpdate.setMeetingPlace(contactToVerify.getMeetingPlace());
     }
 
-    if (contactToVerify.getRaisonRefus() != null) {
-      contactToUpdate.setRaisonRefus(contactToVerify.getRaisonRefus());
+    if (contactToVerify.getRefusalReason() != null) {
+      contactToUpdate.setRefusalReason(contactToVerify.getRefusalReason());
     }
 
     contactToUpdate.setId(contactToVerify.getId());
-    contactToUpdate.setAnnee(contactToVerify.getAnnee());
+    contactToUpdate.setYear(contactToVerify.getYear());
 
     try {
       dalServices.startTransaction();
@@ -178,9 +178,9 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       List<ContactDTO> userContacts = contactDAO.getContactsAllInfo(idUser);
       for (ContactDTO contact : userContacts) {
-        if (contact.getEtatContact().equals("pris") && contact.getId() != idContact
-                || contact.getEtatContact().equals("initié")) {
-          contact.setEtatContact("suspendu");
+        if (contact.getContactStatus().equals("pris") && contact.getId() != idContact
+                || contact.getContactStatus().equals("initié")) {
+          contact.setContactStatus("suspendu");
           System.out.println("before updateContact call");
           updateContact(contact);
           System.out.println("after updateContact call");
@@ -205,8 +205,8 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
       for (ContactDTO contact : contacts) {
-        if (contact.getEtatContact().equals("pris") || contact.getEtatContact().equals("initié")) {
-          contact.setEtatContact("blacklisté");
+        if (contact.getContactStatus().equals("pris") || contact.getContactStatus().equals("initié")) {
+          contact.setContactStatus("blacklisté");
           updateContact(contact);
         }
       }

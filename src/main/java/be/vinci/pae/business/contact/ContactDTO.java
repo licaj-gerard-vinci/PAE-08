@@ -31,126 +31,126 @@ public interface ContactDTO {
    *
    * @return the enterprise ID.
    */
-  CompanyDTO getEntreprise();
+  CompanyDTO getCompany();
 
   /**
    * Sets the associated enterprise ID.
    *
-   * @param entreprise the new enterprise ID.
+   * @param company the new enterprise ID.
    */
-  void setEntreprise(CompanyDTO entreprise);
+  void setCompany(CompanyDTO company);
 
   /**
    * Gets the associated enterprise ID.
    *
    * @return the enterprise ID.
    */
-  int getIdEntreprise();
+  int getIdCompany();
 
   /**
    * Sets the associated enterprise ID.
    *
-   * @param idEntreprise the new enterprise ID.
+   * @param idCompany the new enterprise ID.
    */
-  void setIdEntreprise(int idEntreprise);
+  void setIdCompany(int idCompany);
 
   /**
    * Gets the associated user ID.
    *
    * @return the user ID.
    */
-  UserDTO getUtilisateur();
+  UserDTO getStudent();
 
   /**
    * Sets the associated user ID.
    *
    * @param utilisateur the new user ID.
    */
-  void setUtilisateur(UserDTO utilisateur);
+  void setStudent(UserDTO utilisateur);
 
   /**
    * Gets the associated user ID.
    *
    * @return the user ID.
    */
-  int getIdUtilisateur();
+  int getIdStudent();
 
   /**
    * Sets the associated user ID.
    *
-   * @param idUtilisateur the new user ID.
+   * @param idStudent the new user ID.
    */
-  void setIdUtilisateur(int idUtilisateur);
+  void setIdStudent(int idStudent);
 
   /**
    * Gets the contact state.
    *
    * @return the contact state.
    */
-  String getEtatContact();
+  String getContactStatus();
 
   /**
    * Sets the contact state.
    *
-   * @param etatContact the new contact state.
+   * @param contactStatus the new contact state.
    */
-  void setEtatContact(String etatContact);
+  void setContactStatus(String contactStatus);
 
   /**
    * Gets the meeting place.
    *
    * @return the meeting place.
    */
-  String getLieuxRencontre();
+  String getMeetingPlace();
 
   /**
    * Sets the meeting place.
    *
-   * @param lieuxRencontre the new meeting place.
+   * @param meetingPlace the new meeting place.
    */
-  void setLieuxRencontre(String lieuxRencontre);
+  void setMeetingPlace(String meetingPlace);
 
   /**
    * Gets the raison of refuse.
    *
    * @return the raison of refuse.
    */
-  String getRaisonRefus();
+  String getRefusalReason();
 
   /**
    * Sets the raison of refuse.
    *
-   * @param raisonRefus the new raison of refuse.
+   * @param refusalReason the new raison of refuse.
    */
-  void setRaisonRefus(String raisonRefus);
+  void setRefusalReason(String refusalReason);
 
   /**
    * Gets the meeting date.
    *
    * @return the meeting date.
    */
-  YearDTO getAnnee();
+  YearDTO getYear();
 
   /**
    * Sets the meeting date.
    *
-   * @param annee the new meeting date.
+   * @param year the new meeting date.
    */
-  void setAnnee(YearDTO annee);
+  void setYear(YearDTO year);
 
   /**
    * Gets the associated year ID.
    *
    * @return the year ID.
    */
-  int getIdAnnee();
+  int getIdYear();
 
   /**
    * Sets the associated year ID.
    *
-   * @param idAnnee the new year ID.
+   * @param idYear the new year ID.
    */
-  void setIdAnnee(int idAnnee);
+  void setIdYear(int idYear);
 
   /**
    * Gets the version.

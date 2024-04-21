@@ -104,7 +104,7 @@ public class InternshipResource {
   @Authorize(roles = {"E"})
   public ObjectNode updateInternshipTopic(@PathParam("id") int id, InternshipDTO internship) {
 
-    if (internship.getTopics() == null) {
+    if (internship.getTopic() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
 
