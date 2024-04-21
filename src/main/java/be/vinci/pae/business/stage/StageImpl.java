@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.responsable.ResponsableDTO;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import java.sql.Date;
 
 /**
@@ -34,6 +35,10 @@ public class StageImpl implements StageDTO {
   private Date dateSignature;
 
   private int version;
+
+  private YearDTO annee;
+
+  private int idAnnee;
 
   @Override
   public int getId() {
@@ -173,6 +178,26 @@ public class StageImpl implements StageDTO {
   @Override
   public void setVersion(int version) {
     this.version = version;
+  }
+
+  @Override
+  public YearDTO getAnnee() {
+    return annee;
+  }
+
+  @Override
+  public void setAnnee(YearDTO annee) {
+    this.annee = annee;
+  }
+
+  @Override
+  public int getIdAnnee() {
+    return idAnnee;
+  }
+  
+  @Override
+  public void setIdAnnee(int idAnnee) {
+    this.idAnnee = idAnnee;
   }
 
 }
