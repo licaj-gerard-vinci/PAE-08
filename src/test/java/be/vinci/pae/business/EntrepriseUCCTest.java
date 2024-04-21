@@ -123,16 +123,16 @@ public class EntrepriseUCCTest {
     assertThrows(FatalException.class, () -> entrepriseUCC.blackListCompany(entreprise));
   }
 
-  @Test
-   @DisplayName("Test addCompany of EntrepriseUCCImpl class Not Found")
-   public void testAddCompanyNotFoundException() {
-       EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-       entreprise.setNom("test");
-       entreprise.setAppellation("test");
-       Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
-              entreprise.getAppellation())).thenReturn(entreprise);
-       assertThrows(ConflictException.class, () -> entrepriseUCC.addEntreprise(entreprise));
-  }
+ @Test
+ @DisplayName("Test addCompany of EntrepriseUCCImpl class Not Found")
+ public void testAddCompanyNotFoundException() {
+   EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+   entreprise.setNom("test");
+   entreprise.setAppellation("test");
+   Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
+           entreprise.getAppellation())).thenReturn(entreprise);
+   assertThrows(ConflictException.class, () -> entrepriseUCC.addEntreprise(entreprise));
+ }
 
 
   @Test
@@ -154,16 +154,16 @@ public class EntrepriseUCCTest {
     Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
   }
 
-    @Test
-    @DisplayName("Test addCompany of EntrepriseUCCImpl class by default")
-    void testAddCompanyDefault() {
-      EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-      entreprise.setNom("test");
-      entreprise.setAppellation("test");
-      Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
-              entreprise.getAppellation())).thenReturn(null);
-      assertDoesNotThrow(() -> entrepriseUCC.addEntreprise(entreprise));
-    }
+  @Test
+  @DisplayName("Test addCompany of EntrepriseUCCImpl class by default")
+  void testAddCompanyDefault() {
+    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    entreprise.setNom("test");
+    entreprise.setAppellation("test");
+    Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
+            entreprise.getAppellation())).thenReturn(null);
+    assertDoesNotThrow(() -> entrepriseUCC.addEntreprise(entreprise));
+  }
 
 
 
