@@ -1,9 +1,9 @@
 package be.vinci.pae.business;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.entreprise.EntrepriseUCC;
 import be.vinci.pae.business.factory.Factory;
@@ -18,10 +18,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import utils.ApplicationBinderTest;
-
 import java.util.Arrays;
 import java.util.List;
+import utils.ApplicationBinderTest;
+
 
 /**
  * The {@code EntrepriseUCCTest} class tests the {@code EntrepriseUCC} class.
@@ -51,13 +51,13 @@ public class EntrepriseUCCTest {
     Mockito.reset(entrepriseDAO);
   }
 
-    @Test
-    @DisplayName("Test getEntrepriseById of EntrepriseUCCImpl class")
-    void testGetEntrepriseByIdDefault() {
-      int id = 1;
-      Mockito.when(entrepriseDAO.getEntreprise(id)).thenReturn(entrepriseDTO);
-      assertDoesNotThrow(() -> entrepriseUCC.getCompanyById(id));
-    }
+  @Test
+  @DisplayName("Test getEntrepriseById of EntrepriseUCCImpl class")
+  void testGetEntrepriseByIdDefault() {
+    int id = 1;
+    Mockito.when(entrepriseDAO.getEntreprise(id)).thenReturn(entrepriseDTO);
+    assertDoesNotThrow(() -> entrepriseUCC.getCompanyById(id));
+  }
 
     @Test
     @DisplayName("Test getEntrepriseById of EntrepriseUCCImpl class")
