@@ -131,6 +131,7 @@ public class EntrepriseUCCTest {
          assertThrows(ConflictException.class, () -> entrepriseUCC.addEntreprise(entreprise));
  }
 
+
   @Test
   @DisplayName("Test addCompany of EntrepriseUCCImpl class")
   public void testAddCompanyFatalException() {
