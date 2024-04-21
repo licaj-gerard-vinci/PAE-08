@@ -91,48 +91,48 @@ public class EntrepriseUCCTest {
 
 
 
-    @Test
-    @DisplayName("Test blackListCompany of EntrepriseUCCImpl class")
-    void testBlackListCompanyFatalException() {
-      EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-      entreprise.setBlackListed(true);
-      Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
-      assertThrows(ConflictException.class, () -> entrepriseUCC.blackListCompany(entreprise));
-    }
+  @Test
+  @DisplayName("Test blackListCompany of EntrepriseUCCImpl class")
+  void testBlackListCompanyFatalException() {
+    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    entreprise.setBlackListed(true);
+    Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
+    assertThrows(ConflictException.class, () -> entrepriseUCC.blackListCompany(entreprise));
+  }
 
 
-    @Test
-    @DisplayName("Test blackListCompany of EntrepriseUCCImpl class by default")
-    void testBlackListCompanyDefault() {
-      EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-      Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
-      assertDoesNotThrow(() -> entrepriseUCC.blackListCompany(entreprise));
-    }
+  @Test
+  @DisplayName("Test blackListCompany of EntrepriseUCCImpl class by default")
+  void testBlackListCompanyDefault() {
+    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
+    assertDoesNotThrow(() -> entrepriseUCC.blackListCompany(entreprise));
+  }
 
-    @Test
-    @DisplayName("Test blackListCompany of EntrepriseUCCImpl ")
-    void testBlackListCompanyException() {
-      EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-      entreprise.setId(1);
-      entreprise.setNom("test");
-      entreprise.setAppellation("test");
-      entreprise.setBlackListed(false);
+  @Test
+  @DisplayName("Test blackListCompany of EntrepriseUCCImpl ")
+  void testBlackListCompanyException() {
+    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    entreprise.setId(1);
+    entreprise.setNom("test");
+    entreprise.setAppellation("test");
+    entreprise.setBlackListed(false);
 
-      Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
-      Mockito.doThrow(FatalException.class).when(entrepriseDAO).updateEntreprise(entreprise);
-      assertThrows(FatalException.class, () -> entrepriseUCC.blackListCompany(entreprise));
-    }
+    Mockito.when(entrepriseDAO.getEntreprise(entreprise.getId())).thenReturn(entreprise);
+    Mockito.doThrow(FatalException.class).when(entrepriseDAO).updateEntreprise(entreprise);
+    assertThrows(FatalException.class, () -> entrepriseUCC.blackListCompany(entreprise));
+  }
 
-    @Test
-     @DisplayName("Test addCompany of EntrepriseUCCImpl class Not Found")
-     public void testAddCompanyNotFoundException() {
-         EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-         entreprise.setNom("test");
-         entreprise.setAppellation("test");
-         Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
-                entreprise.getAppellation())).thenReturn(entreprise);
-         assertThrows(ConflictException.class, () -> entrepriseUCC.addEntreprise(entreprise));
- }
+  @Test
+   @DisplayName("Test addCompany of EntrepriseUCCImpl class Not Found")
+   public void testAddCompanyNotFoundException() {
+       EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+       entreprise.setNom("test");
+       entreprise.setAppellation("test");
+       Mockito.when(entrepriseDAO.getEntrepriseByNameDesignation(entreprise.getNom(),
+              entreprise.getAppellation())).thenReturn(entreprise);
+       assertThrows(ConflictException.class, () -> entrepriseUCC.addEntreprise(entreprise));
+  }
 
 
   @Test
