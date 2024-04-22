@@ -69,9 +69,6 @@ public class CompanyUCCImpl implements CompanyUCC {
     try {
       dalServices.startTransaction();
       CompanyDTO company = getCompanyById(entreprise.getId());
-      if (company == null) {
-        throw new NotFoundException("L'entreprise n'a pas pu être trouvée.");
-      }
       if (company.isBlackListed()) {
         throw new ConflictException("L'entreprise est déjà blacklistée.");
       }
@@ -105,8 +102,9 @@ public class CompanyUCCImpl implements CompanyUCC {
       }
       companyDAO.addCompany(entreprise);
       dalServices.commitTransaction();
-    } catch (ConflictException e) {
-      System.out.println(e.getMessage());
+    } catch (FatalException e) {
+      dalServices.rollbackTransaction();
+      throw e;
     }
   }
 }

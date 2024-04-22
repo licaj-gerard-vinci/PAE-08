@@ -67,11 +67,11 @@ public class ContactUCCTest {
     company.setId(1);
 
     contact.setId(1);
-    contact.setUtilisateur(user); // Default user
+    contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
+    Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
@@ -91,11 +91,11 @@ public class ContactUCCTest {
     company.setId(1);
 
     contact.setId(1);
-    contact.setUtilisateur(user); // Default user
+    contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId()))
+    Mockito.when(userDAO.getOneById(contact.getStudent().getId()))
             .thenReturn(null);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
@@ -118,11 +118,11 @@ public class ContactUCCTest {
     company.setId(1);
 
     contact.setId(1);
-    contact.setUtilisateur(user); // Default user
+    contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
+    Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId()))
             .thenReturn(null);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
@@ -145,11 +145,11 @@ public class ContactUCCTest {
     company.setId(1);
 
     contact.setId(1);
-    contact.setUtilisateur(user); // Default user
+    contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
+    Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
 
@@ -171,11 +171,11 @@ public class ContactUCCTest {
     company.setId(1);
 
     contact.setId(1);
-    contact.setUtilisateur(user); // Default user
+    contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
 
     // Define the behavior of the mock
-    Mockito.when(userDAO.getOneById(contact.getUtilisateur().getId())).thenReturn(user);
+    Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
     Mockito.doThrow(FatalException.class)

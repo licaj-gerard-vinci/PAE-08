@@ -122,9 +122,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact1);
@@ -149,9 +149,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact1);
@@ -176,9 +176,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact1);
@@ -203,9 +203,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO Internship = factory.getInternshipDTO();
     Internship.setStudent(user);
     Internship.setContact(contact1);
@@ -245,7 +245,7 @@ public class InternshipUCCTest {
               CompanyDTO company = factory.getCompanyDTO();
               company.setId(1);
               contact.setCompany(company);
-              contact.setUtilisateur(differentUser);
+              contact.setStudent(differentUser);
               InternshipDTO Internship = factory.getInternshipDTO();
               Internship.setStudent(user);
               Internship.setContact(contact);
@@ -262,7 +262,7 @@ public class InternshipUCCTest {
               CompanyDTO entreprise = factory.getCompanyDTO();
               entreprise.setId(1);
               contact.setCompany(entreprise);
-              contact.setUtilisateur(user);
+              contact.setStudent(user);
               InternshipDTO Internship = factory.getInternshipDTO();
               Internship.setStudent(user);
               Internship.setContact(contact);
@@ -286,7 +286,7 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact.setCompany(entreprise);
-    contact.setUtilisateur(user);
+    contact.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact);
@@ -308,7 +308,7 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact.setCompany(entreprise);
-    contact.setUtilisateur(user);
+    contact.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact);
@@ -328,7 +328,7 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact.setCompany(entreprise);
-    contact.setUtilisateur(user);
+    contact.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setStudent(user);
     stage.setContact(contact);
@@ -351,9 +351,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);
     stage.setStudent(user);
@@ -378,9 +378,9 @@ public class InternshipUCCTest {
     CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
     contact1.setCompany(entreprise);
-    contact1.setUtilisateur(user);
+    contact1.setStudent(user);
     contact2.setCompany(entreprise);
-    contact2.setUtilisateur(user);
+    contact2.setStudent(user);
     InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);
     stage.setStudent(user);
