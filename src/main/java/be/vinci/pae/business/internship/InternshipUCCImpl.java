@@ -1,11 +1,11 @@
-package be.vinci.pae.business.stage;
+package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * The Class StageUCCImpl.
  */
-public class StageUCCImpl implements StageUCC {
+public class InternshipUCCImpl implements InternshipUCC {
 
   @Inject
-  private StageDAO internshipDAO;
+  private InternshipDAO internshipDAO;
 
   @Inject
   private DALServices dalServices;
@@ -36,10 +36,10 @@ public class StageUCCImpl implements StageUCC {
    * @return the stage user
    */
 
-  public StageDTO getInternshipByUserId(int idUser) {
+  public InternshipDTO getInternshipByUserId(int idUser) {
     try {
       dalServices.openConnection();
-      return internshipDAO.getStageById(idUser);
+      return internshipDAO.getInternshipById(idUser);
     } finally {
       dalServices.close();
     }
@@ -52,10 +52,10 @@ public class StageUCCImpl implements StageUCC {
    * @return all stages
    */
   @Override
-  public List<StageDTO> getStages() {
+  public List<InternshipDTO> getInternship() {
     try {
       dalServices.openConnection();
-      return internshipDAO.getStages();
+      return internshipDAO.getInternship();
     } finally {
       dalServices.close();
     }
@@ -67,21 +67,21 @@ public class StageUCCImpl implements StageUCC {
    * @param internship the contact to insert
    */
   @Override
-  public void insertInternship(StageDTO internship) {
+  public void insertInternship(InternshipDTO internship) {
     ContactDTO myContactDTO = myContact.getContactByContactId(internship.getContact().getId());
-    if (myContactDTO.getUtilisateur().getId() != internship.getEtudiant().getId()
-        || myContactDTO.getEntreprise().getId() != internship.getEntreprise().getId()) {
+    if (myContactDTO.getStudent().getId() != internship.getStudent().getId()
+        || myContactDTO.getCompany().getId() != internship.getCompany().getId()) {
       throw new NotFoundException("contact doesn't exist or doesn't match with the internship");
     } // verify either if contact  exists and if the userId and companyId.
     // are the same for the contact and internship, if one of them are different, "return;".
-    if (internshipDAO.getStageById(internship.getEtudiant().getId()) != null) {
+    if (internshipDAO.getInternshipById(internship.getStudent().getId()) != null) {
       throw new ConflictException("internship for the student already exists");
     }
-    myContactDTO.setEtatContact("accepté");
+    myContactDTO.setContactStatus("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
-    UserDTO myUserDTO = myUser.getOne(internship.getEtudiant().getId());
+    UserDTO myUserDTO = myUser.getOne(internship.getStudent().getId());
     myUserDTO.setHasInternship(true);
-    myUserDTO.setPassword(""); // to prevent from changing it afterwards in user update.
+    myUserDTO.setPassword(""); // to prevent from changing in user update.
     try {
       dalServices.startTransaction();
       internshipDAO.insertInternship(internship);
@@ -103,7 +103,7 @@ public class StageUCCImpl implements StageUCC {
    * @param id         the id of the internship to update
    */
 
-  public void updateInternshipTopic(StageDTO internship, int id) {
+  public void updateInternshipTopic(InternshipDTO internship, int id) {
     internship.setId(id);
     try {
       dalServices.startTransaction();

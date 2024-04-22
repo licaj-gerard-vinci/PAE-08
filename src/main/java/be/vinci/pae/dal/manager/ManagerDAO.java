@@ -1,6 +1,6 @@
 package be.vinci.pae.dal.manager;
 
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ public interface ManagerDAO {
    * @param companyId the ID of the company for which to retrieve managers
    * @return a list of ManagerDTO objects representing the managers of the company
    */
-  List<ResponsableDTO> getManagers(int companyId);
+  List<ManagerDTO> getManagers(int companyId);
 
   /**
    * Retrieves the manager by its email.
@@ -23,14 +23,14 @@ public interface ManagerDAO {
    * @param email the email of the manager to retrieve
    * @return a ManagerDTO object representing the manager
    */
-  ResponsableDTO getManagerByEmail(String email);
+  ManagerDTO getManagerByEmail(String email);
 
   /**
    * Adds a manager to the database.
    *
    * @param manager the manager to add
    */
-  void addManager(ResponsableDTO manager);
+  void addManager(ManagerDTO manager);
 
 
   /**
@@ -39,5 +39,5 @@ public interface ManagerDAO {
    * @param manager the manager to retrieve if exists
    * @return a list of ManagerDTO objects representing the managers
    */
-  List<ResponsableDTO> getManager(ResponsableDTO manager);
+  List<ManagerDTO> getManager(ManagerDTO manager);
 }

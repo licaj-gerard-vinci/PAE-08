@@ -134,18 +134,14 @@ async function updateUser(user){
   };
 
   try {
-    console.log("fetch : options -> ",options);
     const response = await fetch(`http://localhost:8080/users/${idUser}`, options);
-    console.log("fetch : response ->",response);
     if (!response.ok) {
       const errorText = await response.text(); // Assuming the server sends back a plain text response
-      console.error(`Error updating user: ${errorText}`);
       throw new Error(`Error updating user: ${errorText}`);
     }
 
     // Obtenir la réponse mise à jour de l'utilisateur et préserver le token
     const updatedUserResponse = await response.json();
-    console.log("updatedUserResponse -> ",updatedUserResponse);
     const currentUser = getAuthenticatedUser();
 
     // Mettre à jour les informations de l'utilisateur actuel tout en préservant le token
@@ -155,7 +151,6 @@ async function updateUser(user){
     };
 
     // Mettre à jour le stockage local
-    console.log("le nouvelle user -> ",updatedUser);
     setAuthenticatedUser(updatedUser);
 
   } catch (error) {
@@ -180,11 +175,9 @@ async function checkPassword(user){
 
   try {
     const response = await fetch(`http://localhost:8080/users/${idUser}/verify`, options);
-    console.log("responnse",response);
     if (!response.ok) {
       return "Les mots de passe ne correspondent pas"
     }
-    console.log("response.ok",response.ok);
    if(response.ok === true){
      return true;
     }
@@ -194,7 +187,6 @@ async function checkPassword(user){
 
 
   } catch (error) {
-    console.error('Error updating user', error);
     return false;
   }
 }

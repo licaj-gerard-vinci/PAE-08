@@ -1,8 +1,8 @@
-package be.vinci.pae.business.stage;
+package be.vinci.pae.business.internship;
 
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,8 +11,8 @@ import java.sql.Date;
 /**
  * Represents the StageDTO interface.
  */
-@JsonDeserialize(as = StageImpl.class)
-public interface StageDTO {
+@JsonDeserialize(as = InternshipImpl.class)
+public interface InternshipDTO {
 
   /**
    * Gets the stage ID.
@@ -33,28 +33,28 @@ public interface StageDTO {
    *
    * @return the stage Responsable.
    */
-  ResponsableDTO getResponsable();
+  ManagerDTO getManager();
 
   /**
    * Sets the stage Responsable.
    *
-   * @param responsable the new stage Responsable.
+   * @param manager the new stage Responsable.
    */
-  void setResponsable(ResponsableDTO responsable);
+  void setManager(ManagerDTO manager);
 
   /**
    * Gets the stage Responsable ID.
    *
    * @return the stage Responsable ID.
    */
-  int getIdResponsable();
+  int getIdManager();
 
   /**
    * Sets the stage Responsable ID.
    *
-   * @param idResponsable the new stage Responsable ID.
+   * @param idManager the new stage Responsable ID.
    */
-  void setIdResponsable(int idResponsable);
+  void setIdManager(int idManager);
 
 
 
@@ -63,28 +63,28 @@ public interface StageDTO {
    *
    * @return the stage Etudiant.
    */
-  UserDTO getEtudiant();
+  UserDTO getStudent();
 
   /**
    * Sets the stage Etudiant.
    *
-   * @param etudiant the new stage Etudiant.
+   * @param student the new stage Etudiant.
    */
-  void setEtudiant(UserDTO etudiant);
+  void setStudent(UserDTO student);
 
   /**
    * Gets the stage Etudiant ID.
    *
    * @return the stage Etudiant ID.
    */
-  int getIdEtudiant();
+  int getIdStudent();
 
   /**
    * Sets the stage Etudiant ID.
    *
-   * @param idEtudiant the new stage Etudiant ID.
+   * @param idStudent the new stage Etudiant ID.
    */
-  void setIdEtudiant(int idEtudiant);
+  void setIdStudent(int idStudent);
 
   /**
    * Gets the stage Contact.
@@ -119,56 +119,56 @@ public interface StageDTO {
    *
    * @return the stage Entreprise.
    */
-  EntrepriseDTO getEntreprise();
+  CompanyDTO getCompany();
 
   /**
    * Sets the stage Entreprise.
    *
-   * @param entreprise the new stage Entreprise.
+   * @param company the new stage Entreprise.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setCompany(CompanyDTO company);
 
   /**
    * Gets the stage Entreprise ID.
    *
    * @return the stage Entreprise ID.
    */
-  int getIdEntreprise();
+  int getIdCompany();
 
   /**
    * Sets the stage Entreprise ID.
    *
-   * @param idEntreprise the new stage Entreprise ID.
+   * @param idCompany the new stage Entreprise ID.
    */
-  void setIdEntreprise(int idEntreprise);
+  void setIdCompany(int idCompany);
 
   /**
    * Gets the stage Sujet.
    *
    * @return the stage Sujet.
    */
-  String getSujet();
+  String getTopic();
 
   /**
    * Sets the stage Sujet.
    *
-   * @param sujet the new stage Sujet.
+   * @param topic the new stage Sujet.
    */
-  void setSujet(String sujet);
+  void setTopic(String topic);
 
   /**
    * Gets the stage date.
    *
    * @return the stage date.
    */
-  Date getdateSignature();
+  Date getSignatureDate();
 
   /**
    * Sets the stage date.
    *
    * @param dateSignature the new stage date.
    */
-  void setdateSignature(Date dateSignature);
+  void setSignatureDate(Date dateSignature);
 
   /**
    * Gets the version.
@@ -189,28 +189,28 @@ public interface StageDTO {
    *
    * @return the meeting date.
    */
-  YearDTO getAnnee();
+  YearDTO getYear();
 
   /**
    * Sets the meeting date.
    *
-   * @param annee the new meeting date.
+   * @param year the new meeting date.
    */
-  void setAnnee(YearDTO annee);
+  void setYear(YearDTO year);
 
   /**
    * Gets the associated year ID.
    *
    * @return the year ID.
    */
-  int getIdAnnee();
+  int getIdYear();
 
   /**
    * Sets the associated year ID.
    *
-   * @param idAnnee the new year ID.
+   * @param idYear the new year ID.
    */
-  void setIdAnnee(int idAnnee);
+  void setIdYear(int idYear);
 
 
 }

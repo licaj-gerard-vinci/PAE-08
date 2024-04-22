@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.dal.contact.ContactDAO;
-import be.vinci.pae.dal.stage.StageDAO;
+import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -34,8 +34,8 @@ import utils.ApplicationBinderTest;
  */
 public class InternshipUCCTest {
 
-  private StageUCC stageUCC;
-  private StageDAO stageDAO;
+  private InternshipUCC internshipUCC;
+  private InternshipDAO internshipDAO;
   private Factory factory;
   private ContactDAO contactDAO;
   private UserDAO userDAO;
@@ -43,30 +43,30 @@ public class InternshipUCCTest {
   @BeforeEach
   void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new ApplicationBinderTest());
-    stageUCC = locator.getService(StageUCC.class);
+    internshipUCC = locator.getService(InternshipUCC.class);
     factory = locator.getService(Factory.class);
-    stageDAO = locator.getService(StageDAO.class);
+    internshipDAO = locator.getService(InternshipDAO.class);
     contactDAO = locator.getService(ContactDAO.class);
     userDAO = locator.getService(UserDAO.class);
-    Mockito.reset(stageDAO, contactDAO, userDAO);
+    Mockito.reset(internshipDAO, contactDAO, userDAO);
   }
 
   @Test
   @DisplayName("test get all stage succes")
   void testgetALL() {
-    StageDTO stage1 = factory.getStageDTO();
-    StageDTO stage2 = factory.getStageDTO();
+    InternshipDTO stage1 = factory.getInternshipDTO();
+    InternshipDTO stage2 = factory.getInternshipDTO();
 
-    Mockito.when(stageDAO.getStages()).thenReturn(Arrays.asList(stage1, stage2));
-    List<StageDTO> stage = stageUCC.getStages();
+    Mockito.when(internshipDAO.getInternship()).thenReturn(Arrays.asList(stage1, stage2));
+    List<InternshipDTO> stage = internshipUCC.getInternship();
     assertEquals(2, stage.size());
   }
 
   @Test
   @DisplayName("fatal exception when trying to get all stage")
   void catchFatal() {
-    Mockito.when(stageDAO.getStages()).thenThrow(new FatalException());
-    assertThrows(FatalException.class, () -> stageUCC.getStages());
+    Mockito.when(internshipDAO.getInternship()).thenThrow(new FatalException());
+    assertThrows(FatalException.class, () -> internshipUCC.getInternship());
   }
 
 
@@ -75,10 +75,10 @@ public class InternshipUCCTest {
   void getStageByUser() {
 
     int userId = 7;
-    StageDTO mockStage = factory.getStageDTO();
-    Mockito.when(stageDAO.getStageById(userId)).thenReturn(mockStage);
+    InternshipDTO mockStage = factory.getInternshipDTO();
+    Mockito.when(internshipDAO.getInternshipById(userId)).thenReturn(mockStage);
 
-    StageDTO resultStage = stageUCC.getInternshipByUserId(userId);
+    InternshipDTO resultStage = internshipUCC.getInternshipByUserId(userId);
 
     assertNotNull(resultStage, "The result stage should not be null.");
     assertEquals(mockStage, resultStage,
@@ -91,8 +91,8 @@ public class InternshipUCCTest {
   void notFound() {
     // Arrange
     int userId = 1;
-    Mockito.when(stageDAO.getStageById(userId)).thenReturn(null);
-    assertNull(stageUCC.getInternshipByUserId(userId),
+    Mockito.when(internshipDAO.getInternshipById(userId)).thenReturn(null);
+    assertNull(internshipUCC.getInternshipByUserId(userId),
         "The result stage should be null when no stage is found for the user.");
   }
 
@@ -102,9 +102,10 @@ public class InternshipUCCTest {
   void catchFatale() {
 
     int userId = 1;
-    Mockito.when(stageDAO.getStageById(userId)).thenThrow(new FatalException("Database error"));
+    Mockito.when(internshipDAO.getInternshipById(userId)).thenThrow(
+        new FatalException("Database error"));
 
-    assertThrows(FatalException.class, () -> stageUCC.getInternshipByUserId(userId),
+    assertThrows(FatalException.class, () -> internshipUCC.getInternshipByUserId(userId),
         "FatalException should be thrown when there is a database error.");
   }
 
@@ -113,26 +114,26 @@ public class InternshipUCCTest {
   void testInsertInternship() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
 
-    assertDoesNotThrow(() -> stageUCC.insertInternship(stage));
+    assertDoesNotThrow(() -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -140,26 +141,26 @@ public class InternshipUCCTest {
   void testInsertInternshipConflictException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    Mockito.doThrow(new ConflictException()).when(stageDAO).insertInternship(stage);
-    assertThrows(ConflictException.class, () -> stageUCC.insertInternship(stage));
+    Mockito.doThrow(new ConflictException()).when(internshipDAO).insertInternship(stage);
+    assertThrows(ConflictException.class, () -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -167,26 +168,26 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    Mockito.doThrow(new NotFoundException()).when(stageDAO).insertInternship(stage);
-    assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+    Mockito.doThrow(new NotFoundException()).when(internshipDAO).insertInternship(stage);
+    assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -194,26 +195,26 @@ public class InternshipUCCTest {
   void testInsertInternshipFatalException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
-    stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO internship = factory.getInternshipDTO();
+    internship.setStudent(user);
+    internship.setContact(contact1);
+    internship.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    Mockito.doThrow(new FatalException()).when(stageDAO).insertInternship(stage);
-    assertThrows(FatalException.class, () -> stageUCC.insertInternship(stage));
+    Mockito.doThrow(new FatalException()).when(internshipDAO).insertInternship(internship);
+    assertThrows(FatalException.class, () -> internshipUCC.insertInternship(internship));
   }
 
   @Test
@@ -222,55 +223,58 @@ public class InternshipUCCTest {
   void testInsertInternshipWithMultipleExceptions() {
     assertAll(
             () -> {
-              StageDTO stage = factory.getStageDTO();
+              InternshipDTO internship = factory.getInternshipDTO();
               UserDTO user = factory.getPublicUser();
               user.setId(1);
-              EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+              CompanyDTO entreprise = factory.getCompanyDTO();
               entreprise.setId(1);
-              stage.setEtudiant(user);
+              internship.setStudent(user);
               ContactDTO contact = factory.getContactDTO();
-              stage.setContact(contact);
-              stage.setEntreprise(entreprise);
+              internship.setContact(contact);
+              internship.setCompany(entreprise);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
-              assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+              assertThrows(NotFoundException.class, () ->
+                  internshipUCC.insertInternship(internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();
               contact.setId(1);
-              contact.setEtatContact("pris");
+              contact.setContactStatus("pris");
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               UserDTO differentUser = factory.getPublicUser();
               differentUser.setId(2);
-              EntrepriseDTO entreprise = factory.getEntrepriseDTO();
-              entreprise.setId(1);
-              contact.setEntreprise(entreprise);
-              contact.setUtilisateur(differentUser);
-              StageDTO stage = factory.getStageDTO();
-              stage.setEtudiant(user);
-              stage.setContact(contact);
-              stage.setEntreprise(entreprise);
+              CompanyDTO company = factory.getCompanyDTO();
+              company.setId(1);
+              contact.setCompany(company);
+              contact.setStudent(differentUser);
+              InternshipDTO internship = factory.getInternshipDTO();
+              internship.setStudent(user);
+              internship.setContact(contact);
+              internship.setCompany(company);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
-              assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+              assertThrows(NotFoundException.class, () ->
+                  internshipUCC.insertInternship(internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();
               contact.setId(1);
-              contact.setEtatContact("pris");
+              contact.setContactStatus("pris");
               UserDTO user = factory.getPublicUser();
               user.setId(1);
-              EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+              CompanyDTO entreprise = factory.getCompanyDTO();
               entreprise.setId(1);
-              contact.setEntreprise(entreprise);
-              contact.setUtilisateur(user);
-              StageDTO stage = factory.getStageDTO();
-              stage.setEtudiant(user);
-              stage.setContact(contact);
-              stage.setEntreprise(entreprise);
+              contact.setCompany(entreprise);
+              contact.setStudent(user);
+              InternshipDTO internship = factory.getInternshipDTO();
+              internship.setStudent(user);
+              internship.setContact(contact);
+              internship.setCompany(entreprise);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
               Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-              Mockito.when(stageDAO.getStageById(user.getId())).thenReturn(stage);
-              assertThrows(ConflictException.class, () -> stageUCC.insertInternship(stage));
+              Mockito.when(internshipDAO.getInternshipById(user.getId())).thenReturn(internship);
+              assertThrows(ConflictException.class, () ->
+                  internshipUCC.insertInternship(internship));
             }
     );
   }
@@ -280,21 +284,21 @@ public class InternshipUCCTest {
   void testInsertInternshipConflictExceptionForInvalidEntreprise2() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
-    contact.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact.setCompany(entreprise);
+    contact.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact);
-    EntrepriseDTO entreprise2 = factory.getEntrepriseDTO();
-    stage.setEntreprise(entreprise2);
+    CompanyDTO entreprise2 = factory.getCompanyDTO();
+    stage.setCompany(entreprise2);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+    assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -302,19 +306,19 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundExceptionForInvalidContact() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
-    contact.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact.setCompany(entreprise);
+    contact.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
-    assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+    assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -322,19 +326,19 @@ public class InternshipUCCTest {
   void testInsertInternshipNotFoundExceptionForInvalidContactOrUser() {
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setEtatContact("pris");
+    contact.setContactStatus("pris");
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact.setEntreprise(entreprise);
-    contact.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
-    stage.setEtudiant(user);
+    contact.setCompany(entreprise);
+    contact.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
+    stage.setStudent(user);
     stage.setContact(contact);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
-    assertThrows(NotFoundException.class, () -> stageUCC.insertInternship(stage));
+    assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(stage));
   }
 
   @Test
@@ -342,26 +346,26 @@ public class InternshipUCCTest {
   void testUpdateInternship() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);
-    stage.setEtudiant(user);
+    stage.setStudent(user);
     stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    assertDoesNotThrow(() -> stageUCC.updateInternshipTopic(stage, stage.getId()));
+    assertDoesNotThrow(() -> internshipUCC.updateInternshipTopic(stage, stage.getId()));
   }
 
   @Test
@@ -369,27 +373,28 @@ public class InternshipUCCTest {
   void testUpdateInternshipConflictException() {
     ContactDTO contact1 = factory.getContactDTO();
     contact1.setId(1);
-    contact1.setEtatContact("pris");
+    contact1.setContactStatus("pris");
     ContactDTO contact2 = factory.getContactDTO();
-    contact2.setEtatContact("pris");
+    contact2.setContactStatus("pris");
     contact2.setId(1);
     UserDTO user = factory.getPublicUser();
     user.setId(1);
-    EntrepriseDTO entreprise = factory.getEntrepriseDTO();
+    CompanyDTO entreprise = factory.getCompanyDTO();
     entreprise.setId(1);
-    contact1.setEntreprise(entreprise);
-    contact1.setUtilisateur(user);
-    contact2.setEntreprise(entreprise);
-    contact2.setUtilisateur(user);
-    StageDTO stage = factory.getStageDTO();
+    contact1.setCompany(entreprise);
+    contact1.setStudent(user);
+    contact2.setCompany(entreprise);
+    contact2.setStudent(user);
+    InternshipDTO stage = factory.getInternshipDTO();
     stage.setId(1);
-    stage.setEtudiant(user);
+    stage.setStudent(user);
     stage.setContact(contact1);
-    stage.setEntreprise(entreprise);
+    stage.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    Mockito.doThrow(new FatalException()).when(stageDAO).updateInternshipTopic(stage);
-    assertThrows(FatalException.class, () -> stageUCC.updateInternshipTopic(stage, stage.getId()));
+    Mockito.doThrow(new FatalException()).when(internshipDAO).updateInternshipTopic(stage);
+    assertThrows(FatalException.class, () ->
+        internshipUCC.updateInternshipTopic(stage, stage.getId()));
   }
 
 }

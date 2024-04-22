@@ -63,8 +63,8 @@ async function renderUserList(userList) {
             <td class="profile-link">${user.lastname}</td>
             <td>${user.firstname}</td>
             <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
-            <td>${user.role !== 'E' ? 'N/A' : user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.schoolyear.annee === null ? 'N/A' : user.schoolyear.annee}</td>
+            <td>${user.role !== 'E' ? '/' : user.hasInternship ? 'Oui' : 'Non'}</td>
+            <td>${user.schoolyear.year === null ? '/' : user.schoolyear.year}</td>
           </tr>
         `).join('')}
       </tbody>
@@ -84,7 +84,6 @@ async function renderUserList(userList) {
 }
 
 function displayFilters(years) {
-  console.log(years, 'oihiohioh'); // Get unique years
 
   const filterHtml = `
     <div class="container">
@@ -119,7 +118,7 @@ function displayFilters(years) {
             <div class="input-group">
               <select class="form-control" id="year">
                 <option value="all">Toutes</option>
-                ${years.map(year => `<option value="${year.annee}">${year.annee}</option>`).join('')}
+                ${years.map(year => `<option value="${year.year}">${year.year}</option>`).join('')}
               </select>
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-chevron-down"></i></span>
@@ -154,12 +153,11 @@ async function filterUsers() {
 
   const applyFilters = async () => {
     const filteredUsers = originalUserList.filter(user => {
-      console.log(user)
       const matchesSearch = search.length === 0 
         || user.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()) 
         || user.firstname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase());
       const matchesRole = selectedRole === 'all' || user.role === selectedRole;
-      const matchesYear = selectedYear === 'all' || user.schoolyear.annee === selectedYear;
+      const matchesYear = selectedYear === 'all' || user.schoolyear.year === selectedYear;
       return matchesSearch && matchesRole && matchesYear;
     });
     await renderUserList(filteredUsers);

@@ -1,7 +1,7 @@
-package be.vinci.pae.business.entreprise;
+package be.vinci.pae.business.company;
 
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.entreprise.EntrepriseDAO;
+import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -12,69 +12,69 @@ import java.util.List;
  * This class implements the EntrepriseUCC interface. It provides methods to interact with the
  * EntrepriseDAO to perform operations on the entreprises.
  */
-public class EntrepriseUCCImpl implements EntrepriseUCC {
+public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
-  private EntrepriseDAO entrepriseDAO;
+  private CompanyDAO companyDAO;
 
   @Inject
   private DALServices dalServices;
 
   /**
-   * Gets the associated entreprise.
+   * Gets the associated company.
    *
-   * @param id the id of the entreprise.
-   * @return the associated entreprise.
+   * @param id the id of the company.
+   * @return the associated company.
    */
   @Override
-  public EntrepriseDTO getCompanyById(int id) {
+  public CompanyDTO getCompanyById(int id) {
     try {
       dalServices.openConnection();
-      EntrepriseDTO entreprise = entrepriseDAO.getEntreprise(id);
-      if (entreprise == null) {
+      CompanyDTO company = companyDAO.getCompany(id);
+      if (company == null) {
         throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
       }
-      return entreprise;
+      return company;
     } finally {
       dalServices.close();
     }
   }
 
   /**
-   * Retrieves all entreprises.
+   * Retrieves all company.
    *
-   * @return the list containing all entreprises.
+   * @return the list containing all company.
    */
   @Override
-  public List<EntrepriseDTO> getAllCompanies() {
+  public List<CompanyDTO> getAllCompanies() {
     try {
       dalServices.openConnection();
-      List<EntrepriseDTO> entreprises = entrepriseDAO.getEntreprises();
-      if (entreprises == null) {
+      List<CompanyDTO> company = companyDAO.getCompany();
+      if (company == null) {
         throw new NotFoundException("Aucune entreprise n'a été trouvée.");
       }
-      return entreprises;
+      return company;
     } finally {
       dalServices.close();
     }
   }
 
   /**
-   * Updates an entreprise.
+   * Updates a company.
    *
-   * @param entreprise the entreprise to update.
+   * @param entreprise the company to update.
    */
   @Override
-  public void blackListCompany(EntrepriseDTO entreprise) {
+  public void blackListCompany(CompanyDTO entreprise) {
     try {
       dalServices.startTransaction();
-      EntrepriseDTO company = getCompanyById(entreprise.getId());
+      CompanyDTO company = getCompanyById(entreprise.getId());
       if (company.isBlackListed()) {
         throw new ConflictException("L'entreprise est déjà blacklistée.");
       }
       company.setBlackListed(true);
-      company.setMotivation_blacklist(entreprise.getMotivation_blacklist());
-      entrepriseDAO.updateEntreprise(company);
+      company.setMotivation(entreprise.getMotivation());
+      companyDAO.updateCompany(company);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
@@ -90,22 +90,21 @@ public class EntrepriseUCCImpl implements EntrepriseUCC {
    * @param entreprise the entreprise to add.
    */
 
-  public void addEntreprise(EntrepriseDTO entreprise) {
+  public void addCompany(CompanyDTO entreprise) {
     try {
       dalServices.startTransaction();
-      EntrepriseDTO entrepriseFromDb = entrepriseDAO
-              .getEntrepriseByNameDesignation(entreprise.getNom(),
-          entreprise.getAppellation());
+      CompanyDTO entrepriseFromDb = companyDAO
+              .getCompanyByNameDesignation(entreprise.getName(),
+          entreprise.getDesignation());
       if (entrepriseFromDb != null) {
-        throw new ConflictException("L'entreprise avec le nom " + entreprise.getNom()
-                  + " et l'appellation " + entreprise.getAppellation() + " existe déjà.");
+        throw new ConflictException("L'entreprise avec le nom " + entreprise.getName()
+                  + " et l'appellation " + entreprise.getDesignation() + " existe déjà.");
       }
-      entrepriseDAO.addEntreprise(entreprise);
+      companyDAO.addCompany(entreprise);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
       throw e;
     }
   }
-
 }

@@ -37,7 +37,7 @@ const StudentInfoPage = async (user) => {
   internshipCol.className = 'col-md-4';
 
   const stage = await getStagePresent(user.id);
-  const date = new Date(stage.dateSignature);
+  const date = new Date(stage.signatureDate);
   const year = date.getFullYear();
   let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
   let day = date.getDate();
@@ -54,10 +54,10 @@ const StudentInfoPage = async (user) => {
       <h5 class="card-title">${stage !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
       ${
       stage !== "Aucun stage n'est en cours" ?
-          `<p class="card-text"><strong>Responsable:</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
-        <p class="card-text"><strong>Entreprise:</strong> ${stage.entreprise.nom}</p>
+          `<p class="card-text"><strong>Responsable:</strong> ${stage.manager.name} ${stage.manager.firstName}</p>
+        <p class="card-text"><strong>Entreprise:</strong> ${stage.company.name}</p>
         <p class="card-text"><strong>Date signature:</strong> ${formattedDate}</p>
-        <p class="card-text"><strong>Sujet:</strong> ${stage.sujet || 'Pas de sujet'}</p>`
+        <p class="card-text"><strong>Sujet:</strong> ${stage.topic || 'Pas de sujet'}</p>`
           :
           `<p class="card-text">Vous n'avez pas de stage en cours.</p>`
   }
@@ -102,10 +102,10 @@ async function displayContacts(user) {
     contacts.forEach((contact) => {
       contactsHTML += `
         <tr>
-          <td>${contact.entreprise.nom || 'N/A'}</td>
-          <td>${contact.etatContact || 'N/A'}</td>
-          <td>${contact.lieuxRencontre || 'N/A'}</td>
-          <td>${contact.raisonRefus || 'N/A'}</td>
+          <td>${contact.company.name || '/'}</td>
+          <td>${contact.contactStatus || '/'}</td>
+          <td>${contact.meetingPlace || '/'}</td>
+          <td>${contact.refusalReason || '/'}</td>
         </tr>
       `;
     });

@@ -1,9 +1,9 @@
 package be.vinci.pae.dal.utils;
 
+import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.contact.ContactDTO;
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.responsable.ResponsableDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.User;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
@@ -56,11 +56,11 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException {
-    ContactDTO contact = (ContactDTO) factory.getContactDTO();
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(rs.getInt("contact_id"));
-    contact.setEtatContact(rs.getString("contact_status"));
-    contact.setLieuxRencontre(rs.getString("contact_meeting_place"));
-    contact.setRaisonRefus(rs.getString("contact_refusal_reason"));
+    contact.setContactStatus(rs.getString("contact_status"));
+    contact.setMeetingPlace(rs.getString("contact_meeting_place"));
+    contact.setRefusalReason(rs.getString("contact_refusal_reason"));
     if (method.equals("update")) {
       contact.setVersion(rs.getInt("contact_version") + 1);
     } else {
@@ -70,52 +70,29 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
   }
 
   /**
-   * Fills a ResponsableDTO with data from a ResultSet.
-   *
-   * @param rs the ResultSet containing manager data.
-   * @return ResponsableDTO filled with data from the ResultSet.
-   * @throws SQLException if there is an issue accessing the ResultSet data.
-   */
-  public ResponsableDTO fillResponsableDTO(ResultSet rs, String method) throws SQLException {
-    ResponsableDTO responsable = (ResponsableDTO) factory.getManagerDTO();
-    responsable.setId(rs.getInt("manager_id"));
-    responsable.setNom(rs.getString("manager_lastname"));
-    responsable.setPrenom(rs.getString("manager_firstname"));
-    responsable.setNumTel(rs.getString("manager_phone_number"));
-    responsable.setEmail(rs.getString("manager_email"));
-    responsable.setIdEntreprise(rs.getInt("manager_company_id"));
-    if (method.equals("update")) {
-      responsable.setVersion(rs.getInt("manager_version") + 1);
-    } else {
-      responsable.setVersion(rs.getInt("manager_version"));
-    }
-    return responsable;
-  }
-
-  /**
    * Fills an EntrepriseDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing company data.
    * @return EntrepriseDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public EntrepriseDTO fillEntrepriseDTO(ResultSet rs, String method) throws SQLException {
-    EntrepriseDTO entreprise = (EntrepriseDTO) factory.getEntrepriseDTO();
-    entreprise.setId(rs.getInt("company_id"));
-    entreprise.setNom(rs.getString("company_name"));
-    entreprise.setAppellation(rs.getString("company_designation"));
-    entreprise.setAdresse(rs.getString("company_address"));
-    entreprise.setCity(rs.getString("company_city"));
-    entreprise.setNumTel(rs.getString("company_phone_number"));
-    entreprise.setEmail(rs.getString("company_email"));
-    entreprise.setBlackListed(rs.getBoolean("company_is_blacklisted"));
-    entreprise.setMotivation_blacklist(rs.getString("company_blacklist_reason"));
+  public CompanyDTO fillCompanyDTO(ResultSet rs, String method) throws SQLException {
+    CompanyDTO company = factory.getCompanyDTO();
+    company.setId(rs.getInt("company_id"));
+    company.setName(rs.getString("company_name"));
+    company.setDesignation(rs.getString("company_designation"));
+    company.setAdresse(rs.getString("company_address"));
+    company.setCity(rs.getString("company_city"));
+    company.setPhone(rs.getString("company_phone_number"));
+    company.setEmail(rs.getString("company_email"));
+    company.setBlackListed(rs.getBoolean("company_is_blacklisted"));
+    company.setMotivation(rs.getString("company_blacklist_reason"));
     if (method.equals("update")) {
-      entreprise.setVersion(rs.getInt("company_version") + 1);
+      company.setVersion(rs.getInt("company_version") + 1);
     } else {
-      entreprise.setVersion(rs.getInt("company_version"));
+      company.setVersion(rs.getInt("company_version"));
     }
-    return entreprise;
+    return company;
   }
 
   /**
@@ -125,14 +102,14 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @return ContactDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
-  public ResponsableDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
-    ResponsableDTO manager = (ResponsableDTO) factory.getManagerDTO();
+  public ManagerDTO fillManagerDTO(ResultSet rs, String method) throws SQLException {
+    ManagerDTO manager = factory.getManagerDTO();
     manager.setId(rs.getInt("manager_id"));
-    manager.setPrenom(rs.getString("manager_firstname"));
-    manager.setNom(rs.getString("manager_lastname"));
-    manager.setNumTel(rs.getString("manager_phone_number"));
+    manager.setFirstName(rs.getString("manager_firstname"));
+    manager.setName(rs.getString("manager_lastname"));
+    manager.setPhone(rs.getString("manager_phone_number"));
     manager.setEmail(rs.getString("manager_email"));
-    manager.setIdEntreprise(rs.getInt("manager_company_id"));
+    manager.setIdCompany(rs.getInt("manager_company_id"));
     manager.setVersion(rs.getInt("manager_version"));
 
     return manager;
@@ -146,9 +123,9 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public YearDTO fillYearDTO(ResultSet rs) throws SQLException {
-    YearDTO year = (YearDTO) factory.getYearDTO();
+    YearDTO year = factory.getYearDTO();
     year.setId(rs.getInt("school_year_id"));
-    year.setAnnee(rs.getString("year"));
+    year.setYear(rs.getString("year"));
     year.setVersion(rs.getInt("school_year_version"));
     return year;
   }

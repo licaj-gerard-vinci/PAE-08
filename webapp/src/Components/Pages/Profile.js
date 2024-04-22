@@ -191,7 +191,6 @@ function renderProfile(user) {
       confirmPassword: document.getElementById('confirm-password').value,
       
     };
-    console.log('updatedUser', updatedUser);
     document.getElementById('password-error').textContent = '';
     document.getElementById('new-password-error').textContent = '';
 
@@ -223,7 +222,6 @@ function renderProfile(user) {
   return;
 }
 
-  console.log('updatedUser', updatedUser);
     await updateUser(updatedUser);
     await refreshUser();
     toggleUpdateModal();
@@ -243,7 +241,7 @@ async function displayStage() {
       'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
   const id = getAuthenticatedUser();
   const stage = await getStagePresent(id.user.id);
-  const date = new Date(stage.dateSignature);
+  const date = new Date(stage.signatureDate);
   const year = date.getFullYear();
   let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
   let day = date.getDate();
@@ -258,10 +256,10 @@ async function displayStage() {
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
       <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.responsable.nom} ${stage.responsable.prenom}</p>
-      <p><strong>Entreprise :</strong> ${stage.entreprise.nom}, ${stage.entreprise.appellation}</p>
+      <p><strong>Responsable :</strong> ${stage.manager.name} ${stage.manager.firstName}</p>
+      <p><strong>Entreprise :</strong> ${stage.company.name}, ${stage.company.designation}</p>
       <p><strong>Date signature :</strong> ${formattedDate}</p>
-      <p><strong>Sujet :</strong> <span id="sujet-text">${stage.sujet || 'Pas de sujet'}</span></p>
+      <p><strong>Sujet :</strong> <span id="sujet-text">${stage.topic || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
     `;
   } else {
@@ -282,7 +280,7 @@ async function displayStage() {
         const sujetInput = stageDiv.querySelector('#sujet-input');
         const newValue = sujetInput.value.trim();
         sujetText.textContent = newValue || 'Pas de sujet';
-        stage.sujet = newValue;
+        stage.topic = newValue;
         modifierSujetButton.textContent = 'Modifier sujet';
         modifierSujetButton.removeAttribute('data-editing');
 
@@ -328,10 +326,10 @@ async function displayContacts() {
     contacts.forEach((contact) => {
       contactsHTML += `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.entreprise.nom} ${contact.appellation ? contact.appellation : ''}</td>
-          <td style="padding: 15px 0; text-align: left;">${contact.etatContact}</td>
-          <td style="padding: 15px 0; text-align: left;">${contact.lieuxRencontre ? contact.lieuxRencontre : 'N/A'}</td>
-          <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.raisonRefus ? contact.raisonRefus : 'N/A'}</td>
+          <td style="padding: 15px 0; text-align: left; padding-left: 10px;">${contact.company.name} ${contact.company.designation ? contact.company.designation : ''}</td>
+          <td style="padding: 15px 0; text-align: left;">${contact.contactStatus}</td>
+          <td style="padding: 15px 0; text-align: left;">${contact.meetingPlace ? contact.meetingPlace : '/'}</td>
+          <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.refusalReason ? contact.refusalReason : '/'}</td>
         </tr>
       `;
     });

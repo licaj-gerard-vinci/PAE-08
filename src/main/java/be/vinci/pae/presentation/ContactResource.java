@@ -97,8 +97,8 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
   public ObjectNode insertContact(ContactDTO contact) {
-    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
-        || contact.getEtatContact() == null) {
+    if (contact.getCompany() == null || contact.getStudent() == null
+        || contact.getContactStatus() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
     myContactUcc.insertContact(contact);
@@ -120,8 +120,8 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode updateContact(ContactDTO contact) {
-    if (contact.getEntreprise() == null || contact.getUtilisateur() == null
-        || contact.getEtatContact() == null || contact.getVersion() == 0) {
+    if (contact.getCompany() == null || contact.getStudent() == null
+        || contact.getContactStatus() == null || contact.getVersion() == 0) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
     myContactUcc.updateContact(contact);

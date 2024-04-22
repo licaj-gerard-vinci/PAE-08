@@ -1,13 +1,13 @@
-package be.vinci.pae.business.responsable;
+package be.vinci.pae.business.manager;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents the ResponsableDTO interface.
  */
-@JsonDeserialize(as = ResponsableImpl.class)
-public interface ResponsableDTO {
+@JsonDeserialize(as = ManagerImpl.class)
+public interface ManagerDTO {
 
   /**
    * Gets the responsable ID.
@@ -28,43 +28,43 @@ public interface ResponsableDTO {
    *
    * @return the responsable name.
    */
-  String getNom();
+  String getName();
 
   /**
    * Sets the responsable name.
    *
-   * @param nom the new responsable name.
+   * @param name the new responsable name.
    */
 
-  void setNom(String nom);
+  void setName(String name);
 
   /**
    * Gets the responsable first name.
    *
    * @return the responsable first name.
    */
-  String getPrenom();
+  String getFirstName();
 
   /**
    * Sets the responsable first name.
    *
-   * @param prenom the new responsable first name.
+   * @param firstName the new responsable first name.
    */
-  void setPrenom(String prenom);
+  void setFirstName(String firstName);
 
   /**
    * Gets the responsable email.
    *
    * @return the responsable email.
    */
-  String getNumTel();
+  String getPhone();
 
   /**
    * Sets the responsable email.
    *
-   * @param numTel the new responsable email.
+   * @param phone the new responsable email.
    */
-  void setNumTel(String numTel);
+  void setPhone(String phone);
 
   /**
    * Gets the responsable email.
@@ -86,28 +86,28 @@ public interface ResponsableDTO {
    *
    * @return the entreprise.
    */
-  EntrepriseDTO getEntreprise();
+  CompanyDTO getCompany();
 
   /**
    * Sets the entreprise.
    *
-   * @param entreprise the new entreprise.
+   * @param company the new entreprise.
    */
-  void setEntreprise(EntrepriseDTO entreprise);
+  void setCompany(CompanyDTO company);
 
   /**
    * Gets the entreprise ID.
    *
    * @return the entreprise ID.
    */
-  int getIdEntreprise();
+  int getIdCompany();
 
   /**
    * Sets the entreprise ID.
    *
-   * @param idEntreprise the new entreprise ID.
+   * @param idCompany the new entreprise ID.
    */
-  void setIdEntreprise(int idEntreprise);
+  void setIdCompany(int idCompany);
 
   /**
    * Gets the version.

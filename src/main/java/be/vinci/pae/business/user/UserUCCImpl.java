@@ -161,7 +161,7 @@ public class UserUCCImpl implements UserUCC {
 
     if (user.getPassword() != null && !user.getPassword().isEmpty()) {
       String passwordHashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-      user.setPassword(passwordHashed);
+      userBeforeUpdate.setPassword(passwordHashed);
     }
 
     if (user.getHasInternship()) {

@@ -1,12 +1,12 @@
-package be.vinci.pae.dal.stage;
+package be.vinci.pae.dal.internship;
 
-import be.vinci.pae.business.stage.StageDTO;
+import be.vinci.pae.business.internship.InternshipDTO;
 import java.util.List;
 
 /**
  * The Interface StageDAO.
  */
-public interface StageDAO {
+public interface InternshipDAO {
 
 
   /**
@@ -15,7 +15,7 @@ public interface StageDAO {
    * @return all stages
    */
 
-  List<StageDTO> getStages();
+  List<InternshipDTO> getInternship();
 
   /**
    * Gets the stage by id.
@@ -23,20 +23,20 @@ public interface StageDAO {
    * @param id the id
    * @return the stage by id
    */
-  StageDTO getStageById(int id);
+  InternshipDTO getInternshipById(int id);
 
   /**
    * Inserts a new internship into the database.
    *
    * @param internship the contact to insert
    */
-  void insertInternship(StageDTO internship);
+  void insertInternship(InternshipDTO internship);
 
   /**
    * Updates an internship in the database.
    *
    * @param internship the internship to update
    */
-  void updateInternshipTopic(StageDTO internship);
+  void updateInternshipTopic(InternshipDTO internship);
 
 }

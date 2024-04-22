@@ -81,9 +81,9 @@ async function getContactsById(idUser) {
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          entreprise : entrepriseObject,
-          utilisateur: userObject,
-          etatContact: etat
+          company : entrepriseObject,
+          student: userObject,
+          contactStatus: etat
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -114,11 +114,11 @@ async function getContactsById(idUser) {
         method: 'PUT',
         body: JSON.stringify({
           id: idContact,
-          entreprise: entrepriseObject,
-          utilisateur: userObject,
-          etatContact: etat,
-          raisonRefus: refusalReason,
-          lieuxRencontre: meetingPlace,
+          company: entrepriseObject,
+          student: userObject,
+          contactStatus: etat,
+          refusalReason,
+          meetingPlace,
           version: contactVersion
         }),
         headers: {

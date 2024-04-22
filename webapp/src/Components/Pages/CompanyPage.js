@@ -5,18 +5,17 @@ import Navigate from "../Router/Navigate";
 import {getAuthenticatedUser} from "../../utils/auths";
 
 function generateContactsTable(contacts) {
-  console.log(contacts)
   let contactsTable = '<table class="table table-hover shadow-sm">';
   contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
   contactsTable += '<tbody>';
   contacts.forEach(contact => {
     contactsTable += `<tr class="text-center">
-                          <td class="text-center">${contact.utilisateur.lastname}
-                          ${contact.utilisateur.firstname} </br>
-                          ${contact.utilisateur.email}</td>
-                          <td class="text-center">${contact.etatContact}</td>
-                          <td class="text-center">${contact.lieuxRencontre || 'N/A'}</td>
-                          <td class="text-center">${contact.raisonRefus || 'N/A'}</td>
+                          <td class="text-center">${contact.student.lastname}
+                          ${contact.student.firstname} </br>
+                          ${contact.student.email}</td>
+                          <td class="text-center">${contact.contactStatus}</td>
+                          <td class="text-center">${contact.meetingPlace || '/'}</td>
+                          <td class="text-center">${contact.refusalReason || '/'}</td>
                       </tr>`;
       });
   contactsTable += '</tbody></table>';
@@ -36,7 +35,7 @@ function generateBlacklistFormOrMessage(entreprise) {
                 </form>
     `;
   } else {
-    formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation_blacklist}</p>`;
+    formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation}</p>`;
   }
   return formOrMessage;
 }
@@ -47,9 +46,9 @@ function renderInfoCompany(entreprise) {
   return `
           <div class="row">
               <div class="col-md-8 mt-5 border p-2">
-                  <h3>${entreprise.nom} ${entreprise.appellation || ''}</h3>
+                  <h3>${entreprise.name} ${entreprise.designation || ''}</h3>
                   <p><strong>Adresse:</strong> ${entreprise.adresse}</p>
-                  <p><strong>numéro de téléphone:</strong> ${entreprise.numTel}</p>
+                  <p><strong>numéro de téléphone:</strong> ${entreprise.phone}</p>
                   <p><strong>email: </strong>${entreprise.email || '/'}</p>
                   <p><strong>Est blacklisté: </strong> ${entreprise.blackListed ? 'Oui' : 'Non'}</p>
               </div>
@@ -73,7 +72,6 @@ const CompanyPage = async (companyId) => {
   }
   const entreprise = await getEntrepriseById(companyId);
   const contacts = await getContactByCompanyId(entreprise.id);
-  console.log(contacts)
   const main = document.querySelector('main');
 
   const contactsTable = generateContactsTable(contacts);

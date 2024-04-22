@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.stage.StageDTO;
-import be.vinci.pae.business.stage.StageUCC;
+import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.internship.InternshipUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,11 +26,11 @@ import java.util.List;
 @Singleton
 @Path("stages")
 @Log
-public class StageResource {
+public class InternshipResource {
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
-  private StageUCC myStageUcc;
+  private InternshipUCC myInternshipUcc;
 
   /**
    * Retrieves the stage of the authenticated user from the request context.
@@ -42,11 +42,11 @@ public class StageResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public StageDTO getUserStage(@PathParam("id") int id) {
+  public InternshipDTO getUserStage(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    StageDTO userStage = myStageUcc.getInternshipByUserId(id);
+    InternshipDTO userStage = myInternshipUcc.getInternshipByUserId(id);
     if (userStage == null) {
       throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
     }
@@ -61,8 +61,8 @@ public class StageResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public List<StageDTO> getStages() {
-    return myStageUcc.getStages();
+  public List<InternshipDTO> getStages() {
+    return myInternshipUcc.getInternship();
   }
 
   /**
@@ -77,13 +77,13 @@ public class StageResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode insertInternship(StageDTO internship) {
-    if (internship.getEntreprise() == null || internship.getEtudiant() == null
-            || internship.getIdResponsable() <= 0 || internship.getContact() == null) {
+  public ObjectNode insertInternship(InternshipDTO internship) {
+    if (internship.getCompany() == null || internship.getStudent() == null
+            || internship.getIdManager() <= 0 || internship.getContact() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
 
-    myStageUcc.insertInternship(internship);
+    myInternshipUcc.insertInternship(internship);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Internship created successfully");
     return responseNode;
@@ -102,13 +102,13 @@ public class StageResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode updateInternshipTopic(@PathParam("id") int id, StageDTO internship) {
+  public ObjectNode updateInternshipTopic(@PathParam("id") int id, InternshipDTO internship) {
 
-    if (internship.getSujet() == null) {
+    if (internship.getTopic() == null) {
       throw new WebApplicationException("Missing information", Response.Status.BAD_REQUEST);
     }
 
-    myStageUcc.updateInternshipTopic(internship, id);
+    myInternshipUcc.updateInternshipTopic(internship, id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Internship updated successfully");
     return responseNode;

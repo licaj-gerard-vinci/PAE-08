@@ -1,7 +1,7 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.responsable.ResponsableDTO;
-import be.vinci.pae.business.responsable.ResponsableUCC;
+import be.vinci.pae.business.manager.ManagerDTO;
+import be.vinci.pae.business.manager.ManagerUCC;
 import be.vinci.pae.exceptions.NotFoundException;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
@@ -27,7 +27,7 @@ import java.util.List;
 public class ManagerResource {
 
   @Inject
-  private ResponsableUCC myManagerUCC;
+  private ManagerUCC myManagerUCC;
 
   /**
    * Retrieves a list of managers for a specific company.
@@ -39,9 +39,9 @@ public class ManagerResource {
   @Path("/{companyId}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public List<ResponsableDTO> getManagers(
+  public List<ManagerDTO> getManagers(
       @PathParam("companyId") int companyId) {
-    List<ResponsableDTO> managerDTOs = myManagerUCC.getManagersByCompanyId(companyId);
+    List<ManagerDTO> managerDTOs = myManagerUCC.getManagersByCompanyId(companyId);
 
     if (managerDTOs == null || managerDTOs.isEmpty()) {
       managerDTOs = new ArrayList<>();
@@ -59,12 +59,12 @@ public class ManagerResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public void addManager(ResponsableDTO manager) {
+  public void addManager(ManagerDTO manager) {
     if (manager == null) {
       throw new NotFoundException("Manager cannot be null");
     }
-    if (manager.getNom() == null || manager.getPrenom() == null
-        || manager.getNumTel().isEmpty() || manager.getIdEntreprise() <= 0) {
+    if (manager.getName() == null || manager.getFirstName() == null
+        || manager.getPhone().isEmpty() || manager.getIdCompany() <= 0) {
       throw new NotFoundException("Manager information is incomplete");
     }
     myManagerUCC.addManager(manager);

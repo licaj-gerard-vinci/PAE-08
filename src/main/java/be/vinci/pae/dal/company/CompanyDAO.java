@@ -1,13 +1,13 @@
-package be.vinci.pae.dal.entreprise;
+package be.vinci.pae.dal.company;
 
-import be.vinci.pae.business.entreprise.EntrepriseDTO;
+import be.vinci.pae.business.company.CompanyDTO;
 import java.util.List;
 
 /**
  * Represents an interface for accessing entreprise data from the database.
  * This interface provides methods to retrieve entreprise information.
  */
-public interface EntrepriseDAO {
+public interface CompanyDAO {
 
   /**
    * Retrieves an entreprise from the database.
@@ -15,39 +15,38 @@ public interface EntrepriseDAO {
    * @param id The id of the entreprise to retrieve.
    * @return The entreprise with the specified id.
    */
-  EntrepriseDTO getEntreprise(int id);
+  CompanyDTO getCompany(int id);
 
   /**
    * Retrieves a list of all entreprises from the database.
    *
    * @return A list containing all entreprises.
    */
-  List<EntrepriseDTO> getEntreprises();
+  List<CompanyDTO> getCompany();
 
   /**
    * Updates the entreprise in the database.
    *
-   * @param entreprise The entreprise to update.
+   * @param company The entreprise to update.
    */
-  void updateEntreprise(EntrepriseDTO entreprise);
+  void updateCompany(CompanyDTO company);
 
   /**
    * Retrieves an entreprise from the database.
    *
    * @param name the name of the company to retrieve.
    * @param designation the designation of the company to retrieve.
-   * @return Entreprise with the specified name and designation.
+   * @return Company with the specified name and designation.
    */
-  EntrepriseDTO getEntrepriseByNameDesignation(String name, String designation);
+  CompanyDTO getCompanyByNameDesignation(String name, String designation);
 
   /**
-     * Inserts a new entreprise into the database.
+     * Inserts a new Company into the database.
      *
-     * @param entreprise An EntrepriseDTO object containing the information
+     * @param company An EntrepriseDTO object containing the information
      *                 of the entreprise to be inserted.
      */
-  void addEntreprise(EntrepriseDTO entreprise);
-
+  void addCompany(CompanyDTO company);
 
 
 
