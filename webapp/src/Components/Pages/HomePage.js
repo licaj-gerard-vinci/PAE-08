@@ -26,7 +26,6 @@ const HomePage = async () => {
 
 async function renderEntreprises(){
   entreprises = await getEntreprises();
-  entreprises = entreprises.filter(entreprise => entreprise.blackListed === false);
   searchResult = entreprises;
 }
 
@@ -91,16 +90,31 @@ async function renderHomePage(){
         <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-10 col-md-8 col-lg-6">
-          ${searchResult.map(entreprise => {
+          ${searchResult.map(company => {    
         let button;
+        let backgroundColor;
+        console.log('company: ', company)
+        if(company.blackListed === true) {
+          button = `
+                <div class="row">
+                  <div class="col"></div>
+                    <div class="col d-flex justify-content-center">
+                      <p class="text-danger font-weight-bold">Entreprise blacklisté</p>
+                    </div>
+                  <div class="col"></div>
+                </div>`;
+          backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightred" style="border-radius: 50px;`;
+        } else {
+          backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;`;
+        }
         if(contacts){
-          const contactFound = contacts.find(contact => contact.idCompany === entreprise.id && contact.year.id === user.idSchoolYear);
+          const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.id === user.idSchoolYear);
           if(!contactFound){
             button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
-                    <button type='button' class='btn btn-primary' id='startedButton${entreprise.id}'>Contacter l'entreprise</button>
+                    <button type='button' class='btn btn-primary' id='startedButton${company.id}'>Contacter l'entreprise</button>
                   </div>
                   <div class="col"></div>
                 </div>`;
@@ -109,43 +123,40 @@ async function renderHomePage(){
             <div class="row">
               <div class="col"></div>
               <div class="col d-flex justify-content-center">
-                <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>Ne plus suivre</button>
+                <button type='button' class='btn btn-orange' id='unsupervisedButton${company.id}'>Ne plus suivre</button>
               </div>
               <div class="col d-flex justify-content-end">
-                <button type='button' class='btn btn-success' id='admittedButton${entreprise.id}'>Contact pris</button>
+                <button type='button' class='btn btn-success' id='admittedButton${company.id}'>Contact pris</button>
               </div>
             </div>
         
-            <div id='form${entreprise.id}' style='display: none;'>
-              <select class="form-control my-2" id='textInput${entreprise.id}'>
+            <div id='form${company.id}' style='display: none;'>
+              <select class="form-control my-2" id='textInput${company.id}'>
                 <option value='distance'>À distance</option>
                 <option value='sur place'>Sur place</option>
               </select>
               <div class="d-flex justify-content-center col-12">
-                <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveMeetingButton${entreprise.id}'>Sauvegarder</button>
+                <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveMeetingButton${company.id}'>Sauvegarder</button>
               </div>
             </div>
             `;
-        
-        
-        
           } else if (contactFound.contactStatus === 'pris'){
             button = `
                 <div class="row">
                   <div class="col d-flex justify-content-start">
-                    <button type='button' class='btn btn-danger' id='turnedDownButton${entreprise.id}'>Contact refusé</button>
+                    <button type='button' class='btn btn-danger' id='turnedDownButton${company.id}'>Contact refusé</button>
                   </div>
                   <div class="col d-flex justify-content-center">
-                    <button type='button' class='btn btn-orange' id='unsupervisedButton${entreprise.id}'>Ne plus suivre</button>
+                    <button type='button' class='btn btn-orange' id='unsupervisedButton${company.id}'>Ne plus suivre</button>
                   </div>
                   <div class="col d-flex justify-content-end">
-                    <button type='button' class='btn btn-success' id='acceptedButton${entreprise.id}'>Stage accepté</button>
+                    <button type='button' class='btn btn-success' id='acceptedButton${company.id}'>Stage accepté</button>
                   </div>
                 </div>
-                <div id='form${entreprise.id}' style='display: none;'>
-                   <input type='text' class="form-control my-2" id='textInput${entreprise.id}' placeholder='Entrez la raison du refus'>
+                <div id='form${company.id}' style='display: none;'>
+                   <input type='text' class="form-control my-2" id='textInput${company.id}' placeholder='Entrez la raison du refus'>
                    <div class="d-flex justify-content-center col-12">
-                     <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveRefusalReasonButton${entreprise.id}'>Sauvegarder</button>
+                     <button type='button' class='btn btn-primary btn-block shadow-sm my-2' id='saveRefusalReasonButton${company.id}'>Sauvegarder</button>
                    </div> 
                 </div>`;
           } else if(contactFound.contactStatus === 'refusé'){
@@ -181,21 +192,21 @@ async function renderHomePage(){
               <div class="row">
                 <div class="col"></div>
                 <div class="col d-flex justify-content-center">
-                  <button type='button' class='btn btn-primary' id='StartedButton${entreprise.id}'>Contacter l'entreprise</button>
+                  <button type='button' class='btn btn-primary' id='StartedButton${company.id}'>Contacter l'entreprise</button>
                 </div>
                 <div class="col"></div>
               </div>`;
         }
 
         return `
-              <div class="border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;">
+              <div class="${backgroundColor}">
                   <div>
                       <div class="d-flex justify-content-between">
                           <div class="mr-auto text-left">
-                              <h1 class="mb-auto">${entreprise.name}</h1>
+                              <h1 class="mb-auto">${company.name}</h1>
                               <ul class="list-unstyled">
-                                  <li>Appellation: ${entreprise.designation ? entreprise.designation : '/'}</li>                                  <li>Adresse: ${entreprise.adresse}</li>
-                                  <li>Téléphone: ${entreprise.phone}</li>
+                                  <li>Appellation: ${company.designation ? company.designation : '/'}</li>                                  <li>Adresse: ${company.adresse}</li>
+                                  <li>Téléphone: ${company.phone}</li>
                               </ul>
                           </div>
                           <img src="${logo}" alt="Logo" class="ml-3" style="width: 100px; height: 100px;">
