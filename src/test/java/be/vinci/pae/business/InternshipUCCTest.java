@@ -223,18 +223,18 @@ public class InternshipUCCTest {
   void testInsertInternshipWithMultipleExceptions() {
     assertAll(
             () -> {
-              InternshipDTO Internship = factory.getInternshipDTO();
+              InternshipDTO internship = factory.getInternshipDTO();
               UserDTO user = factory.getPublicUser();
               user.setId(1);
               CompanyDTO entreprise = factory.getCompanyDTO();
               entreprise.setId(1);
-              Internship.setStudent(user);
+              internship.setStudent(user);
               ContactDTO contact = factory.getContactDTO();
-              Internship.setContact(contact);
-              Internship.setCompany(entreprise);
+              internship.setContact(contact);
+              internship.setCompany(entreprise);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
               assertThrows(NotFoundException.class, () ->
-                  internshipUCC.insertInternship(Internship));
+                  internshipUCC.insertInternship(internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();
@@ -248,13 +248,13 @@ public class InternshipUCCTest {
               company.setId(1);
               contact.setCompany(company);
               contact.setStudent(differentUser);
-              InternshipDTO Internship = factory.getInternshipDTO();
-              Internship.setStudent(user);
-              Internship.setContact(contact);
-              Internship.setCompany(company);
+              InternshipDTO internship = factory.getInternshipDTO();
+              internship.setStudent(user);
+              internship.setContact(contact);
+              internship.setCompany(company);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
               assertThrows(NotFoundException.class, () ->
-                  internshipUCC.insertInternship(Internship));
+                  internshipUCC.insertInternship(internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();

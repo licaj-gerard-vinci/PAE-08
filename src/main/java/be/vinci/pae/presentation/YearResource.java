@@ -25,6 +25,8 @@ public class YearResource {
 
   /**
    * Get all years.
+   *
+   * @return all years
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
