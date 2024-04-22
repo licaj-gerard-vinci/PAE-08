@@ -94,6 +94,37 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
     return company;
   }
+
+  /**
+   * Updates the Company in the database.
+   *
+   * @param company The entreprise to update.
+   */
+  @Override
+    public void updateCompany(CompanyDTO company) {
+    String query = "UPDATE pae.companies "
+                + "SET company_name = ?, company_address = ?, company_designation = ?, "
+                + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
+                + "company_email = ?, company_blacklist_reason = ?, "
+                + "company_version = company_version + 1 WHERE company_id = ? "
+                + "AND company_version = ?";
+    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
+      statement.setString(1, company.getName());
+      statement.setString(2, company.getAdresse());
+      statement.setString(3, company.getDesignation());
+      statement.setString(4, company.getCity());
+      statement.setString(5, company.getPhone());
+      statement.setBoolean(6, company.isBlackListed());
+      statement.setString(7, company.getEmail());
+      statement.setString(8, company.getMotivation());
+      statement.setInt(9, company.getId());
+      statement.setInt(10, company.getVersion());
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
+
   /**
    * Adds a Company to the database.
    *
@@ -125,36 +156,6 @@ public class CompanyDAOImpl implements CompanyDAO {
       throw new FatalException(e);
     }
 
-  }
-
-  /**
-   * Updates the Company in the database.
-   *
-   * @param company The entreprise to update.
-   */
-  @Override
-    public void updateCompany(CompanyDTO company) {
-    String query = "UPDATE pae.companies "
-                + "SET company_name = ?, company_address = ?, company_designation = ?, "
-                + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
-                + "company_email = ?, company_blacklist_reason = ?, "
-                + "company_version = company_version + 1 WHERE company_id = ? "
-                + "AND company_version = ?";
-    try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, company.getName());
-      statement.setString(2, company.getAdresse());
-      statement.setString(3, company.getDesignation());
-      statement.setString(4, company.getCity());
-      statement.setString(5, company.getPhone());
-      statement.setBoolean(6, company.isBlackListed());
-      statement.setString(7, company.getEmail());
-      statement.setString(8, company.getMotivation());
-      statement.setInt(9, company.getId());
-      statement.setInt(10, company.getVersion());
-      statement.executeUpdate();
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
   }
 
   private CompanyDTO rsToCompany(ResultSet rs, String method) throws SQLException {
