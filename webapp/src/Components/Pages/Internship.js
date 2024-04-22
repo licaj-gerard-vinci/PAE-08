@@ -57,10 +57,10 @@ const Internship = async (contactFound) => {
   let managerOptions = [];
   let managerNotFound = ``;
 
-  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.firstName} ${manager.name}</option>`).join('');
+  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.name} ${manager.firstName}</option>`).join('');
   console.log("managerOptions", managers);
   if (managerOptions.length === 0) {
-    managerNotFound = `<p class="text-danger">Pas de manager trouvé</p>`
+    managerNotFound = `<p id="notfound" class="text-danger">Pas de manager trouvé</p>`
   }
 
   main.innerHTML =  `
@@ -165,14 +165,14 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
     const emailManager = document.getElementById("email").value;
 
     // Check if contact and contact.entreprise are not undefined
-    if (contact && contact.entreprise) {
+    if (contact && contact.company) {
       // Create a manager object
       const manager = {
         name: lastname,
         firstName: firstname,
         phone: phoneNumber,
         email: emailManager,
-        idCompany: contact.entreprise.id,
+        idCompany: contact.company.id,
       };
       const newManager = await addManager(manager);
       if (newManager === null) {
@@ -180,13 +180,13 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
         toggleModalError();
         return;
       }
-
       managers.push(newManager);
-      managers = await getManagers(contact.entreprise.id);
+      managers = await getManagers(contact.company.id);
       managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name}</option>`).join('');
 
       // Update the select element with the new options
       document.getElementById('managerId').innerHTML = managerOptions;
+      document.getElementById('notfound').innerHTML = '';
 
       // Show the success modal
       toggleModalSucces();
@@ -195,7 +195,7 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
       document.getElementById('managerForm').style.display = 'none';
       Navigate('/internship', contactFound);
     } else {
-      console.error('contact or contact.entreprise is undefined');
+      console.error('contact or contact.company is undefined');
     }
   });
 
