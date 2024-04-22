@@ -192,3 +192,7 @@
   justify-content: center;
   gap: 3%; /* Adjust this value to change the space between elements */
 }
+
+.bg-lightred {
+    background-color: #ffcccc !important; /* Vous pouvez ajuster la couleur selon vos besoins */
+}
