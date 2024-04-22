@@ -26,14 +26,14 @@ public interface CompanyUCC {
   /**
    * Adds a Company.
    *
-   * @param Company the entreprise to add.
+   * @param company the entreprise to add.
    */
-  void addCompany(CompanyDTO Company);
+  void addCompany(CompanyDTO company);
 
   /**
    * Updates the entreprise.
    *
-   * @param Company the entreprise to update.
+   * @param company the entreprise to update.
    */
-  void blackListCompany(CompanyDTO Company);
+  void blackListCompany(CompanyDTO company);
 }

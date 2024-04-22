@@ -1,7 +1,7 @@
 package be.vinci.pae.dal.contact;
 
-import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;

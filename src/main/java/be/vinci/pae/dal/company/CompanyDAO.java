@@ -27,9 +27,9 @@ public interface CompanyDAO {
   /**
    * Updates the entreprise in the database.
    *
-   * @param Company The entreprise to update.
+   * @param company The entreprise to update.
    */
-  void updateCompany(CompanyDTO Company);
+  void updateCompany(CompanyDTO company);
 
   /**
    * Retrieves an entreprise from the database.
@@ -43,10 +43,10 @@ public interface CompanyDAO {
   /**
      * Inserts a new Company into the database.
      *
-     * @param Company An EntrepriseDTO object containing the information
+     * @param company An EntrepriseDTO object containing the information
      *                 of the entreprise to be inserted.
      */
-  void addCompany(CompanyDTO Company);
+  void addCompany(CompanyDTO company);
 
 
 

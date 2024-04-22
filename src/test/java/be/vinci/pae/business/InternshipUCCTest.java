@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.internship.InternshipUCC;
@@ -102,7 +102,8 @@ public class InternshipUCCTest {
   void catchFatale() {
 
     int userId = 1;
-    Mockito.when(internshipDAO.getInternshipById(userId)).thenThrow(new FatalException("Database error"));
+    Mockito.when(internshipDAO.getInternshipById(userId)).thenThrow(
+        new FatalException("Database error"));
 
     assertThrows(FatalException.class, () -> internshipUCC.getInternshipByUserId(userId),
         "FatalException should be thrown when there is a database error.");
@@ -232,7 +233,8 @@ public class InternshipUCCTest {
               Internship.setContact(contact);
               Internship.setCompany(entreprise);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
-              assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(Internship));
+              assertThrows(NotFoundException.class, () ->
+                  internshipUCC.insertInternship(Internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();
@@ -251,7 +253,8 @@ public class InternshipUCCTest {
               Internship.setContact(contact);
               Internship.setCompany(company);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
-              assertThrows(NotFoundException.class, () -> internshipUCC.insertInternship(Internship));
+              assertThrows(NotFoundException.class, () ->
+                  internshipUCC.insertInternship(Internship));
             },
             () -> {
               ContactDTO contact = factory.getContactDTO();
@@ -270,7 +273,8 @@ public class InternshipUCCTest {
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
               Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
               Mockito.when(internshipDAO.getInternshipById(user.getId())).thenReturn(Internship);
-              assertThrows(ConflictException.class, () -> internshipUCC.insertInternship(Internship));
+              assertThrows(ConflictException.class, () ->
+                  internshipUCC.insertInternship(Internship));
             }
     );
   }
@@ -389,7 +393,8 @@ public class InternshipUCCTest {
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
     Mockito.doThrow(new FatalException()).when(internshipDAO).updateInternshipTopic(stage);
-    assertThrows(FatalException.class, () -> internshipUCC.updateInternshipTopic(stage, stage.getId()));
+    assertThrows(FatalException.class, () ->
+        internshipUCC.updateInternshipTopic(stage, stage.getId()));
   }
 
 }

@@ -82,25 +82,25 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     String query = "SELECT * FROM pae.companies";
 
-    List<CompanyDTO> Company = new ArrayList<>();
+    List<CompanyDTO> company = new ArrayList<>();
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query);
         ResultSet rs = statement.executeQuery()) {
       while (rs.next()) {
-        Company.add(rsToCompany(rs, "get"));
+        company.add(rsToCompany(rs, "get"));
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return Company;
+    return company;
   }
   /**
    * Adds a Company to the database.
    *
-   * @param Company the entreprise to add.
+   * @param company the entreprise to add.
    */
 
-  public void addCompany(CompanyDTO Company) {
+  public void addCompany(CompanyDTO company) {
     String query = "INSERT INTO pae.companies "
         + "(company_name, company_designation, company_address,company_city, "
         + "company_phone_number, company_email, "
@@ -108,17 +108,17 @@ public class CompanyDAOImpl implements CompanyDAO {
         + "VALUES (?, ?, ?, ?, ?, ?,False,?,1) RETURNING company_id";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, Company.getName());
-      statement.setString(2, Company.getDesignation());
-      statement.setString(3, Company.getAdresse());
-      statement.setString(4, Company.getCity());
-      statement.setString(5, Company.getPhone());
-      statement.setString(6, Company.getEmail());
-      statement.setString(7, Company.getMotivation());
+      statement.setString(1, company.getName());
+      statement.setString(2, company.getDesignation());
+      statement.setString(3, company.getAdresse());
+      statement.setString(4, company.getCity());
+      statement.setString(5, company.getPhone());
+      statement.setString(6, company.getEmail());
+      statement.setString(7, company.getMotivation());
 
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          Company.setId(rs.getInt(1));
+          company.setId(rs.getInt(1));
         }
       }
     } catch (SQLException e) {
@@ -130,10 +130,10 @@ public class CompanyDAOImpl implements CompanyDAO {
   /**
    * Updates the Company in the database.
    *
-   * @param Company The entreprise to update.
+   * @param company The entreprise to update.
    */
   @Override
-    public void updateCompany(CompanyDTO Company) {
+    public void updateCompany(CompanyDTO company) {
     String query = "UPDATE pae.companies "
                 + "SET company_name = ?, company_address = ?, company_designation = ?, "
                 + "company_city = ?, company_phone_number = ?, company_is_blacklisted = ?, "
@@ -141,16 +141,16 @@ public class CompanyDAOImpl implements CompanyDAO {
                 + "company_version = company_version + 1 WHERE company_id = ? "
                 + "AND company_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setString(1, Company.getName());
-      statement.setString(2, Company.getAdresse());
-      statement.setString(3, Company.getDesignation());
-      statement.setString(4, Company.getCity());
-      statement.setString(5, Company.getPhone());
-      statement.setBoolean(6, Company.isBlackListed());
-      statement.setString(7, Company.getEmail());
-      statement.setString(8, Company.getMotivation());
-      statement.setInt(9, Company.getId());
-      statement.setInt(10, Company.getVersion());
+      statement.setString(1, company.getName());
+      statement.setString(2, company.getAdresse());
+      statement.setString(3, company.getDesignation());
+      statement.setString(4, company.getCity());
+      statement.setString(5, company.getPhone());
+      statement.setBoolean(6, company.isBlackListed());
+      statement.setString(7, company.getEmail());
+      statement.setString(8, company.getMotivation());
+      statement.setInt(9, company.getId());
+      statement.setInt(10, company.getVersion());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw new FatalException(e);

@@ -46,9 +46,9 @@ public interface CompanyDTO {
   /**
    * Sets the apellation of the Company.
    *
-   * @param Designation the new apellation for the Company.
+   * @param designation the new apellation for the Company.
    */
-  void setDesignation(String Designation);
+  void setDesignation(String designation);
 
   /**
    * Gets the address of the Company.
@@ -89,9 +89,9 @@ public interface CompanyDTO {
   /**
    * Sets the Phone of the Company.
    *
-   * @param Phone the new Phone for the Company.
+   * @param phone the new Phone for the Company.
    */
-  void setPhone(String Phone);
+  void setPhone(String phone);
 
   /**
    * Gets the email of the Company.

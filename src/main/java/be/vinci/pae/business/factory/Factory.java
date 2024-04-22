@@ -1,7 +1,7 @@
 package be.vinci.pae.business.factory;
 
-import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.internship.InternshipDTO;
 import be.vinci.pae.business.user.UserDTO;

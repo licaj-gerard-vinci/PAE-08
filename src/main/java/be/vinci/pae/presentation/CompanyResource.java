@@ -1,8 +1,8 @@
 package be.vinci.pae.presentation;
 
-import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.company.CompanyUCC;
+import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,28 +69,28 @@ public class CompanyResource {
   }
 
   /**
-   * BlackList an company with the specified id.
+   * BlackList a company with the specified id.
    *
    * @param id The id of the company to update.
-   * @param Company The company to update.
+   * @param company The company to update.
    * @return The updated company.
    */
   @PUT
   @Path("/{id}/blacklist")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"P"})
-  public ObjectNode blackListCompany(@PathParam("id") int id, CompanyDTO Company) {
+  public ObjectNode blackListCompany(@PathParam("id") int id, CompanyDTO company) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (Company.getId() != id) {
+    if (company.getId() != id) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    if (Company.getMotivation() == null
-        || Company.getMotivation().isEmpty()) {
+    if (company.getMotivation() == null
+        || company.getMotivation().isEmpty()) {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
-    myCompanyUcc.blackListCompany(Company);
+    myCompanyUcc.blackListCompany(company);
     myContactUcc.blackListContact(id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
@@ -100,28 +100,28 @@ public class CompanyResource {
   /**
    * Add a company.
    *
-   * @param Company The company to add.
+   * @param company The company to add.
    * @return The company added.
    */
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode addEntreprise(CompanyDTO Company) {
-    if (Company.getName() == null || Company.getName().isEmpty()) {
+  public ObjectNode addEntreprise(CompanyDTO company) {
+    if (company.getName() == null || company.getName().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
     }
-    if (Company.getAdresse() == null || Company.getAdresse().isEmpty()) {
+    if (company.getAdresse() == null || company.getAdresse().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise address", Response.Status.BAD_REQUEST);
     }
-    if (Company.getCity() == null || Company.getCity().isEmpty()) {
+    if (company.getCity() == null || company.getCity().isEmpty()) {
       throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
     }
 
 
 
 
-    myCompanyUcc.addCompany(Company);
+    myCompanyUcc.addCompany(company);
 
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Company  created successfully");
