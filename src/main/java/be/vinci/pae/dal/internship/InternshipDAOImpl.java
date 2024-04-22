@@ -1,10 +1,10 @@
 package be.vinci.pae.dal.internship;
 
-import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.factory.Factory;
-import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.internship.InternshipDTO;
+import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.DALBackService;

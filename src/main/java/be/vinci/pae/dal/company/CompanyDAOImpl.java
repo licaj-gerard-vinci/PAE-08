@@ -99,7 +99,7 @@ public class CompanyDAOImpl implements CompanyDAO {
    *
    * @param company the entreprise to add.
    */
-
+  @Override
   public void addCompany(CompanyDTO company) {
     String query = "INSERT INTO pae.companies "
         + "(company_name, company_designation, company_address,company_city, "

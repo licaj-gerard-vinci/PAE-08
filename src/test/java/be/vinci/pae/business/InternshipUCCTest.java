@@ -207,14 +207,14 @@ public class InternshipUCCTest {
     contact1.setStudent(user);
     contact2.setCompany(entreprise);
     contact2.setStudent(user);
-    InternshipDTO Internship = factory.getInternshipDTO();
-    Internship.setStudent(user);
-    Internship.setContact(contact1);
-    Internship.setCompany(entreprise);
+    InternshipDTO internship = factory.getInternshipDTO();
+    internship.setStudent(user);
+    internship.setContact(contact1);
+    internship.setCompany(entreprise);
     Mockito.when(contactDAO.getContactById(contact1.getId())).thenReturn(contact1, contact2);
     Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-    Mockito.doThrow(new FatalException()).when(internshipDAO).insertInternship(Internship);
-    assertThrows(FatalException.class, () -> internshipUCC.insertInternship(Internship));
+    Mockito.doThrow(new FatalException()).when(internshipDAO).insertInternship(internship);
+    assertThrows(FatalException.class, () -> internshipUCC.insertInternship(internship));
   }
 
   @Test
@@ -266,15 +266,15 @@ public class InternshipUCCTest {
               entreprise.setId(1);
               contact.setCompany(entreprise);
               contact.setStudent(user);
-              InternshipDTO Internship = factory.getInternshipDTO();
-              Internship.setStudent(user);
-              Internship.setContact(contact);
-              Internship.setCompany(entreprise);
+              InternshipDTO internship = factory.getInternshipDTO();
+              internship.setStudent(user);
+              internship.setContact(contact);
+              internship.setCompany(entreprise);
               Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
               Mockito.when(userDAO.getOneById(user.getId())).thenReturn(user);
-              Mockito.when(internshipDAO.getInternshipById(user.getId())).thenReturn(Internship);
+              Mockito.when(internshipDAO.getInternshipById(user.getId())).thenReturn(internship);
               assertThrows(ConflictException.class, () ->
-                  internshipUCC.insertInternship(Internship));
+                  internshipUCC.insertInternship(internship));
             }
     );
   }

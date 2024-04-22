@@ -1,12 +1,12 @@
 package be.vinci.pae.business;
 
-import be.vinci.pae.business.company.CompanyDTO;
-import be.vinci.pae.business.company.CompanyUCC;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import be.vinci.pae.business.company.CompanyDTO;
+import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.exceptions.ConflictException;

@@ -205,8 +205,8 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
       for (ContactDTO contact : contacts) {
-        if (contact.getContactStatus().equals("pris") ||
-            contact.getContactStatus().equals("initié")) {
+        if (contact.getContactStatus().equals("pris")
+            || contact.getContactStatus().equals("initié")) {
           contact.setContactStatus("blacklisté");
           updateContact(contact);
         }
