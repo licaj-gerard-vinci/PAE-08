@@ -105,7 +105,11 @@ async function registerUser(user){
 
   const response = await fetch(`http://localhost:8080/auth/register`, options);
 
-  if (!response.ok) throw new Error('Error');
+  if (!response.ok) {
+    const error = new Error('Error registering user');
+    error.status = response.status;
+    throw error;
+  }
 
   const authenticatedUser = await response.json();
 

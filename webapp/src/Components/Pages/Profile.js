@@ -76,7 +76,7 @@ function toggleUpdateModal() {
 
 function renderProfile(user) {
   const profileDiv = document.createElement('div');
-  profileDiv.className = 'profile-div';
+  profileDiv.className = 'profile-div mt-3';
   
   profileDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
 

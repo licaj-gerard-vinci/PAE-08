@@ -164,19 +164,37 @@ function checkUser(){
     if (emailError.textContent || passwordError.textContent || lastnameError.textContent || firstnameError.textContent || phoneError.textContent) return;
 
     const user = {
-      lastname : lastname.value,
-      firstname : firstname.value,
-      password : password.value,
-      email : email.value,
-      role : role.value.charAt(0).toUpperCase(),
-      phone : phone.value
+      lastname: lastname.value,
+      firstname: firstname.value,
+      password: password.value,
+      email: email.value,
+      role: role.value.charAt(0).toUpperCase(),
+      phone: phone.value
     }
+
     try {
       await registerUser(user);
       Navbar();
       Navigate('/');
     } catch (error) {
-      console.error(error);
+      // Check if the error is a conflict exception
+      console.log(error.status)
+      if (error.status === 409) { // Assuming the backend sends a 409 status code for conflicts
+        // Check if the error message already exists
+        let conflictError = document.querySelector('.conflictError');
+        if (!conflictError) {
+          // If it doesn't exist, create a new one
+          conflictError = document.createElement('p');
+          conflictError.style.color = 'red';
+          conflictError.style.textAlign = 'center';
+          conflictError.className = 'conflictError';
+          registerSubmit.parentNode.insertBefore(conflictError, registerSubmit.nextSibling);
+        }
+        // Update the text content of the error message
+        conflictError.textContent = 'Un utilisateur avec cet email existe déjà';
+      } else {
+        console.error(error);
+      }
     }
   });
 }
