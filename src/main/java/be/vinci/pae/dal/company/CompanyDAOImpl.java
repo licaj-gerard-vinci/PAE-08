@@ -80,7 +80,8 @@ public class CompanyDAOImpl implements CompanyDAO {
   @Override
   public List<CompanyDTO> getCompany() {
 
-    String query = "SELECT * FROM pae.companies";
+    String query = "SELECT * FROM pae.companies "
+            + "ORDER BY company_name";
 
     List<CompanyDTO> company = new ArrayList<>();
 

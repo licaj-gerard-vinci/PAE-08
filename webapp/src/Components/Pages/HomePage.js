@@ -92,8 +92,7 @@ async function renderHomePage(){
           <div class="col-10 col-md-8 col-lg-6">
           ${searchResult.map(company => {    
         let button;
-        let backgroundColor;
-        console.log('company: ', company)
+        let backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;`;
         if(company.blackListed === true) {
           button = `
                 <div class="row">
@@ -102,12 +101,11 @@ async function renderHomePage(){
                       <p class="text-danger font-weight-bold">Entreprise blacklisté</p>
                     </div>
                   <div class="col"></div>
-                </div>`;
+                </div>`; 
+          // if company if blacklisted, its background changes color, else every other contact has same background
           backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightred" style="border-radius: 50px;`;
-        } else {
-          backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;`;
         }
-        if(contacts){
+        else if(contacts){
           const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.id === user.idSchoolYear);
           if(!contactFound){
             button = `
