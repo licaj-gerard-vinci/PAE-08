@@ -46,6 +46,11 @@ function renderNewCompanyForm ()  {
                     <input type="text" class="form-control" id="RegisterCity" placeholder="Ville Entreprise">
                   </div>
                   
+                  <div class="mb-3 form-group">
+                    <label for="CodePostal">Code Postal<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="CodePostal" placeholder="Code Postal">
+                  </div>
+                  
                   
                   <div class="mb-3 form-group">
                     <label for="phone">Numéro de téléphone</label>
