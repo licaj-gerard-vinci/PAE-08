@@ -29,6 +29,7 @@ const HomePage = async () => {
 async function renderEntreprises(){
   entreprises = await getEntreprises();
   searchResult = entreprises;
+
 }
 
 async function renderSearchBar() {
