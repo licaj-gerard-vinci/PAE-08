@@ -98,7 +98,7 @@ async function renderHomePage(){
                 <div class="row">
                   <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                      <p class="text-danger font-weight-bold">Entreprise blacklisté</p>
+                      <p class="text-danger font-weight-bold">Entreprise blacklistée</p>
                     </div>
                   <div class="col"></div>
                 </div>`; 
