@@ -11,6 +11,8 @@ Content-Type: application/json
   client.global.set("token", response.body.token);
 %}
 
+
+
 ### Insert a new contact
 POST {{baseUrl}}/contacts/insert
 Authorization: {{token}}
@@ -95,5 +97,15 @@ Content-Type: application/json
 
 ### Get all contacts with idCompany
 GET {{baseUrl}}/contacts/1/company
+Authorization: {{token}}
+Content-Type: application/json
+
+### Get all contacts with idContact
+GET {{baseUrl}}/contacts/getOne/33
+Content-Type: application/json
+Authorization: {{token}}
+
+### Get all contacts with idCompany
+GET {{baseUrl}}/contacts/
 Authorization: {{token}}
 Content-Type: application/json

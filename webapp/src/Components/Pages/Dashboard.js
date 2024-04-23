@@ -3,9 +3,9 @@ import Chart from "chart.js/auto";
 import {clearPage} from "../../utils/render";
 import {getEntreprises} from "../../model/entreprises";
 import Navigate from "../Router/Navigate";
-import {getAllUsers} from "../../model/users";
-import {getAllInternships} from "../../model/internships";
 import getAllAcademicYears from "../../model/years";
+import {getContacts} from "../../model/contacts";
+import {getAllInternships} from "../../model/internships";
 
 const Dashboard = async () => {
     clearPage();
@@ -40,7 +40,6 @@ await renderCompaniesList();
 async function renderCompaniesList(selectedYear = '') {
     const companies = await getEntreprises();
     const internships = await getAllInternships();
-
     renderCompanies(companies, internships, selectedYear);
 }
 
@@ -57,7 +56,7 @@ async function sortAndRenderCompanies(property, companies, internships, selected
     // If sorting by student count, add a studentCount property to each company
     if (property === 'studentCount') {
         updatedCompanies = companies.map(company => {
-            const companyInternships = internships.filter(internship => internship.company.id === company.id);
+            const companyInternships = internships.filter(contact => contact.company.id === company.id);
             return {...company, studentCount: companyInternships.length};
         });
     }
@@ -136,26 +135,37 @@ function renderCompanies(companies, internships, selectedYear = '') {
     }
 }
 
+
 async function renderStatistics(selectedYear = '') {
-    let totalStudents = await getAllUsers();
-    totalStudents = totalStudents.filter(student => student.role === 'E');
+    let totalStudentsByYear = await getContacts();
+    // Filter out unique contacts
+    const totalStudentsAllYears = totalStudentsByYear.filter(
+        (contact, index, self) =>
+            index === self.findIndex((t) => (
+                t.student.id === contact.student.id
+            ))
+    );
+
+    let studentsWithInternship;
+    let studentsWithoutInternship;
+    let totalStudents;
     const chartContainer = document.querySelector('#chart-container');
 
-    const internships = await getAllInternships();
-    let internshipsThisYear;
-    if (selectedYear) {
-        internshipsThisYear = internships.filter(internship => internship.year.year === selectedYear);
+    if (!selectedYear) {
+        studentsWithInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === true).length;
+        studentsWithoutInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === false).length;
+        totalStudents = studentsWithoutInternship + studentsWithInternship
     } else {
-        internshipsThisYear = internships;
+        totalStudentsByYear = totalStudentsByYear.filter(contact => contact.year.year === selectedYear);
+        studentsWithInternship = totalStudentsByYear.filter(contact => contact.contactStatus === 'accepté').length;
+        studentsWithoutInternship = totalStudentsByYear.length - studentsWithInternship;
+        totalStudents = studentsWithoutInternship + studentsWithInternship;
     }
-
-    const studentsWithInternship = internshipsThisYear.length;
-    const studentsWithoutInternship = totalStudents.length - studentsWithInternship;
 
     chartContainer.innerHTML =
         `<div class="flex-container-stats">
         <p class="text-center">Année académique: ${selectedYear || 'Toutes les années'}</p>
-        <p class="text-center">Nombre total d'étudiants: ${totalStudents.length}</p>
+        <p class="text-center">Nombre total d'étudiants: ${totalStudents}</p>
     </div>
     <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
     ;

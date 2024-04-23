@@ -6,7 +6,7 @@ import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
 import { getStagePresent,updateInternship } from '../../model/internships';
 import { checkPassword, refreshUser, updateUser } from '../../model/users';
-import { getContacts } from '../../model/contacts';
+import {getContactsById} from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
@@ -301,7 +301,7 @@ async function displayStage() {
 }
 
 async function displayContacts() {
-  const contacts = await getContacts();
+  const contacts = await getContactsById(getAuthenticatedUser().user.id);
   const contactsDiv = document.createElement('div');
   contactsDiv.classList.add('contacts-container', 'shadow', 'p-4', 'bg-white', 'rounded');
   contactsDiv.style =

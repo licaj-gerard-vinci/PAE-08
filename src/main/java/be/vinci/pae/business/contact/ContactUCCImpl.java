@@ -104,6 +104,7 @@ public class ContactUCCImpl implements ContactUCC {
     myCompanyUCC.getCompanyById(contact.getCompany().getId());
 
     contact.setYear(myYearUCC.getYearByYear(myYearUCC.renderCurrentYear()));
+    contact.setIdYear(contact.getYear().getId());
     try {
       dalServices.startTransaction();
       contactDAO.insertContact(contact);
