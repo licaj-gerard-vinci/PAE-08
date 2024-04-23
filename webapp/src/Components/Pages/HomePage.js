@@ -57,7 +57,7 @@ async function renderSearchBar() {
     const searchValue = searchInput.value.trim().toLowerCase();
     if (searchValue !== '') {
       searchResult = entreprises.filter(entreprise =>
-          entreprise.nom.toLowerCase().includes(searchValue) || entreprise.appellation.toLowerCase().includes(searchValue)
+          entreprise.name.toLowerCase().includes(searchValue) || entreprise.designation.toLowerCase().includes(searchValue)
       );
     } else {
       await renderEntreprises();
@@ -98,7 +98,7 @@ async function renderHomePage(){
                 <div class="row">
                   <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                      <p class="text-danger font-weight-bold">Entreprise blacklisté</p>
+                      <p class="text-danger font-weight-bold">Entreprise blacklistée</p>
                     </div>
                   <div class="col"></div>
                 </div>`; 

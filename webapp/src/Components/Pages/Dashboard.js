@@ -10,49 +10,38 @@ import getAllAcademicYears from "../../model/years";
 const Dashboard = async () => {
     clearPage();
     const main = document.querySelector('main');
+    const academicYears = await getAllAcademicYears();
+    const academicYearOptions = academicYears.map(year => `<option value="${year.year}">${year.year}</option>`).join('\n');
+
     main.innerHTML = `
-        <h1 class="centered-title">Tableau de bord</h1>
+    <h1 class="centered-title">Tableau de bord</h1>
+    <div class="filter-container d-flex align-items-center mb-3" style="display: flex; justify-content: center;">
+        <label for="academicYearFilter" class="me-2">Sélectionner l'année académique:</label>
+        <select id="academicYearFilter" class="form-select" style="width: auto;">
+            <option value="">Toutes les années</option>
+            ${academicYearOptions}
+        </select>
+    </div>
     <div id="chart-container"></div>
-    <div id="companies-container"></div>
-    `;
-    await renderStatistics();
-    await renderCompaniesList();
+    <div id="company-list-table-container"></div>
+`;
+
+// Add event listener to the filter
+document.getElementById('academicYearFilter').addEventListener('change', async (event) => {
+    const selectedYear = event.target.value;
+    await renderStatistics(selectedYear);
+    await renderCompaniesList(selectedYear);
+});
+
+await renderStatistics();
+await renderCompaniesList();
 }
 
-async function renderCompaniesList() {
-const companiesContainer = document.querySelector('#companies-container');
-const academicYears = await getAllAcademicYears();
-const academicYearOptions = academicYears.map(year => `<option value="${year.year}">${year.year}</option>`).join('\n');
-
-companiesContainer.innerHTML = `
-<div class="container my-5">
-    <h1 class="text-center mb-3">Liste des entreprises</h1>
-    <div class="row">
-        <div class="col-12">
-            <div class="filter-container d-flex align-items-center mb-3">
-                <label for="academicYearFilter" class="me-2">Filtrer par année académique:</label>
-                <select id="academicYearFilter" class="form-select" style="width: auto;">
-                    <option value="">Toutes les années</option>
-                    ${academicYearOptions}
-                </select>
-            </div>
-            <div id="company-list-table-container" class="table-responsive">
-            </div>
-        </div>
-    </div>
-</div>`;
-
+async function renderCompaniesList(selectedYear = '') {
     const companies = await getEntreprises();
     const internships = await getAllInternships();
-    
 
-    // Add event listener to the filter
-    document.getElementById('academicYearFilter').addEventListener('change', (event) => {
-        const selectedYear = event.target.value;
-        renderCompanies(companies, internships, selectedYear);
-    });
-
-    renderCompanies(companies, internships);
+    renderCompanies(companies, internships, selectedYear);
 }
 
 const sortOrder = {
@@ -62,7 +51,7 @@ const sortOrder = {
     blackListed: true
 };
 
-async function sortAndRenderCompanies(property, companies, internships) {
+async function sortAndRenderCompanies(property, companies, internships, selectedYear) {
     let updatedCompanies = [...companies];
 
     // If sorting by student count, add a studentCount property to each company
@@ -84,16 +73,19 @@ async function sortAndRenderCompanies(property, companies, internships) {
     sortOrder[property] = !sortOrder[property];
 
     // Render the sorted companies
-    await renderCompanies(updatedCompanies, internships);
+    await renderCompanies(updatedCompanies, internships, selectedYear);
 }
 
 function renderCompanies(companies, internships, selectedYear = '') {
     if (!companies || companies.length === 0) {
         document.getElementById('company-list-table-container').innerHTML = `
-        <p class="text-center text-muted">Aucune entreprise n'est disponible pour le moment.</p>
+        <div style="max-width: 80%; margin: auto;">
+            <p class="text-center text-muted">Aucune entreprise n'est disponible pour le moment.</p>
+        </div>
     `;
     } else {
         document.getElementById('company-list-table-container').innerHTML = `
+    <div style="max-width: 80%; margin: auto;">
     <table class="table table-hover shadow-sm rounded">
         <thead class="table-dark">
             <tr>
@@ -109,9 +101,9 @@ function renderCompanies(companies, internships, selectedYear = '') {
             if (selectedYear) {
                 companyInternships = internships.filter(internship =>
                     internship.company.id === company.id && internship.year.year === selectedYear);
-                    
+
             } else {
-                companyInternships = internships.filter(internship => 
+                companyInternships = internships.filter(internship =>
                     internship.company.id === company.id);
             }
             const studentCount = companyInternships.length;
@@ -125,7 +117,8 @@ function renderCompanies(companies, internships, selectedYear = '') {
           `;
         }).join('')}
       </tbody>
-    </table>`;
+    </table>
+    </div>`;
 
         document.querySelectorAll('.company-row').forEach(row => {
             row.addEventListener('click', (event) => {
@@ -135,49 +128,33 @@ function renderCompanies(companies, internships, selectedYear = '') {
         });
 
         // Add event listeners to the table headers
-        document.getElementById('sortByName').addEventListener('click', () => sortAndRenderCompanies('nom', companies, internships));
-        document.getElementById('sortByPhone').addEventListener('click', () => sortAndRenderCompanies('numTel', companies, internships));
-        document.getElementById('sortByStudentCount').addEventListener('click', () => sortAndRenderCompanies('studentCount', companies, internships));
-        document.getElementById('sortByBlacklisted').addEventListener('click', () => sortAndRenderCompanies('blackListed', companies, internships));
+        // Add event listeners to the table headers
+        document.getElementById('sortByName').addEventListener('click', () => sortAndRenderCompanies('name', companies, internships, selectedYear)); // Changed 'nom' to 'name'
+        document.getElementById('sortByPhone').addEventListener('click', () => sortAndRenderCompanies('phone', companies, internships, selectedYear)); // Changed 'numTel' to 'phone'
+        document.getElementById('sortByStudentCount').addEventListener('click', () => sortAndRenderCompanies('studentCount', companies, internships, selectedYear));
+        document.getElementById('sortByBlacklisted').addEventListener('click', () => sortAndRenderCompanies('blackListed', companies, internships, selectedYear));
     }
 }
 
-async function renderStatistics() {
+async function renderStatistics(selectedYear = '') {
     let totalStudents = await getAllUsers();
     totalStudents = totalStudents.filter(student => student.role === 'E');
     const chartContainer = document.querySelector('#chart-container');
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-    let academicYear;
-
-    if (currentMonth < 9) {
-        academicYear = `${currentYear - 1}-${currentYear}`;
-    } else {
-        academicYear = `${currentYear}-${currentYear + 1}`;
-    }
-
     const internships = await getAllInternships();
-    const internshipsThisYear = internships.filter(internship => {
-        const date = new Date(internship.signatureDate);
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        let internshipAcademicYear;
-        if (month >= 9) {
-            internshipAcademicYear = `${year}-${year + 1}`;
-        } else {
-            internshipAcademicYear = `${year - 1}-${year}`;
-        }
-        return internshipAcademicYear === academicYear;
-    });
+    let internshipsThisYear;
+    if (selectedYear) {
+        internshipsThisYear = internships.filter(internship => internship.year.year === selectedYear);
+    } else {
+        internshipsThisYear = internships;
+    }
 
     const studentsWithInternship = internshipsThisYear.length;
     const studentsWithoutInternship = totalStudents.length - studentsWithInternship;
 
     chartContainer.innerHTML =
         `<div class="flex-container-stats">
-        <p class="text-center">Année académique: ${academicYear}</p>
+        <p class="text-center">Année académique: ${selectedYear || 'Toutes les années'}</p>
         <p class="text-center">Nombre total d'étudiants: ${totalStudents.length}</p>
     </div>
     <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
