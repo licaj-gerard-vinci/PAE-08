@@ -145,6 +145,16 @@ async function checkCompany() {
         }
 
         const entrepriseList = await getEntreprises();
+
+
+        entrepriseList.forEach(entreprisess => {
+            if(entreprisess.designation === null) {
+                if(entreprisess.name.toLowerCase() === nameValue.toLowerCase()) {
+                    SubmitError.textContent = 'Cette entreprise existe déjà';
+
+                }
+            }
+        });
         const entrepriseExist = entrepriseList.find(entreprises => entreprises.name.toLowerCase() === nameValue.toLowerCase() && entreprises.designation.toLowerCase() === appelationValue.toLowerCase());
         if(entrepriseExist) {
             SubmitError.textContent = 'Cette entreprise existe déjà';

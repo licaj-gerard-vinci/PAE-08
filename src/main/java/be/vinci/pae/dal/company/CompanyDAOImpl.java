@@ -96,6 +96,8 @@ public class CompanyDAOImpl implements CompanyDAO {
     return null;
   }
 
+
+
   /**
    * Updates the Company in the database.
    *

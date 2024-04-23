@@ -57,8 +57,7 @@ const Internship = async (contactFound) => {
   let managerOptions = [];
   let managerNotFound = ``;
 
-  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.name} ${manager.firstName}</option>`).join('');
-  console.log("managerOptions", managers);
+  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.firstName} ${manager.name}</option>`).join('');
   if (managerOptions.length === 0) {
     managerNotFound = `<p id="notfound" class="text-danger">Pas de manager trouvé</p>`
   }
@@ -75,7 +74,7 @@ const Internship = async (contactFound) => {
               ${managerOptions}
             </select>
             <div>
-              <button type='button' class='btn btn-primary' id='insertNewManager'>Ajouter un responsable</button>
+              <button type='button' class='btn btn-primary mt-3' id='insertNewManager'>Ajouter un responsable</button>
             </div>
             ${managerNotFound}
           </div>
@@ -160,13 +159,9 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
   document.getElementById('managerForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const lastname = document.getElementById("lastname").value;
-    console.log("lastname", lastname);
     const firstname = document.getElementById("firstname").value;
-    console.log("firstname", firstname);
     const phoneNumber = document.getElementById("phoneNumber").value;
-    console.log("phoneNumber", phoneNumber);
     const emailManager = document.getElementById("email").value;
-    console.log("emailManager", emailManager);
 
     // Check if contact and contact.entreprise are not undefined
     if (contact && contact.company) {
@@ -186,13 +181,10 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
       }
       managers.push(newManager);
       managers = await getManagers(contact.company.id);
-      console.log("managers", managers);
       managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name}</option>`).join('');
 
-      // Update the select element with the new options
-      if(document.getElementById('managerId')) {
-        document.getElementById('managerId').textContent = managerOptions;
-      }
+      document.getElementById('managerId').innerHTML = managerOptions;
+
       if(document.getElementById('notfound')) {
         document.getElementById('notfound').textContent = '';
       }
