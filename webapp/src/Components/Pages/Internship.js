@@ -160,9 +160,13 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
   document.getElementById('managerForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const lastname = document.getElementById("lastname").value;
+    console.log("lastname", lastname);
     const firstname = document.getElementById("firstname").value;
+    console.log("firstname", firstname);
     const phoneNumber = document.getElementById("phoneNumber").value;
+    console.log("phoneNumber", phoneNumber);
     const emailManager = document.getElementById("email").value;
+    console.log("emailManager", emailManager);
 
     // Check if contact and contact.entreprise are not undefined
     if (contact && contact.company) {
@@ -182,11 +186,16 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
       }
       managers.push(newManager);
       managers = await getManagers(contact.company.id);
+      console.log("managers", managers);
       managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name}</option>`).join('');
 
       // Update the select element with the new options
-      document.getElementById('managerId').innerHTML = managerOptions;
-      document.getElementById('notfound').innerHTML = '';
+      if(document.getElementById('managerId')) {
+        document.getElementById('managerId').textContent = managerOptions;
+      }
+      if(document.getElementById('notfound')) {
+        document.getElementById('notfound').textContent = '';
+      }
 
       // Show the success modal
       toggleModalSucces();
