@@ -84,11 +84,13 @@ async function checkCompany() {
     const AdresseError = document.createElement('p');
     const SubmitError = document.createElement('p');
     const CityError = document.createElement('p');
+    const EmailError = document.createElement('p');
     NameError.style.color = 'red';
     AdresseError.style.color = 'red';
     SubmitError.style.color = 'red';
     PhoneError.style.color = 'red';
     CityError.style.color = 'red';
+    EmailError.style.color = 'red';
 
 
     name.parentNode.insertBefore(NameError, name.nextSibling);
@@ -96,6 +98,7 @@ async function checkCompany() {
     adresse.parentNode.insertBefore(AdresseError, adresse.nextSibling);
     phone.parentNode.insertBefore(PhoneError, phone.nextSibling);
     city.parentNode.insertBefore(CityError, city.nextSibling);
+    email.parentNode.insertBefore(EmailError, email.nextSibling);
 
     submitButton.addEventListener('click', async (e) => {
         e.preventDefault(); // prevent the form from being submitted
@@ -114,7 +117,7 @@ async function checkCompany() {
         }
         NameError.textContent = '';
 
-
+        AdresseError.textContent = '';
         if(adresseValue === '') {
             AdresseError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
             return;
@@ -128,10 +131,22 @@ async function checkCompany() {
             }
         }
         PhoneError.textContent = '';
+
         if(cityValue === '') {
             CityError.textContent = 'La ville de l\'entreprise est obligatoire';
             return;
         }
+        CityError.textContent = '';
+
+        EmailError.textContent = '';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailValue)) {
+            EmailError.textContent = 'Le format de l\'email n\'est pas correct';
+            return;
+        }
+
+
+
         CityError.textContent = '';
         const entreprise = {
             name: nameValue,
