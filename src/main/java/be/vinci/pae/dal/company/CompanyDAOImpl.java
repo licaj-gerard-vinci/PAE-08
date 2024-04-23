@@ -48,6 +48,30 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   /**
+   * Retrieves all entreprises from the database.
+   *
+   * @return a list of all entreprises.
+   */
+  @Override
+  public List<CompanyDTO> getCompany() {
+
+    String query = "SELECT * FROM pae.companies "
+            + "ORDER BY company_name";
+
+    List<CompanyDTO> company = new ArrayList<>();
+
+    try (PreparedStatement statement = dalBackService.preparedStatement(query);
+         ResultSet rs = statement.executeQuery()) {
+      while (rs.next()) {
+        company.add(rsToCompany(rs, "get"));
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return company;
+  }
+
+  /**
   * Retrieves an entreprise from the database.
   *
   * @param name and designation of the company to retrieve.
@@ -72,29 +96,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     return null;
   }
 
-  /**
-   * Retrieves all entreprises from the database.
-   *
-   * @return a list of all entreprises.
-   */
-  @Override
-  public List<CompanyDTO> getCompany() {
 
-    String query = "SELECT * FROM pae.companies "
-            + "ORDER BY company_name";
-
-    List<CompanyDTO> company = new ArrayList<>();
-
-    try (PreparedStatement statement = dalBackService.preparedStatement(query);
-        ResultSet rs = statement.executeQuery()) {
-      while (rs.next()) {
-        company.add(rsToCompany(rs, "get"));
-      }
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-    return company;
-  }
 
   /**
    * Updates the Company in the database.
