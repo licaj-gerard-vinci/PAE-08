@@ -14,9 +14,11 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.dal.year.YearDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -42,6 +44,7 @@ public class ContactUCCTest {
   private ContactDAO contactDAO;
   private UserDAO userDAO;
   private CompanyDAO companyDAO;
+  private YearDAO yearDAO;
 
   @BeforeEach
   void setUpBeforeEach() {
@@ -51,8 +54,9 @@ public class ContactUCCTest {
     contactDAO = locator.getService(ContactDAO.class);
     userDAO = locator.getService(UserDAO.class);
     companyDAO = locator.getService(CompanyDAO.class);
+    yearDAO = locator.getService(YearDAO.class);
 
-    Mockito.reset(contactDAO, userDAO, companyDAO);
+    Mockito.reset(contactDAO, userDAO, companyDAO, yearDAO);
   }
 
   @Test
@@ -62,6 +66,9 @@ public class ContactUCCTest {
     ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
     CompanyDTO company = factory.getCompanyDTO();
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setYear("2021");
 
     user.setId(1);
     company.setId(1);
@@ -69,13 +76,16 @@ public class ContactUCCTest {
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
+    contact.setIdYear(year.getId());
+    contact.setYear(year);
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
+    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
 
-    // Everything return the expected value
+
     assertDoesNotThrow(() -> contactUCC.insertContact(contact));
   }
 
@@ -166,6 +176,9 @@ public class ContactUCCTest {
     ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
     CompanyDTO company = factory.getCompanyDTO();
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setYear("2021");
 
     user.setId(1);
     company.setId(1);
@@ -173,6 +186,8 @@ public class ContactUCCTest {
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
+    contact.setIdYear(year.getId());
+    contact.setYear(year);
 
     // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
@@ -180,6 +195,7 @@ public class ContactUCCTest {
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
     Mockito.doThrow(FatalException.class)
             .when(contactDAO).insertContact(contact);
+    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
 
     assertThrows(FatalException.class, () -> {
       contactUCC.insertContact(contact);
