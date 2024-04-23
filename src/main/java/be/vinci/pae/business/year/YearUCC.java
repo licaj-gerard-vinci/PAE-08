@@ -29,4 +29,11 @@ public interface YearUCC {
    * @return The {@link YearDTO} instance, or {@code null} if not found.
    */
   YearDTO getYearByYear(String year);
+
+  /**
+   * Retrieves the current year.
+   *
+   * @return The {@link YearDTO} instance representing the current year.
+   */
+  String renderCurrentYear();
 }

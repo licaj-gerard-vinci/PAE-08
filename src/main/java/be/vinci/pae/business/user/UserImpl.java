@@ -305,26 +305,6 @@ public class UserImpl implements User {
   }
 
   /**
-   * Get the current academic year.
-   *
-   * @return a String of the current academic year
-   */
-  @Override
-  public String renderCurrentYear() {
-    LocalDate currentDate = LocalDate.now();
-    int currentMonth = currentDate.getMonthValue();
-
-    // Determine the academic year
-    String academicYear;
-    if (currentMonth < 9) {
-      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
-    } else {
-      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
-    }
-    return academicYear;
-  }
-
-  /**
    * Render the user's role.
    *
    * @param user the user you want to know its role

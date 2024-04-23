@@ -105,10 +105,8 @@ public class UserUCCImpl implements UserUCC {
     } else {
       throw new BusinessException("Invalid email");
     }
-
-    User userCurrentAcademicYear = (User) userDTO;
     // Get the current date in the format YYYY-MM-DD
-    String academicYear = userCurrentAcademicYear.renderCurrentYear();
+    String academicYear = yearUCC.renderCurrentYear();
 
     YearDTO year = yearUCC.getYearByYear(academicYear);
     userDTO.setSchoolyear(year);

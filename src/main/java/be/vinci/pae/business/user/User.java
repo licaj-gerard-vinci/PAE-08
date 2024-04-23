@@ -23,13 +23,6 @@ public interface User extends UserDTO {
   String hashPassword(String password);
 
   /**
-   * Get the current academic year.
-   *
-   * @return a String of the current academic year
-   */
-  String renderCurrentYear();
-
-  /**
    * Render the user's role.
    *
    * @param user the user you want to know its role

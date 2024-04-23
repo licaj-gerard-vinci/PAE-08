@@ -4,6 +4,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
@@ -24,10 +25,13 @@ public class InternshipUCCImpl implements InternshipUCC {
   private DALServices dalServices;
 
   @Inject
-  private ContactUCC myContact;
+  private ContactUCC myContactUCC;
 
   @Inject
-  private UserUCC myUser;
+  private UserUCC myUserUCC;
+
+  @Inject
+  private YearUCC myYearUCC;
 
   /**
    * Gets the stage user.
@@ -68,7 +72,7 @@ public class InternshipUCCImpl implements InternshipUCC {
    */
   @Override
   public void insertInternship(InternshipDTO internship) {
-    ContactDTO myContactDTO = myContact.getContactByContactId(internship.getContact().getId());
+    ContactDTO myContactDTO = myContactUCC.getContactByContactId(internship.getContact().getId());
     if (myContactDTO.getStudent().getId() != internship.getStudent().getId()
         || myContactDTO.getCompany().getId() != internship.getCompany().getId()) {
       throw new NotFoundException("contact doesn't exist or doesn't match with the internship");
@@ -79,16 +83,17 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
     myContactDTO.setContactStatus("accepté");
     // since it comes from "insertInternship", the state I want wasn't updated previously.
-    UserDTO myUserDTO = myUser.getOne(internship.getStudent().getId());
+    UserDTO myUserDTO = myUserUCC.getOne(internship.getStudent().getId());
     myUserDTO.setHasInternship(true);
     myUserDTO.setPassword(""); // to prevent from changing in user update.
+    internship.setYear(myYearUCC.getYearByYear(myYearUCC.renderCurrentYear()));
     try {
       dalServices.startTransaction();
       internshipDAO.insertInternship(internship);
       // verification for (if company/user exists) were already done here, in updateContact.
-      myContact.updateContact(myContactDTO); // contact accepted
-      myContact.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
-      myUser.update(myUserDTO.getId(), myUserDTO);
+      myContactUCC.updateContact(myContactDTO); // contact accepted
+      myContactUCC.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
+      myUserUCC.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
     } catch (FatalException e) {
       dalServices.rollbackTransaction();
