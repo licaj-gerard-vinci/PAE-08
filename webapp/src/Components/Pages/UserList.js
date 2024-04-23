@@ -3,6 +3,8 @@ import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
 import getAllAcademicYears from '../../model/years';
+import robot from '../../img/robot.jpg';
+
 
 let originalUserList = [];
 
@@ -43,6 +45,7 @@ const UserList = async () => {
 async function renderUserList(userList) {
   if (!userList || userList.length === 0) {
     document.getElementById('user-list-table-container').innerHTML = `
+      <img src="${robot}" class="img-fluid d-block mx-auto" alt="Robot" style="width: 200px; height: 200px;">
       <p class="text-center text-muted">Aucun utilisateur n'est disponible pour le moment.</p>
     `;
   } else {
