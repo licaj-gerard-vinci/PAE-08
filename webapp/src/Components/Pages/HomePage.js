@@ -57,7 +57,7 @@ async function renderSearchBar() {
     const searchValue = searchInput.value.trim().toLowerCase();
     if (searchValue !== '') {
       searchResult = entreprises.filter(entreprise =>
-          entreprise.nom.toLowerCase().includes(searchValue) || entreprise.appellation.toLowerCase().includes(searchValue)
+          entreprise.name.toLowerCase().includes(searchValue) || entreprise.designation.toLowerCase().includes(searchValue)
       );
     } else {
       await renderEntreprises();
