@@ -93,7 +93,6 @@ async function renderHomePage(){
           ${searchResult.map(company => {    
         let button;
         let backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4" style="border-radius: 50px;`;
-        console.log('company: ', company)
         if(company.blackListed === true) {
           button = `
                 <div class="row">
