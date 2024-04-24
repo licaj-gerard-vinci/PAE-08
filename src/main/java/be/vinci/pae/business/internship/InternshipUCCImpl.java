@@ -2,8 +2,10 @@ package be.vinci.pae.business.internship;
 
 import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
+import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.internship.InternshipDAO;
@@ -20,18 +22,16 @@ public class InternshipUCCImpl implements InternshipUCC {
 
   @Inject
   private InternshipDAO internshipDAO;
-
   @Inject
   private DALServices dalServices;
-
   @Inject
   private ContactUCC myContactUCC;
-
   @Inject
   private UserUCC myUserUCC;
-
   @Inject
   private YearUCC myYearUCC;
+  @Inject
+  private Factory factory;
 
   /**
    * Gets the stage user.
@@ -86,7 +86,8 @@ public class InternshipUCCImpl implements InternshipUCC {
     UserDTO myUserDTO = myUserUCC.getOne(internship.getStudent().getId());
     myUserDTO.setHasInternship(true);
     myUserDTO.setPassword(""); // to prevent from changing in user update.
-    internship.setYear(myYearUCC.getYearByYear(myYearUCC.renderCurrentYear()));
+    Year year = (Year) factory.getYearDTO();
+    internship.setYear(myYearUCC.getYearByYear(year.renderCurrentYear()));
     try {
       dalServices.startTransaction();
       internshipDAO.insertInternship(internship);

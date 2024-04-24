@@ -2,6 +2,7 @@ package be.vinci.pae.business.contact;
 
 import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
@@ -21,21 +22,18 @@ public class ContactUCCImpl implements ContactUCC {
 
   @Inject
   private ContactDAO contactDAO;
-
   @Inject
   private DALServices dalServices;
-
   @Inject
   private UserUCC myUserUCC;
-
   @Inject
   private UserDAO myDaoUser;
-
   @Inject
   private CompanyUCC myCompanyUCC;
-
   @Inject
   private YearUCC myYearUCC;
+  @Inject
+  private Year year;
 
   /**
    * Retrieves a list of contacts for a specific user.
@@ -104,8 +102,8 @@ public class ContactUCCImpl implements ContactUCC {
 
     myCompanyUCC.getCompanyById(contact.getCompany().getId());
 
-    String year = myYearUCC.renderCurrentYear();
-    YearDTO yearDTO = myYearUCC.getYearByYear(year);
+    String currentYear = year.renderCurrentYear();
+    YearDTO yearDTO = myYearUCC.getYearByYear(currentYear);
     contact.setYear(yearDTO);
     contact.setIdYear(yearDTO.getId());
     try {

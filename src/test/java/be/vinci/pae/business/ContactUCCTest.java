@@ -14,6 +14,7 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.dal.contact.ContactDAO;
@@ -45,6 +46,7 @@ public class ContactUCCTest {
   private UserDAO userDAO;
   private CompanyDAO companyDAO;
   private YearDAO yearDAO;
+  private Year mockYear;
 
   @BeforeEach
   void setUpBeforeEach() {
@@ -55,8 +57,9 @@ public class ContactUCCTest {
     userDAO = locator.getService(UserDAO.class);
     companyDAO = locator.getService(CompanyDAO.class);
     yearDAO = locator.getService(YearDAO.class);
+    mockYear = locator.getService(Year.class);
 
-    Mockito.reset(contactDAO, userDAO, companyDAO, yearDAO);
+    Mockito.reset(contactDAO, userDAO, companyDAO, yearDAO, mockYear);
   }
 
   @Test
@@ -80,6 +83,7 @@ public class ContactUCCTest {
     contact.setYear(year);
 
     // Define the behavior of the mock
+    Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
@@ -190,12 +194,13 @@ public class ContactUCCTest {
     contact.setYear(year);
 
     // Define the behavior of the mock
+    Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
+    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
     Mockito.doThrow(FatalException.class)
             .when(contactDAO).insertContact(contact);
-    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
 
     assertThrows(FatalException.class, () -> {
       contactUCC.insertContact(contact);

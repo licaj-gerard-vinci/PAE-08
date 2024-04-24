@@ -301,7 +301,7 @@ async function renderHomePage(){
 if(user.role === "E"){
 const addCompanie = document.getElementById('button-addon3');
   addCompanie.addEventListener('click', () => {
-    window.location.href = '/addCompany';
+    Navigate('/addCompany');
   });
 
 }

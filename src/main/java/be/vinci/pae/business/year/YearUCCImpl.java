@@ -65,23 +65,4 @@ public class YearUCCImpl implements YearUCC {
     }
   }
 
-  /**
-   * Retrieves the current year.
-   *
-   * @return The {@link YearDTO} instance representing the current year.
-   */
-  @Override
-  public String renderCurrentYear() {
-    LocalDate currentDate = LocalDate.now();
-    int currentMonth = currentDate.getMonthValue();
-
-    // Determine the academic year
-    String academicYear;
-    if (currentMonth < 9) {
-      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
-    } else {
-      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
-    }
-    return academicYear;
-  }
 }
