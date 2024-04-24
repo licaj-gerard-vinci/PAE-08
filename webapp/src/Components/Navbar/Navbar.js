@@ -29,7 +29,7 @@ async function renderNavbar() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand d-flex align-items-center" href="#" data-uri="/" style="color: #fff; font-size: 0.9em;">
-                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 280px; height: 70px;">
+                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             ${showDashboard ? `
             <a id="dashboard" class="nav-link" href="#" data-uri="/dashboard" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Tableau de bord</a>` : ''}
@@ -55,7 +55,7 @@ async function renderNavbar() {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
-                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 280px; height: 70px;">
+                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="font-size: 1.1em;">

@@ -10,6 +10,7 @@ import Navigate from '../Router/Navigate';
 import { refreshUser } from "../../model/users";
 import { getCurrentAcademicYear } from "../../model/years";
 import Navbar from "../Navbar/Navbar";
+import robot from '../../img/robot.jpg';
 
 let entreprises;
 let searchResult = [];
@@ -29,6 +30,7 @@ const HomePage = async () => {
 async function renderEntreprises(){
   entreprises = await getEntreprises();
   searchResult = entreprises;
+
 }
 
 async function renderSearchBar() {
@@ -87,7 +89,8 @@ async function renderHomePage(){
 
     if(!searchResult || searchResult.length === 0) {
       resultsContainer.innerHTML = `
-      <p>Aucune entreprise n'a été trouvé.</p>
+        <img src="${robot}" alt="Robot" class="d-block mx-auto my-5" style="width: 200px; height: 200px;">
+      <p style="text-align: center;">Aucune entreprise n'a été trouvé.</p>
       `;
     } else {
       resultsContainer.innerHTML = `
