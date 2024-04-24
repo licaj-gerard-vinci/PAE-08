@@ -37,8 +37,6 @@ function toggleModalSucces() {
   }, 5000);
 }
 
-
-
 let managers = [];
 
 const Internship = async (contactFound) => {

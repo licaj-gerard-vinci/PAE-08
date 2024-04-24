@@ -3,12 +3,9 @@ import {clearPage} from "../../utils/render";
 import {getAuthenticatedUser} from "../../utils/auths";
 import {getEntreprises,insertEntreprises} from "../../model/entreprises";
 
-
-
-
 const NewCompany = () => {
     const authenticatedUser = getAuthenticatedUser();
-    if(!authenticatedUser) {
+    if(!authenticatedUser || authenticatedUser.role !== 'E') {
         Navigate('/');
         return;
     }

@@ -4,6 +4,12 @@ import {getContactByCompanyId} from "../../model/contacts";
 import Navigate from "../Router/Navigate";
 import {getAuthenticatedUser} from "../../utils/auths";
 
+let authenticatedUser = getAuthenticatedUser();
+
+if (!authenticatedUser || authenticatedUser.role !== 'P') {
+  Navigate('/');
+}
+
 function generateContactsTable(contacts) {
   let contactsTable = '<table class="table table-hover shadow-sm">';
   contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
@@ -65,7 +71,7 @@ const CompanyPage = async (companyId) => {
     return;
   }
   clearPage();
-  const authenticatedUser = getAuthenticatedUser();
+  authenticatedUser = getAuthenticatedUser();
   if (!authenticatedUser) {
     Navigate('/');
     return;
