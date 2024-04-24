@@ -8,6 +8,7 @@ import {getContacts} from "../../model/contacts";
 import {getAllInternships} from "../../model/internships";
 
 const Dashboard = async () => {
+    
     clearPage();
     const main = document.querySelector('main');
     const academicYears = await getAllAcademicYears();

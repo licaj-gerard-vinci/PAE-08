@@ -28,7 +28,7 @@ async function renderNavbar() {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand d-flex align-items-center" href="#" data-uri="/" style="color: #fff; font-size: 0.9em;">
+            <a class="navbar-brand d-flex align-items-center" data-uri="/" style="color: #fff; font-size: 0.9em;">
                 <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             ${showDashboard ? `
@@ -54,7 +54,7 @@ async function renderNavbar() {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#" data-uri="/" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
+            <a class="navbar-brand" data-uri="/" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
                 <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

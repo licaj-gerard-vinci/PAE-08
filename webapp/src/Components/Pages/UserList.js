@@ -92,7 +92,7 @@ function displayFilters(years) {
       <div class="row align-items-end">
         <div class="col-md">
           <div class="form-group mb-3">
-            <label for="search">Recherche d'utilisateur :</label>
+            <label for="search">🔍 Recherche d'utilisateur :</label>
             <div class="input-group">
               <input type="text" class="form-control" id="search" placeholder="Nom ou Prénom">
             </div>
@@ -100,7 +100,7 @@ function displayFilters(years) {
         </div>
         <div class="col-md">
           <div class="form-group mb-3">
-            <label for="filter">Filtrer par rôle :</label>
+            <label for="filter">👨 Filtrer par rôle :</label>
             <div class="input-group">
               <select class="form-control" id="filter">
                 <option value="all">Tous</option>
@@ -116,7 +116,7 @@ function displayFilters(years) {
         </div>
         <div class="col-md">
           <div class="form-group mb-3">                 
-            <label for="year">Filtrer par année académique :</label>
+            <label for="year">📅 Filtrer par année académique :</label>
             <div class="input-group">
               <select class="form-control" id="year">
                 <option value="all">Toutes</option>
