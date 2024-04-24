@@ -98,13 +98,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with non-existing user")
   void testInsertContactNonExistingUser() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -125,13 +125,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with non-existing company")
   void testInsertContactNonExistingCompany() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -152,13 +152,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with existing contact")
   void testInsertContactAlreadyExistingContact() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -178,16 +178,17 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
   void testInsertContactThrowFatalException() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
-    UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
     YearDTO year = factory.getYearDTO();
     year.setId(1);
     year.setYear("2021");
 
+    UserDTO user = factory.getPublicUser();
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company

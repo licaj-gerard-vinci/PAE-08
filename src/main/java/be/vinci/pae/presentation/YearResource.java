@@ -38,6 +38,11 @@ public class YearResource {
     return myYearUcc.getAllAcademicYears();
   }
 
+  /**
+   * Get the current academic year.
+   *
+   * @return the current academic year
+   */
   @GET
   @Path("/current")
   @Produces(MediaType.TEXT_PLAIN)
