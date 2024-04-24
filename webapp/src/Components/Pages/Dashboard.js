@@ -3,7 +3,7 @@ import Chart from "chart.js/auto";
 import {clearPage} from "../../utils/render";
 import {getEntreprises} from "../../model/entreprises";
 import Navigate from "../Router/Navigate";
-import getAllAcademicYears from "../../model/years";
+import {getAllAcademicYears} from "../../model/years";
 import {getContacts} from "../../model/contacts";
 import {getAllInternships} from "../../model/internships";
 

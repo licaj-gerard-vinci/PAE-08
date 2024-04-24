@@ -319,6 +319,7 @@ async function displayContacts() {
               <th style="padding: 10px 0; text-align: left;">État contact</th>
               <th style="padding: 10px 0; text-align: left;">Lieu rencontre</th>
               <th style="padding: 10px 0; text-align: left;">Raison refus</th>
+              <th style="padding: 10px 0; text-align: left;">Année académique</th>
             </tr>
           </thead>
           <tbody>`;
@@ -330,6 +331,7 @@ async function displayContacts() {
           <td style="padding: 15px 0; text-align: left;">${contact.contactStatus}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.meetingPlace ? contact.meetingPlace : '/'}</td>
           <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.refusalReason ? contact.refusalReason : '/'}</td>
+          <td style="padding: 15px 0; text-align: left;">${contact.year.year}</td>
         </tr>
       `;
     });

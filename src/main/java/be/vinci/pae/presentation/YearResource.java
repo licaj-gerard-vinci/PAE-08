@@ -1,5 +1,6 @@
 package be.vinci.pae.presentation;
 
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.presentation.filters.Authorize;
@@ -22,6 +23,8 @@ public class YearResource {
 
   @Inject
   private YearUCC myYearUcc;
+  @Inject
+  private Year year;
 
   /**
    * Get all years.
@@ -33,5 +36,13 @@ public class YearResource {
   @Authorize(roles = {"A", "P"})
   public List<YearDTO> getYears() {
     return myYearUcc.getAllAcademicYears();
+  }
+
+  @GET
+  @Path("/current")
+  @Produces(MediaType.TEXT_PLAIN)
+  @Authorize(roles = {"E"})
+  public String getCurrentYear() {
+    return year.renderCurrentYear();
   }
 }
