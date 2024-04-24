@@ -6,7 +6,7 @@ import {getAuthenticatedUser} from "../../utils/auths";
 
 let authenticatedUser = getAuthenticatedUser();
 
-if (!authenticatedUser || authenticatedUser.role !== 'P') {
+if (!authenticatedUser || authenticatedUser.user.role !== 'P') {
   Navigate('/');
 }
 

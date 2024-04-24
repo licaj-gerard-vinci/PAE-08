@@ -5,7 +5,7 @@ import {getEntreprises,insertEntreprises} from "../../model/entreprises";
 
 const NewCompany = () => {
     const authenticatedUser = getAuthenticatedUser();
-    if(!authenticatedUser || authenticatedUser.role !== 'E') {
+    if(!authenticatedUser) {
         Navigate('/');
         return;
     }
@@ -45,7 +45,7 @@ function renderNewCompanyForm ()  {
                   
                   <div class="mb-3 form-group">
                     <label for="CodePostal">Code Postal<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="CodePostal" placeholder="Code Postal">
+                    <input type="number" class="form-control" id="CodePostal" placeholder="Code Postal">
                   </div>
                   
                   
@@ -147,7 +147,7 @@ async function checkCompany() {
 
         EmailError.textContent = '';
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailValue)) {
+        if (!emailRegex.test(emailValue) && emailValue !== '') {
             EmailError.textContent = 'Le format de l\'email n\'est pas correct';
             return;
         }
