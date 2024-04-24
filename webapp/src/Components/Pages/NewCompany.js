@@ -168,7 +168,7 @@ async function checkCompany() {
             phone: phoneValue,
             email: emailValue,
             adresse: adresseValue,
-            city: cityValue + codePostalValue,
+            city: `${codePostalValue} ${cityValue}`,
             motivation: '',
 
         }
