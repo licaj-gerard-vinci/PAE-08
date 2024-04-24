@@ -3,7 +3,6 @@ package be.vinci.pae.business.user;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDate;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -302,26 +301,6 @@ public class UserImpl implements User {
   @Override
   public void setVersion(int version) {
     this.version = version;
-  }
-
-  /**
-   * Get the current academic year.
-   *
-   * @return a String of the current academic year
-   */
-  @Override
-  public String renderCurrentYear() {
-    LocalDate currentDate = LocalDate.now();
-    int currentMonth = currentDate.getMonthValue();
-
-    // Determine the academic year
-    String academicYear;
-    if (currentMonth < 9) {
-      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
-    } else {
-      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
-    }
-    return academicYear;
   }
 
   /**

@@ -1,9 +1,11 @@
 package be.vinci.pae.business.year;
 
+import java.time.LocalDate;
+
 /**
  * Represents the AnneeImpl class.
  */
-public class YearImpl implements YearDTO {
+public class YearImpl implements Year {
 
   private int id;
   private String year;
@@ -67,5 +69,25 @@ public class YearImpl implements YearDTO {
   @Override
   public void setVersion(int version) {
     this.version = version;
+  }
+
+  /**
+   * Retrieves the current year.
+   *
+   * @return The {@link YearDTO} instance representing the current year.
+   */
+  @Override
+  public String renderCurrentYear() {
+    LocalDate currentDate = LocalDate.now();
+    int currentMonth = currentDate.getMonthValue();
+
+    // Determine the academic year
+    String academicYear;
+    if (currentMonth < 9) {
+      academicYear = (currentDate.getYear() - 1) + "-" + currentDate.getYear();
+    } else {
+      academicYear = currentDate.getYear() + "-" + (currentDate.getYear() + 1);
+    }
+    return academicYear;
   }
 }

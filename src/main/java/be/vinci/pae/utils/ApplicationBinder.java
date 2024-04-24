@@ -12,6 +12,8 @@ import be.vinci.pae.business.manager.ManagerUCC;
 import be.vinci.pae.business.manager.ManagerUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
+import be.vinci.pae.business.year.Year;
+import be.vinci.pae.business.year.YearImpl;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALBackService;
@@ -63,5 +65,6 @@ public class ApplicationBinder extends AbstractBinder {
     bind(ManagerDAOImpl.class).to(ManagerDAO.class).in(Singleton.class);
     bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);
     bind(YearDAOImpl.class).to(YearDAO.class).in(Singleton.class);
+    bind(YearImpl.class).to(Year.class).in(Singleton.class);
   }
 }

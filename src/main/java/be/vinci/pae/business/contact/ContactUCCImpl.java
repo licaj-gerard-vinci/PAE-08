@@ -2,6 +2,9 @@ package be.vinci.pae.business.contact;
 
 import be.vinci.pae.business.company.CompanyUCC;
 import be.vinci.pae.business.user.UserUCC;
+import be.vinci.pae.business.year.Year;
+import be.vinci.pae.business.year.YearDTO;
+import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.user.UserDAO;
@@ -19,18 +22,18 @@ public class ContactUCCImpl implements ContactUCC {
 
   @Inject
   private ContactDAO contactDAO;
-
   @Inject
   private DALServices dalServices;
-
   @Inject
-  private UserUCC myUser;
-
+  private UserUCC myUserUCC;
   @Inject
   private UserDAO myDaoUser;
-
   @Inject
-  private CompanyUCC myCompany;
+  private CompanyUCC myCompanyUCC;
+  @Inject
+  private YearUCC myYearUCC;
+  @Inject
+  private Year year;
 
   /**
    * Retrieves a list of contacts for a specific user.
@@ -55,7 +58,7 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public List<ContactDTO> getContactsByUserId(int idUser) {
-    myUser.getOne(idUser);
+    myUserUCC.getOne(idUser);
 
     try {
       dalServices.openConnection();
@@ -95,10 +98,14 @@ public class ContactUCCImpl implements ContactUCC {
       throw new ConflictException("Contact already exists");
     }
 
-    myUser.getOne(contact.getStudent().getId());
+    myUserUCC.getOne(contact.getStudent().getId());
 
-    myCompany.getCompanyById(contact.getCompany().getId());
+    myCompanyUCC.getCompanyById(contact.getCompany().getId());
 
+    String currentYear = year.renderCurrentYear();
+    YearDTO yearDTO = myYearUCC.getYearByYear(currentYear);
+    contact.setYear(yearDTO);
+    contact.setIdYear(yearDTO.getId());
     try {
       dalServices.startTransaction();
       contactDAO.insertContact(contact);
@@ -154,7 +161,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @return the contact.
    */
   public List<ContactDTO> getContactsByCompanyId(int idCompany) {
-    myCompany.getCompanyById(idCompany);
+    myCompanyUCC.getCompanyById(idCompany);
 
     try {
       dalServices.openConnection();
@@ -199,7 +206,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param idCompany the ID of the company to blacklist
    */
   public void blackListContact(int idCompany) {
-    myCompany.getCompanyById(idCompany);
+    myCompanyUCC.getCompanyById(idCompany);
 
     try {
       dalServices.startTransaction();

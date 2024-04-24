@@ -14,9 +14,12 @@ import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.user.UserDTO;
+import be.vinci.pae.business.year.Year;
+import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.user.UserDAO;
+import be.vinci.pae.dal.year.YearDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
@@ -42,6 +45,8 @@ public class ContactUCCTest {
   private ContactDAO contactDAO;
   private UserDAO userDAO;
   private CompanyDAO companyDAO;
+  private YearDAO yearDAO;
+  private Year mockYear;
 
   @BeforeEach
   void setUpBeforeEach() {
@@ -51,31 +56,41 @@ public class ContactUCCTest {
     contactDAO = locator.getService(ContactDAO.class);
     userDAO = locator.getService(UserDAO.class);
     companyDAO = locator.getService(CompanyDAO.class);
+    yearDAO = locator.getService(YearDAO.class);
+    mockYear = locator.getService(Year.class);
 
-    Mockito.reset(contactDAO, userDAO, companyDAO);
+    Mockito.reset(contactDAO, userDAO, companyDAO, yearDAO, mockYear);
   }
 
   @Test
   @DisplayName("Test InsertContact of ContactUCC class with valid information")
   void testInsertContactDefault() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
-    UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setYear("2021");
 
+    UserDTO user = factory.getPublicUser();
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
+    contact.setIdYear(year.getId());
+    contact.setYear(year);
 
     // Define the behavior of the mock
+    Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
+    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
 
-    // Everything return the expected value
+
     assertDoesNotThrow(() -> contactUCC.insertContact(contact));
   }
 
@@ -83,13 +98,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with non-existing user")
   void testInsertContactNonExistingUser() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -110,13 +125,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with non-existing company")
   void testInsertContactNonExistingCompany() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -137,13 +152,13 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with existing contact")
   void testInsertContactAlreadyExistingContact() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
     UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
-
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
@@ -163,21 +178,29 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
   void testInsertContactThrowFatalException() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
-    UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
+    YearDTO year = factory.getYearDTO();
+    year.setId(1);
+    year.setYear("2021");
 
+    UserDTO user = factory.getPublicUser();
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company
+    contact.setIdYear(year.getId());
+    contact.setYear(year);
 
     // Define the behavior of the mock
+    Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
+    Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
     Mockito.doThrow(FatalException.class)
             .when(contactDAO).insertContact(contact);
 

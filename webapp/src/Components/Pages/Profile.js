@@ -6,7 +6,7 @@ import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
 import { getStagePresent,updateInternship } from '../../model/internships';
 import { checkPassword, refreshUser, updateUser } from '../../model/users';
-import { getContacts } from '../../model/contacts';
+import {getContactsById} from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
@@ -301,7 +301,7 @@ async function displayStage() {
 }
 
 async function displayContacts() {
-  const contacts = await getContacts();
+  const contacts = await getContactsById(getAuthenticatedUser().user.id);
   const contactsDiv = document.createElement('div');
   contactsDiv.classList.add('contacts-container', 'shadow', 'p-4', 'bg-white', 'rounded');
   contactsDiv.style =
@@ -319,6 +319,7 @@ async function displayContacts() {
               <th style="padding: 10px 0; text-align: left;">État contact</th>
               <th style="padding: 10px 0; text-align: left;">Lieu rencontre</th>
               <th style="padding: 10px 0; text-align: left;">Raison refus</th>
+              <th style="padding: 10px 0; text-align: left;">Année académique</th>
             </tr>
           </thead>
           <tbody>`;
@@ -330,6 +331,7 @@ async function displayContacts() {
           <td style="padding: 15px 0; text-align: left;">${contact.contactStatus}</td>
           <td style="padding: 15px 0; text-align: left;">${contact.meetingPlace ? contact.meetingPlace : '/'}</td>
           <td style="padding: 15px 0; text-align: left; max-width: 250px; word-wrap: break-word;">${contact.refusalReason ? contact.refusalReason : '/'}</td>
+          <td style="padding: 15px 0; text-align: left;">${contact.year.year}</td>
         </tr>
       `;
     });

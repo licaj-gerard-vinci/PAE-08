@@ -1,5 +1,7 @@
 package be.vinci.pae.business.user;
 
+import be.vinci.pae.business.factory.Factory;
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearDTO;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
@@ -26,6 +28,8 @@ public class UserUCCImpl implements UserUCC {
   private DALServices dalServices;
   @Inject
   private YearUCC yearUCC;
+  @Inject
+  private Factory factory;
 
 
 
@@ -105,15 +109,14 @@ public class UserUCCImpl implements UserUCC {
     } else {
       throw new BusinessException("Invalid email");
     }
-
-    User userCurrentAcademicYear = (User) userDTO;
     // Get the current date in the format YYYY-MM-DD
-    String academicYear = userCurrentAcademicYear.renderCurrentYear();
+    Year year = (Year) factory.getYearDTO();
+    String academicYear = year.renderCurrentYear();
 
-    YearDTO year = yearUCC.getYearByYear(academicYear);
-    userDTO.setSchoolyear(year);
+    YearDTO yearDTO = yearUCC.getYearByYear(academicYear);
+    userDTO.setSchoolyear(yearDTO);
     // Set the year and year ID for the user
-    userDTO.setidSchoolYear(year.getId());
+    userDTO.setidSchoolYear(yearDTO.getId());
 
     try {
       dalServices.startTransaction();

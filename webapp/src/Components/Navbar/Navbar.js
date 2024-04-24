@@ -1,21 +1,23 @@
 // eslint-disable-next-line no-unused-vars
-import { isAuthenticated, getAuthenticatedUser } from '../../utils/auths';
+import { isAuthenticated } from '../../utils/auths';
 import logo from '../../img/logoNavBar.jpg';
+import { refreshUser } from '../../model/users';
 
 const Navbar = () => {
     
     renderNavbar();
 };
 
-function renderNavbar() {
-    const user = getAuthenticatedUser();
-    const userFirstName = user?.user?.firstname || '';
-    const userName = user?.user?.lastname || '';
+async function renderNavbar() {
+    const user = await refreshUser();
+    console.log('user',user)
+    const userFirstName = user?.firstname || '';
+    const userName = user?.lastname || '';
 
     // Déterminer si le bouton de recherche utilisateur doit être affiché
-    const showSearchUserButton = user?.user?.role === 'A' || user?.user?.role === 'P';
-    const showDashboard = user?.user?.role === 'P';
-    const showCompaniesListButton = user?.user?.role === 'E' && user?.user?.hasInternship === false; 
+    const showSearchUserButton = user?.role === 'A' || user?.role === 'P';
+    const showDashboard = user?.role === 'P';
+    const showCompaniesListButton = user?.role === 'E' && user?.hasInternship === false; 
 
 
 

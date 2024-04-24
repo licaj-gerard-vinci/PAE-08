@@ -260,4 +260,5 @@ public class ContactImpl implements Contact {
 
     return !expectedState.equals("initié");
   }
+
 }

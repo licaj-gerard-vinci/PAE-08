@@ -40,7 +40,7 @@ const insertEntreprises = async (entreprise) => {
         adresse: entreprise.adresse,
         phone: entreprise.phone,
         email: entreprise.email,
-        designation: entreprise.appelation,
+        designation: entreprise.designation,
         city: entreprise.city,
         motivation: '',
       }),

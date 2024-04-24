@@ -12,6 +12,7 @@ import be.vinci.pae.business.manager.ManagerUCC;
 import be.vinci.pae.business.manager.ManagerUCCImpl;
 import be.vinci.pae.business.user.UserUCC;
 import be.vinci.pae.business.user.UserUCCImpl;
+import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.business.year.YearUCCImpl;
 import be.vinci.pae.dal.DALBackService;
@@ -62,6 +63,7 @@ public class ApplicationBinderTest extends AbstractBinder {
 
     bind(YearUCCImpl.class).to(YearUCC.class).in(Singleton.class);
     bind(Mockito.mock(YearDAO.class)).to(YearDAO.class);
+    bind(Mockito.mock(Year.class)).to(Year.class);
   }
 }
   

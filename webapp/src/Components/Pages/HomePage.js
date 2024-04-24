@@ -8,8 +8,9 @@ import {getEntreprises} from "../../model/entreprises";
 import logo from '../../img/companyLogo.png';
 import Navigate from '../Router/Navigate';
 import { refreshUser } from "../../model/users";
+import { getCurrentAcademicYear } from "../../model/years";
+import Navbar from "../Navbar/Navbar";
 import robot from '../../img/robot.jpg';
-
 
 let entreprises;
 let searchResult = [];
@@ -75,6 +76,7 @@ async function renderHomePage(){
   const user = await refreshUser();
 
   if(user.hasInternship === true) {
+    Navbar();
     Navigate('/profile')
     return;
   }
@@ -83,6 +85,7 @@ async function renderHomePage(){
     Navigate('/dashboard');
   } else if (user.role === "E") {
     const contacts = await getContacts();
+    const currentAcademicYear = await getCurrentAcademicYear();
 
     if(!searchResult || searchResult.length === 0) {
       resultsContainer.innerHTML = `
@@ -110,7 +113,7 @@ async function renderHomePage(){
           backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightred" style="border-radius: 50px;`;
         }
         else if(contacts){
-          const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.id === user.idSchoolYear);
+          const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.year === currentAcademicYear && contact.student.id === user.id);
           if(!contactFound){
             button = `
                 <div class="row">
@@ -194,7 +197,7 @@ async function renderHomePage(){
               <div class="row">
                 <div class="col"></div>
                 <div class="col d-flex justify-content-center">
-                  <button type='button' class='btn btn-primary' id='StartedButton${company.id}'>Contacter l'entreprise</button>
+                  <button type='button' class='btn btn-primary' id='startedButton${company.id}'>Contacter l'entreprise</button>
                 </div>
                 <div class="col"></div>
               </div>`;
@@ -223,19 +226,20 @@ async function renderHomePage(){
       </div>
       `;
 
-      entreprises.forEach(entreprise => {
-        const startedButton = document.querySelector(`#startedButton${entreprise.id}`);
-        const admittedButton = document.querySelector(`#admittedButton${entreprise.id}`);
-        const acceptedButton = document.querySelector(`#acceptedButton${entreprise.id}`);
-        const turnedDownButton = document.querySelector(`#turnedDownButton${entreprise.id}`);
-        const unsupervisedButton = document.querySelector(`#unsupervisedButton${entreprise.id}`);
-        const contactFound = contacts.find(contact => contact.idCompany === entreprise.id && contact.year.id === user.idSchoolYear);
+      entreprises.forEach(company => {
+        const startedButton = document.querySelector(`#startedButton${company.id}`);
+        const admittedButton = document.querySelector(`#admittedButton${company.id}`);
+        const acceptedButton = document.querySelector(`#acceptedButton${company.id}`);
+        const turnedDownButton = document.querySelector(`#turnedDownButton${company.id}`);
+        const unsupervisedButton = document.querySelector(`#unsupervisedButton${company.id}`);
+        const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.year === currentAcademicYear && contact.student.id === user.id);
+
 
         if (startedButton) {
           startedButton.addEventListener('click', async () => {
             // to make sure the insertion isn't done twice
             startedButton.disabled = true;
-            await insertContact(entreprise, user, "initié");
+            await insertContact(company, user, "initié");
             await renderHomePage();
             startedButton.disabled = false;
           });
@@ -243,16 +247,16 @@ async function renderHomePage(){
 
         if (admittedButton) {
           admittedButton.addEventListener('click', async () => {
-            document.querySelector(`#form${entreprise.id}`).style.display = 'block';
+            document.querySelector(`#form${company.id}`).style.display = 'block';
           });
         }
 
-        if (document.querySelector(`#saveMeetingButton${entreprise.id}`)) {
-          document.querySelector(`#saveMeetingButton${entreprise.id}`).addEventListener('click', async () => {
+        if (document.querySelector(`#saveMeetingButton${company.id}`)) {
+          document.querySelector(`#saveMeetingButton${company.id}`).addEventListener('click', async () => {
             const contactVersion = contactFound.version;
-            const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
+            const textInputValue = document.querySelector(`#textInput${company.id}`).value;
             if(textInputValue){
-              await updateContact(contactFound.id, entreprise, user, "pris", null, textInputValue, contactVersion);
+              await updateContact(contactFound.id, company, user, "pris", null, textInputValue, contactVersion);
               await renderHomePage();
             }
 
@@ -274,7 +278,7 @@ async function renderHomePage(){
             const contactVersion = contactFound.version;
             // to make sure the insertion isn't done twice
             unsupervisedButton.disabled = true;
-            await updateContact(contactFound.id, entreprise, user, "non suivi", null, null, contactVersion);
+            await updateContact(contactFound.id, company, user, "non suivi", null, null, contactVersion);
             await renderHomePage();
             unsupervisedButton.disabled = false;
           });
@@ -282,16 +286,16 @@ async function renderHomePage(){
 
         if (turnedDownButton) {
           turnedDownButton.addEventListener('click', () => {
-            document.querySelector(`#form${entreprise.id}`).style.display = 'block';
+            document.querySelector(`#form${company.id}`).style.display = 'block';
           });
         }
 
-        if (document.querySelector(`#saveRefusalReasonButton${entreprise.id}`)) {
-          document.querySelector(`#saveRefusalReasonButton${entreprise.id}`).addEventListener('click', async () => {
-            const textInputValue = document.querySelector(`#textInput${entreprise.id}`).value;
+        if (document.querySelector(`#saveRefusalReasonButton${company.id}`)) {
+          document.querySelector(`#saveRefusalReasonButton${company.id}`).addEventListener('click', async () => {
+            const textInputValue = document.querySelector(`#textInput${company.id}`).value;
             const contactVersion = contactFound.version;
             if(textInputValue){
-              await updateContact(contactFound.id, entreprise, user, "refusé", textInputValue, null, contactVersion);
+              await updateContact(contactFound.id, company, user, "refusé", textInputValue, null, contactVersion);
               await renderHomePage();
             }
           });
@@ -305,7 +309,7 @@ async function renderHomePage(){
 if(user.role === "E"){
 const addCompanie = document.getElementById('button-addon3');
   addCompanie.addEventListener('click', () => {
-    window.location.href = '/addCompany';
+    Navigate('/addCompany');
   });
 
 }

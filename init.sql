@@ -38,27 +38,27 @@ INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_em
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_has_internship, user_version)VALUES ('Lehmann', 'Brigitte', '0482 02 02 02', 'brigitte.lehmann@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'P', '21-09-20',false,1);
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_has_internship, user_version)VALUES ('Leleux', 'Laurent', '0483 03 03 03', 'laurent.leleux@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'P', '21-09-20',false,1);
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_has_internship, user_version)VALUES ('Lancaster', 'Annouck', '0484 04 04 04', 'annouck.lancaster@vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'A', '21-09-20',false,1);
-
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('skile', 'Elle', '0491 00 00 01', 'elle.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ilotie', 'Basile', '0491 00 00 11', 'Basile.Ilotie@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Frilot', 'Basile', '0491 00 00 21', 'Basile.frilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ilot', 'Basile', '0492 00 00 01', 'Basile.Ilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('dito', 'Arnaud', '0493 00 00 01', 'Arnaud.dito@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('dilo', 'Arnaud', '0494 00 00 01', 'Arnaud.dilo@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('dilot', 'Cedric', '0495 00 00 01', 'Cedric.dilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('linot', 'Auristelle', '0496 00 00 01', 'Auristelle.linot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('demoulin', 'Basile', '0496 00 00 02', 'basile.demoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('moulin', 'Arthur', '0497 00 00 02', 'Arthur.moulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('moulin', 'Hugo', '0497 00 00 03', 'Hugo.moulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('mile', 'Aurèle', '0497 00 00 21', 'Aurèle.mile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('mile', 'Frank', '0497 00 00 75', 'Frank.mile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('dumoulin', 'Basile', '0497 00 00 58', 'basile.dumoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('dumoulin', 'Axel', '0497 00 00 97', 'Axel.dumoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Line', 'Caroline', '0486 00 00 01', 'Caroline.line@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ile', 'Achille', '0487 00 00 01', 'Ach.ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ile', 'Basile', '0488 00 00 01', 'Basile.Ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('skile', 'Achille', '0490 00 00 01', 'Achille.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,false,1);
-INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('skile', 'Carole', '0489 00 00 01', 'Carole.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Skile', 'Elle', '0491 00 00 01', 'elle.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ilotie', 'Basile', '0491 00 00 11', 'basile.ilotie@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Frilot', 'Basile', '0491 00 00 21', 'basile.frilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ilot', 'Basile', '0492 00 00 01', 'basile.ilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Dito', 'Arnaud', '0493 00 00 01', 'arnaud.dito@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Dilo', 'Arnaud', '0494 00 00 01', 'arnaud.dilo@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Dilot', 'Cedric', '0495 00 00 01', 'cedric.dilot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Linot', 'Auristelle', '0496 00 00 01', 'auristelle.linot@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '21-09-2021', 2,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Demoulin', 'Basile', '0496 00 00 02', 'basile.demoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Moulin', 'Arthur', '0497 00 00 02', 'arthur.moulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Moulin', 'Hugo', '0497 00 00 03', 'hugo.moulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Demoulin', 'Jeremy', '0497 00 00 20', 'jeremy.demoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Mile', 'Aurèle', '0497 00 00 21', 'aurele.mile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '23-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Mile', 'Frank', '0497 00 00 75', 'frank.mile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Dumoulin', 'Basile', '0497 00 00 58', 'basile.dumoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Dumoulin', 'Axel', '0497 00 00 97', 'axel.dumoulin@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '27-09-2022', 3,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Line', 'Caroline', '0486 00 00 01', 'caroline.line@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ile', 'Achille', '0487 00 00 01', 'ach.ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ile', 'Basile', '0488 00 00 01', 'basile.ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Skile', 'Achille', '0490 00 00 01', 'achille.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,false,1);
+INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Skile', 'Carole', '0489 00 00 01', 'carole.skile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '18-09-2023', 4,true,1);
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date, user_school_year_id,user_has_internship, user_version)VALUES ('Ile', 'Théophile', '0488 35 33 89', 'theophile.ile@student.vinci.be', '$2a$10$gBeAqmeUASae1u3ak3arcuuNqmC59wV.wuhFUjrOhaWrZen6JWQU2', 'E', '01-03-2024', 4,false,1);
 
 
@@ -85,7 +85,7 @@ CREATE TABLE pae.companies(
                               company_email                       TEXT,
                               company_is_blacklisted              BOOLEAN NOT NULL,
                               company_blacklist_reason            TEXT,
-                              company_version                            INTEGER
+                              company_version                     INTEGER
 );
 
 
@@ -117,25 +117,25 @@ CREATE TABLE pae.contacts(
 );
 
 -- CONTACTS FOR 2023-2024
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,24,5,'accepté','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,21,7,'accepté','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,21,6,'refusé','N''ont pas accepté d''avoir un entretien','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,22,1,'accepté','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,22,5,'suspendu','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,22,7,'suspendu',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,22,6,'refusé','ne prennent qu un seul étudiant','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,20,6,'refusé','Pas d’affinité avec le l’ERP Odoo','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,20,7,'non suivi',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version,contact_meeting_place)VALUES (4,20,5,'pris',1,'distance');
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,25,7,'initié',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,25,6,'initié',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,25,5,'initié',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,25,7,'initié',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,25,5,'accepté','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,22,7,'accepté','sur place',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,22,6,'refusé','N''ont pas accepté d''avoir un entretien','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,23,1,'accepté','sur place',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (4,23,5,'suspendu','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,23,7,'suspendu',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,23,6,'refusé','ne prennent qu un seul étudiant','sur place',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (4,21,6,'refusé','Pas d’affinité avec le l’ERP Odoo','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,21,7,'non suivi',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version,contact_meeting_place)VALUES (4,21,5,'pris',1,'distance');
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,26,7,'initié',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,26,6,'initié',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,26,5,'initié',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (4,24,7,'initié',1);
 
 
 -- CONTACTS FOR 2021-2022
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (2,5,4,'accepté','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (2,8,7,'non suivis',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_version)VALUES (2,8,7,'non suivi',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (2,7,8,'refusé','ne prennent pas de stage','distance',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (2,9,7,'accepté','sur place',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (2,10,7,'accepté','sur place',1);
@@ -146,33 +146,16 @@ INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_comp
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (2,12,6,'refusé','Choix autre étudiant','distance',1);
 
 -- CONTACTS FOR 2022-2023
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,16,1,'accepté','distance',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,14,2,'accepté','sur place',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,15,2,'accepté','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,16,2,'accepté','distance',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,17,2,'accepté','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,18,2,'refusé','Entretien n''a pas eu lieu','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,18,6,'refusé','Entretien n''a pas eu lieu','sur place',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,18,7,'refusé','Entretien n''a pas eu lieu','distance',1);
-INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,19,7,'accepté','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,18,2,'accepté','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,19,2,'refusé','Entretien n''a pas eu lieu','sur place',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,19,6,'refusé','Entretien n''a pas eu lieu','sur place',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,19,7,'refusé','Entretien n''a pas eu lieu','distance',1);
+INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_meeting_place,contact_version)VALUES (3,20,7,'accepté','distance',1);
 INSERT INTO pae.contacts (contact_school_year_id,contact_student_id,contact_company_id,contact_status,contact_refusal_reason,contact_meeting_place,contact_version)VALUES (3,7,7,'refusé','Choix autre étudiant','distance',1);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -201,10 +184,6 @@ INSERT INTO pae.managers (manager_lastname,manager_firstname,manager_phone_numbe
 
 
 
-
-
-
-
 DROP TABLE IF EXISTS pae.internships;
 CREATE TABLE pae.internships
 (
@@ -218,10 +197,11 @@ CREATE TABLE pae.internships
     internship_date_of_signature       DATE,
     internship_version                 INTEGER
 );
+
 -- INTERNSHIP 2023-2024
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (1, 24, 1, 5, 4, 'Un ERP : Odoo', '10-10-23',1);
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (2, 21, 2, 7, 4, 'sBMS project - a complex environment', '23-11-23',1);
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (3, 22, 4, 1, 4, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (1, 25, 1, 5, 4, 'Un ERP : Odoo', '10-10-23',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (2, 22, 2, 7, 4, 'sBMS project - a complex environment', '23-11-23',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (3, 23, 4, 1, 4, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23',1);
 
 
 -- INTERNSHIP 2021-2022
@@ -233,19 +213,12 @@ INSERT INTO pae.internships(internship_manager_id, internship_student_id, intern
 
 
 -- INTERNSHIP 2022-2023
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 14, 25, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 15, 26, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 16, 27, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (3, 16, 25, 1, 3, 'CRM : Microsoft Dynamics 365 For Sales', '23-11-2022',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 14, 26, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 15, 27, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
 INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 17, 28, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
-INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (2, 19, 32, 7, 3, 'sBMS project - Java Development', '17-10-2022',1);
-
-
-
-
-
-
-
-
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (6, 18, 29, 2, 3, 'Un métier : chef de projet', '19-10-2022',1);
+INSERT INTO pae.internships(internship_manager_id, internship_student_id, internship_contact_id, internship_company_id, internship_school_year_id, internship_topic, internship_date_of_signature,internship_version)VALUES (2, 20, 33, 7, 3, 'sBMS project - Java Development', '17-10-2022',1);
 
 
 

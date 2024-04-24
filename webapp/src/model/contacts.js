@@ -1,5 +1,4 @@
 import {
-    getAuthenticatedUser,
     getToken,
   } from '../utils/auths';
 
@@ -7,8 +6,6 @@ import {
 async function getContacts() {
     let contacts = null;
     const token = getToken();
-    const id = getAuthenticatedUser();
-    const idUser = id.user.id;
     if(token) {
       const options = {
         method: 'GET',
@@ -17,7 +14,7 @@ async function getContacts() {
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/contacts/${idUser}`, options);
+      const response = await fetch(`http://localhost:8080/contacts`, options);
 
     if (!response.ok) {
       return "Aucun contact n'as été passé";

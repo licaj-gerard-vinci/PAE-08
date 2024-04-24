@@ -34,12 +34,11 @@ public class ContactDAOImpl implements ContactDAO {
   @Override
   public List<ContactDTO> getContacts() {
     String query =
-        "SELECT comp.company_name, comp.company_designation, con.contact_contact_status,"
-            + " con.contact_meeting_place"
-            + ", con.contact_refusal_reason, con.contact_contact_id "
+        "SELECT con.*, usr.*, comp.*, sy.* "
             + "FROM pae.users AS usr "
-            + "JOIN pae.contacts AS con ON usr.user_id = con.student_id "
-            + "JOIN pae.companies AS comp ON con.company_id = comp.company_id ";
+            + "JOIN pae.contacts AS con ON usr.user_id = con.contact_student_id "
+            + "JOIN pae.companies AS comp ON con.contact_company_id = comp.company_id "
+            + "JOIN pae.school_years AS sy ON con.contact_school_year_id = sy.school_year_id ";
 
     List<ContactDTO> contacts = new ArrayList<>();
 
@@ -69,10 +68,8 @@ public class ContactDAOImpl implements ContactDAO {
             + "FROM pae.contacts c "
             + "JOIN pae.users u ON c.contact_student_id = u.user_id "
             + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
-            + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
+            + "JOIN pae.school_years sy ON c.contact_school_year_id = sy.school_year_id "
             + "WHERE u.user_id = ? AND u.user_id = c.contact_student_id "
-            + "AND u.user_school_year_id = sy.school_year_id "
-            + "AND u.user_school_year_id = c.contact_school_year_id "
             + "AND c.contact_company_id = comp.company_id";
 
 
@@ -104,10 +101,8 @@ public class ContactDAOImpl implements ContactDAO {
             + "FROM pae.contacts c "
             + "JOIN pae.users u ON c.contact_student_id = u.user_id "
             + "JOIN pae.companies comp ON c.contact_company_id = comp.company_id "
-            + "LEFT JOIN pae.school_years sy ON u.user_school_year_id = sy.school_year_id "
-            + "WHERE c.contact_id = ? AND c.contact_student_id = u.user_id "
-            + "AND u.user_school_year_id = sy.school_year_id "
-            + "AND u.user_school_year_id = c.contact_school_year_id";
+            + "JOIN pae.school_years sy ON c.contact_school_year_id = sy.school_year_id "
+            + "WHERE c.contact_id = ? AND c.contact_student_id = u.user_id ";
 
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, idContact);
@@ -168,7 +163,7 @@ public class ContactDAOImpl implements ContactDAO {
         + "contact_status, contact_version) "
         + "VALUES (?, ?, ?, ?, 1)";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
-      statement.setInt(1, contact.getStudent().getidSchoolYear());
+      statement.setInt(1, contact.getIdYear());
       statement.setInt(2, contact.getCompany().getId());
       statement.setInt(3, contact.getStudent().getId());
       statement.setString(4, contact.getContactStatus());
