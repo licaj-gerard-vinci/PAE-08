@@ -2,7 +2,6 @@
 import Navigate from '../Router/Navigate';
 import { getAuthenticatedUser } from '../../utils/auths';
 import { getAllUsers } from '../../model/users';
-import {getAllAcademicYears} from '../../model/years';
 import getAllAcademicYears from '../../model/years';
 import robot from '../../img/robot.jpg';
 

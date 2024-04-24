@@ -83,6 +83,7 @@ async function checkCompany() {
     const email = document.getElementById('RegisterEmail');
     const adresse = document.getElementById('RegisterAdresse');
     const city = document.getElementById('RegisterCity');
+    const codePostal = document.getElementById('CodePostal');
 
     const  NameError = document.createElement('p');
     const PhoneError = document.createElement('p');
@@ -90,12 +91,14 @@ async function checkCompany() {
     const SubmitError = document.createElement('p');
     const CityError = document.createElement('p');
     const EmailError = document.createElement('p');
+    const CodePostalError = document.createElement('p');
     NameError.style.color = 'red';
     AdresseError.style.color = 'red';
     SubmitError.style.color = 'red';
     PhoneError.style.color = 'red';
     CityError.style.color = 'red';
     EmailError.style.color = 'red';
+    CodePostalError.style.color = 'red';
 
 
     name.parentNode.insertBefore(NameError, name.nextSibling);
@@ -104,6 +107,7 @@ async function checkCompany() {
     phone.parentNode.insertBefore(PhoneError, phone.nextSibling);
     city.parentNode.insertBefore(CityError, city.nextSibling);
     email.parentNode.insertBefore(EmailError, email.nextSibling);
+    codePostal.parentNode.insertBefore(CodePostalError, codePostal.nextSibling);
 
     submitButton.addEventListener('click', async (e) => {
         e.preventDefault(); // prevent the form from being submitted
@@ -113,6 +117,7 @@ async function checkCompany() {
         const emailValue = email.value;
         const cityValue = city.value;
         const appelationValue = appelation.value;
+        const codePostalValue = codePostal.value;
 
 
         NameError.textContent = '';
@@ -149,7 +154,11 @@ async function checkCompany() {
             EmailError.textContent = 'Le format de l\'email n\'est pas correct';
             return;
         }
-
+        if(codePostalValue === '') {
+            CodePostalError.textContent = 'Le code postal est obligatoire';
+            return;
+        }
+        CodePostalError.textContent = '';
 
 
         CityError.textContent = '';
@@ -159,7 +168,7 @@ async function checkCompany() {
             phone: phoneValue,
             email: emailValue,
             adresse: adresseValue,
-            city: cityValue,
+            city: cityValue + codePostalValue,
             motivation: '',
 
         }
