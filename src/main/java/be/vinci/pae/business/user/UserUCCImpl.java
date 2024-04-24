@@ -3,7 +3,6 @@ package be.vinci.pae.business.user;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.year.Year;
 import be.vinci.pae.business.year.YearDTO;
-import be.vinci.pae.business.year.YearImpl;
 import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;

@@ -66,16 +66,17 @@ public class ContactUCCTest {
   @DisplayName("Test InsertContact of ContactUCC class with valid information")
   void testInsertContactDefault() {
     // Create a dummy Contact
-    ContactDTO contact = factory.getContactDTO();
-    UserDTO user = factory.getPublicUser();
-    CompanyDTO company = factory.getCompanyDTO();
     YearDTO year = factory.getYearDTO();
     year.setId(1);
     year.setYear("2021");
 
+    UserDTO user = factory.getPublicUser();
     user.setId(1);
+
+    CompanyDTO company = factory.getCompanyDTO();
     company.setId(1);
 
+    ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setStudent(user); // Default user
     contact.setCompany(company); // Default company

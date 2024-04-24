@@ -3,7 +3,6 @@ package be.vinci.pae.business.user;
 import be.vinci.pae.business.year.YearDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDate;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
