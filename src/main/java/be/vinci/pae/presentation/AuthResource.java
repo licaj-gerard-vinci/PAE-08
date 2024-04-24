@@ -68,13 +68,13 @@ public class AuthResource {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
     if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
-      throw new WebApplicationException("email incorrect", Status.UNAUTHORIZED);
+      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
     }
 
     // Try to log in
     UserDTO publicUser = myUserUcc.login(email, password);
     if (publicUser == null) {
-      throw new WebApplicationException("not found", Status.UNAUTHORIZED);
+      throw new WebApplicationException("not found", Status.NOT_FOUND);
     }
 
     return generateTokenForUser(publicUser);
@@ -95,7 +95,7 @@ public class AuthResource {
   public ObjectNode register(UserDTO user) {
     if (user.getLastname() == null || user.getFirstname() == null || user.getEmail() == null
         || user.getPassword() == null || user.getPhone() == null || user.getRole() == null) {
-      throw new WebApplicationException("no info", Status.NOT_FOUND);
+      throw new WebApplicationException("no info", Status.BAD_REQUEST);
     }
 
     if (user.getEmail().isEmpty() || user.getPassword().isEmpty() || user.getLastname().isEmpty()
