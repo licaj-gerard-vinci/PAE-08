@@ -68,7 +68,7 @@ public class ManagerUCCImpl implements ManagerUCC {
       }
       managerDAO.addManager(manager);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

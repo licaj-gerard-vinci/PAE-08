@@ -130,7 +130,7 @@ public class UserUCCImpl implements UserUCC {
       user = (User) userDAO.insertUser(userDTO);
       dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -176,7 +176,7 @@ public class UserUCCImpl implements UserUCC {
       boolean result = userDAO.updateUser(userBeforeUpdate);
       dalServices.commitTransaction();
       return result;
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

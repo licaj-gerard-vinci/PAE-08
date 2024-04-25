@@ -96,7 +96,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       myContactUCC.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
       myUserUCC.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -115,7 +115,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       dalServices.startTransaction();
       internshipDAO.updateInternshipTopic(internship);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

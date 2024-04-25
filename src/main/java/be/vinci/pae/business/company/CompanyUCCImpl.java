@@ -76,7 +76,7 @@ public class CompanyUCCImpl implements CompanyUCC {
       company.setMotivation(entreprise.getMotivation());
       companyDAO.updateCompany(company);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -102,7 +102,7 @@ public class CompanyUCCImpl implements CompanyUCC {
       }
       companyDAO.addCompany(entreprise);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

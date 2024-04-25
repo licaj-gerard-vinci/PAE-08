@@ -110,7 +110,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       contactDAO.insertContact(contact);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -148,7 +148,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -194,7 +194,7 @@ public class ContactUCCImpl implements ContactUCC {
         }
       }
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -219,7 +219,7 @@ public class ContactUCCImpl implements ContactUCC {
         }
       }
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
