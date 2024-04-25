@@ -55,7 +55,7 @@ const Internship = async (contactFound) => {
   let managerOptions = [];
   let managerNotFound = ``;
 
-  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.firstName} ${manager.name}</option>`).join('');
+  managerOptions = managers.map(manager => `<option value="${manager.id}">${manager.firstName} ${manager.name} (${manager.phone})</option>`).join('');
   if (managerOptions.length === 0) {
     managerNotFound = `<p id="notfound" class="text-danger">Pas de manager trouvé</p>`
   }
@@ -66,7 +66,7 @@ const Internship = async (contactFound) => {
       <div class="col-md-6">
         <form id="internshipForm" class="form-horizontal">
         <div class="form-group">
-          <label for="managerId" class="col-sm-2 control-label">Manager ID:</label>
+          <label for="managerId" class="col-sm-2 control-label">Identifiant du responsable<span class="text-danger">*</span></label>
           <div class="col-sm-10">
             <select id="managerId" name="managerId" class="form-control">
               ${managerOptions}
@@ -78,13 +78,13 @@ const Internship = async (contactFound) => {
           </div>
         </div>
         <div class="form-group">
-          <label for="topic" class="col-sm-2 control-label">Topic:</label>
+          <label for="topic" class="col-sm-2 control-label">Sujet du stage</label>
           <div class="col-sm-10">
-            <input type="text" id="topic" name="topic" class="form-control" placeholder="topic">
+            <input type="text" id="topic" name="topic" class="form-control" placeholder="Sujet du stage">
           </div>
         </div>
           <div class="form-group">
-            <label for="signatureDate" class="col-sm-2 control-label">Signature Date:</label>
+            <label for="signatureDate" class="col-sm-2 control-label">Date de signature<span class="text-danger">*</span></label>
               <div class="col-sm-10">
                 <input type="date" id="signatureDate" name="signatureDate" class="form-control" required>
               <p id="dateError" style="color: red;"></p> <!-- Placeholder for the error message -->
@@ -100,32 +100,32 @@ const Internship = async (contactFound) => {
     <div class="col-md-6" id="managerForm" style="display: none;">
       <form id="addManagerForm" class="form-horizontal">
         <div class="form-group">
-          <label for="lastname" class="col-sm-2 control-label">Last Name:</label>
+          <label for="lastname" class="col-sm-2 control-label">Nom<span class="text-danger">*</span></label>
           <div class="col-sm-10">
-            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="lastname" required>
+            <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Nom de famille" required>
           </div>
         </div>
         <div class="form-group">
-          <label for="firstname" class="col-sm-2 control-label">First Name:</label>
+          <label for="firstname" class="col-sm-2 control-label">Prénom<span class="text-danger">*</span></label>
             <div class="col-sm-10">
-              <input type="text" id="firstname" name="firstname" class="form-control" placeholder="firstname" required>
+              <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Prénom" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="phoneNumber" class="col-sm-2 control-label">Phone Number:</label>
+            <label for="phoneNumber" class="control-label">Numéro de téléphone<span class="text-danger">*</span></label>
             <div class="col-sm-10">
               <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
             </div>
           </div>
           <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Email:</label>
+            <label for="email" class="col-sm-2 control-label">Adresse mail</label>
             <div class="col-sm-10">
-              <input type="email" id="email" name="email" class="form-control">
+              <input type="email" id="email" name="email" class="form-control" placeholder="mail@mail.com">
             </div>
           </div>
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-              <input type="submit" value="Add Manager" class="btn btn-primary">
+              <input type="submit" value="Ajouter responsable" class="btn btn-primary">
             </div>
           </div>
         </form>
