@@ -5,7 +5,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.company.CompanyDAO;
 import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.exceptions.ConflictException;
-import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -81,8 +80,8 @@ public class CompanyUCCImpl implements CompanyUCC {
       companyDAO.updateCompany(company);
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(company.getId());
       for (ContactDTO contact : contacts) {
-          contact.setContactStatus("blacklisté");
-          contactDAO.updateContact(contact);
+        contact.setContactStatus("blacklisté");
+        contactDAO.updateContact(contact);
       }
       dalServices.commitTransaction();
     } catch (Exception e) {
