@@ -60,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
   public UserDTO getOneByEmail(String email) {
     String query = "SELECT u.* ,sy.* "
         + "FROM pae.users u LEFT JOIN pae.school_years sy ON user_school_year_id = school_year_id "
-        + "WHERE user_email = ?";
+        + "WHERE LOWER(u.user_email) = LOWER(?)";
     try (PreparedStatement statement = dalService.preparedStatement(query)) {
       statement.setString(1, email);
       try (ResultSet rs = statement.executeQuery()) {
