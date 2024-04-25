@@ -26,7 +26,7 @@ import java.util.List;
  * operations. It is annotated with {@code Singleton} and {@code Path("ent")}.
  */
 @Singleton
-@Path("entreprise")
+@Path("companies")
 @Log
 public class CompanyResource {
 
@@ -91,7 +91,6 @@ public class CompanyResource {
       throw new WebApplicationException("Invalid motivation", Response.Status.BAD_REQUEST);
     }
     myCompanyUcc.blackListCompany(company);
-    myContactUcc.blackListContact(id);
     ObjectNode responseNode = jsonMapper.createObjectNode();
     responseNode.put("message", "Contact and company blacklisted successfully");
     return responseNode;

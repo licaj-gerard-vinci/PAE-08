@@ -167,53 +167,54 @@ async function renderStatistics(selectedYear = '') {
         `<div class="flex-container-stats">
         <p class="text-center">Année académique: ${selectedYear || 'Toutes les années'}</p>
         <p class="text-center">Nombre total d'étudiants: ${totalStudents}</p>
-    </div>
-    <div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
+    </div>`
     ;
-
-    const canvas = document.getElementById('myChart');
-    new Chart(canvas, {
-        type: 'pie',
-        data: {
-            labels: ['Avec Stage', 'Sans stage'],
-            datasets: [{
-                label: 'Nombre d\'étudiants',
-                data: [studentsWithInternship, studentsWithoutInternship],
-                backgroundColor: ['#00609D', '#343a40'],
-                borderColor: ['#fff', '#fff'],
-                borderWidth: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: {
-                animateScale: true,
-                animateRotate: true
+    if (totalStudents !== 0) {
+        chartContainer.innerHTML += `<div class="p-3 mb-2 bg-white rounded shadow" style="animation: fadeInAnimation 1s;"><canvas id="myChart"></canvas></div>`
+        const canvas = document.getElementById('myChart');
+        new Chart(canvas, {
+            type: 'pie',
+            data: {
+                labels: ['Avec Stage', 'Sans stage'],
+                datasets: [{
+                    label: 'Nombre d\'étudiants',
+                    data: [studentsWithInternship, studentsWithoutInternship],
+                    backgroundColor: ['#00609D', '#343a40'],
+                    borderColor: ['#fff', '#fff'],
+                    borderWidth: 2
+                }]
             },
-            title: {
-                display: true,
-                text: 'Internship Statistics',
-                fontColor: '#007bff',
-                fontSize: 20
-            },
-            legend: {
-                display: true,
-                labels: {
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                },
+                title: {
+                    display: true,
+                    text: 'Internship Statistics',
                     fontColor: '#007bff',
-                    fontSize: 16
-                }
-            },
-            tooltips: {
-                enabled: true,
-                mode: 'single',
-                callbacks: {
-                    label(tooltipItems, data) {
-                        return `${data.labels[tooltipItems.index]}: ${data.datasets[0].data[tooltipItems.index]}`;
+                    fontSize: 20
+                },
+                legend: {
+                    display: true,
+                    labels: {
+                        fontColor: '#007bff',
+                        fontSize: 16
+                    }
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label(tooltipItems, data) {
+                            return `${data.labels[tooltipItems.index]}: ${data.datasets[0].data[tooltipItems.index]}`;
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 }
 export default Dashboard;

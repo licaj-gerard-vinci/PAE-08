@@ -8,7 +8,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
-import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.Date;
@@ -130,7 +129,7 @@ public class UserUCCImpl implements UserUCC {
       user = (User) userDAO.insertUser(userDTO);
       dalServices.commitTransaction();
       return user;
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -176,7 +175,7 @@ public class UserUCCImpl implements UserUCC {
       boolean result = userDAO.updateUser(userBeforeUpdate);
       dalServices.commitTransaction();
       return result;
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

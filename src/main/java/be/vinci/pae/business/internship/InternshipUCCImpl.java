@@ -10,7 +10,6 @@ import be.vinci.pae.business.year.YearUCC;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.internship.InternshipDAO;
 import be.vinci.pae.exceptions.ConflictException;
-import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -96,7 +95,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       myContactUCC.suspendContacts(myUserDTO.getId(), myContactDTO.getId());
       myUserUCC.update(myUserDTO.getId(), myUserDTO);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -115,7 +114,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       dalServices.startTransaction();
       internshipDAO.updateInternshipTopic(internship);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

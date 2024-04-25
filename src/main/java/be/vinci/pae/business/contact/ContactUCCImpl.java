@@ -10,7 +10,6 @@ import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.dal.user.UserDAO;
 import be.vinci.pae.exceptions.BusinessException;
 import be.vinci.pae.exceptions.ConflictException;
-import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -110,7 +109,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       contactDAO.insertContact(contact);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -148,7 +147,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.startTransaction();
       contactDAO.updateContact(contactToUpdate);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
@@ -194,32 +193,7 @@ public class ContactUCCImpl implements ContactUCC {
         }
       }
       dalServices.commitTransaction();
-    } catch (FatalException e) {
-      dalServices.rollbackTransaction();
-      throw e;
-    }
-  }
-
-  /**
-   * Blacklist a company.
-   *
-   * @param idCompany the ID of the company to blacklist
-   */
-  public void blackListContact(int idCompany) {
-    myCompanyUCC.getCompanyById(idCompany);
-
-    try {
-      dalServices.startTransaction();
-      List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(idCompany);
-      for (ContactDTO contact : contacts) {
-        if (contact.getContactStatus().equals("pris")
-            || contact.getContactStatus().equals("initié")) {
-          contact.setContactStatus("blacklisté");
-          updateContact(contact);
-        }
-      }
-      dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }

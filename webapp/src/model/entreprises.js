@@ -13,7 +13,7 @@ async function getEntreprises(){
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/entreprise`, options);
+      const response = await fetch(`http://localhost:8080/companies`, options);
 
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
@@ -45,7 +45,7 @@ const insertEntreprises = async (entreprise) => {
         motivation: '',
       }),
     };
-    response = await fetch(`http://localhost:8080/entreprise`, options);
+    response = await fetch(`http://localhost:8080/companies`, options);
     if (!response.ok) {
       throw new Error(`Error inserting entreprise: ${response.statusText}`);
     }
@@ -64,7 +64,7 @@ async function getEntrepriseById(id){
         Authorization: token,
       },
     };
-    const response = await fetch(`http://localhost:8080/entreprise/${id}`, options);
+    const response = await fetch(`http://localhost:8080/companies/${id}`, options);
 
     if (!response.ok) {
       const nonPresent = "Aucun stage n'est en cours"
@@ -93,7 +93,7 @@ async function blackListEntreprise(entreprise, raisonBlacklist){
         Authorization: token,
       },
     };
-    const response = await fetch(`http://localhost:8080/entreprise/${idEntreprise}/blacklist`, options);
+    const response = await fetch(`http://localhost:8080/companies/${idEntreprise}/blacklist`, options);
 
     if (!response.ok) {
       const nonPresent = "sah pour l'instant jsp"

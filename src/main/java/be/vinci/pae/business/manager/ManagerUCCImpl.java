@@ -60,6 +60,9 @@ public class ManagerUCCImpl implements ManagerUCC {
           if (existingManager.getEmail().equals(manager.getEmail())) {
             throw new ConflictException("A manager with the same email already exists");
           }
+          if (existingManager.getPhone().equals(manager.getPhone())) {
+            throw new ConflictException("A manager with the same phone already exists");
+          }
         }
       }
       if (!manager.getEmail().isEmpty()
@@ -68,7 +71,7 @@ public class ManagerUCCImpl implements ManagerUCC {
       }
       managerDAO.addManager(manager);
       dalServices.commitTransaction();
-    } catch (FatalException e) {
+    } catch (Exception e) {
       dalServices.rollbackTransaction();
       throw e;
     }
