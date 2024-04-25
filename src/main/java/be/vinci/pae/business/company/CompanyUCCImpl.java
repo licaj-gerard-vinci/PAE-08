@@ -1,7 +1,9 @@
 package be.vinci.pae.business.company;
 
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.company.CompanyDAO;
+import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -19,6 +21,8 @@ public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
   private DALServices dalServices;
+
+  @Inject ContactDAO contactDAO;
 
   /**
    * Gets the associated company.
@@ -75,6 +79,11 @@ public class CompanyUCCImpl implements CompanyUCC {
       company.setBlackListed(true);
       company.setMotivation(entreprise.getMotivation());
       companyDAO.updateCompany(company);
+      List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(company.getId());
+      for (ContactDTO contact : contacts) {
+          contact.setContactStatus("blacklisté");
+          contactDAO.updateContact(contact);
+      }
       dalServices.commitTransaction();
     } catch (Exception e) {
       dalServices.rollbackTransaction();
