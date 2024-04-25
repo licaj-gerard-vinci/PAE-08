@@ -7,8 +7,10 @@ import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.company.CompanyUCC;
+import be.vinci.pae.business.contact.ContactDTO;
 import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.dal.company.CompanyDAO;
+import be.vinci.pae.dal.contact.ContactDAO;
 import be.vinci.pae.exceptions.ConflictException;
 import be.vinci.pae.exceptions.FatalException;
 import be.vinci.pae.exceptions.NotFoundException;
@@ -33,7 +35,10 @@ public class CompanyUCCTest {
   private static Factory factory;
 
   private static CompanyDAO companyDAO;
-  private CompanyDTO companyDTO;
+
+  private static CompanyDTO companyDTO;
+
+  private static ContactDAO contactDAO;
 
   @BeforeAll
   static void setUp() {
@@ -41,6 +46,7 @@ public class CompanyUCCTest {
     companyUCC = locator.getService(CompanyUCC.class);
     factory = locator.getService(Factory.class);
     companyDAO = locator.getService(CompanyDAO.class);
+    contactDAO = locator.getService(ContactDAO.class);
   }
 
   @BeforeEach
@@ -118,6 +124,31 @@ public class CompanyUCCTest {
     Mockito.when(companyDAO.getCompany(entreprise.getId())).thenReturn(entreprise);
     Mockito.doThrow(FatalException.class).when(companyDAO).updateCompany(entreprise);
     assertThrows(FatalException.class, () -> companyUCC.blackListCompany(entreprise));
+  }
+
+  @Test
+  @DisplayName("Test blackListCompany updates contact status")
+  void testBlackListCompanyUpdatesContactStatus() {
+    // Arrange
+    CompanyDTO company = factory.getCompanyDTO();
+    company.setId(1);
+    company.setBlackListed(false);
+
+    ContactDTO contact1 = Mockito.mock(ContactDTO.class);
+    ContactDTO contact2 = Mockito.mock(ContactDTO.class);
+    List<ContactDTO> contacts = Arrays.asList(contact1, contact2);
+
+    Mockito.when(companyDAO.getCompany(company.getId())).thenReturn(company);
+    Mockito.when(contactDAO.getContactsByCompanyId(company.getId())).thenReturn(contacts);
+
+    // Act
+    assertDoesNotThrow(() -> companyUCC.blackListCompany(company));
+
+    // Assert
+    for (ContactDTO contact : contacts) {
+      Mockito.verify(contact).setContactStatus("blacklisté");
+      Mockito.verify(contactDAO).updateContact(contact);
+    }
   }
 
   @Test
