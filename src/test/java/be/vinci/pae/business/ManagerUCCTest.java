@@ -143,17 +143,39 @@ public class ManagerUCCTest {
   @Test
   @DisplayName("addManager when it exists but the manager to "
           + "add has a different email so you can add it")
-  void addManagerWhenItInsertsItNormally() {
+  void addManagerWhenItInsertsDefault() {
     ManagerDTO newManager = factory.getManagerDTO();
     newManager.setEmail("test@gmail.com");
+    newManager.setPhone("13132");
 
     ManagerDTO existingManager = factory.getManagerDTO();
     existingManager.setEmail("test123@gmail.com");
+    existingManager.setPhone("048590000");
 
     Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
     Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
 
     assertDoesNotThrow(() -> {
+      managerUCC.addManager(newManager);
+    });
+  }
+
+  @Test
+  @DisplayName("addManager when it exists but the manager to "
+          + "add has a different email so you can add it")
+  void addManagerWhenItInsertSamePhoneNr() {
+    ManagerDTO newManager = factory.getManagerDTO();
+    newManager.setEmail("test@gmail.com");
+    newManager.setPhone("048590000");
+
+    ManagerDTO existingManager = factory.getManagerDTO();
+    existingManager.setEmail("test123@gmail.com");
+    existingManager.setPhone("048590000");
+
+    Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
+    Mockito.when(responsableDAO.getManagerByEmail(newManager.getEmail())).thenReturn(null);
+
+    assertThrows(ConflictException.class, () -> {
       managerUCC.addManager(newManager);
     });
   }
