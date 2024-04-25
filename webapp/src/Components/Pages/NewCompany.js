@@ -132,8 +132,8 @@ async function checkCompany() {
         AdresseError.textContent='';
 
         if(phoneValue !== '') {
-            if(phoneValue.length < 10) {
-                PhoneError.textContent = 'Le numéro de téléphone doit avoir au moins 10 chiffres';
+            if(phoneValue.length < 9) {
+                PhoneError.textContent = 'Le numéro de téléphone doit avoir au moins 9 chiffres';
                 return;
             }
         }
