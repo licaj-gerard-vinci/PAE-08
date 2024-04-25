@@ -108,13 +108,13 @@ function renderCompanies(companies, internships, selectedYear = '') {
             }
             const studentCount = companyInternships.length;
             return `
-            <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
-              <td class="text-center">${company.name} </br> ${company.designation}</td>
-              <td class="text-center">${company.phone}</td>
-              <td class="text-center">${studentCount}</td>
-              <td class="text-center">${company.blackListed ? 'Oui' : 'Non'}</td>
-            </tr>
-          `;
+                <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.name} </br> ${company.designation}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.phone}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${studentCount}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.blackListed ? 'Oui' : 'Non'}</td>
+                </tr>
+      `;
         }).join('')}
       </tbody>
     </table>

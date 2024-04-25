@@ -1,35 +1,27 @@
-// eslint-disable-next-line no-unused-vars
 import { isAuthenticated } from '../../utils/auths';
 import logo from '../../img/logoNavBar.jpg';
 import { refreshUser } from '../../model/users';
+import Navigate from "../Router/Navigate";
 
 const Navbar = () => {
-    
     renderNavbar();
 };
 
-async function renderNavbar() {
-    const user = await refreshUser();
-    console.log('user',user)
+async function renderAuthenticatedNavbar(user) {
     const userFirstName = user?.firstname || '';
     const userName = user?.lastname || '';
-
-    // Déterminer si le bouton de recherche utilisateur doit être affiché
     const showSearchUserButton = user?.role === 'A' || user?.role === 'P';
     const showDashboard = user?.role === 'P';
-    const showCompaniesListButton = user?.role === 'E' && user?.hasInternship === false; 
+    const showCompaniesListButton = user?.role === 'E' && user?.hasInternship === false;
 
-
-
-
-    const authenticatedUser = `
+    return `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand d-flex align-items-center" data-uri="/" style="color: #fff; font-size: 0.9em;">
-                <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
+            <a class="navbar-brand d-flex align-items-center" style="color: #fff; font-size: 0.9em;">
+                <img class="logoIdNavbar hover-cursor" src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             ${showDashboard ? `
             <a id="dashboard" class="nav-link" href="#" data-uri="/dashboard" style="color: #fff; margin-right: 15px; font-size: 1.1em;">Tableau de bord</a>` : ''}
@@ -44,17 +36,16 @@ async function renderNavbar() {
         </div>
     </nav>
     `;
+}
 
-
-
-
-    const unauthenticatedUser = `
+function renderUnauthenticatedNavbar() {
+    return `
     <nav class="navbar navbar-expand-lg" style="background-color: #00609D;">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" data-uri="/" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
+            <a class="navbar-brand" style="color: #fff; display: flex; align-items: center; font-size: 0.9em;">
                 <img src="${logo}" alt="Logo" style="margin-right: 10px; width: 260px; height: 62px;">
             </a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -70,9 +61,23 @@ async function renderNavbar() {
         </div>
     </nav>
     `;
+}
 
+async function renderNavbar() {
+    const user = await refreshUser();
     const navbarWrapper = document.querySelector('#navbarWrapper');
-    navbarWrapper.innerHTML = isAuthenticated() ? authenticatedUser : unauthenticatedUser;
+    navbarWrapper.innerHTML = isAuthenticated() ? await renderAuthenticatedNavbar(user) : renderUnauthenticatedNavbar();
+
+    attachLogoClickEvent();
+}
+
+function attachLogoClickEvent() {
+    const logoIdNavbar = document.querySelector('.logoIdNavbar');
+    if (logoIdNavbar) {
+        logoIdNavbar.addEventListener('click', () => {
+            Navigate('/');
+        });
+    }
 }
 
 export default Navbar;
