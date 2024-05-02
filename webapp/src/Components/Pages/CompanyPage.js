@@ -3,6 +3,7 @@ import { clearPage } from '../../utils/render';
 import {getContactByCompanyId} from "../../model/contacts";
 import Navigate from "../Router/Navigate";
 import {getAuthenticatedUser} from "../../utils/auths";
+import blacklist from '../../img/blacklist.png';
 
 let authenticatedUser = getAuthenticatedUser();
 
@@ -11,7 +12,7 @@ if (!authenticatedUser || authenticatedUser.user.role !== 'P') {
 }
 
 function generateContactsTable(contacts) {
-  let contactsTable = '<table class="table table-hover shadow-sm">';
+  let contactsTable = '<table class="table">';
   contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
   contactsTable += '<tbody>';
   contacts.forEach(contact => {
@@ -41,7 +42,15 @@ function generateBlacklistFormOrMessage(entreprise) {
                 </form>
     `;
   } else {
-    formOrMessage = `<p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation}</p>`;
+    formOrMessage = `
+    <div class="row">
+      <div class="col-md-8">
+        <p>Cette entreprise est blacklistée</p> </br> <p> Raison: ${entreprise.motivation}</p>
+      </div>
+      <div class="col-md-4">
+        <img src="${blacklist}" class="img-fluid d-block mx-auto" style="width: 100%; height: auto;"/>
+      </div>
+    </div>`;
   }
   return formOrMessage;
 }

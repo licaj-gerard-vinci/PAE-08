@@ -8,11 +8,25 @@ import {getContacts} from "../../model/contacts";
 import {getAllInternships} from "../../model/internships";
 
 const Dashboard = async () => {
-    
+
     clearPage();
     const main = document.querySelector('main');
     const academicYears = await getAllAcademicYears();
-    const academicYearOptions = academicYears.map(year => `<option value="${year.year}">${year.year}</option>`).join('\n');
+
+    const currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // Les mois en JavaScript commencent à 0, donc nous ajoutons 1
+
+    if (currentMonth < 9) {
+        currentYear -= 1; // L'année académique commence l'année précédente
+    }
+
+    const nextYear = currentYear + 1;
+    const academicYear = `${currentYear}-${nextYear}`;
+
+    const academicYearOptions = academicYears.map(year =>
+        `<option value="${year.year}" ${year.year === academicYear ? 'selected' : ''}>${year.year}</option>`
+    ).join('\n');
 
     main.innerHTML = `
     <h1 class="centered-title">Tableau de bord</h1>
@@ -25,17 +39,17 @@ const Dashboard = async () => {
     </div>
     <div id="chart-container"></div>
     <div id="company-list-table-container"></div>
-`;
+    `;
 
 // Add event listener to the filter
-document.getElementById('academicYearFilter').addEventListener('change', async (event) => {
-    const selectedYear = event.target.value;
-    await renderStatistics(selectedYear);
-    await renderCompaniesList(selectedYear);
-});
+    document.getElementById('academicYearFilter').addEventListener('change', async (event) => {
+        const selectedYear = event.target.value;
+        await renderStatistics(selectedYear);
+        await renderCompaniesList(selectedYear);
+    });
 
-await renderStatistics();
-await renderCompaniesList();
+    await renderStatistics(academicYear);
+    await renderCompaniesList(academicYear);
 }
 
 async function renderCompaniesList(selectedYear = '') {
