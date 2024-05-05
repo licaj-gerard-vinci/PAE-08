@@ -1,3 +1,52 @@
+/* Assurez-vous que le conteneur principal utilise flexbox pour centrer les enfants */
+main {
+  justify-content: center;
+  align-items: center;
+  margin: 0; /* Retirez toute marge qui pourrait interférer */
+}
+
+/* Assurez-vous que les styles de profileDiv ne sont pas entravés par des styles globaux */
+.profile-div {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 60%; /* Ajustez selon le besoin */
+  margin: auto; /* Centrage horizontal */
+}
+
+/* Supprimez tous les paddings ou margins globaux qui pourraient affecter l'alignement */
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%; /* S'assurer que le corps prend toute la hauteur */
+}
+
+.nav-bar {
+  margin-top: 10px;
+  top: 20px;  /* Ajuster selon le besoin */
+  left: 0;
+  right: 0;
+  z-index: 10;  /* S'assurer qu'il reste au-dessus des autres éléments */
+}
+
+
+
+.stage-container {
+  flex: 1;
+  min-width: 450px;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  background-color: #e8f5e9; /* Vert très clair */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+
 .nav-link:hover, .nav-text:hover {
     padding: 0.5rem 1rem; /* Augmente le padding pour un effet plus visible */
     box-shadow: 0 0 10px rgba(255,255,255,0.7); /* Ajoute une ombre blanche pour un effet "glow" */

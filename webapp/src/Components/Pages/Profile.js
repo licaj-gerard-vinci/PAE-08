@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-template */
@@ -10,41 +11,61 @@ import {getContactsById} from '../../model/contacts';
 
 const ProfilePage = async () => {
   clearPage();
-  createUpdateModal(); 
-  
+  createUpdateModal();
 
   const main = document.querySelector('main');
-
-  // Create the container for the profile and stage info
   const container = document.createElement('div');
   container.className = 'container';
-  container.style = 'display: flex; flex-direction: column; align-items: center;';
-
-  // Create the top container which will hold the profile greeting and the stage info
-  const topContainer = document.createElement('div');
-  topContainer.style =
-      'display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;';
-
-  // Add the profile greeting to the top container
-  topContainer.appendChild(renderProfile(getAuthenticatedUser()));
-
-  // Add the stage info to the top container if the user is a student
-  const user = getAuthenticatedUser();
-  if (user.user.role === 'E') {
-    topContainer.appendChild(await displayStage());
-  }
-
-  // Append the top container to the main container
-  container.appendChild(topContainer);
-
-  // Append the contacts list below the top container if the user is a student
-  if (user.user.role === 'E') {
-    container.appendChild(await displayContacts());
-  }
-
-  // Append the main container to the main element
   main.appendChild(container);
+
+  const user = await getAuthenticatedUser();
+  const navBar = createNavBar(user.role);
+  container.appendChild(navBar);
+
+  const profileSection = document.createElement('section');
+  profileSection.appendChild(await renderProfile(user));
+  container.appendChild(profileSection);
+
+  if (user.role === 'E') {
+    const contactsSection = document.createElement('section');
+    contactsSection.appendChild(await displayContacts());
+    container.appendChild(contactsSection);
+
+    const stageSection = document.createElement('section');
+    stageSection.appendChild(await displayStage());
+    container.appendChild(stageSection);
+  }
+
+  // Set the default visible section (profile)
+  setActiveSection(0);
 };
+
+function createNavBar(role) {
+  const navBar = document.createElement('div');
+  navBar.className = 'nav-bar d-flex justify-content-center mb-4';
+  const sections = ['Données personnelles'];
+
+  if (role === 'E') {
+    sections.push('Contacts', 'Stages');
+  }
+
+  sections.forEach((text, index) => {
+    const button = document.createElement('button');
+    button.className = 'btn btn-primary mx-2';
+    button.textContent = text;
+    button.onclick = () => setActiveSection(index);
+    navBar.appendChild(button);
+  });
+
+  return navBar;
+}
+
+function setActiveSection(activeSection) {
+  const sections = document.querySelectorAll('section');
+  sections.forEach((section, index) => {
+    section.style.display = index === activeSection ? 'block' : 'none';
+  });
+}
 
 function renderRole(user) {
   switch (user.role) {
@@ -75,40 +96,52 @@ function toggleUpdateModal() {
 }
 
 function renderProfile(user) {
+  // Créer un conteneur externe pour mieux gérer l'alignement
+  const outerContainer = document.createElement('div');
+  outerContainer.style = `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  // Utiliser toute la hauteur de la vue
+  `;
+
   const profileDiv = document.createElement('div');
   profileDiv.className = 'profile-div mt-3';
-  
-  profileDiv.style = 'background-color: #f2f2f2; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);';
+  profileDiv.style = `
+    background-color: #f2f2f2; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 60%;  
+    margin: 0 auto; 
+  `;
 
   profileDiv.innerHTML = `
-
-  <div class="container mt-4">
-  
- 
-  <h2 class="mb-4">Bonjour ${user.user.firstname} ! 👋</h2>
-
-  <div class="row mb-3">
-          <strong>Email :</strong>
-          <p>${user.user.email}</p>
-  </div>
-  <div class="row mb-3">
-          <strong>Nom :</strong>
-          <p>${user.user.lastname}</p>
-  </div>
-  <div class="row mb-3">
-          <strong>Prénom :</strong>
-          <p>${user.user.firstname}</p>
-  </div>
-  <div class="row mb-3">
-    
-          <strong>Numéro de téléphone :</strong>
-          <p>${user.user.phone}</p>
-  
-  </div>
-  <div class="row mb-4">
-
-          <strong>Rôle :</strong>
-          <p>${renderRole(user.user)}</p>
+    <div style="width: 100%; text-align: center;"> 
+        <h2 class="mb-4">Bonjour ${user.user.firstname} ! 👋</h2>
+        <div class="row mb-3">
+            <strong>Email :</strong>
+            <p>${user.user.email}</p>
+        </div>
+        <div class="row mb-3">
+            <strong>Nom :</strong>
+            <p>${user.user.lastname}</p>
+        </div>
+        <div class="row mb-3">
+            <strong>Prénom :</strong>
+            <p>${user.user.firstname}</p>
+        </div>
+        <div class="row mb-3">
+            <strong>Numéro de téléphone :</strong>
+            <p>${user.user.phone}</p>
+        </div>
+        <div class="row mb-4">
+            <strong>Rôle :</strong>
+            <p>${renderRole(user.user)}</p>
+        </div>
       
      
   
@@ -165,19 +198,25 @@ function renderProfile(user) {
 
   const styledButtons = profileDiv.querySelectorAll('.styled-button');
   styledButtons.forEach((button) => {
-    button.style =
-        'background-color: #0056b3; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 10px;';
-    // Add hover effect
+    button.style = `
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-top: 10px;
+        `;
     button.onmouseover = () => (button.style.backgroundColor = '#003d82');
     button.onmouseout = () => (button.style.backgroundColor = '#0056b3');
   });
 
-  // add event listener for the edit profile button
   profileDiv.querySelector('#edit-profile').addEventListener('click', () => {
     const editForm = document.getElementById('edit-form');
     editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
   });
- 
+
 
   // add event listener for the save changes button
   profileDiv.querySelector('#save-changes').addEventListener('click', async () => {
@@ -189,17 +228,17 @@ function renderProfile(user) {
       oldPassword: document.getElementById('old-password').value,
       newPassword: document.getElementById('new-password').value,
       confirmPassword: document.getElementById('confirm-password').value,
-      
+
     };
     document.getElementById('password-error').textContent = '';
     document.getElementById('new-password-error').textContent = '';
 
 
-      // Vérification des mots de passe
-  if (updatedUser.newPassword !== updatedUser.confirmPassword) {
-    document.getElementById('new-password-error').textContent = 'Les mots de passe ne correspondent pas';
-    return;
-  }
+    // Vérification des mots de passe
+    if (updatedUser.newPassword !== updatedUser.confirmPassword) {
+      document.getElementById('new-password-error').textContent = 'Les mots de passe ne correspondent pas';
+      return;
+    }
 
 
 
@@ -207,25 +246,25 @@ function renderProfile(user) {
       if (!updatedUser.newPassword) {
         document.getElementById('new-password-error').textContent = "Veuillez entrer un nouveau mot de passe."
         return;
-    }
+      }
 
-    const check = await checkPassword(updatedUser);
+      const check = await checkPassword(updatedUser);
       if (check === "Les mots de passe ne correspondent pas") {
         document.getElementById('new-password-error').textContent = "L'ancien mots de passe est incorrect."
         return;
       }
 
-      
 
-} else if (updatedUser.newPassword && !updatedUser.oldPassword) {
-  document.getElementById('password-error').textContent = "Veuillez entrer votre ancien mot de passe."
-  return;
-}
+
+    } else if (updatedUser.newPassword && !updatedUser.oldPassword) {
+      document.getElementById('password-error').textContent = "Veuillez entrer votre ancien mot de passe."
+      return;
+    }
 
     await updateUser(updatedUser);
     await refreshUser();
     toggleUpdateModal();
-    ProfilePage();
+    await ProfilePage();
   });
 
 
@@ -236,6 +275,8 @@ function renderProfile(user) {
 async function displayStage() {
   const stageDiv = document.createElement('div');
   stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
+  stageDiv.style.backgroundColor = '#e8f5e9'; // Appliquer la couleur de fond verte très légère
+
 
   stageDiv.style =
       'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
@@ -255,12 +296,14 @@ async function displayStage() {
   let stageHTML;
   if (stage !== "Aucun stage n'est en cours") {
     stageHTML = `
-      <h2>Stage actuel</h2>
+<div class="stage-container">
+      <h2 >Stage actuel</h2>
       <p><strong>Responsable :</strong> ${stage.manager.name} ${stage.manager.firstName}</p>
       <p><strong>Entreprise :</strong> ${stage.company.name}, ${stage.company.designation}</p>
       <p><strong>Date signature :</strong> ${formattedDate}</p>
       <p><strong>Sujet :</strong> <span id="sujet-text">${stage.topic || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
+</div>
     `;
   } else {
     stageHTML = `<p>${stage}</p>`;
