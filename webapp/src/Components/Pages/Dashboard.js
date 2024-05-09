@@ -153,13 +153,26 @@ function renderCompanies(companies, internships, selectedYear = '') {
 
 async function renderStatistics(selectedYear = '') {
     let totalStudentsByYear = await getContacts();
-    // Filter out unique contacts
-    const totalStudentsAllYears = totalStudentsByYear.filter(
-        (contact, index, self) =>
-            index === self.findIndex((t) => (
-                t.student.id === contact.student.id
-            ))
-    );
+    console.log(totalStudentsByYear);
+
+    // Regrouper les contacts par étudiant
+    const contactsByStudent = totalStudentsByYear.reduce((groups, contact) => {
+        const key = contact.student.id;
+        const newGroups = {...groups};
+        if (!newGroups[key]) {
+            newGroups[key] = [];
+        }
+        newGroups[key].push(contact);
+        return newGroups;
+    }, {});
+
+// Pour chaque groupe, garder le contact "accepté" si il existe, sinon garder le premier contact
+    const totalStudentsAllYears = Object.values(contactsByStudent).map(contacts => {
+        const acceptedContact = contacts.find(contact => contact.contactStatus === 'accepté');
+        return acceptedContact || contacts[0];
+    });
+
+    console.log(totalStudentsAllYears);
 
     let studentsWithInternship;
     let studentsWithoutInternship;
@@ -169,11 +182,13 @@ async function renderStatistics(selectedYear = '') {
     if (!selectedYear) {
         studentsWithInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === true).length;
         studentsWithoutInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === false).length;
-        totalStudents = studentsWithoutInternship + studentsWithInternship
+        totalStudents = studentsWithoutInternship + studentsWithInternship;
     } else {
-        totalStudentsByYear = totalStudentsByYear.filter(contact => contact.year.year === selectedYear);
+        totalStudentsByYear = totalStudentsAllYears.filter(contact => contact.year.year === selectedYear);
+        console.log(totalStudentsByYear, 'totalStudentsByYear');
         studentsWithInternship = totalStudentsByYear.filter(contact => contact.contactStatus === 'accepté').length;
         studentsWithoutInternship = totalStudentsByYear.length - studentsWithInternship;
+        console.log(studentsWithInternship, studentsWithoutInternship);
         totalStudents = studentsWithoutInternship + studentsWithInternship;
     }
 
