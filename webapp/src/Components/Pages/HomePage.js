@@ -105,12 +105,12 @@ async function renderHomePage(){
                 <div class="row">
                   <div class="col"></div>
                     <div class="col d-flex justify-content-center">
-                      <p class="text-danger font-weight-bold">Entreprise blacklistée</p>
+                      <p class="font-weight-bold">Entreprise blacklistée</p>
                     </div>
                   <div class="col"></div>
                 </div>`; 
           // if company if blacklisted, its background changes color, else every other contact has same background
-          backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightred" style="border-radius: 50px;`;
+          backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightblack" style="border-radius: 50px;`;
         }
         else if(contacts){
           const contactFound = contacts.find(contact => contact.idCompany === company.id && contact.year.year === currentAcademicYear && contact.student.id === user.id);
@@ -165,20 +165,22 @@ async function renderHomePage(){
                    </div> 
                 </div>`;
           } else if(contactFound.contactStatus === 'refusé'){
+            backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightred" style="border-radius: 50px;`;
             button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
-                    <p>Contact refusé</p>
+                    <p class="font-weight-bold">Contact refusé</p>
                   </div>
                   <div class="col"></div>
                 </div>`;
           } else if (contactFound.contactStatus === 'non suivi'){
+            backgroundColor = `border rounded p-3 d-flex flex-column justify-content-between my-4 bg-lightorange" style="border-radius: 50px;`;
             button = `
                 <div class="row">
                   <div class="col"></div>
                   <div class="col d-flex justify-content-center">
-                    <p>Contact plus suivi</p>
+                    <p class="font-weight-bold">Contact plus suivi</p>
                   </div>
                   <div class="col"></div>
                 </div>`;
