@@ -202,5 +202,13 @@
 }
 
 .bg-lightred {
-    background-color: #ffcccc !important; /* Vous pouvez ajuster la couleur selon vos besoins */
+    background-color: #ffcccc !important;
+}
+
+.bg-lightblack {
+  background-color: #c0c0c0 !important;
+}
+
+.bg-lightorange {
+  background-color: #ffe19c !important;
 }
