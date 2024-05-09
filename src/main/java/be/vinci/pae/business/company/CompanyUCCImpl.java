@@ -80,8 +80,11 @@ public class CompanyUCCImpl implements CompanyUCC {
       companyDAO.updateCompany(company);
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(company.getId());
       for (ContactDTO contact : contacts) {
-        contact.setContactStatus("blacklisté");
-        contactDAO.updateContact(contact);
+        if (contact.getContactStatus().equals("pris")
+            || contact.getContactStatus().equals("initié")) {
+          contact.setContactStatus("blacklisté");
+          contactDAO.updateContact(contact);
+        }
       }
       dalServices.commitTransaction();
     } catch (Exception e) {

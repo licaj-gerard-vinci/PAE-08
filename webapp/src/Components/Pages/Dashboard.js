@@ -71,7 +71,7 @@ async function sortAndRenderCompanies(property, companies, internships, selected
     // If sorting by student count, add a studentCount property to each company
     if (property === 'studentCount') {
         updatedCompanies = companies.map(company => {
-            const companyInternships = internships.filter(contact => contact.company.id === company.id);
+            const companyInternships = internships.filter(contact => contact.company.id === company.id && contact.year.year === selectedYear);
             return {...company, studentCount: companyInternships.length};
         });
     }
@@ -151,11 +151,10 @@ function renderCompanies(companies, internships, selectedYear = '') {
 }
 
 
-async function renderStatistics(selectedYear = '') {
+async function renderStatistics(selectedYear) {
     let totalStudentsByYear = await getContacts();
     console.log(totalStudentsByYear);
 
-    // Regrouper les contacts par étudiant
     const contactsByStudent = totalStudentsByYear.reduce((groups, contact) => {
         const key = contact.student.id;
         const newGroups = {...groups};
@@ -168,8 +167,9 @@ async function renderStatistics(selectedYear = '') {
 
 // Pour chaque groupe, garder le contact "accepté" si il existe, sinon garder le premier contact
     const totalStudentsAllYears = Object.values(contactsByStudent).map(contacts => {
-        const acceptedContact = contacts.find(contact => contact.contactStatus === 'accepté');
-        return acceptedContact || contacts[0];
+        const selectedYearContacts = contacts.filter(contact => contact.year.year === selectedYear);
+        const acceptedContact = selectedYearContacts.find(contact => contact.contactStatus === 'accepté');
+        return acceptedContact || selectedYearContacts[0] || contacts[0];
     });
 
     console.log(totalStudentsAllYears);
