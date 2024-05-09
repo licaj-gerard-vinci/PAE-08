@@ -8,11 +8,25 @@ import {getContacts} from "../../model/contacts";
 import {getAllInternships} from "../../model/internships";
 
 const Dashboard = async () => {
-    
+
     clearPage();
     const main = document.querySelector('main');
     const academicYears = await getAllAcademicYears();
-    const academicYearOptions = academicYears.map(year => `<option value="${year.year}">${year.year}</option>`).join('\n');
+
+    const currentDate = new Date();
+    let currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // Les mois en JavaScript commencent à 0, donc nous ajoutons 1
+
+    if (currentMonth < 9) {
+        currentYear -= 1; // L'année académique commence l'année précédente
+    }
+
+    const nextYear = currentYear + 1;
+    const academicYear = `${currentYear}-${nextYear}`;
+
+    const academicYearOptions = academicYears.map(year =>
+        `<option value="${year.year}" ${year.year === academicYear ? 'selected' : ''}>${year.year}</option>`
+    ).join('\n');
 
     main.innerHTML = `
     <h1 class="centered-title">Tableau de bord</h1>
@@ -25,17 +39,17 @@ const Dashboard = async () => {
     </div>
     <div id="chart-container"></div>
     <div id="company-list-table-container"></div>
-`;
+    `;
 
 // Add event listener to the filter
-document.getElementById('academicYearFilter').addEventListener('change', async (event) => {
-    const selectedYear = event.target.value;
-    await renderStatistics(selectedYear);
-    await renderCompaniesList(selectedYear);
-});
+    document.getElementById('academicYearFilter').addEventListener('change', async (event) => {
+        const selectedYear = event.target.value;
+        await renderStatistics(selectedYear);
+        await renderCompaniesList(selectedYear);
+    });
 
-await renderStatistics();
-await renderCompaniesList();
+    await renderStatistics(academicYear);
+    await renderCompaniesList(academicYear);
 }
 
 async function renderCompaniesList(selectedYear = '') {
@@ -108,13 +122,13 @@ function renderCompanies(companies, internships, selectedYear = '') {
             }
             const studentCount = companyInternships.length;
             return `
-            <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
-              <td class="text-center">${company.name} </br> ${company.designation}</td>
-              <td class="text-center">${company.phone}</td>
-              <td class="text-center">${studentCount}</td>
-              <td class="text-center">${company.blackListed ? 'Oui' : 'Non'}</td>
-            </tr>
-          `;
+                <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.name} </br> ${company.designation}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.phone}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${studentCount}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.blackListed ? 'Oui' : 'Non'}</td>
+                </tr>
+      `;
         }).join('')}
       </tbody>
     </table>
@@ -139,13 +153,26 @@ function renderCompanies(companies, internships, selectedYear = '') {
 
 async function renderStatistics(selectedYear = '') {
     let totalStudentsByYear = await getContacts();
-    // Filter out unique contacts
-    const totalStudentsAllYears = totalStudentsByYear.filter(
-        (contact, index, self) =>
-            index === self.findIndex((t) => (
-                t.student.id === contact.student.id
-            ))
-    );
+    console.log(totalStudentsByYear);
+
+    // Regrouper les contacts par étudiant
+    const contactsByStudent = totalStudentsByYear.reduce((groups, contact) => {
+        const key = contact.student.id;
+        const newGroups = {...groups};
+        if (!newGroups[key]) {
+            newGroups[key] = [];
+        }
+        newGroups[key].push(contact);
+        return newGroups;
+    }, {});
+
+// Pour chaque groupe, garder le contact "accepté" si il existe, sinon garder le premier contact
+    const totalStudentsAllYears = Object.values(contactsByStudent).map(contacts => {
+        const acceptedContact = contacts.find(contact => contact.contactStatus === 'accepté');
+        return acceptedContact || contacts[0];
+    });
+
+    console.log(totalStudentsAllYears);
 
     let studentsWithInternship;
     let studentsWithoutInternship;
@@ -155,11 +182,13 @@ async function renderStatistics(selectedYear = '') {
     if (!selectedYear) {
         studentsWithInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === true).length;
         studentsWithoutInternship = totalStudentsAllYears.filter(contact => contact.student.hasInternship === false).length;
-        totalStudents = studentsWithoutInternship + studentsWithInternship
+        totalStudents = studentsWithoutInternship + studentsWithInternship;
     } else {
-        totalStudentsByYear = totalStudentsByYear.filter(contact => contact.year.year === selectedYear);
+        totalStudentsByYear = totalStudentsAllYears.filter(contact => contact.year.year === selectedYear);
+        console.log(totalStudentsByYear, 'totalStudentsByYear');
         studentsWithInternship = totalStudentsByYear.filter(contact => contact.contactStatus === 'accepté').length;
         studentsWithoutInternship = totalStudentsByYear.length - studentsWithInternship;
+        console.log(studentsWithInternship, studentsWithoutInternship);
         totalStudents = studentsWithoutInternship + studentsWithInternship;
     }
 

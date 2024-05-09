@@ -257,7 +257,7 @@ public class ContactUCCTest {
             () -> assertNull(contactReceived.getRefusalReason()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
             () -> assertNotNull(contact.getRefusalReason())
-            // after updating, the contact now have values for refusal reason and meeting place
+    // after updating, the contact now have values for refusal reason and meeting place
     );
   }
 
