@@ -12,8 +12,12 @@ if (!authenticatedUser || authenticatedUser.user.role !== 'P') {
 }
 
 function generateContactsTable(contacts) {
+  if (contacts.length === 0) {
+    return '<p>Cette entreprise ne possède pas de contacts.</p>';
+  }
+
   let contactsTable = '<table class="table">';
-  contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Raison du refus</th></tr></thead>';
+  contactsTable += '<thead class="table-dark"><tr><th class="text-center">Etudiant</th><th class="text-center">Etat du contact</th><th class="text-center">Lieu de rencontre</th><th class="text-center">Année academique</th><th class="text-center">Raison du refus</th></tr></thead>';
   contactsTable += '<tbody>';
   contacts.forEach(contact => {
     contactsTable += `<tr class="text-center">
@@ -22,9 +26,10 @@ function generateContactsTable(contacts) {
                           ${contact.student.email}</td>
                           <td class="text-center">${contact.contactStatus}</td>
                           <td class="text-center">${contact.meetingPlace || '/'}</td>
+                          <td class="text-center">${contact.year.year}</td>
                           <td class="text-center">${contact.refusalReason || '/'}</td>
                       </tr>`;
-      });
+  });
   contactsTable += '</tbody></table>';
   return contactsTable;
 }
@@ -35,8 +40,8 @@ function generateBlacklistFormOrMessage(entreprise) {
     formOrMessage = `
                 <form id="blacklistForm" class="d-flex flex-column">
                     <div class="form-group flex-grow-1">
-                        <label for="blacklistReason">Raison de la blacklist</label>
-                        <input type="text" class="form-control" id="blacklistReason" placeholder="Entrez la raison">
+                        <label for="blacklistReason">Raison de la blacklist<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="blacklistReason" placeholder="Entrez la raison" required>
                     </div>
                     <button id="blacklistFormSubmit" type="submit" class="btn mt-2 align-self-end" style="background-color: blue; color: white;">Ajouter à la blacklist</button>
                 </form>
