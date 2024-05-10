@@ -114,7 +114,7 @@ const Internship = async (contactFound) => {
           <div class="form-group">
             <label for="phoneNumber" class="col control-label">Numéro de téléphone<span class="text-danger">*</span></label>
             <div class="col-sm-10">
-              <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
+              <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0400 00 00 00" required>
             </div>
           </div>
           <div class="form-group">
