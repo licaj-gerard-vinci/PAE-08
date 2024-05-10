@@ -51,7 +51,6 @@ public class ManagerDAOImpl implements ManagerDAO {
           managers.add(rsToManager(rs, "get"));
         }
       }
-      System.out.println(managers);
     } catch (SQLException e) {
       throw new FatalException(e);
     }

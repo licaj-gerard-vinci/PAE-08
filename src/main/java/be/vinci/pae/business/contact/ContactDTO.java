@@ -166,8 +166,4 @@ public interface ContactDTO {
    */
   void setVersion(int version);
 
-
-
-
-
 }

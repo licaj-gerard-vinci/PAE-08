@@ -142,7 +142,6 @@ function renderCompanies(companies, internships, selectedYear = '') {
         });
 
         // Add event listeners to the table headers
-        // Add event listeners to the table headers
         document.getElementById('sortByName').addEventListener('click', () => sortAndRenderCompanies('name', companies, internships, selectedYear)); // Changed 'nom' to 'name'
         document.getElementById('sortByPhone').addEventListener('click', () => sortAndRenderCompanies('phone', companies, internships, selectedYear)); // Changed 'numTel' to 'phone'
         document.getElementById('sortByStudentCount').addEventListener('click', () => sortAndRenderCompanies('studentCount', companies, internships, selectedYear));
@@ -153,7 +152,6 @@ function renderCompanies(companies, internships, selectedYear = '') {
 
 async function renderStatistics(selectedYear) {
     let totalStudentsByYear = await getContacts();
-    console.log(totalStudentsByYear);
 
     const contactsByStudent = totalStudentsByYear.reduce((groups, contact) => {
         const key = contact.student.id;
@@ -172,8 +170,6 @@ async function renderStatistics(selectedYear) {
         return acceptedContact || selectedYearContacts[0] || contacts[0];
     });
 
-    console.log(totalStudentsAllYears);
-
     let studentsWithInternship;
     let studentsWithoutInternship;
     let totalStudents;
@@ -185,10 +181,8 @@ async function renderStatistics(selectedYear) {
         totalStudents = studentsWithoutInternship + studentsWithInternship;
     } else {
         totalStudentsByYear = totalStudentsAllYears.filter(contact => contact.year.year === selectedYear);
-        console.log(totalStudentsByYear, 'totalStudentsByYear');
         studentsWithInternship = totalStudentsByYear.filter(contact => contact.contactStatus === 'accepté').length;
         studentsWithoutInternship = totalStudentsByYear.length - studentsWithInternship;
-        console.log(studentsWithInternship, studentsWithoutInternship);
         totalStudents = studentsWithoutInternship + studentsWithInternship;
     }
 

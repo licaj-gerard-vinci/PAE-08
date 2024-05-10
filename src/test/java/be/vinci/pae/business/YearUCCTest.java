@@ -37,20 +37,16 @@ public class YearUCCTest {
   @Test
   @DisplayName("Test get all academic years")
   void testGetAllAcademicYears() {
-    // Créer une liste d'années académiques
     List<YearDTO> expectedYears = new ArrayList<>();
     YearDTO year1 = factory.getYearDTO();
     YearDTO year2 = factory.getYearDTO();
     expectedYears.add(year1);
     expectedYears.add(year2);
 
-    // Configurer le comportement de yearDAO.getAll()
     Mockito.when(yearDAO.getAll()).thenReturn(expectedYears);
 
-    // Appeler la méthode à tester
     List<YearDTO> actualYears = yearUCC.getAllAcademicYears();
 
-    // Vérifier que la méthode renvoie la liste attendue
     assertEquals(expectedYears, actualYears);
   }
 

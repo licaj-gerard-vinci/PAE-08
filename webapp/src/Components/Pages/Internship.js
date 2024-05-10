@@ -179,7 +179,7 @@ But I have to verify based on the school year so 15 september 2023 till 1 june 2
       }
       managers.push(newManager);
       managers = await getManagers(contact.company.id);
-      managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name}</option>`).join('');
+      managerOptions = managers.map(managerItem => `<option value="${managerItem.id}">${managerItem.firstName} ${managerItem.name} (${managerItem.phone})</option>`).join('');
 
       document.getElementById('managerId').innerHTML = managerOptions;
 
