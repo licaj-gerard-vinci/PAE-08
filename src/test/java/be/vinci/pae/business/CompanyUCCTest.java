@@ -92,8 +92,6 @@ public class CompanyUCCTest {
 
 
 
-
-
   @Test
   @DisplayName("Test blackListCompany of EntrepriseUCCImpl class")
   void testBlackListCompanyFatalException() {

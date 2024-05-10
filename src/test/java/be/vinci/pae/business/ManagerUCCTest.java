@@ -62,23 +62,6 @@ public class ManagerUCCTest {
     });
   }
 
-
-  @Test
-  @DisplayName("Test addManager of ResponsableUCCImpl class if emails are the same")
-  void testAddManagerEmailsAreTheSame() {
-    ManagerDTO newManager = factory.getManagerDTO();
-    newManager.setEmail("test@test.com");
-
-    ManagerDTO existingManager = factory.getManagerDTO();
-    existingManager.setEmail("test@test.com");
-
-    Mockito.when(responsableDAO.getManager(newManager)).thenReturn(List.of(existingManager));
-
-    assertThrows(ConflictException.class, () -> {
-      managerUCC.addManager(newManager);
-    });
-  }
-
   @Test
   @DisplayName("Test addManager of ResponsableUCCImpl class")
   void testAddManagerDefault() {

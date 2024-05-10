@@ -389,43 +389,31 @@ class UserUCCTest {
   @Test
   @DisplayName("test check password OK")
   void testCheckPasswordOK() {
-    // Initialise l'utilisateur
     UserDTO user = factory.getPublicUser();
     user.setId(1);
     String password = "password";
 
-    // Utilise un sel fixe pour le test (cela ne devrait être utilisé que pour les tests)
     String salt = BCrypt.gensalt();
     String hashpassword = BCrypt.hashpw(password, salt);
     user.setPassword(hashpassword);
 
-    // Configure le mock pour retourner l'utilisateur
     when(userDAO.getOneById(user.getId())).thenReturn(user);
 
-    // Teste la méthode checkPassword
     boolean passwordMatch = userUCC.checkPassword(user.getId(), password);
 
-    // Assert que le mot de passe est correct
     assertTrue(passwordMatch, "Le mot de passe doit correspondre à celui haché");
   }
 
   @Test
   @DisplayName("test checkPassword with null user")
   void testCheckPasswordWithNullUser() {
-    // ID pour lequel userDAO.getOneById retournera null
     int userId = 1;
 
-    // Configure le mock pour retourner null
     when(userDAO.getOneById(userId)).thenReturn(null);
 
-    // Teste que la bonne exception est levée
     assertThrows(NotFoundException.class, () -> {
       userUCC.checkPassword(userId, "anyPassword");
     }, "NotFoundException should be thrown when the user is not found");
   }
-
-
-
-
 
 }

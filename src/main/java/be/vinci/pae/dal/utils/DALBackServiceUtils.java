@@ -13,8 +13,6 @@ import java.sql.SQLException;
  */
 public interface DALBackServiceUtils {
 
-
-
   /**
    * Fills a UserDTO with data from a ResultSet.
    *

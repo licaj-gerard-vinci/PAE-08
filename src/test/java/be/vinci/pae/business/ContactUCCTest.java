@@ -64,7 +64,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test InsertContact of ContactUCC class with valid information")
   void testInsertContactDefault() {
-    // Create a dummy Contact
     YearDTO year = factory.getYearDTO();
     year.setId(1);
     year.setYear("2021");
@@ -77,18 +76,16 @@ public class ContactUCCTest {
 
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setStudent(user); // Default user
-    contact.setCompany(company); // Default company
+    contact.setStudent(user);
+    contact.setCompany(company);
     contact.setIdYear(year.getId());
     contact.setYear(year);
 
-    // Define the behavior of the mock
     Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
     Mockito.when(yearDAO.getOneByYear(year.getYear())).thenReturn(year);
-
 
     assertDoesNotThrow(() -> contactUCC.insertContact(contact));
   }
@@ -96,7 +93,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test InsertContact of ContactUCC class with non-existing user")
   void testInsertContactNonExistingUser() {
-    // Create a dummy Contact
     UserDTO user = factory.getPublicUser();
     user.setId(1);
 
@@ -105,16 +101,14 @@ public class ContactUCCTest {
 
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setStudent(user); // Default user
-    contact.setCompany(company); // Default company
+    contact.setStudent(user);
+    contact.setCompany(company);
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getStudent().getId()))
             .thenReturn(null);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
-    // user not found
     assertThrows(NotFoundException.class, () -> {
       contactUCC.insertContact(contact);
     });
@@ -123,7 +117,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test InsertContact of ContactUCC class with non-existing company")
   void testInsertContactNonExistingCompany() {
-    // Create a dummy Contact
     UserDTO user = factory.getPublicUser();
     user.setId(1);
 
@@ -132,16 +125,14 @@ public class ContactUCCTest {
 
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setStudent(user); // Default user
-    contact.setCompany(company); // Default company
+    contact.setStudent(user);
+    contact.setCompany(company);
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId()))
             .thenReturn(null);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(null);
 
-    // company not found
     assertThrows(NotFoundException.class, () -> {
       contactUCC.insertContact(contact);
     });
@@ -150,7 +141,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test InsertContact of ContactUCC class with existing contact")
   void testInsertContactAlreadyExistingContact() {
-    // Create a dummy Contact
     UserDTO user = factory.getPublicUser();
     user.setId(1);
 
@@ -159,15 +149,13 @@ public class ContactUCCTest {
 
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setStudent(user); // Default user
-    contact.setCompany(company); // Default company
+    contact.setStudent(user);
+    contact.setCompany(company);
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contact);
 
-    // contact already exist
     assertThrows(ConflictException.class, () -> {
       contactUCC.insertContact(contact);
     });
@@ -176,7 +164,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test InsertContact of ContactUCC class when insert in the DAO failed")
   void testInsertContactThrowFatalException() {
-    // Create a dummy Contact
     YearDTO year = factory.getYearDTO();
     year.setId(1);
     year.setYear("2021");
@@ -189,12 +176,11 @@ public class ContactUCCTest {
 
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
-    contact.setStudent(user); // Default user
-    contact.setCompany(company); // Default company
+    contact.setStudent(user);
+    contact.setCompany(company);
     contact.setIdYear(year.getId());
     contact.setYear(year);
 
-    // Define the behavior of the mock
     Mockito.when(mockYear.renderCurrentYear()).thenReturn(year.getYear());
     Mockito.when(userDAO.getOneById(contact.getStudent().getId())).thenReturn(user);
     Mockito.when(companyDAO.getCompany(contact.getCompany().getId())).thenReturn(company);
@@ -211,7 +197,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid information")
   void testUpdateContactDefault() {
-    // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     ContactDTO contactReceived = factory.getContactDTO();
 
@@ -223,7 +208,6 @@ public class ContactUCCTest {
     contactReceived.setMeetingPlace("valid place");
     contactReceived.setRefusalReason("valid reason");
 
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
 
     assertAll(
@@ -238,7 +222,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid refusalReason")
   void testUpdateContactDefaultWithRefusalReason() {
-    // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setContactStatus("valid state");
@@ -249,7 +232,6 @@ public class ContactUCCTest {
     contactReceived.setContactStatus("valid state");
     contactReceived.setMeetingPlace("valid place");
 
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(contact.getId())).thenReturn(contactReceived);
 
     assertAll(
@@ -257,14 +239,12 @@ public class ContactUCCTest {
             () -> assertNull(contactReceived.getRefusalReason()),
             () -> assertDoesNotThrow(() -> contactUCC.updateContact(contact)),
             () -> assertNotNull(contact.getRefusalReason())
-    // after updating, the contact now have values for refusal reason and meeting place
     );
   }
 
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid refusalReason")
   void testUpdateContactDefaultWithMeetingPlace() {
-    // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     contact.setId(1);
     contact.setContactStatus("valid state");
@@ -287,7 +267,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test updateContact of ContactUCC class with valid information")
   void testUpdateContactInvalidState() {
-    // Create a dummy Contact
     ContactDTO contact = factory.getContactDTO();
     Contact contactReceived = Mockito.mock(Contact.class);
 
@@ -371,7 +350,6 @@ public class ContactUCCTest {
   void testGetContactByIdFatalException() {
     int idContact = 1;
 
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContactById(idContact))
             .thenThrow(FatalException.class);
 
@@ -384,13 +362,11 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactByCompanyId of ContactUCC class with valid information")
   void testGetContactByCompanyIdDefault() {
-    // Create a dummy Contact
     int idCompany = 1;
     CompanyDTO company = factory.getCompanyDTO();
     ContactDTO contact1 = factory.getContactDTO();
     ContactDTO contact2 = factory.getContactDTO();
 
-    // Define the behavior of the mock
     Mockito.when(companyDAO.getCompany(idCompany)).thenReturn(company);
     Mockito.when(contactDAO.getContactsByCompanyId(idCompany))
             .thenReturn(Arrays.asList(contact1, contact2));
@@ -407,10 +383,8 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactByCompanyId of ContactUCC class with non-existing company")
   void testGetContactByCompanyIdNonExistingCompany() {
-    // Create a dummy Contact
     int idCompany = 1;
 
-    // Define the behavior of the mock
     Mockito.when(companyDAO.getCompany(idCompany)).thenReturn(null);
 
     assertThrows(NotFoundException.class,
@@ -420,11 +394,9 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactById of ContactUCC class when the DAO failed")
   void testGetContactByCompanyIdFatalException() {
-    // Create a dummy Contact
     int idCompany = 1;
     CompanyDTO company = factory.getCompanyDTO();
 
-    // Define the behavior of the mock
     Mockito.when(companyDAO.getCompany(idCompany)).thenReturn(company);
     Mockito.when(contactDAO.getContactsByCompanyId(idCompany))
             .thenThrow(FatalException.class);
@@ -437,11 +409,9 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContacts of ContactUCC class with contacts")
   void testGetContactsDefaultWithContacts() {
-    // Create a dummy Contact
     ContactDTO contact1 = factory.getContactDTO();
     ContactDTO contact2 = factory.getContactDTO();
 
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContacts())
             .thenReturn(Arrays.asList(contact1, contact2));
 
@@ -457,9 +427,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContacts of ContactUCC class without contacts")
   void testGetContactsDefaultWithoutContacts() {
-    // Create a dummy Contact
-
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContacts())
             .thenReturn(new ArrayList<>());
 
@@ -475,9 +442,6 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContacts of ContactUCC class with no contacts")
   void testGetContactsFatalException() {
-    // Create a dummy Contact
-
-    // Define the behavior of the mock
     Mockito.when(contactDAO.getContacts())
             .thenThrow(FatalException.class);
 
@@ -487,13 +451,11 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactsAllInfo of ContactUCC class with contacts")
   void testGetContactsAllInfoDefaultWithContacts() {
-    // Create a dummy Contact
     int userId = 1;
     UserDTO user = factory.getPublicUser();
     ContactDTO contact1 = factory.getContactDTO();
     ContactDTO contact2 = factory.getContactDTO();
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenReturn(Arrays.asList(contact1, contact2));
@@ -510,11 +472,9 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactsAllInfo of ContactUCC class without contacts")
   void testGetContactsAllInfoDefaultWithoutContacts() {
-    // Create a dummy Contact
     int userId = 1;
     UserDTO user = factory.getPublicUser();
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenReturn(new ArrayList<>());
@@ -531,10 +491,8 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactsAllInfo of ContactUCC class with non-existing user")
   void testGetContactsAllInfoWithNonExistingUser() {
-    // Create a dummy Contact
     int userId = 1;
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(userId)).thenReturn(null);
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenReturn(new ArrayList<>());
@@ -545,11 +503,9 @@ public class ContactUCCTest {
   @Test
   @DisplayName("Test getContactsAllInfo of ContactUCC class with non-existing user")
   void testGetContactsAllInfoFatalException() {
-    // Create a dummy Contact
     int userId = 1;
     UserDTO user = factory.getPublicUser();
 
-    // Define the behavior of the mock
     Mockito.when(userDAO.getOneById(userId)).thenReturn(user);
     Mockito.when(contactDAO.getContactsAllInfo(userId))
             .thenThrow(FatalException.class);

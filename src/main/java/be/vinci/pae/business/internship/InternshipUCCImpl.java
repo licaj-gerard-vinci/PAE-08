@@ -120,5 +120,4 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
   }
 
-
 }

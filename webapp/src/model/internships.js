@@ -28,12 +28,6 @@ import {
 
   async function insertInternship(managerId, student, contactObject, company, topic, signatureDate) {
     const token = getToken();
-    console.log("managerId", managerId)
-    console.log("student", student)
-    console.log("contactObject", contactObject)
-    console.log("company", company)
-    console.log("topic", topic)
-    console.log("signatureDate", signatureDate)
     if(token) {
 
       const options = {

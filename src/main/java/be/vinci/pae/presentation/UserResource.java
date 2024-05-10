@@ -66,7 +66,6 @@ public class UserResource {
     } else {
       throw new WebApplicationException("Missing information", Response.Status.NOT_FOUND);
 
-
     }
 
   }
@@ -89,16 +88,12 @@ public class UserResource {
       throw new BadRequestException("Old password must be provided");
     }
 
-
     if (!myUserUcc.checkPassword(id, oldPassword)) {
       return Response.status(Response.Status.UNAUTHORIZED)
           .entity("Old password verification failed. Please ensure you've entered the correct "
               + "password.")
           .build();
     }
-
-
-
 
     return Response.ok().build();
   }
