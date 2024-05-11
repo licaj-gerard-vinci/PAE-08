@@ -75,7 +75,7 @@ public class UserUCCImpl implements UserUCC {
   }
 
   /**
-   * Retrives all users.
+   * Retrieves all users.
    */
   @Override
   public List<UserDTO> getAll() {
@@ -113,20 +113,20 @@ public class UserUCCImpl implements UserUCC {
     String academicYear = year.renderCurrentYear();
 
     YearDTO yearDTO = yearUCC.getYearByYear(academicYear);
-    userDTO.setSchoolyear(yearDTO);
+    userDTO.setSchoolYear(yearDTO);
     // Set the year and year ID for the user
-    userDTO.setidSchoolYear(yearDTO.getId());
+    userDTO.setIdSchoolYear(yearDTO.getId());
 
     try {
       dalServices.startTransaction();
-      User user = (User) userDAO.getOneByEmail(userDTO.getEmail());
+      UserDTO user = userDAO.getOneByEmail(userDTO.getEmail());
       if (user != null) {
         throw new ConflictException("Email already used");
       }
       userDTO.setPassword(((User) userDTO).hashPassword(userDTO.getPassword()));
-      Date dateInscription = new java.sql.Date(System.currentTimeMillis());
-      userDTO.setRegistrationDate(dateInscription);
-      user = (User) userDAO.insertUser(userDTO);
+      Date registrationDate = new java.sql.Date(System.currentTimeMillis());
+      userDTO.setRegistrationDate(registrationDate);
+      user = userDAO.insertUser(userDTO);
       dalServices.commitTransaction();
       return user;
     } catch (Exception e) {

@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Entreprise interface represents a business entity. It extends the EntrepriseDTO interface and
- * provides methods to get and set the properties of an entreprise.
+ * The Company interface represents a business entity. It extends the CompanyDTO interface and
+ * provides methods to get and set the properties of a Company.
  */
 public class CompanyDAOImpl implements CompanyDAO {
 
@@ -24,10 +24,10 @@ public class CompanyDAOImpl implements CompanyDAO {
   private DALBackServiceUtils dalBackServiceUtils;
 
   /**
-  * Retrieves an entreprise from the database.
+  * Retrieves an CompanyDTO from the database.
   *
-  * @param id the id of the entreprise to retrieve.
-  * @return the entreprise with the specified id.
+  * @param id the id of the CompanyDTO to retrieve.
+  * @return the CompanyDTO with the specified id.
   */
   @Override
   public CompanyDTO getCompany(int id) {
@@ -48,9 +48,9 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   /**
-   * Retrieves all entreprises from the database.
+   * Retrieves all CompanyDTO from the database.
    *
-   * @return a list of all entreprises.
+   * @return a list of all CompanyDTO.
    */
   @Override
   public List<CompanyDTO> getCompany() {
@@ -71,10 +71,10 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   /**
-  * Retrieves an entreprise from the database.
+  * Retrieves an CompanyDTO from the database.
   *
   * @param name and designation of the company to retrieve.
-  * @return the entreprise with the specified name and designation.
+  * @return the CompanyDTO with the specified name and designation.
   */
   @Override
   public CompanyDTO getCompanyByNameDesignation(String name, String designation) {
@@ -100,7 +100,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   /**
    * Updates the Company in the database.
    *
-   * @param company The entreprise to update.
+   * @param company The CompanyDTO to update.
    */
   @Override
     public void updateCompany(CompanyDTO company) {
@@ -112,7 +112,7 @@ public class CompanyDAOImpl implements CompanyDAO {
                 + "AND company_version = ?";
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, company.getName());
-      statement.setString(2, company.getAdresse());
+      statement.setString(2, company.getAddress());
       statement.setString(3, company.getDesignation());
       statement.setString(4, company.getCity());
       statement.setString(5, company.getPhone());
@@ -130,7 +130,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   /**
    * Adds a Company to the database.
    *
-   * @param company the entreprise to add.
+   * @param company the Company to add.
    */
   @Override
   public void addCompany(CompanyDTO company) {
@@ -143,7 +143,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setString(1, company.getName());
       statement.setString(2, company.getDesignation());
-      statement.setString(3, company.getAdresse());
+      statement.setString(3, company.getAddress());
       statement.setString(4, company.getCity());
       statement.setString(5, company.getPhone());
       statement.setString(6, company.getEmail());

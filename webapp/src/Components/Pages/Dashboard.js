@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import Chart from "chart.js/auto";
 import {clearPage} from "../../utils/render";
-import {getEntreprises} from "../../model/entreprises";
+import {getEntreprises} from "../../model/company";
 import Navigate from "../Router/Navigate";
 import {getAllAcademicYears} from "../../model/years";
 import {getContacts} from "../../model/contacts";
@@ -62,7 +62,8 @@ const sortOrder = {
     nom: true,
     numTel: true,
     studentCount: true,
-    blackListed: true
+    blackListed: true,
+    designation: true
 };
 
 async function sortAndRenderCompanies(property, companies, internships, selectedYear) {
@@ -103,7 +104,8 @@ function renderCompanies(companies, internships, selectedYear = '') {
     <table class="table table-hover shadow-sm rounded">
         <thead class="table-dark">
             <tr>
-               <th scope="col" id="sortByName" class="text-center cursor-pointer">Nom ${sortOrder.nom ? '↓' : '↑'}</th>
+                <th scope="col" id="sortByName" class="text-center cursor-pointer">Nom ${sortOrder.nom ? '↓' : '↑'}</th>
+                <th scope="col" id="sortByDesignation" class="text-center cursor-pointer">Appelation ${sortOrder.designation ? '↓' : '↑'}</th>
                 <th scope="col" id="sortByPhone" class="text-center cursor-pointer">Numéro de téléphone ${sortOrder.numTel ? '↓' : '↑'}</th>
                 <th scope="col" id="sortByStudentCount" class="text-center cursor-pointer">Nombre d'étudiant ${sortOrder.studentCount ? '↓' : '↑'}</th>
                 <th scope="col" id="sortByBlacklisted" class="text-center cursor-pointer">Est blacklisté ${sortOrder.blackListed ? '↓' : '↑'}</th>
@@ -123,7 +125,8 @@ function renderCompanies(companies, internships, selectedYear = '') {
             const studentCount = companyInternships.length;
             return `
                 <tr data-id="${company.id}" class="company-row cursor-pointer text-center">
-                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.name} </br> ${company.designation}</td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.name} </td>
+                  <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.designation ? company.designation : '/'}</td>
                   <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.phone}</td>
                   <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${studentCount}</td>
                   <td class="text-center ${company.blackListed ? 'bg-lightred' : ''}">${company.blackListed ? 'Oui' : 'Non'}</td>
@@ -146,6 +149,7 @@ function renderCompanies(companies, internships, selectedYear = '') {
         document.getElementById('sortByPhone').addEventListener('click', () => sortAndRenderCompanies('phone', companies, internships, selectedYear)); // Changed 'numTel' to 'phone'
         document.getElementById('sortByStudentCount').addEventListener('click', () => sortAndRenderCompanies('studentCount', companies, internships, selectedYear));
         document.getElementById('sortByBlacklisted').addEventListener('click', () => sortAndRenderCompanies('blackListed', companies, internships, selectedYear));
+        document.getElementById('sortByDesignation').addEventListener('click', () => sortAndRenderCompanies('designation', companies, internships, selectedYear));
     }
 }
 
@@ -198,7 +202,7 @@ async function renderStatistics(selectedYear) {
         new Chart(canvas, {
             type: 'pie',
             data: {
-                labels: ['Avec Stage', 'Sans stage'],
+                labels: ['Avec stage', 'Sans stage'],
                 datasets: [{
                     label: 'Nombre d\'étudiants',
                     data: [studentsWithInternship, studentsWithoutInternship],

@@ -9,164 +9,164 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.sql.Date;
 
 /**
- * Represents the StageDTO interface.
+ * Represents the internshipDTO interface.
  */
 @JsonDeserialize(as = InternshipImpl.class)
 public interface InternshipDTO {
 
   /**
-   * Gets the stage ID.
+   * Gets the internship ID.
    *
-   * @return the stage ID.
+   * @return the internship ID.
    */
   int getId();
 
   /**
-   * Sets the stage ID.
+   * Sets the internship ID.
    *
-   * @param id the new stage ID.
+   * @param id the new internship ID.
    */
   void setId(int id);
 
   /**
-   * Gets the stage Responsable.
+   * Gets the internship manager.
    *
-   * @return the stage Responsable.
+   * @return the internship manager.
    */
   ManagerDTO getManager();
 
   /**
-   * Sets the stage Responsable.
+   * Sets the internship manager.
    *
-   * @param manager the new stage Responsable.
+   * @param manager the new internship manager.
    */
   void setManager(ManagerDTO manager);
 
   /**
-   * Gets the stage Responsable ID.
+   * Gets the internship manager ID.
    *
-   * @return the stage Responsable ID.
+   * @return the internship manager ID.
    */
   int getIdManager();
 
   /**
-   * Sets the stage Responsable ID.
+   * Sets the internship manager ID.
    *
-   * @param idManager the new stage Responsable ID.
+   * @param idManager the new internship manager ID.
    */
   void setIdManager(int idManager);
 
 
 
   /**
-   * Gets the stage Etudiant.
+   * Gets the internship student.
    *
-   * @return the stage Etudiant.
+   * @return the internship student.
    */
   UserDTO getStudent();
 
   /**
-   * Sets the stage Etudiant.
+   * Sets the internship student.
    *
-   * @param student the new stage Etudiant.
+   * @param student the new internship student.
    */
   void setStudent(UserDTO student);
 
   /**
-   * Gets the stage Etudiant ID.
+   * Gets the internship student ID.
    *
-   * @return the stage Etudiant ID.
+   * @return the internship student ID.
    */
   int getIdStudent();
 
   /**
-   * Sets the stage Etudiant ID.
+   * Sets the internship student ID.
    *
-   * @param idStudent the new stage Etudiant ID.
+   * @param idStudent the new internship student ID.
    */
   void setIdStudent(int idStudent);
 
   /**
-   * Gets the stage Contact.
+   * Gets the internship Contact.
    *
-   * @return the stage Contact.
+   * @return the internship Contact.
    */
   ContactDTO getContact();
 
   /**
-   * Sets the stage Contact.
+   * Sets the internship Contact.
    *
-   * @param contact the new stage Contact.
+   * @param contact the new internship Contact.
    */
   void setContact(ContactDTO contact);
 
   /**
-   * Gets the stage Contact ID.
+   * Gets the internship Contact ID.
    *
-   * @return the stage Contact ID.
+   * @return the internship Contact ID.
    */
   int getIdContact();
 
   /**
-   * Sets the stage Contact ID.
+   * Sets the internship Contact ID.
    *
-   * @param idContact the new stage Contact ID.
+   * @param idContact the new internship Contact ID.
    */
   void setIdContact(int idContact);
 
   /**
-   * Gets the stage Entreprise.
+   * Gets the internship company.
    *
-   * @return the stage Entreprise.
+   * @return the internship company.
    */
   CompanyDTO getCompany();
 
   /**
-   * Sets the stage Entreprise.
+   * Sets the internship company.
    *
-   * @param company the new stage Entreprise.
+   * @param company the new internship company.
    */
   void setCompany(CompanyDTO company);
 
   /**
-   * Gets the stage Entreprise ID.
+   * Gets the internship company ID.
    *
-   * @return the stage Entreprise ID.
+   * @return the internship company ID.
    */
   int getIdCompany();
 
   /**
-   * Sets the stage Entreprise ID.
+   * Sets the internship company ID.
    *
-   * @param idCompany the new stage Entreprise ID.
+   * @param idCompany the new internship company ID.
    */
   void setIdCompany(int idCompany);
 
   /**
-   * Gets the stage Sujet.
+   * Gets the internship topic.
    *
-   * @return the stage Sujet.
+   * @return the internship topic.
    */
   String getTopic();
 
   /**
-   * Sets the stage Sujet.
+   * Sets the internship topic.
    *
-   * @param topic the new stage Sujet.
+   * @param topic the new internship topic.
    */
   void setTopic(String topic);
 
   /**
-   * Gets the stage date.
+   * Gets the internship date.
    *
-   * @return the stage date.
+   * @return the internship date.
    */
   Date getSignatureDate();
 
   /**
-   * Sets the stage date.
+   * Sets the internship date.
    *
-   * @param dateSignature the new stage date.
+   * @param dateSignature the new internship date.
    */
   void setSignatureDate(Date dateSignature);
 

@@ -39,7 +39,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     user.setRegistrationDate(rs.getDate("user_registration_date"));
     user.setRole(rs.getString("user_role"));
     user.setHasInternship(rs.getBoolean("user_has_internship"));
-    user.setidSchoolYear(rs.getInt("user_school_year_id"));
+    user.setIdSchoolYear(rs.getInt("user_school_year_id"));
     if (method.equals("update")) {
       user.setVersion(rs.getInt("user_version") + 1);
     } else {
@@ -70,10 +70,10 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
   }
 
   /**
-   * Fills an EntrepriseDTO with data from a ResultSet.
+   * Fills an CompanyDTO with data from a ResultSet.
    *
    * @param rs the ResultSet containing company data.
-   * @return EntrepriseDTO filled with data from the ResultSet.
+   * @return CompanyDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.
    */
   public CompanyDTO fillCompanyDTO(ResultSet rs, String method) throws SQLException {
@@ -81,7 +81,7 @@ public class DALBackServiceUtilsImpl implements DALBackServiceUtils {
     company.setId(rs.getInt("company_id"));
     company.setName(rs.getString("company_name"));
     company.setDesignation(rs.getString("company_designation"));
-    company.setAdresse(rs.getString("company_address"));
+    company.setAddress(rs.getString("company_address"));
     company.setCity(rs.getString("company_city"));
     company.setPhone(rs.getString("company_phone_number"));
     company.setEmail(rs.getString("company_email"));

@@ -1,7 +1,7 @@
 import Navigate from '../Router/Navigate';
 import {clearPage} from "../../utils/render";
 import {getAuthenticatedUser} from "../../utils/auths";
-import {getEntreprises,insertEntreprises} from "../../model/entreprises";
+import {getEntreprises,insertEntreprises} from "../../model/company";
 
 const NewCompany = () => {
     const authenticatedUser = getAuthenticatedUser();
@@ -35,8 +35,8 @@ function renderNewCompanyForm ()  {
                   </div>
                   
                    <div class="mb-3 form-group">
-                    <label for="adresse">Adresse<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="RegisterAdresse" placeholder="Adresse Entreprise">
+                    <label for="address">Adresse<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="RegisterAddress" placeholder="Adresse Entreprise">
                   </div>
                    <div class="mb-3 form-group">
                     <label for="city">Ville<span class="text-danger">*</label>
@@ -51,7 +51,7 @@ function renderNewCompanyForm ()  {
                   
                   <div class="mb-3 form-group">
                     <label for="phone">Numéro de téléphone</label>
-                    <input type="number" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
+                    <input type="text" class="form-control" id="RegisterPhone" aria-describedby="emailHelp" placeholder="Numéro de téléphonne">
                   </div>
                   
                   
@@ -78,19 +78,19 @@ async function checkCompany() {
     const appelation = document.getElementById('RegisterAppelation');
     const phone = document.getElementById('RegisterPhone');
     const email = document.getElementById('RegisterEmail');
-    const adresse = document.getElementById('RegisterAdresse');
+    const address = document.getElementById('RegisterAddress');
     const city = document.getElementById('RegisterCity');
     const codePostal = document.getElementById('CodePostal');
 
     const  NameError = document.createElement('p');
     const PhoneError = document.createElement('p');
-    const AdresseError = document.createElement('p');
+    const AddressError = document.createElement('p');
     const SubmitError = document.createElement('p');
     const CityError = document.createElement('p');
     const EmailError = document.createElement('p');
     const CodePostalError = document.createElement('p');
     NameError.style.color = 'red';
-    AdresseError.style.color = 'red';
+    AddressError.style.color = 'red';
     SubmitError.style.color = 'red';
     PhoneError.style.color = 'red';
     CityError.style.color = 'red';
@@ -100,7 +100,7 @@ async function checkCompany() {
 
     name.parentNode.insertBefore(NameError, name.nextSibling);
     submitButton.parentNode.insertBefore(SubmitError, submitButton.nextSibling);
-    adresse.parentNode.insertBefore(AdresseError, adresse.nextSibling);
+    address.parentNode.insertBefore(AddressError, address.nextSibling);
     phone.parentNode.insertBefore(PhoneError, phone.nextSibling);
     city.parentNode.insertBefore(CityError, city.nextSibling);
     email.parentNode.insertBefore(EmailError, email.nextSibling);
@@ -109,7 +109,7 @@ async function checkCompany() {
     submitButton.addEventListener('click', async (e) => {
         e.preventDefault(); // prevent the form from being submitted
         const nameValue = name.value;
-        const adresseValue = adresse.value;
+        const addressValue = address.value;
         const phoneValue = phone.value;
         const emailValue = email.value;
         const cityValue = city.value;
@@ -124,12 +124,12 @@ async function checkCompany() {
         }
         NameError.textContent = '';
 
-        AdresseError.textContent = '';
-        if(adresseValue === '') {
-            AdresseError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
+        AddressError.textContent = '';
+        if(addressValue === '') {
+            AddressError.textContent = 'L\'adresse de l\'entreprise est obligatoire';
             return;
         }
-        AdresseError.textContent='';
+        AddressError.textContent='';
 
         if(phoneValue !== '') {
             if(phoneValue.length < 9) {
@@ -164,7 +164,7 @@ async function checkCompany() {
             designation: appelationValue,
             phone: phoneValue,
             email: emailValue,
-            adresse: adresseValue,
+            address: addressValue,
             city: `${codePostalValue} ${cityValue}`,
             motivation: '',
 

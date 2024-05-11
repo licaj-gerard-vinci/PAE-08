@@ -68,7 +68,7 @@ public class AuthResource {
       throw new WebApplicationException("email or password required", Status.BAD_REQUEST);
     }
     if (!email.endsWith("@student.vinci.be") && !email.endsWith("@vinci.be")) {
-      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+      throw new WebApplicationException("wrong email", Status.BAD_REQUEST);
     }
 
     // Try to log in
@@ -113,7 +113,7 @@ public class AuthResource {
 
     if (!(email.startsWith(emailPattern) && (email.endsWith("@student.vinci.be") || email.endsWith(
         "@vinci.be")))) {
-      throw new WebApplicationException("email incorrect", Status.BAD_REQUEST);
+      throw new WebApplicationException("wrong email", Status.BAD_REQUEST);
     }
 
     // Try to log in

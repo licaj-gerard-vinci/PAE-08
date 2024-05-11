@@ -3,7 +3,7 @@ package be.vinci.pae.business.year;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents the AnneeDTO interface.
+ * Represents the yearDTO interface.
  */
 @JsonDeserialize(as = YearImpl.class)
 public interface YearDTO {

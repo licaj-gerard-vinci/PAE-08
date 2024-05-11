@@ -2,7 +2,6 @@ package be.vinci.pae.presentation;
 
 import be.vinci.pae.business.company.CompanyDTO;
 import be.vinci.pae.business.company.CompanyUCC;
-import be.vinci.pae.business.contact.ContactUCC;
 import be.vinci.pae.presentation.filters.Authorize;
 import be.vinci.pae.presentation.filters.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * The {@code EntrepriseResource} class represents a resource for managing entreprise-related
+ * The {@code companyResource} class represents a resource for managing company-related
  * operations. It is annotated with {@code Singleton} and {@code Path("ent")}.
  */
 @Singleton
@@ -35,33 +34,30 @@ public class CompanyResource {
 
   private final ObjectMapper jsonMapper = new ObjectMapper();
 
-  @Inject
-  private ContactUCC myContactUcc;
-
 
   /**
-   * Retrieves all entreprises.
+   * Retrieves all companies.
    *
-   * @return the list containing all entreprises.
+   * @return the list containing all companies.
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public List<CompanyDTO> getAllEntreprises() {
+  public List<CompanyDTO> getAllCompanies() {
     return myCompanyUcc.getAllCompanies();
   }
 
   /**
-   * Retrieves an entreprise with the specified id.
+   * Retrieves a company with the specified id.
    *
-   * @param id The id of the entreprise to retrieve.
-   * @return The entreprise with the specified id.
+   * @param id The id of the company to retrieve.
+   * @return The company with the specified id.
    */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"P"})
-  public CompanyDTO getEntreprise(@PathParam("id") int id) {
+  public CompanyDTO getCompany(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
@@ -106,15 +102,15 @@ public class CompanyResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E"})
-  public ObjectNode addEntreprise(CompanyDTO company) {
+  public ObjectNode addCompany(CompanyDTO company) {
     if (company.getName() == null || company.getName().isEmpty()) {
-      throw new WebApplicationException("Invalid entreprise name", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("Invalid company name", Response.Status.BAD_REQUEST);
     }
-    if (company.getAdresse() == null || company.getAdresse().isEmpty()) {
-      throw new WebApplicationException("Invalid entreprise address", Response.Status.BAD_REQUEST);
+    if (company.getAddress() == null || company.getAddress().isEmpty()) {
+      throw new WebApplicationException("Invalid company address", Response.Status.BAD_REQUEST);
     }
     if (company.getCity() == null || company.getCity().isEmpty()) {
-      throw new WebApplicationException("Invalid entreprise city", Response.Status.BAD_REQUEST);
+      throw new WebApplicationException("Invalid company city", Response.Status.BAD_REQUEST);
     }
 
     myCompanyUcc.addCompany(company);

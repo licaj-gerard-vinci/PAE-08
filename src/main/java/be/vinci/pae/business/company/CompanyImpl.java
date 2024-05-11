@@ -1,7 +1,7 @@
 package be.vinci.pae.business.company;
 
 /**
- * Represents the EntrepriseImpl class.
+ * Represents the companyImpl class.
  */
 
 public class CompanyImpl implements CompanyDTO {
@@ -12,7 +12,7 @@ public class CompanyImpl implements CompanyDTO {
 
   private String designation;
 
-  private String adresse;
+  private String address;
 
   private String phone;
 
@@ -28,9 +28,9 @@ public class CompanyImpl implements CompanyDTO {
 
 
   /**
-   * Gets the ID of the entreprise.
+   * Gets the ID of the company.
    *
-   * @return the ID of the entreprise.
+   * @return the ID of the company.
    */
 
   @Override
@@ -39,9 +39,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the ID of the entreprise.
+   * Sets the ID of the company.
    *
-   * @param id the new ID for the entreprise.
+   * @param id the new ID for the company.
    */
 
   @Override
@@ -50,9 +50,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the name of the entreprise.
+   * Gets the name of the company.
    *
-   * @return the name of the entreprise.
+   * @return the name of the company.
    */
 
   @Override
@@ -61,9 +61,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the name of the entreprise.
+   * Sets the name of the company.
    *
-   * @param name the new name for the entreprise.
+   * @param name the new name for the company.
    */
 
   @Override
@@ -72,9 +72,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the designation of the entreprise.
+   * Gets the designation of the company.
    *
-   * @return the designation of the entreprise.
+   * @return the designation of the company.
    */
 
   @Override
@@ -83,9 +83,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the designation of the entreprise.
+   * Sets the designation of the company.
    *
-   * @param designation the new apellation for the entreprise.
+   * @param designation the new apellation for the company.
    */
 
   @Override
@@ -94,25 +94,25 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the adresse of the entreprise.
+   * Gets the address of the company.
    *
-   * @return the adresse of the entreprise.
+   * @return the address of the company.
    */
 
   @Override
-  public String getAdresse() {
-    return adresse;
+  public String getAddress() {
+    return address;
   }
 
   /**
-   * Sets the adresse of the entreprise.
+   * Sets the address of the company.
    *
-   * @param adresse the new adresse for the entreprise.
+   * @param address the new address for the company.
    */
 
   @Override
-  public void setAdresse(String adresse) {
-    this.adresse = adresse;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
 
@@ -125,9 +125,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the numTel of the entreprise.
+   * Gets the numTel of the company.
    *
-   * @return the numTel of the entreprise.
+   * @return the numTel of the company.
    */
 
   @Override
@@ -136,9 +136,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the numTel of the entreprise.
+   * Sets the numTel of the company.
    *
-   * @param phone the new numTel for the entreprise.
+   * @param phone the new numTel for the company.
    */
 
   @Override
@@ -147,9 +147,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the email of the entreprise.
+   * Gets the email of the company.
    *
-   * @return the email of the entreprise.
+   * @return the email of the company.
    */
 
   @Override
@@ -158,9 +158,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the email of the entreprise.
+   * Sets the email of the company.
    *
-   * @param email the new email for the entreprise.
+   * @param email the new email for the company.
    */
 
   @Override
@@ -169,9 +169,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the blackListed of the entreprise.
+   * Gets the blackListed of the company.
    *
-   * @return the blackListed of the entreprise.
+   * @return the blackListed of the company.
    */
 
   @Override
@@ -180,9 +180,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Sets the blackListed of the entreprise.
+   * Sets the blackListed of the company.
    *
-   * @param blackListed the new blackListed for the entreprise.
+   * @param blackListed the new blackListed for the company.
    */
 
   @Override
@@ -191,9 +191,9 @@ public class CompanyImpl implements CompanyDTO {
   }
 
   /**
-   * Gets the motivation_blacklist of the entreprise.
+   * Gets the motivation_blacklist of the company.
    *
-   * @return the motivation_blacklist of the entreprise.
+   * @return the motivation_blacklist of the company.
    */
   @Override
   public String getMotivation() {
@@ -202,9 +202,9 @@ public class CompanyImpl implements CompanyDTO {
 
 
   /**
-   * Sets the motivation_blacklist of the entreprise.
+   * Sets the motivation_blacklist of the company.
    *
-   * @param motivation the new motivation_blacklist for the entreprise.
+   * @param motivation the new motivation_blacklist for the company.
    */
 
   @Override

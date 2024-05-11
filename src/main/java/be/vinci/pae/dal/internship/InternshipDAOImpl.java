@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Class StageDAOImpl.
+ * The Class InternshipDAOImpl.
  */
 public class InternshipDAOImpl implements InternshipDAO {
 
@@ -34,13 +34,13 @@ public class InternshipDAOImpl implements InternshipDAO {
 
 
   /**
-   * Gets all stage.
+   * Gets all Internship.
    *
-   * @return all stages
+   * @return all Internship
    */
   @Override
   public List<InternshipDTO> getInternship() {
-    List<InternshipDTO> stages = new ArrayList<>();
+    List<InternshipDTO> internships = new ArrayList<>();
     String query = "SELECT int.*, man.*, use.*, con.*, com.*, sch.* "
         + "FROM pae.internships int "
         + "INNER JOIN pae.managers man ON int.internship_manager_id = man.manager_id "
@@ -52,20 +52,20 @@ public class InternshipDAOImpl implements InternshipDAO {
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       try (ResultSet rs = statement.executeQuery()) {
         while (rs.next()) {
-          stages.add(rsToStage(rs, "get"));
+          internships.add(rsToInternship(rs, "get"));
         }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return stages;
+    return internships;
   }
 
   /**
-   * Gets the stage by id.
+   * Gets the internships by id.
    *
    * @param userId the id
-   * @return the stage by id
+   * @return the internships by id
    */
   @Override
   public InternshipDTO getInternshipById(int userId) {
@@ -80,18 +80,18 @@ public class InternshipDAOImpl implements InternshipDAO {
             + "AND use.user_school_year_id = sch.school_year_id "
             + "AND use.user_id = ?";
 
-    InternshipDTO stage = null;
+    InternshipDTO internships = null;
     try (PreparedStatement statement = dalBackService.preparedStatement(query)) {
       statement.setInt(1, userId);
       try (ResultSet rs = statement.executeQuery()) {
         if (rs.next()) {
-          stage = rsToStage(rs, "get");
+          internships = rsToInternship(rs, "get");
         }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return stage;
+    return internships;
   }
 
   /**
@@ -111,7 +111,7 @@ public class InternshipDAOImpl implements InternshipDAO {
       statement.setInt(2, internship.getStudent().getId());
       statement.setInt(3, internship.getContact().getId());
       statement.setInt(4, internship.getCompany().getId());
-      statement.setInt(5, internship.getStudent().getidSchoolYear());
+      statement.setInt(5, internship.getStudent().getIdSchoolYear());
       statement.setString(6, internship.getTopic());
       statement.setDate(7, internship.getSignatureDate());
       statement.executeUpdate();
@@ -142,45 +142,45 @@ public class InternshipDAOImpl implements InternshipDAO {
   }
 
   /**
-   * Rs to stage.
+   * Rs to internship.
    *
    * @param rs the rs
    * @param method the method
-   * @return the stage DTO
+   * @return the internship DTO
    * @throws SQLException the SQL exception
    */
 
-  public InternshipDTO rsToStage(ResultSet rs, String method) throws SQLException {
-    InternshipDTO stage = factory.getInternshipDTO();
+  public InternshipDTO rsToInternship(ResultSet rs, String method) throws SQLException {
+    InternshipDTO internship = factory.getInternshipDTO();
 
     // Fill DTOs using methods from DALBackServiceUtils
-    ManagerDTO responsable = dalBackServiceUtils.fillManagerDTO(rs, method);
-    UserDTO etudiant = dalBackServiceUtils.fillUserDTO(rs, method);
+    ManagerDTO manager = dalBackServiceUtils.fillManagerDTO(rs, method);
+    UserDTO student = dalBackServiceUtils.fillUserDTO(rs, method);
     ContactDTO contact = dalBackServiceUtils.fillContactDTO(rs, method);
-    CompanyDTO entreprise = dalBackServiceUtils.fillCompanyDTO(rs, method);
-    YearDTO annee = dalBackServiceUtils.fillYearDTO(rs);
+    CompanyDTO company = dalBackServiceUtils.fillCompanyDTO(rs, method);
+    YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
 
-    // Add stage info
-    stage.setId(rs.getInt("internship_id"));
-    stage.setTopic(rs.getString("internship_topic"));
-    stage.setSignatureDate(rs.getDate("internship_date_of_signature"));
-    stage.setYear(annee);
-    stage.setIdYear(annee.getId());
+    // Add internship info
+    internship.setId(rs.getInt("internship_id"));
+    internship.setTopic(rs.getString("internship_topic"));
+    internship.setSignatureDate(rs.getDate("internship_date_of_signature"));
+    internship.setYear(year);
+    internship.setIdYear(year.getId());
 
-    // Set filled DTOs to stage
-    stage.setManager(responsable);
-    stage.setIdManager(responsable.getId());
-    stage.setStudent(etudiant);
-    stage.setIdStudent(etudiant.getId());
-    stage.setContact(contact);
-    stage.setIdContact(contact.getId());
-    stage.setCompany(entreprise);
-    stage.setIdCompany(entreprise.getId());
+    // Set filled DTOs to internship
+    internship.setManager(manager);
+    internship.setIdManager(manager.getId());
+    internship.setStudent(student);
+    internship.setIdStudent(student.getId());
+    internship.setContact(contact);
+    internship.setIdContact(contact.getId());
+    internship.setCompany(company);
+    internship.setIdCompany(company.getId());
     if (method.equals("update")) {
-      stage.setVersion(rs.getInt("internship_version") + 1);
+      internship.setVersion(rs.getInt("internship_version") + 1);
     } else {
-      stage.setVersion(rs.getInt("internship_version"));
+      internship.setVersion(rs.getInt("internship_version"));
     }
-    return stage;
+    return internship;
   }
 }

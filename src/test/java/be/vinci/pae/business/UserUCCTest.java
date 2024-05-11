@@ -112,7 +112,7 @@ class UserUCCTest {
     user1.setFirstname("prenom");
     user1.setLastname("nom");
     user1.setPhone("phone");
-    user1.setidSchoolYear(1);
+    user1.setIdSchoolYear(1);
     User user2 = (User) factory.getPublicUser();
     user2.setEmail("nom.prenom@vinci.be");
     user2.setPassword("password");
@@ -120,7 +120,7 @@ class UserUCCTest {
     user2.setFirstname("nom");
     user2.setLastname("prenom");
     user2.setPhone("phone");
-    user2.setidSchoolYear(1);
+    user2.setIdSchoolYear(1);
     when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(null);
     when(userDAO.insertUser(user1)).thenReturn(user1);
     when(userDAO.getOneByEmail("nom.prenom@vinci.be")).thenReturn(null);
@@ -147,7 +147,7 @@ class UserUCCTest {
     user.setFirstname("prenom");
     user.setLastname("nom");
     user.setPhone("phone");
-    user.setidSchoolYear(1);
+    user.setIdSchoolYear(1);
     when(userDAO.getOneByEmail("prenom.nom@vinci.be")).thenReturn(user);
     assertThrows(ConflictException.class, () -> {
       userUCC.register(user);

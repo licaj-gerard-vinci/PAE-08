@@ -2,7 +2,7 @@ package be.vinci.pae.business.internship;
 
 
 /**
- * interface Stage.
+ * interface internship.
  */
 public interface Internship {
 }

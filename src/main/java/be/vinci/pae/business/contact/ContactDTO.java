@@ -27,30 +27,30 @@ public interface ContactDTO {
   void setId(int id);
 
   /**
-   * Gets the associated enterprise ID.
+   * Gets the associated company ID.
    *
-   * @return the enterprise ID.
+   * @return the company ID.
    */
   CompanyDTO getCompany();
 
   /**
-   * Sets the associated enterprise ID.
+   * Sets the associated company ID.
    *
-   * @param company the new enterprise ID.
+   * @param company the new company ID.
    */
   void setCompany(CompanyDTO company);
 
   /**
-   * Gets the associated enterprise ID.
+   * Gets the associated company ID.
    *
-   * @return the enterprise ID.
+   * @return the company ID.
    */
   int getIdCompany();
 
   /**
-   * Sets the associated enterprise ID.
+   * Sets the associated company ID.
    *
-   * @param idCompany the new enterprise ID.
+   * @param idCompany the new company ID.
    */
   void setIdCompany(int idCompany);
 
@@ -64,9 +64,9 @@ public interface ContactDTO {
   /**
    * Sets the associated user ID.
    *
-   * @param utilisateur the new user ID.
+   * @param user the new user ID.
    */
-  void setStudent(UserDTO utilisateur);
+  void setStudent(UserDTO user);
 
   /**
    * Gets the associated user ID.

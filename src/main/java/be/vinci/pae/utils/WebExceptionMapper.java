@@ -23,8 +23,6 @@ public class WebExceptionMapper implements ExceptionMapper<Throwable> {
    * it returns the response from the exception. Otherwise, it returns an internal server error
    * response with the exception message.
    *
-   * @param exception the exception to be mapped.
-   * @return the HTTP response mapped from the exception.
    */
   private final Logger log = LogManager.getLogger("WebExceptionMapper");
 

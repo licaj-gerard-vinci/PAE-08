@@ -31,7 +31,7 @@ public class UserImpl implements User {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
-  private YearDTO schoolyear;
+  private YearDTO schoolYear;
 
   private int idSchoolYear;
 
@@ -229,18 +229,18 @@ public class UserImpl implements User {
    * @return the user's school year.
    */
   @Override
-  public YearDTO getSchoolyear() {
-    return schoolyear;
+  public YearDTO getSchoolYear() {
+    return schoolYear;
   }
 
   /**
    * Sets the user's school year.
    *
-   * @param schoolyear the new school year for the user.
+   * @param schoolYear the new school year for the user.
    */
   @Override
-  public void setSchoolyear(YearDTO schoolyear) {
-    this.schoolyear = schoolyear;
+  public void setSchoolYear(YearDTO schoolYear) {
+    this.schoolYear = schoolYear;
   }
 
   /**
@@ -269,7 +269,7 @@ public class UserImpl implements User {
    * @return the idSchoolYear of the user.
    */
   @Override
-  public int getidSchoolYear() {
+  public int getIdSchoolYear() {
     return idSchoolYear;
   }
 
@@ -279,7 +279,7 @@ public class UserImpl implements User {
    * @param idSchoolYear the idSchoolYear of the user.
    */
   @Override
-  public void setidSchoolYear(int idSchoolYear) {
+  public void setIdSchoolYear(int idSchoolYear) {
     this.idSchoolYear = idSchoolYear;
   }
 

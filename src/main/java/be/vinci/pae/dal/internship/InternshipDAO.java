@@ -4,24 +4,24 @@ import be.vinci.pae.business.internship.InternshipDTO;
 import java.util.List;
 
 /**
- * The Interface StageDAO.
+ * The Interface InternshipDAO.
  */
 public interface InternshipDAO {
 
 
   /**
-   * Gets all stages.
+   * Gets all Internships.
    *
-   * @return all stages
+   * @return all Internships
    */
 
   List<InternshipDTO> getInternship();
 
   /**
-   * Gets the stage by id.
+   * Gets the internship by id.
    *
    * @param id the id
-   * @return the stage by id
+   * @return the internship by id
    */
   InternshipDTO getInternshipById(int id);
 

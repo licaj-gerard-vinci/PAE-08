@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import Navigate from "../Router/Navigate";
-import { getStagePresent } from "../../model/internships";
+import { getInternshipPresent } from "../../model/internships";
 import { getContactsById } from "../../model/contacts";
 
 const StudentInfoPage = async (user) => {
@@ -36,8 +36,8 @@ const StudentInfoPage = async (user) => {
   const internshipCol = document.createElement('div');
   internshipCol.className = 'col-md-4';
 
-  const stage = await getStagePresent(user.id);
-  const date = new Date(stage.signatureDate);
+  const internship = await getInternshipPresent(user.id);
+  const date = new Date(internship.signatureDate);
   const year = date.getFullYear();
   let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
   let day = date.getDate();
@@ -51,13 +51,13 @@ const StudentInfoPage = async (user) => {
   internshipCol.innerHTML = `
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">${stage !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
+      <h5 class="card-title">${internship !== "Aucun stage n'est en cours" ? 'Stage actuel' : 'Informations sur le stage'}</h5>
       ${
-      stage !== "Aucun stage n'est en cours" ?
-          `<p class="card-text"><strong>Responsable:</strong> ${stage.manager.name} ${stage.manager.firstName}</p>
-        <p class="card-text"><strong>Entreprise:</strong> ${stage.company.name}</p>
+      internship !== "Aucun stage n'est en cours" ?
+          `<p class="card-text"><strong>Responsable:</strong> ${internship.manager.name} ${internship.manager.firstName}</p>
+        <p class="card-text"><strong>Entreprise:</strong> ${internship.company.name}</p>
         <p class="card-text"><strong>Date signature:</strong> ${formattedDate}</p>
-        <p class="card-text"><strong>Sujet:</strong> ${stage.topic || 'Pas de sujet'}</p>`
+        <p class="card-text"><strong>Sujet:</strong> ${internship.topic || 'Pas de sujet'}</p>`
           :
           `<p class="card-text">Vous n'avez pas de stage en cours.</p>`
   }
@@ -93,6 +93,7 @@ async function displayContacts(user) {
               <th scope="col">Entreprise</th>
               <th scope="col">État contact</th>
               <th scope="col">Lieu rencontre</th>
+              <th scope="col">Année académique</th>
               <th scope="col">Raison refus</th>
             </tr>
           </thead>
@@ -105,6 +106,7 @@ async function displayContacts(user) {
           <td>${contact.company.name || '/'}</td>
           <td>${contact.contactStatus || '/'}</td>
           <td>${contact.meetingPlace || '/'}</td>
+          <td>${contact.year.year || '/'}</td>
           <td>${contact.refusalReason || '/'}</td>
         </tr>
       `;

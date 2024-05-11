@@ -2,8 +2,8 @@ import {
     getToken,
   } from '../utils/auths';
 
-  async function getStagePresent(idUser) {
-    let stagePresent = null;
+  async function getInternshipPresent(idUser) {
+    let internshipPresent = null;
     const token = getToken();
     if(token) {
       const options = {
@@ -13,17 +13,17 @@ import {
           Authorization: token,
         },
       };
-      const response = await fetch(`http://localhost:8080/stages/${idUser}`, options);
+      const response = await fetch(`http://localhost:8080/internships/${idUser}`, options);
   
       if (!response.ok) {
         const nonPresent = "Aucun stage n'est en cours"
   
         return nonPresent;
       }
-      stagePresent = await response.json();
+      internshipPresent = await response.json();
     }
   
-    return stagePresent;
+    return internshipPresent;
   }
 
   async function insertInternship(managerId, student, contactObject, company, topic, signatureDate) {
@@ -47,7 +47,7 @@ import {
       };
       
       try {
-        const response = await fetch(`http://localhost:8080/stages/insert`, options);
+        const response = await fetch(`http://localhost:8080/internships/insert`, options);
         if (!response.ok) {
           throw new Error(`Error inserting contact: ${response.statusText}`);
         }
@@ -68,7 +68,7 @@ import {
           Authorization: token,
         },
       };
-      const response = await fetch('http://localhost:8080/stages', options);
+      const response = await fetch('http://localhost:8080/internships', options);
 
       if (!response.ok) {
         return internships;
@@ -78,19 +78,19 @@ import {
     return internships;
   }
 
-async function updateInternship(stage) {
+async function updateInternship(internship) {
   const token = getToken();
 
   if(token) {
     const options = {
       method: 'PUT',
-      body: JSON.stringify(stage),
+      body: JSON.stringify(internship),
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
       },
     };
-    const response = await fetch(`http://localhost:8080/stages/update/${stage.id}`, options);
+    const response = await fetch(`http://localhost:8080/internships/update/${internship.id}`, options);
     if (!response.ok) {
       throw new Error(`Error updating internship: ${response.statusText}`);
     }
@@ -99,7 +99,7 @@ async function updateInternship(stage) {
 
 
   export {
-    getStagePresent,
+    getInternshipPresent,
     insertInternship,
     getAllInternships,
     updateInternship,

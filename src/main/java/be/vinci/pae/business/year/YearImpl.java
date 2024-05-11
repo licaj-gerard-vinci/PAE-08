@@ -3,7 +3,7 @@ package be.vinci.pae.business.year;
 import java.time.LocalDate;
 
 /**
- * Represents the AnneeImpl class.
+ * Represents the yearImpl class.
  */
 public class YearImpl implements Year {
 

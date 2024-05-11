@@ -3,12 +3,12 @@
     box-shadow: 0 0 10px rgba(255,255,255,0.7); /* Ajoute une ombre blanche pour un effet "glow" */
   }
 
-  .stage-container input.form-control {
+  .internship-container input.form-control {
     margin-top: .5rem;
     box-shadow: none;
   }
   
-  .stage-container input.form-control:focus {
+  .internship-container input.form-control:focus {
     border-color: #80bdff;
     box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
   }
@@ -32,7 +32,7 @@
   }
   
   @media (max-width: 767px) {
-    .stage-container {
+    .internship-container {
       max-width: 100%;
       margin-left: 0;
     }

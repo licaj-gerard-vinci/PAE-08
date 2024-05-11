@@ -1,7 +1,6 @@
 package be.vinci.pae.dal.manager;
 
 import be.vinci.pae.business.company.CompanyDTO;
-import be.vinci.pae.business.factory.Factory;
 import be.vinci.pae.business.manager.ManagerDTO;
 import be.vinci.pae.dal.DALBackService;
 import be.vinci.pae.dal.utils.DALBackServiceUtils;
@@ -24,9 +23,6 @@ public class ManagerDAOImpl implements ManagerDAO {
 
   @Inject
   private DALBackServiceUtils dalBackServiceUtils;
-
-  @Inject
-  private Factory factory;
 
   /**
    * Retrieves a list of managers for a specific company.

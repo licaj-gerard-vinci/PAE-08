@@ -71,9 +71,9 @@ public class ContactImpl implements Contact {
   }
 
   /**
-   * Gets the associated enterprise.
+   * Gets the associated company.
    *
-   * @return the enterprise.
+   * @return the company.
    */
   @Override
   public CompanyDTO getCompany() {
@@ -81,9 +81,9 @@ public class ContactImpl implements Contact {
   }
 
   /**
-   * Sets the associated enterprise ID.
+   * Sets the associated company ID.
    *
-   * @param company the new enterprise ID.
+   * @param company the new company ID.
    */
   @Override
   public void setCompany(CompanyDTO company) {
