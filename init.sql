@@ -33,7 +33,6 @@ CREATE TABLE pae.users
     user_version                INTEGER NOT NULL
 );
 
-
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_school_year_id,user_has_internship, user_version)VALUES ('Baroni', 'Raphaël', '0481 01 01 01', 'raphael.baroni@vinci.be', '$2a$10$IwlxK.aWODNWWvaVo69AEuLB517GjnbAEOy5zgOI9qki04PEK4Nva', 'P', '21-09-20',1,false,1);
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_school_year_id,user_has_internship, user_version)VALUES ('Lehmann', 'Brigitte', '0482 02 02 02', 'brigitte.lehmann@vinci.be', '$2a$10$IwlxK.aWODNWWvaVo69AEuLB517GjnbAEOy5zgOI9qki04PEK4Nva', 'P', '21-09-20',1,false,1);
 INSERT INTO pae.users (user_lastname, user_firstname, user_phone_number, user_email, user_password, user_role, user_registration_date,user_school_year_id,user_has_internship, user_version)VALUES ('Leleux', 'Laurent', '0483 03 03 03', 'laurent.leleux@vinci.be', '$2a$10$IwlxK.aWODNWWvaVo69AEuLB517GjnbAEOy5zgOI9qki04PEK4Nva', 'P', '21-09-20',1,false,1);
