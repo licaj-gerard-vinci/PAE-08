@@ -10,8 +10,8 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 /**
- * This class implements the EntrepriseUCC interface. It provides methods to interact with the
- * EntrepriseDAO to perform operations on the entreprises.
+ * This class implements the companyUCC interface. It provides methods to interact with the
+ * companyDAO to perform operations on the companies.
  */
 public class CompanyUCCImpl implements CompanyUCC {
 
@@ -35,7 +35,7 @@ public class CompanyUCCImpl implements CompanyUCC {
       dalServices.openConnection();
       CompanyDTO company = companyDAO.getCompany(id);
       if (company == null) {
-        throw new NotFoundException("L'entreprise avec l'id " + id + " n'existe pas.");
+        throw new NotFoundException("The company with the id " + id + " does not exist.");
       }
       return company;
     } finally {
@@ -54,7 +54,7 @@ public class CompanyUCCImpl implements CompanyUCC {
       dalServices.openConnection();
       List<CompanyDTO> company = companyDAO.getCompany();
       if (company == null) {
-        throw new NotFoundException("Aucune entreprise n'a été trouvée.");
+        throw new NotFoundException("No company was found.");
       }
       return company;
     } finally {
@@ -65,19 +65,19 @@ public class CompanyUCCImpl implements CompanyUCC {
   /**
    * Updates a company.
    *
-   * @param entreprise the company to update.
+   * @param company the company to update.
    */
   @Override
-  public void blackListCompany(CompanyDTO entreprise) {
+  public void blackListCompany(CompanyDTO company) {
     try {
       dalServices.startTransaction();
-      CompanyDTO company = getCompanyById(entreprise.getId());
-      if (company.isBlackListed()) {
-        throw new ConflictException("L'entreprise est déjà blacklistée.");
+      CompanyDTO companyDTO = getCompanyById(company.getId());
+      if (companyDTO.isBlackListed()) {
+        throw new ConflictException("The company is already blacklisted.");
       }
-      company.setBlackListed(true);
-      company.setMotivation(entreprise.getMotivation());
-      companyDAO.updateCompany(company);
+      companyDTO.setBlackListed(true);
+      companyDTO.setMotivation(company.getMotivation());
+      companyDAO.updateCompany(companyDTO);
       List<ContactDTO> contacts = contactDAO.getContactsByCompanyId(company.getId());
       for (ContactDTO contact : contacts) {
         if (contact.getContactStatus().equals("pris")
@@ -96,22 +96,22 @@ public class CompanyUCCImpl implements CompanyUCC {
 
 
   /**
-   * Adds an entreprise.
+   * Adds an company.
    *
-   * @param entreprise the entreprise to add.
+   * @param company the company to add.
    */
 
-  public void addCompany(CompanyDTO entreprise) {
+  public void addCompany(CompanyDTO company) {
     try {
       dalServices.startTransaction();
-      CompanyDTO entrepriseFromDb = companyDAO
-              .getCompanyByNameDesignation(entreprise.getName(),
-          entreprise.getDesignation());
-      if (entrepriseFromDb != null) {
-        throw new ConflictException("L'entreprise avec le nom " + entreprise.getName()
-                  + " et l'appellation " + entreprise.getDesignation() + " existe déjà.");
+      CompanyDTO companyFromDb = companyDAO
+              .getCompanyByNameDesignation(company.getName(),
+          company.getDesignation());
+      if (companyFromDb != null) {
+        throw new ConflictException("The company with the name " + company.getName()
+            + " and the designation " + company.getDesignation() + " already exists.");
       }
-      companyDAO.addCompany(entreprise);
+      companyDAO.addCompany(company);
       dalServices.commitTransaction();
     } catch (Exception e) {
       dalServices.rollbackTransaction();

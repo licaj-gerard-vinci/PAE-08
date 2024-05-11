@@ -2,7 +2,7 @@ package be.vinci.pae.presentation.filters;
 
 import be.vinci.pae.business.user.UserDTO;
 import be.vinci.pae.business.user.UserUCC;
-import be.vinci.pae.exceptions.UnhautorizedException;
+import be.vinci.pae.exceptions.UnauthorizedException;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -39,7 +39,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   private UserUCC myUserUCC;
 
   @Context
-  private ResourceInfo ressourceInfo;
+  private ResourceInfo resourceInfo;
 
   @Override
   public void filter(@Context ContainerRequestContext requestContext) throws IOException {
@@ -61,11 +61,11 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
         throw new NotFoundException("User not found");
       }
 
-      Method m = ressourceInfo.getResourceMethod();
+      Method m = resourceInfo.getResourceMethod();
       Authorize authorize = m.getAnnotation(Authorize.class);
       String[] roles = authorize.roles();
       if (!Arrays.asList(roles).contains(authenticatedUser.getRole())) {
-        throw new UnhautorizedException("Unauthorized");
+        throw new UnauthorizedException("Unauthorized");
       }
 
       requestContext.setProperty("user", authenticatedUser);

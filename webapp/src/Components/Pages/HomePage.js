@@ -4,7 +4,7 @@ import {
   insertContact,
   updateContact
 } from "../../model/contacts";
-import {getEntreprises} from "../../model/entreprises";
+import {getEntreprises} from "../../model/company";
 import logo from '../../img/companyLogo.png';
 import Navigate from '../Router/Navigate';
 import { refreshUser } from "../../model/users";
@@ -212,7 +212,8 @@ async function renderHomePage(){
                           <div class="mr-auto text-left">
                               <h1 class="mb-auto">${company.name}</h1>
                               <ul class="list-unstyled">
-                                  <li>Appellation: ${company.designation ? company.designation : '/'}</li>                                  <li>Adresse: ${company.adresse}</li>
+                                  <li>Appellation: ${company.designation ? company.designation : '/'}</li>
+                                  <li>Adresse: ${company.address}</li>
                                   <li>Téléphone: ${company.phone}</li>
                               </ul>
                           </div>

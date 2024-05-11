@@ -21,10 +21,10 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
- * StageResource.
+ * internshipResource.
  */
 @Singleton
-@Path("stages")
+@Path("internships")
 @Log
 public class InternshipResource {
 
@@ -33,35 +33,35 @@ public class InternshipResource {
   private InternshipUCC myInternshipUcc;
 
   /**
-   * Retrieves the stage of the authenticated user from the request context.
+   * Retrieves the internship of the authenticated user from the request context.
    *
    * @param id             the id of the user.
-   * @return the stage of the authenticated user.
+   * @return the internship of the authenticated user.
    */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public InternshipDTO getUserStage(@PathParam("id") int id) {
+  public InternshipDTO getUserInternship(@PathParam("id") int id) {
     if (id <= 0) {
       throw new WebApplicationException("Invalid id", Response.Status.BAD_REQUEST);
     }
-    InternshipDTO userStage = myInternshipUcc.getInternshipByUserId(id);
-    if (userStage == null) {
-      throw new WebApplicationException("Stage not found for user", Response.Status.NOT_FOUND);
+    InternshipDTO userInternship = myInternshipUcc.getInternshipByUserId(id);
+    if (userInternship == null) {
+      throw new WebApplicationException("internship not found for user", Response.Status.NOT_FOUND);
     }
-    return userStage;
+    return userInternship;
   }
 
   /**
-   * Retrieves all stages.
+   * Retrieves all internships.
    *
-   * @return all stages.
+   * @return all internships.
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(roles = {"E", "P"})
-  public List<InternshipDTO> getStages() {
+  public List<InternshipDTO> getInternships() {
     return myInternshipUcc.getInternship();
   }
 

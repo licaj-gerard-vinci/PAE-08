@@ -33,9 +33,9 @@ public class FactoryImpl implements Factory {
 
 
   /**
-   * Creates and returns a new instance of {@code StageDTO}.
+   * Creates and returns a new instance of {@code internshipDTO}.
    *
-   * @return a new {@code StageDTO} instance.
+   * @return a new {@code internshipDTO} instance.
    */
   @Override
   public InternshipDTO getInternshipDTO() {
@@ -44,9 +44,9 @@ public class FactoryImpl implements Factory {
 
 
   /**
-   * Create a new EntrepriseDTO.
+   * Create a new companyDTO.
    *
-   * @return a new instance of EntrepriseDTO.
+   * @return a new instance of companyDTO.
    */
   @Override
   public CompanyDTO getCompanyDTO() {
@@ -74,7 +74,7 @@ public class FactoryImpl implements Factory {
   }
 
   /**
-   * Create a new ResponsableDTO.
+   * Create a new managerDTO.
    */
   @Override
   public ManagerDTO getManagerDTO() {

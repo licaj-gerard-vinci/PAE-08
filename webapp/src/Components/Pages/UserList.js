@@ -55,7 +55,7 @@ async function renderUserList(userList) {
             <th scope="col">Nom</th>
             <th scope="col">Prénom</th>
             <th scope="col">Rôle</th>
-            <th scope="col">Stage Trouvé</th>
+            <th scope="col">internship Trouvé</th>
             <th scope="col">Année Académique</th>
           </tr>
         </thead>
@@ -66,7 +66,7 @@ async function renderUserList(userList) {
             <td>${user.firstname}</td>
             <td>${user.role === 'E' ? 'Étudiant' : user.role === 'P' ? 'Professeur' : 'Administratif'}</td>
             <td>${user.role !== 'E' ? '/' : user.hasInternship ? 'Oui' : 'Non'}</td>
-            <td>${user.schoolyear.year === null ? '/' : user.schoolyear.year}</td>
+            <td>${user.schoolYear.year === null ? '/' : user.schoolYear.year}</td>
           </tr>
         `).join('')}
       </tbody>
@@ -159,7 +159,7 @@ async function filterUsers() {
         || user.lastname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase()) 
         || user.firstname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(search.toLowerCase());
       const matchesRole = selectedRole === 'all' || user.role === selectedRole;
-      const matchesYear = selectedYear === 'all' || user.schoolyear.year === selectedYear;
+      const matchesYear = selectedYear === 'all' || user.schoolYear.year === selectedYear;
       return matchesSearch && matchesRole && matchesYear;
     });
     await renderUserList(filteredUsers);

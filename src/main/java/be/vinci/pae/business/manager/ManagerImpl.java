@@ -117,9 +117,9 @@ public class ManagerImpl implements ManagerDTO {
   }
 
   /**
-   * Gets the Manager of the responsable.
+   * Gets the Manager of the manager.
    *
-   * @return the Manager of the responsable.
+   * @return the Manager of the manager.
    */
   @Override
   public CompanyDTO getCompany() {

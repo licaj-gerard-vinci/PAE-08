@@ -50,9 +50,9 @@ public interface Factory {
   YearDTO getYearDTO();
 
   /**
-   * Create a new ResponsableDTO.
+   * Create a new managerDTO.
    *
-   * @return a new instance of ResponsableDTO.
+   * @return a new instance of managerDTO.
    */
   ManagerDTO getManagerDTO();
 }

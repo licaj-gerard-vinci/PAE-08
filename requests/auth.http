@@ -3,8 +3,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "annouck.lancaster@vinci.be",
-  "password": "a"
+  "email": "raphael.baroni@vinci.be",
+  "password": "Prof24,z"
 }
 
 > {%
@@ -21,13 +21,13 @@ POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "nadir.ahdid@student.vinci.be",
-  "lastname": "ahdid",
-  "firstname": "nadir",
-  "password": "a",
+  "email": "admin1.admin1@vinci.be",
+  "lastname": "admin1",
+  "firstname": "admin1",
+  "password": "mdpuser.1",
   "phone": "0485367792",
   "registrationDate": "23-03-24 11:00:00",
-  "role": "E",
+  "role": "A",
   "hasInternship": false,
   "version": 1
 

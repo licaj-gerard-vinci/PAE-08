@@ -4,108 +4,108 @@ import be.vinci.pae.business.company.CompanyDTO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents the ResponsableDTO interface.
+ * Represents the managerDTO interface.
  */
 @JsonDeserialize(as = ManagerImpl.class)
 public interface ManagerDTO {
 
   /**
-   * Gets the responsable ID.
+   * Gets the manager ID.
    *
-   * @return the responsable ID.
+   * @return the manager ID.
    */
   int getId();
 
   /**
-   * Sets the responsable ID.
+   * Sets the manager ID.
    *
-   * @param id the new responsable ID.
+   * @param id the new manager ID.
    */
   void setId(int id);
 
   /**
-   * Gets the responsable name.
+   * Gets the manager name.
    *
-   * @return the responsable name.
+   * @return the manager name.
    */
   String getName();
 
   /**
-   * Sets the responsable name.
+   * Sets the manager name.
    *
-   * @param name the new responsable name.
+   * @param name the new manager name.
    */
 
   void setName(String name);
 
   /**
-   * Gets the responsable first name.
+   * Gets the manager first name.
    *
-   * @return the responsable first name.
+   * @return the manager first name.
    */
   String getFirstName();
 
   /**
-   * Sets the responsable first name.
+   * Sets the manager first name.
    *
-   * @param firstName the new responsable first name.
+   * @param firstName the new manager first name.
    */
   void setFirstName(String firstName);
 
   /**
-   * Gets the responsable email.
+   * Gets the manager phone.
    *
-   * @return the responsable email.
+   * @return the manager phone.
    */
   String getPhone();
 
   /**
-   * Sets the responsable email.
+   * Sets the manager phone.
    *
-   * @param phone the new responsable email.
+   * @param phone the new manager phone.
    */
   void setPhone(String phone);
 
   /**
-   * Gets the responsable email.
+   * Gets the manager email.
    *
-   * @return the responsable email.
+   * @return the manager email.
    */
   String getEmail();
 
   /**
-   * Sets the responsable email.
+   * Sets the manager email.
    *
-   * @param email the new responsable email.
+   * @param email the new manager email.
    */
   void setEmail(String email);
 
 
   /**
-   * Gets the entreprise.
+   * Gets the company.
    *
-   * @return the entreprise.
+   * @return the company.
    */
   CompanyDTO getCompany();
 
   /**
-   * Sets the entreprise.
+   * Sets the company.
    *
-   * @param company the new entreprise.
+   * @param company the new company.
    */
   void setCompany(CompanyDTO company);
 
   /**
-   * Gets the entreprise ID.
+   * Gets the company ID.
    *
-   * @return the entreprise ID.
+   * @return the company ID.
    */
   int getIdCompany();
 
   /**
-   * Sets the entreprise ID.
+   * Sets the company ID.
    *
-   * @param idCompany the new entreprise ID.
+   * @param idCompany the new company ID.
    */
   void setIdCompany(int idCompany);
 

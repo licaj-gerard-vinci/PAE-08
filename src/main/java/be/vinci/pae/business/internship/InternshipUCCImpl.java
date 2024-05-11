@@ -15,7 +15,7 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 /**
- * The Class StageUCCImpl.
+ * The Class internshipUCCImpl.
  */
 public class InternshipUCCImpl implements InternshipUCC {
 
@@ -33,10 +33,10 @@ public class InternshipUCCImpl implements InternshipUCC {
   private Factory factory;
 
   /**
-   * Gets the stage user.
+   * Gets the internship user.
    *
    * @param idUser the id user
-   * @return the stage user
+   * @return the internship user
    */
 
   public InternshipDTO getInternshipByUserId(int idUser) {
@@ -50,9 +50,9 @@ public class InternshipUCCImpl implements InternshipUCC {
 
 
   /**
-   * Gets all stages.
+   * Gets all internships.
    *
-   * @return all stages
+   * @return all internships
    */
   @Override
   public List<InternshipDTO> getInternship() {

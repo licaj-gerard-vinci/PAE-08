@@ -3,7 +3,7 @@ package be.vinci.pae.business.company;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents the EntrepriseDTO interface.
+ * Represents the CompanyDTO interface.
  */
 @JsonDeserialize(as = CompanyImpl.class)
 public interface CompanyDTO {
@@ -37,16 +37,16 @@ public interface CompanyDTO {
   void setName(String name);
 
   /**
-   * Gets the apellation of the Company.
+   * Gets the designation of the Company.
    *
-   * @return the apellation of the Company.
+   * @return the designation of the Company.
    */
   String getDesignation();
 
   /**
-   * Sets the apellation of the Company.
+   * Sets the designation of the Company.
    *
-   * @param designation the new apellation for the Company.
+   * @param designation the new designation for the Company.
    */
   void setDesignation(String designation);
 
@@ -55,14 +55,14 @@ public interface CompanyDTO {
    *
    * @return the address of the Company.
    */
-  String getAdresse();
+  String getAddress();
 
   /**
    * Sets the address of the Company.
    *
-   * @param adresse the new address for the Company.
+   * @param address the new address for the Company.
    */
-  void setAdresse(String adresse);
+  void setAddress(String address);
 
   /**
    * Gets the city of the Company.

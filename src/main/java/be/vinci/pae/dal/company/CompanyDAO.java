@@ -4,35 +4,35 @@ import be.vinci.pae.business.company.CompanyDTO;
 import java.util.List;
 
 /**
- * Represents an interface for accessing entreprise data from the database.
- * This interface provides methods to retrieve entreprise information.
+ * Represents an interface for accessing company data from the database.
+ * This interface provides methods to retrieve company information.
  */
 public interface CompanyDAO {
 
   /**
-   * Retrieves an entreprise from the database.
+   * Retrieves a company from the database.
    *
-   * @param id The id of the entreprise to retrieve.
-   * @return The entreprise with the specified id.
+   * @param id The id of the company to retrieve.
+   * @return The company with the specified id.
    */
   CompanyDTO getCompany(int id);
 
   /**
-   * Retrieves a list of all entreprises from the database.
+   * Retrieves a list of all companies from the database.
    *
-   * @return A list containing all entreprises.
+   * @return A list containing all companies.
    */
   List<CompanyDTO> getCompany();
 
   /**
-   * Updates the entreprise in the database.
+   * Updates the company in the database.
    *
-   * @param company The entreprise to update.
+   * @param company The company to update.
    */
   void updateCompany(CompanyDTO company);
 
   /**
-   * Retrieves an entreprise from the database.
+   * Retrieves a company from the database.
    *
    * @param name the name of the company to retrieve.
    * @param designation the designation of the company to retrieve.
@@ -43,8 +43,8 @@ public interface CompanyDAO {
   /**
      * Inserts a new Company into the database.
      *
-     * @param company An EntrepriseDTO object containing the information
-     *                 of the entreprise to be inserted.
+     * @param company A company object containing the information
+     *                 of the company to be inserted.
      */
   void addCompany(CompanyDTO company);
 

@@ -34,9 +34,9 @@ public interface DALBackServiceUtils {
   ContactDTO fillContactDTO(ResultSet rs, String method) throws SQLException;
 
   /**
-   * Fills a EntrepriseDTO with data from a ResultSet.
+   * Fills a companyDTO with data from a ResultSet.
    *
-   * @param rs the ResultSet containing entreprise data.
+   * @param rs the ResultSet containing company data.
    * @param method the method to call
    * @return CompanyDTO filled with data from the ResultSet.
    * @throws SQLException if there is an issue accessing the ResultSet data.

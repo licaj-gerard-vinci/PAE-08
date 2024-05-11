@@ -16,7 +16,7 @@ async function getEntreprises(){
       const response = await fetch(`http://localhost:8080/companies`, options);
 
       if (!response.ok) {
-        const nonPresent = "Aucun stage n'est en cours"
+        const nonPresent = "Aucun internship n'est en cours"
 
         return nonPresent;
       }
@@ -37,7 +37,7 @@ const insertEntreprises = async (entreprise) => {
       },
       body: JSON.stringify({
         name: entreprise.name,
-        adresse: entreprise.adresse,
+        address: entreprise.address,
         phone: entreprise.phone,
         email: entreprise.email,
         designation: entreprise.designation,
@@ -67,7 +67,7 @@ async function getEntrepriseById(id){
     const response = await fetch(`http://localhost:8080/companies/${id}`, options);
 
     if (!response.ok) {
-      const nonPresent = "Aucun stage n'est en cours"
+      const nonPresent = "Aucun internship n'est en cours"
 
       return nonPresent;
     }

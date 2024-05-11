@@ -1,7 +1,7 @@
 package be.vinci.pae.business.company;
 
 /**
- * The Interface Entreprise.
+ * The Interface Company.
  */
 public interface Company {
 }

@@ -2,7 +2,7 @@ package be.vinci.pae.business.manager;
 
 
 /**
- * interface Responsable.
+ * interface manager.
  */
 public interface Manager {
 }

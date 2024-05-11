@@ -1,4 +1,4 @@
-import {blackListEntreprise, getEntrepriseById} from '../../model/entreprises';
+import {blackListEntreprise, getEntrepriseById} from '../../model/company';
 import { clearPage } from '../../utils/render';
 import {getContactByCompanyId} from "../../model/contacts";
 import Navigate from "../Router/Navigate";
@@ -12,6 +12,7 @@ if (!authenticatedUser || authenticatedUser.user.role !== 'P') {
 }
 
 function generateContactsTable(contacts) {
+  console.log(contacts);
   if (contacts.length === 0) {
     return '<p>Cette entreprise ne possède pas de contacts.</p>';
   }
@@ -67,7 +68,7 @@ function renderInfoCompany(entreprise) {
           <div class="row">
               <div class="col-md-8 mt-5 border p-2">
                   <h3>${entreprise.name} ${entreprise.designation || ''}</h3>
-                  <p><strong>Adresse:</strong> ${entreprise.adresse}</p>
+                  <p><strong>Adresse:</strong> ${entreprise.address}</p>
                   <p><strong>numéro de téléphone:</strong> ${entreprise.phone}</p>
                   <p><strong>email: </strong>${entreprise.email || '/'}</p>
                   <p><strong>Est blacklisté: </strong> ${entreprise.blackListed ? 'Oui' : 'Non'}</p>

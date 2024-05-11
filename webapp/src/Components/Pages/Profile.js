@@ -4,7 +4,7 @@
 // eslint-disable-next-line import/no-cycle
 import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
-import { getStagePresent,updateInternship } from '../../model/internships';
+import { getInternshipPresent,updateInternship } from '../../model/internships';
 import { checkPassword, refreshUser, updateUser } from '../../model/users';
 import {getContactsById} from '../../model/contacts';
 
@@ -15,12 +15,12 @@ const ProfilePage = async () => {
 
   const main = document.querySelector('main');
 
-  // Create the container for the profile and stage info
+  // Create the container for the profile and internship info
   const container = document.createElement('div');
   container.className = 'container';
   container.style = 'display: flex; flex-direction: column; align-items: center;';
 
-  // Create the top container which will hold the profile greeting and the stage info
+  // Create the top container which will hold the profile greeting and the internship info
   const topContainer = document.createElement('div');
   topContainer.style =
       'display: flex; justify-content: center; align-items: flex-start; flex-wrap: wrap;';
@@ -28,10 +28,10 @@ const ProfilePage = async () => {
   // Add the profile greeting to the top container
   topContainer.appendChild(renderProfile(getAuthenticatedUser()));
 
-  // Add the stage info to the top container if the user is a student
+  // Add the internship info to the top container if the user is a student
   const user = getAuthenticatedUser();
   if (user.user.role === 'E') {
-    topContainer.appendChild(await displayStage());
+    topContainer.appendChild(await displayinternship());
   }
 
   // Append the top container to the main container
@@ -233,15 +233,15 @@ function renderProfile(user) {
   return profileDiv;
 }
 
-async function displayStage() {
-  const stageDiv = document.createElement('div');
-  stageDiv.classList.add('stage-container', 'shadow', 'p-3', 'bg-white', 'rounded');
+async function displayinternship() {
+  const internshipDiv = document.createElement('div');
+  internshipDiv.classList.add('internship-container', 'shadow', 'p-3', 'bg-white', 'rounded');
 
-  stageDiv.style =
+  internshipDiv.style =
       'flex: 1; min-width: 450px; padding: 20px; margin: 10px; border-radius: 8px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);';
   const id = getAuthenticatedUser();
-  const stage = await getStagePresent(id.user.id);
-  const date = new Date(stage.signatureDate);
+  const internship = await getInternshipPresent(id.user.id);
+  const date = new Date(internship.signatureDate);
   const year = date.getFullYear();
   let month = date.getMonth() + 1; // Les mois sont basés sur zéro en JavaScript
   let day = date.getDate();
@@ -252,44 +252,44 @@ async function displayStage() {
 
   const formattedDate = `${year}-${month}-${day}`; // Utilisez les littéraux de modèle pour formater la date
 
-  let stageHTML;
-  if (stage !== "Aucun stage n'est en cours") {
-    stageHTML = `
+  let internshipHTML;
+  if (internship !== "Aucun stage n'est en cours") {
+    internshipHTML = `
       <h2>Stage actuel</h2>
-      <p><strong>Responsable :</strong> ${stage.manager.name} ${stage.manager.firstName}</p>
-      <p><strong>Entreprise :</strong> ${stage.company.name}, ${stage.company.designation}</p>
+      <p><strong>Responsable :</strong> ${internship.manager.name} ${internship.manager.firstName}</p>
+      <p><strong>Entreprise :</strong> ${internship.company.name}, ${internship.company.designation}</p>
       <p><strong>Date signature :</strong> ${formattedDate}</p>
-      <p><strong>Sujet :</strong> <span id="sujet-text">${stage.topic || 'Pas de sujet'}</span></p>
+      <p><strong>Sujet :</strong> <span id="sujet-text">${internship.topic || 'Pas de sujet'}</span></p>
       <button id="modifier-sujet" class="btn btn-outline-primary btn-block mt-2">Modifier sujet</button>
     `;
   } else {
-    stageHTML = `<p>${stage}</p>`;
+    internshipHTML = `<p>${internship}</p>`;
   }
 
 
-  stageDiv.innerHTML = stageHTML;
-  document.body.appendChild(stageDiv);
+  internshipDiv.innerHTML = internshipHTML;
+  document.body.appendChild(internshipDiv);
 
-  const modifierSujetButton = stageDiv.querySelector('#modifier-sujet');
-  const sujetText = stageDiv.querySelector('#sujet-text');
+  const modifierSujetButton = internshipDiv.querySelector('#modifier-sujet');
+  const sujetText = internshipDiv.querySelector('#sujet-text');
   if (modifierSujetButton) {
     modifierSujetButton.addEventListener('click', async () => {
       const isEditing = modifierSujetButton.getAttribute('data-editing');
 
       if (isEditing) {
-        const sujetInput = stageDiv.querySelector('#sujet-input');
+        const sujetInput = internshipDiv.querySelector('#sujet-input');
         const newValue = sujetInput.value.trim();
         sujetText.textContent = newValue || 'Pas de sujet';
-        stage.topic = newValue;
+        internship.topic = newValue;
         modifierSujetButton.textContent = 'Modifier sujet';
         modifierSujetButton.removeAttribute('data-editing');
 
         // Save the new value to the server
-        await updateInternship(stage);
+        await updateInternship(internship);
       } else {
         const currentValue = sujetText.textContent;
         sujetText.innerHTML = `<input id="sujet-input" class="form-control" type="text" value="${currentValue}" />`;
-        const sujetInput = stageDiv.querySelector('#sujet-input');
+        const sujetInput = internshipDiv.querySelector('#sujet-input');
         sujetInput.focus();
         modifierSujetButton.textContent = 'Confirmer le Sujet';
         modifierSujetButton.setAttribute('data-editing', 'true');
@@ -297,7 +297,7 @@ async function displayStage() {
     });
   }
 
-  return stageDiv;
+  return internshipDiv;
 }
 
 async function displayContacts() {

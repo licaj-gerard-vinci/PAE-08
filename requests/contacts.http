@@ -106,6 +106,6 @@ Content-Type: application/json
 Authorization: {{token}}
 
 ### Get all contacts with idCompany
-GET {{baseUrl}}/contacts/
+GET {{baseUrl}}/contacts/6/company
 Authorization: {{token}}
 Content-Type: application/json

@@ -16,7 +16,7 @@ async function getAllAcademicYears(){
       const response = await fetch(`http://localhost:8080/years`, options);
 
       if (!response.ok) {
-        const nonPresent = "Aucun stage n'est en cours"
+        const nonPresent = "Aucun internship n'est en cours"
 
         return nonPresent;
       }

@@ -8,7 +8,7 @@ import be.vinci.pae.business.year.YearDTO;
 import java.sql.Date;
 
 /**
- * Represents the StageImpl class.
+ * Represents the internshipImpl class.
  */
 public class InternshipImpl implements InternshipDTO {
 
@@ -141,9 +141,9 @@ public class InternshipImpl implements InternshipDTO {
   }
 
   /**
-   * Gets the stage date.
+   * Gets the internship date.
    *
-   * @return the stage date.
+   * @return the internship date.
    */
   @Override
   public Date getSignatureDate() {
@@ -151,9 +151,9 @@ public class InternshipImpl implements InternshipDTO {
   }
 
   /**
-   * Sets the stage date.
+   * Sets the internship date.
    *
-   * @param signatureDate the new stage date.
+   * @param signatureDate the new internship date.
    */
   @Override
   public void setSignatureDate(Date signatureDate) {

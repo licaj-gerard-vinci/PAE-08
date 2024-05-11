@@ -3,23 +3,23 @@ package be.vinci.pae.business.internship;
 import java.util.List;
 
 /**
- * The Interface StageUCC.
+ * The Interface internshipUCC.
  */
 public interface InternshipUCC {
 
   /**
-   * Gets the stage user.
+   * Gets the internship user.
    *
    * @param idUser the id user
-   * @return the stage user
+   * @return the internship user
    */
 
   InternshipDTO getInternshipByUserId(int idUser);
 
   /**
-   * Gets all stages.
+   * Gets all internships.
    *
-   * @return all stages
+   * @return all internships
    */
   List<InternshipDTO> getInternship();
 

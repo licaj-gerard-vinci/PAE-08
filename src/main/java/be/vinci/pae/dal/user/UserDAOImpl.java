@@ -113,7 +113,7 @@ public class UserDAOImpl implements UserDAO {
       statement.setString(2, user.getPassword());
       statement.setString(3, user.getLastname());
       statement.setString(4, user.getFirstname());
-      statement.setInt(5, user.getidSchoolYear());
+      statement.setInt(5, user.getIdSchoolYear());
       statement.setString(6, user.getPhone());
       statement.setString(7, user.getRole());
       statement.setDate(8, (java.sql.Date) user.getRegistrationDate());
@@ -190,8 +190,8 @@ public class UserDAOImpl implements UserDAO {
   private UserDTO rsToUser(ResultSet rs, String method) throws SQLException {
     UserDTO user = dalBackServiceUtils.fillUserDTO(rs, method);
     YearDTO year = dalBackServiceUtils.fillYearDTO(rs);
-    user.setidSchoolYear(year.getId());
-    user.setSchoolyear(year);
+    user.setIdSchoolYear(year.getId());
+    user.setSchoolYear(year);
     return user;
   }
 
